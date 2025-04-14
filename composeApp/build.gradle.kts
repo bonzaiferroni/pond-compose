@@ -47,6 +47,9 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.client.okhttp)
+            implementation("com.github.tony19:logback-android:3.0.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -58,6 +61,14 @@ kotlin {
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor3)
+            implementation(libs.androidx.navigation.compose)
+            implementation("dev.chrisbanes.haze:haze:1.5.2")
+            implementation("dev.chrisbanes.haze:haze-materials:1.5.2")
+            implementation(libs.composeIcons.tablerIcons)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
