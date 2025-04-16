@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -62,13 +63,14 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor3)
-            implementation(libs.androidx.navigation.compose)
-            implementation("dev.chrisbanes.haze:haze:1.5.2")
-            implementation("dev.chrisbanes.haze:haze-materials:1.5.2")
-            implementation(libs.composeIcons.tablerIcons)
+            api(libs.kotlinx.datetime)
+            api(libs.coil.compose)
+            api(libs.coil.network.ktor3)
+            api(libs.androidx.navigation.compose)
+            api("dev.chrisbanes.haze:haze:1.5.2")
+            api("dev.chrisbanes.haze:haze-materials:1.5.2")
+            api(libs.composeIcons.tablerIcons)
+            implementation(libs.kotlinx.serialization.json)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -78,11 +80,11 @@ kotlin {
 }
 
 android {
-    namespace = "io.pond.compose"
+    namespace = "pondui.android"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "io.pond.compose"
+        applicationId = "pondui.android"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -110,11 +112,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "io.pond.compose.MainKt"
+        mainClass = "pondui.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "io.pond.compose"
+            packageName = "pondui"
             packageVersion = "1.0.0"
         }
     }
