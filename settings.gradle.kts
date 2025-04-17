@@ -31,3 +31,5 @@ dependencyResolutionManagement {
 }
 
 include(":library")
+include(":kabinet")
+project(":kabinet").projectDir = file("../kabinet/library")
