@@ -6,7 +6,7 @@ import pondui.ui.nav.Navigator
 import pondui.ui.theme.ProvideSkyColors
 
 @Composable
-fun Blapp(
+fun PondApp(
     initialRoute: NavRoute,
     changeRoute: (NavRoute) -> Unit,
     config: PondConfig,

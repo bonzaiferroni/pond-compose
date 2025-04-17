@@ -69,8 +69,16 @@ kotlin {
             api(libs.androidx.navigation.compose)
             api("dev.chrisbanes.haze:haze:1.5.2")
             api("dev.chrisbanes.haze:haze-materials:1.5.2")
+            api("com.russhwolf:multiplatform-settings-no-arg:1.3.0")
             api(libs.composeIcons.tablerIcons)
             implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.content.negotiation)
+
+            implementation(project(":kabinet"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
