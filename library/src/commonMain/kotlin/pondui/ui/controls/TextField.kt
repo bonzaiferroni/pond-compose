@@ -2,6 +2,9 @@ package pondui.ui.controls
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.*
 import androidx.compose.runtime.*
@@ -16,6 +19,8 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import pondui.ui.core.PondApp
 import pondui.utils.changeFocusWithTab
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
@@ -33,7 +38,7 @@ fun TextField(
     var isFocused by remember { mutableStateOf(false) }
     ProvideSkyColors {
         val color = Pond.localColors.content
-        Box {
+        Box(modifier = Modifier.height(IntrinsicSize.Max)) {
             BasicTextField(
                 value = text,
                 onValueChange = { if (!it.contains('\t')) onTextChange(it) },
@@ -52,9 +57,11 @@ fun TextField(
             )
             if (placeholder != null && text.isEmpty() && !isFocused) {
                 Text(
-                    text = placeholder,
+                    text = placeholder.uppercase(),
                     color = Pond.localColors.contentDim,
-                    modifier = Modifier.padding(Pond.ruler.halfPadding)
+                    style = TextStyle(fontSize = Pond.typo.label.fontSize, textAlign = TextAlign.Center),
+                    modifier = Modifier.fillMaxHeight()
+                        .padding(Pond.ruler.halfPadding)
                 )
             }
         }
