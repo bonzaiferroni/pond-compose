@@ -16,15 +16,15 @@ import pondui.ui.theme.ProvideBookColors
 fun FloatyBox(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    content: @Composable () -> Unit
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     FloatyContent(
         isVisible = isVisible,
         onDismiss = onDismiss,
     ) {
         Box(
-            modifier = Modifier
-                .sizeIn(minWidth = 200.dp, maxWidth = 400.dp, minHeight = 100.dp)
+            modifier = modifier
                 .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.rounded)
                 .background(Pond.localColors.surface)
                 .padding(Pond.ruler.halfPadding)

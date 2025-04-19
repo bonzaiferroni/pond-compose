@@ -30,6 +30,7 @@ interface PondRuler {
     val round: Shape get() = RoundedCornerShape(percent = 100)
     val rounded: Shape get() = RoundedCornerShape(corner.dp)
     val bigRounded: Shape get() = RoundedCornerShape(bigCorner.dp)
+    val smallRounded: Shape get() = RoundedCornerShape((corner / 2).dp)
     val innerCorners: Shape get() = RoundedCornerShape((corner / 4).dp)
 
     val roundTop: Shape get() = RoundedCornerShape(
@@ -77,7 +78,7 @@ interface PondRuler {
 
 object DefaultRuler : PondRuler{
     override val spacing: Int = 16
-    override val corner: Int = 16
+    override val corner: Int = 8
     override val bigCorner: Int = 64
     override val shadowElevation = 12.dp
 }

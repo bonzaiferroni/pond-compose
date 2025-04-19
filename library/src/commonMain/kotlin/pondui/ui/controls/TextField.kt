@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -17,6 +18,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import pondui.utils.changeFocusWithTab
 import pondui.ui.theme.Pond
+import pondui.ui.theme.ProvideSkyColors
+import pondui.utils.darken
 
 @Composable
 fun TextField(
@@ -28,30 +31,32 @@ fun TextField(
     modifier: Modifier = Modifier
 ) {
     var isFocused by remember { mutableStateOf(false) }
-    val color = Pond.colors.contentSky
-    Box {
-        BasicTextField(
-            value = text,
-            onValueChange = { if (!it.contains('\t')) onTextChange(it) },
-            textStyle = TextStyle(color = color),
-            cursorBrush = SolidColor(color),
-            minLines = minLines,
-            modifier = modifier.background(Pond.colors.primary.copy(.75f))
-                .padding(Pond.ruler.halfPadding)
-                .onFocusChanged { isFocused = it.isFocused }
-                .onKeyEvent { isFocused && it.key != Key.Tab }
-                .changeFocusWithTab(),
-            visualTransformation = when (hideCharacters) {
-                true -> PasswordVisualTransformation()
-                else -> VisualTransformation.None
-            },
-        )
-        if (placeholder != null && text.isEmpty() && !isFocused) {
-            Text(
-                text = placeholder,
-                color = Pond.localColors.contentDim,
-                modifier = Modifier.padding(Pond.ruler.halfPadding)
+    ProvideSkyColors {
+        val color = Pond.localColors.content
+        Box {
+            BasicTextField(
+                value = text,
+                onValueChange = { if (!it.contains('\t')) onTextChange(it) },
+                textStyle = TextStyle(color = color),
+                cursorBrush = SolidColor(color),
+                minLines = minLines,
+                modifier = modifier.background(Pond.colors.textField)
+                    .padding(Pond.ruler.halfPadding)
+                    .onFocusChanged { isFocused = it.isFocused }
+                    .onKeyEvent { isFocused && it.key != Key.Tab }
+                    .changeFocusWithTab(),
+                visualTransformation = when (hideCharacters) {
+                    true -> PasswordVisualTransformation()
+                    else -> VisualTransformation.None
+                },
             )
+            if (placeholder != null && text.isEmpty() && !isFocused) {
+                Text(
+                    text = placeholder,
+                    color = Pond.localColors.contentDim,
+                    modifier = Modifier.padding(Pond.ruler.halfPadding)
+                )
+            }
         }
     }
 }

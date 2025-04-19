@@ -1,9 +1,11 @@
 package pondui.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import pondui.utils.darken
 
 interface PondColors {
     val primary: Color
+    val secondary: Color
     val accent: Color
     val contentSky: Color
     val surfaceSky: Color
@@ -12,6 +14,7 @@ interface PondColors {
     val background: Color
     val shine: Color
     val swatches: List<Color>
+    val textField: Color
 
     fun getSwatchFromIndex(index: Int) = swatches[index % swatches.size]
     fun getSwatchFromIndex(index: Long) = getSwatchFromIndex(index.toInt())
@@ -28,11 +31,12 @@ data class PondLocalColors(
     val surface: Color,
     val highlight: Color,
 ) {
-    val contentDim get() = content.copy(.8f)
+    val contentDim get() = content.copy(.75f)
 }
 
 object DefaultColors : PondColors{
-    override val primary = Color(0xFF57965c)
+    override val primary = Color(0xff559f59)
+    override val secondary = Color(0xff6e7e6f)
     override val accent = Color(0xFF009489)
     override val contentSky = Color(0xFFf5f6f6)
     override val surfaceSky = Color.Transparent
@@ -51,4 +55,5 @@ object DefaultColors : PondColors{
         Color(0xFF00B8C4),
         Color(0xFF737373),
     )
+    override val textField = Color(0xff506c52)
 }
