@@ -25,6 +25,7 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import pondui.io.LocalUserContext
 import pondui.ui.controls.actionable
 import pondui.utils.darken
 import pondui.utils.modifyIfNotNull
@@ -45,6 +46,8 @@ fun Portal(
     content: @Composable () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+    val userContext = LocalUserContext.current
+    val userContextState by userContext.state.collectAsState()
     val nav = LocalNav.current
     val navState by nav.state.collectAsState()
     val currentRoute = navState.route
@@ -120,7 +123,9 @@ fun Portal(
                         .padding(Pond.ruler.halfPadding)
                 ) {
                     for (item in config.portalItems) {
-                        val route = (item as? PortalRoute)?.route
+                        val portalRoute = item as? PortalRoute
+                        if (portalRoute?.requireLogin == true && !userContextState.isLoggedIn) continue
+                        val route = portalRoute?.route
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.fillMaxHeight()
@@ -208,6 +213,7 @@ data class PortalRoute(
     override val icon: ImageVector,
     val route: NavRoute,
     override val label: String = route.title,
+    val requireLogin: Boolean = false,
 ) : PortalItem()
 
 val gradientColorList = listOf(

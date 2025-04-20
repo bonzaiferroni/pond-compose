@@ -1,8 +1,11 @@
 package pondui.ui.controls
 
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import pondui.ui.theme.Pond
@@ -13,7 +16,8 @@ fun ControlRow(
     content: @Composable RowScope.() -> Unit,
 ) = Row(
     horizontalArrangement = Pond.ruler.rowTight,
-    modifier = modifier.clip(Pond.ruler.rounded)
+    modifier = modifier.height(IntrinsicSize.Max)
+        .clip(Pond.ruler.rounded)
 ) {
     content()
 }
