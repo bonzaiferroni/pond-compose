@@ -35,8 +35,8 @@ class UserContext(
         )}
     }
 
-    fun dismissLogin() {
-        setState { it.copy(loginVisible = false) }
+    fun toggle() {
+        setState { it.copy(dialogVisible = !it.dialogVisible) }
     }
 
     fun login() {
@@ -48,7 +48,7 @@ class UserContext(
         ))
     }
 
-    fun login(request: LoginRequest) {
+    private fun login(request: LoginRequest) {
         viewModelScope.launch {
             val auth = userStore.login(LoginRequest(
                 usernameOrEmail = request.usernameOrEmail,
@@ -60,11 +60,16 @@ class UserContext(
                 cache = cache.copy(refreshToken = auth.refreshToken)
                 keyStore.writeObject(cache)
                 val user = userStore.readUser()
-                setState { it.copy(user = user, loginVisible = false)}
+                setState { it.copy(user = user, dialogVisible = false)}
             } else {
-                setState { it.copy(loginVisible = true)}
+                setState { it.copy(dialogVisible = true)}
             }
         }
+    }
+
+    fun logout() {
+        userStore.logout()
+        setState { it.copy(user = null) }
     }
 
     fun setUsernameOrEmail(value: String) = setState { it.copy(usernameOrEmail = value) }
@@ -84,7 +89,7 @@ class UserContext(
 data class UserContextState(
     val user: User? = null,
     val isAnon: Boolean = true,
-    val loginVisible: Boolean = true,
+    val dialogVisible: Boolean = true,
     val usernameOrEmail: String = "",
     val password: String = "",
     val saveLogin: Boolean = true,

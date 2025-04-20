@@ -49,35 +49,13 @@ class ApiClient(
         params = params
     )
 
-    suspend inline fun <reified Returned> getSameData(
-        endpoint: GetByIdEndpoint<*>,
-        id: Any,
-        vararg params: Pair<String, String>?
-    ): Returned = request(
-        method = HttpMethod.Get,
-        path = endpoint.replaceClientId(id),
-        body = null,
-        params = params
-    )
-
     suspend inline fun <reified Returned> get(
         endpoint: GetEndpoint<Returned>,
         vararg params: Pair<String, String>?
     ): Returned = request(HttpMethod.Get, endpoint.path, null, *params)
 
-    suspend inline fun <reified Returned> getSameData(
-        endpoint: GetEndpoint<*>,
-        vararg params: Pair<String, String>?
-    ): Returned = request(HttpMethod.Get, endpoint.path, null, *params)
-
     suspend inline fun <reified Sent, reified Returned> post(
         endpoint: PostEndpoint<Sent, Returned>,
-        value: Sent,
-        vararg params: Pair<String, String>?
-    ): Returned = request(HttpMethod.Post, endpoint.path, value, *params)
-
-    suspend inline fun <reified Sent, reified Returned> postSameData(
-        endpoint: PostEndpoint<Sent, *>,
         value: Sent,
         vararg params: Pair<String, String>?
     ): Returned = request(HttpMethod.Post, endpoint.path, value, *params)
@@ -145,6 +123,11 @@ class ApiClient(
             refreshToken = auth.refreshToken
         )
         return auth
+    }
+
+    fun logout() {
+        jwt = null
+        loginRequest = null
     }
 }
 

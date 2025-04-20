@@ -25,6 +25,7 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import kotlinx.collections.immutable.ImmutableList
 import pondui.io.LocalUserContext
 import pondui.ui.controls.actionable
 import pondui.utils.darken
@@ -36,6 +37,7 @@ import pondui.ui.controls.Label
 import pondui.ui.controls.Text
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
+import kotlin.text.iterator
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -46,8 +48,6 @@ fun Portal(
     content: @Composable () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
-    val userContext = LocalUserContext.current
-    val userContextState by userContext.state.collectAsState()
     val nav = LocalNav.current
     val navState by nav.state.collectAsState()
     val currentRoute = navState.route
@@ -108,7 +108,7 @@ fun Portal(
                 modifier = Modifier.align(Alignment.BottomStart)
             ) {
                 Row(
-                    horizontalArrangement = Pond.ruler.rowGrouped,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                         .height(portalBottomBarHeight)
@@ -122,78 +122,9 @@ fun Portal(
                         .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(hazeBackground))
                         .padding(Pond.ruler.halfPadding)
                 ) {
-                    for (item in config.portalItems) {
-                        val portalRoute = item as? PortalRoute
-                        if (portalRoute?.requireLogin == true && !userContextState.isLoggedIn) continue
-                        val route = portalRoute?.route
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.fillMaxHeight()
-                                .aspectRatio(1f)
-                                .modifyIfNotNull(item as? PortalAction) { this.actionable { it.action(nav) } }
-                                .modifyIfNotNull(route) {
-                                    this.actionable(it, it != currentRoute)
-                                }
-                        ) {
-                            val color = when {
-                                route != currentRoute -> Pond.localColors.contentDim
-                                else -> Pond.colors.shine
-                            }
-                            Icon(
-                                imageVector = item.icon,
-                                tint = color,
-                                modifier = Modifier.weight(1f).aspectRatio(1f)
-                            )
-                            Label(item.label, color)
-                        }
-                    }
+                    PortalBarControls(portalItems = config.portalItems)
                 }
             }
-        }
-    }
-
-}
-
-@Composable
-fun RowScope.PortalTitle(
-    hoverText: String,
-    currentRoute: NavRoute,
-) {
-    Box(
-        modifier = Modifier.weight(1f)
-    ) {
-        var displayedHoverText by remember { mutableStateOf(hoverText) }
-        var isHoverVisible by remember { mutableStateOf(true) }
-        LaunchedEffect(hoverText) {
-            if (hoverText.isNotEmpty()) {
-                displayedHoverText = hoverText
-                isHoverVisible = true
-            } else {
-                isHoverVisible = false
-            }
-        }
-        val alpha by animateFloatAsState(if (isHoverVisible) 1f else 0f)
-        SlideIn(isHoverVisible, .5f) {
-            Text(
-                text = displayedHoverText,
-                style = Pond.typo.title.copy(textAlign = TextAlign.Center),
-                color = Pond.colors.shine.copy(.8f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
-                    .graphicsLayer { this.alpha = alpha }
-            )
-        }
-        SlideIn(!isHoverVisible, .5f) {
-            Text(
-                text = currentRoute.title,
-                style = Pond.typo.title.copy(textAlign = TextAlign.Center),
-                color = Pond.localColors.contentDim,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
-                    .graphicsLayer { this.alpha = 1 - alpha }
-            )
         }
     }
 }
