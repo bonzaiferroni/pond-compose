@@ -49,6 +49,7 @@ class UserContext(
     }
 
     private fun login(request: LoginRequest) {
+        setState { it.copy(isLoggingIn = true) }
         viewModelScope.launch {
             val auth = userStore.login(LoginRequest(
                 usernameOrEmail = request.usernameOrEmail,
@@ -60,9 +61,9 @@ class UserContext(
                 cache = cache.copy(refreshToken = auth.refreshToken)
                 keyStore.writeObject(cache)
                 val user = userStore.readUser()
-                setState { it.copy(user = user, dialogVisible = false)}
+                setState { it.copy(user = user, dialogVisible = false, isLoggingIn = false)}
             } else {
-                setState { it.copy(dialogVisible = true)}
+                setState { it.copy(dialogVisible = true, isLoggingIn = false)}
             }
         }
     }
@@ -94,6 +95,7 @@ data class UserContextState(
     val password: String = "",
     val saveLogin: Boolean = true,
     val stayLoggedIn: Boolean = false,
+    val isLoggingIn: Boolean = false,
 ) {
     val isLoggedIn get() = user != null
     val loginReady get() = usernameOrEmail.isNotEmpty() && password.isNotEmpty()
