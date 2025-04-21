@@ -3,9 +3,14 @@ package pondui.ui.controls
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import pondui.ui.core.PondApp
 import pondui.utils.changeFocusWithTab
 import pondui.ui.theme.Pond
@@ -38,14 +44,18 @@ fun TextField(
     var isFocused by remember { mutableStateOf(false) }
     ProvideSkyColors {
         val color = Pond.localColors.content
-        Box(modifier = Modifier.height(IntrinsicSize.Max)) {
+        Box(
+            modifier = modifier.width(IntrinsicSize.Min)
+        ) {
             BasicTextField(
                 value = text,
                 onValueChange = { if (!it.contains('\t')) onTextChange(it) },
                 textStyle = TextStyle(color = color),
                 cursorBrush = SolidColor(color),
                 minLines = minLines,
-                modifier = modifier.background(Pond.colors.textField)
+                modifier = modifier.defaultMinSize(150.dp)
+                    .fillMaxWidth()
+                    .background(Pond.colors.textField)
                     .padding(Pond.ruler.halfPadding)
                     .onFocusChanged { isFocused = it.isFocused }
                     .onKeyEvent { isFocused && it.key != Key.Tab }
@@ -60,7 +70,8 @@ fun TextField(
                     text = placeholder.uppercase(),
                     color = Pond.localColors.contentDim,
                     style = TextStyle(fontSize = Pond.typo.label.fontSize),
-                    modifier = Modifier.padding(Pond.ruler.halfPadding)
+                    modifier = Modifier.wrapContentSize()
+                        .padding(Pond.ruler.halfPadding)
                 )
             }
         }
