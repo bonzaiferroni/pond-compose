@@ -1,23 +1,27 @@
 package pondui.ui.controls
 
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.FlowRowScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import pondui.ui.theme.Pond
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ControlRow(
+fun Controls(
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit,
-) = Row(
+    content: @Composable FlowRowScope.() -> Unit,
+) = FlowRow (
     horizontalArrangement = Pond.ruler.rowTight,
-    modifier = modifier.height(IntrinsicSize.Max)
-        .clip(Pond.ruler.rounded)
+    verticalArrangement = Pond.ruler.columnTight,
+    modifier = modifier.clip(Pond.ruler.rounded)
 ) {
     content()
 }

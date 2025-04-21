@@ -59,9 +59,8 @@ fun TextField(
                 Text(
                     text = placeholder.uppercase(),
                     color = Pond.localColors.contentDim,
-                    style = TextStyle(fontSize = Pond.typo.label.fontSize, textAlign = TextAlign.Center),
-                    modifier = Modifier.fillMaxHeight()
-                        .padding(Pond.ruler.halfPadding)
+                    style = TextStyle(fontSize = Pond.typo.label.fontSize),
+                    modifier = Modifier.padding(Pond.ruler.halfPadding)
                 )
             }
         }

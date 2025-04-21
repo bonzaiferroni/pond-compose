@@ -11,7 +11,7 @@ class UserStore : ApiStore() {
 
     fun logout() = client.logout()
 
-    suspend fun readUser(): User = client.get(UserApi.Users.GetUser)
+    suspend fun readUser(): User = client.get(UserApi.ReadInfo)
 
     // returns null if successful, otherwise returns an error message
     // suspend fun createUser(info: SignUpRequest): SignUpResult = client.post(Api.user, info)

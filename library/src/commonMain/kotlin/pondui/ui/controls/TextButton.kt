@@ -1,6 +1,7 @@
 package pondui.ui.controls
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -17,7 +18,7 @@ fun TextButton(
     Button(onClick = onClick, isEnabled = isEnabled, background = background, modifier = modifier) {
         Text(
             text = text.uppercase(),
-            style = TextStyle(fontSize = Pond.typo.label.fontSize)
+            style = TextStyle(fontSize = Pond.typo.label.fontSize),
         )
     }
 }

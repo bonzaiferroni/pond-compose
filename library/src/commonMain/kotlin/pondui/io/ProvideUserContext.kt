@@ -55,6 +55,7 @@ fun ProvideUserContext(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LogoutControl(
     username: String,
@@ -65,13 +66,14 @@ fun LogoutControl(
         verticalArrangement = Pond.ruler.columnTight
     ) {
         Text("Logged in as $username.")
-        ControlRow {
+        Controls {
             TextButton("Logout", onClick = logout, modifier = Modifier.weight(1f))
             TextButton("Cancel", onClick = dismiss, background = Pond.colors.secondary, modifier = Modifier.weight(1f))
         }
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LoginControls(
     usernameOrEmail: String,
@@ -107,7 +109,7 @@ fun LoginControls(
         onValueChanged = setStayLoggedIn,
         label = "Stay logged in",
     )
-    ControlRow {
+    Controls {
         TextButton(
             text = "Log in", onClick = login, modifier = Modifier.weight(1f),
         )
@@ -120,4 +122,10 @@ fun LoginControls(
 
 val LocalUserContext = staticCompositionLocalOf<UserContext?> {
     null
+}
+
+@Composable
+fun ProvidableCompositionLocal<UserContext?>.collectState(): State<UserContextState> {
+    val current = this.current
+    return current?.state?.collectAsState() ?: derivedStateOf { UserContextState() }
 }
