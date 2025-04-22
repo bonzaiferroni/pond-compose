@@ -21,25 +21,10 @@ kotlin {
     }
     
     jvm("desktop")
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "library"
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-        binaries.executable()
+        browser()
     }
     
     sourceSets {
@@ -71,6 +56,7 @@ kotlin {
             api("dev.chrisbanes.haze:haze-materials:1.5.2")
             api("com.russhwolf:multiplatform-settings-no-arg:1.3.0")
             api(libs.composeIcons.tablerIcons)
+            api(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.serialization.json)
 
             implementation(libs.ktor.client.core)
