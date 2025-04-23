@@ -35,6 +35,7 @@ import pondui.ui.controls.Icon
 import pondui.ui.controls.IconButton
 import pondui.ui.controls.Label
 import pondui.ui.controls.Text
+import pondui.ui.core.PondApp
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import kotlin.text.iterator
@@ -114,13 +115,12 @@ fun Portal(
                         .height(portalBottomBarHeight)
                         .shadow(
                             Pond.ruler.shadowElevation, RoundedCornerShape(
-                                topStartPercent = 60, topEndPercent = 60,
+                                topStartPercent = 50, topEndPercent = 50,
                                 bottomStartPercent = 0, bottomEndPercent = 0
                             )
                         )
                         .pointerInput(Unit) { }
                         .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(hazeBackground))
-                        .padding(Pond.ruler.halfPadding)
                 ) {
                     PortalBarControls(portalItems = config.portalItems)
                 }

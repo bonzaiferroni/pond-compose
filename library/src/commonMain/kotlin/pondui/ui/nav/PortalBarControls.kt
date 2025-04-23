@@ -3,14 +3,19 @@ package pondui.ui.nav
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.User
 import kotlinx.collections.immutable.ImmutableList
@@ -33,7 +38,6 @@ fun RowScope.PortalBarControls(
     val userContextState = userContext?.state?.collectAsState()
 
     Row(
-        horizontalArrangement = Pond.ruler.rowTight,
         modifier = Modifier.weight(1f)
     ) {
         for (item in portalItems) {
@@ -79,7 +83,9 @@ fun PortalItemControl(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
             .aspectRatio(1f)
+            .clip(Pond.ruler.rounded)
             .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
+            .padding(Pond.ruler.innerPadding)
     ) {
         val color = when (isCurrentRoute) {
             true -> Pond.colors.shine
@@ -90,6 +96,7 @@ fun PortalItemControl(
             tint = color,
             modifier = Modifier.weight(1f).aspectRatio(1f)
         )
+        Spacer(modifier = Modifier.height(3.dp))
         Label(label, color)
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,7 +21,7 @@ fun Navigator(
     changeRoute: (NavRoute) -> Unit,
     config: PondConfig,
     exitApp: (() -> Unit)?,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     nav: NavigatorModel = viewModel { NavigatorModel(startRoute, navController) }
 ) {
     val state by nav.state.collectAsState()

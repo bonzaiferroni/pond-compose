@@ -77,7 +77,7 @@ interface PondRuler {
 }
 
 object DefaultRuler : PondRuler{
-    override val spacing: Int = 16
+    override val spacing: Int = 24
     override val corner: Int = 8
     override val bigCorner: Int = 64
     override val shadowElevation = 12.dp

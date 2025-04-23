@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import compose.icons.TablerIcons
+import compose.icons.tablericons.ThumbUp
 import pondui.utils.modifyIfTrue
 import pondui.ui.theme.Pond
 
@@ -23,14 +25,16 @@ fun Checkbox(
     val animate by animateFloatAsState(if (value) 1f else 0f)
 
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier.size(CheckboxSize)
             .clip(Pond.ruler.smallRounded)
             .clickable { onValueChanged(!value) }
             .background(Pond.colors.primary)
             .padding(Pond.ruler.innerPadding)
     ) {
-        Text(
-            text = "🤙", style = TextStyle(textAlign = TextAlign.Center),
+        Icon(
+            imageVector = TablerIcons.ThumbUp,
+            tint = Pond.colors.contentSky,
             modifier = Modifier.graphicsLayer {
                 scaleX = animate
                 scaleY = animate
