@@ -41,9 +41,9 @@ fun RowScope.PortalBarControls(
         modifier = Modifier.weight(1f)
     ) {
         for (item in portalItems) {
-            val portalRoute = item as? PortalRoute
-            if (portalRoute?.requireLogin == true && userContextState?.value?.isLoggedIn != true) continue
-            val route = portalRoute?.route
+            val portalDoor = item as? PortalDoor
+            if (portalDoor?.requireLogin == true && userContextState?.value?.isLoggedIn != true) continue
+            val route = portalDoor?.route
             PortalItemControl(
                 icon = item.icon,
                 label = item.label,
@@ -52,7 +52,7 @@ fun RowScope.PortalBarControls(
             ) {
                 when (item) {
                     is PortalAction -> { item.action(nav) }
-                    is PortalRoute -> { nav.go(item.route) }
+                    is PortalDoor -> { nav.go(item.route) }
                 }
             }
         }

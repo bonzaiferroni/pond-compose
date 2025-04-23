@@ -13,8 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import compose.icons.TablerIcons
@@ -25,20 +23,11 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
-import kotlinx.collections.immutable.ImmutableList
-import pondui.io.LocalUserContext
-import pondui.ui.controls.actionable
 import pondui.utils.darken
-import pondui.utils.modifyIfNotNull
 import pondui.ui.behavior.SlideIn
-import pondui.ui.controls.Icon
 import pondui.ui.controls.IconButton
-import pondui.ui.controls.Label
-import pondui.ui.controls.Text
-import pondui.ui.core.PondApp
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
-import kotlin.text.iterator
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -121,8 +110,9 @@ fun Portal(
                         )
                         .pointerInput(Unit) { }
                         .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(hazeBackground))
+                        .padding(horizontal = Pond.ruler.innerSpacing)
                 ) {
-                    PortalBarControls(portalItems = config.portalItems)
+                    PortalBarControls(portalItems = config.doors)
                 }
             }
         }
@@ -140,7 +130,7 @@ data class PortalAction(
     val action: (Nav) -> Unit
 ) : PortalItem()
 
-data class PortalRoute(
+data class PortalDoor(
     override val icon: ImageVector,
     val route: NavRoute,
     override val label: String = route.title,

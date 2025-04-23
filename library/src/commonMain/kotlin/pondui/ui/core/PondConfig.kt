@@ -10,6 +10,14 @@ data class PondConfig(
     val name: String,
     val logo: ImageVector,
     val home: NavRoute,
-    val navGraph: NavGraphBuilder.() -> Unit,
-    val portalItems: ImmutableList<PortalItem>,
+    // val navGraph: NavGraphBuilder.() -> Unit,
+    val doors: ImmutableList<PortalItem>,
+    val routes: ImmutableList<RouteConfig>
+) {
+    fun toRoute(path: String) = routes.firstNotNullOfOrNull { it.toRoute?.invoke(path) }
+}
+
+data class RouteConfig(
+    val content: NavGraphBuilder.() -> Unit,
+    val toRoute: ((String) -> NavRoute?)? = null,
 )

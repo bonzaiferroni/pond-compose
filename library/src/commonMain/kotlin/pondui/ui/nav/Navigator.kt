@@ -11,20 +11,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import kotlinx.coroutines.flow.StateFlow
 import pondui.ui.behavior.SlideIn
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 
 @Composable
 fun Navigator(
-    startRoute: NavRoute,
+    routeState: StateFlow<NavRoute>,
     changeRoute: (NavRoute) -> Unit,
     config: PondConfig,
     exitApp: (() -> Unit)?,
-    navController: NavHostController,
-    nav: NavigatorModel = viewModel { NavigatorModel(startRoute, navController) }
+    navController: NavHostController = rememberNavController(),
+    nav: NavigatorModel = viewModel { NavigatorModel(routeState.value, navController) }
 ) {
     val state by nav.state.collectAsState()
+    val route by routeState.collectAsState()
+
+    LaunchedEffect(route) {
+        nav.go(route)
+    }
 
     LaunchedEffect(state.route) {
         changeRoute(state.route)
@@ -37,11 +43,13 @@ fun Navigator(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = startRoute,
+                startDestination = routeState.value,
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                 config.navGraph(this)
+                for (route in config.routes) {
+                    route.content(this)
+                }
             }
         }
     }
