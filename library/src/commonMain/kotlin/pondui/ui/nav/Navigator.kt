@@ -38,12 +38,9 @@ fun Navigator(
                 navController = navController,
                 startDestination = startRoute,
                 modifier = Modifier
-                    // .padding(innerPadding)
                     .fillMaxSize()
-                // .background(MaterialTheme.colorScheme.surface)
-                // .verticalScroll(rememberScrollState())
             ) {
-                config.navGraph(this)
+                 config.navGraph(this)
             }
         }
     }

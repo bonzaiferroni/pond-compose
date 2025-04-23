@@ -24,7 +24,22 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        browser()
+        moduleName = "composeApp"
+        browser {
+            val rootDirPath = "${project.rootDir.path}/library"
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(rootDirPath)
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
+        binaries.executable()
     }
     
     sourceSets {
@@ -52,8 +67,8 @@ kotlin {
             api(libs.coil.compose)
             api(libs.coil.network.ktor3)
             api(libs.androidx.navigation.compose)
-            api("dev.chrisbanes.haze:haze:1.5.2")
-            api("dev.chrisbanes.haze:haze-materials:1.5.2")
+            api("dev.chrisbanes.haze:haze:1.5.4")
+            api("dev.chrisbanes.haze:haze-materials:1.5.4")
             api("com.russhwolf:multiplatform-settings-no-arg:1.3.0")
             api(libs.composeIcons.tablerIcons)
             api(libs.kotlinx.collections.immutable)
@@ -69,6 +84,10 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js)
+            implementation(libs.logback.classic)
         }
     }
 }
