@@ -63,17 +63,6 @@ inline fun <reified T: NavRoute> NavGraphBuilder.defaultScreen(
     }
 }
 
-@Composable
-fun DefaultSurface(
-    content: @Composable() () -> Unit
-) {
-    SlideIn {
-        Column(verticalArrangement = Pond.ruler.columnSpaced) {
-            content()
-        }
-    }
-}
-
 val LocalNav = staticCompositionLocalOf<Nav> {
     error("No Nav provided")
 }

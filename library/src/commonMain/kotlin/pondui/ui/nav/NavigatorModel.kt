@@ -11,6 +11,7 @@ class NavigatorModel(
     private val backStack: MutableList<NavRoute> = mutableListOf()
 
     override fun go(route: NavRoute) {
+        if (route.title == stateNow.route.title) return
         backStack.add(stateNow.route)
         if (backStack.size > 40) backStack.removeAt(0)
         navController.navigate(route)

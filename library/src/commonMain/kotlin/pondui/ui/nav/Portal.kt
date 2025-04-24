@@ -1,6 +1,8 @@
 package pondui.ui.nav
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -94,6 +96,8 @@ fun Portal(
             }
 
             SlideIn(
+                enter = slideInVertically { it },
+                exit = slideOutVertically { it },
                 isVisible = state.bottomBarIsVisible,
                 modifier = Modifier.align(Alignment.BottomStart)
             ) {
