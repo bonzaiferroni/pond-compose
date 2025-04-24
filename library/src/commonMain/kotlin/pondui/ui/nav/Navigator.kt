@@ -4,32 +4,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import kotlinx.coroutines.flow.StateFlow
 import pondui.ui.behavior.SlideIn
+import pondui.ui.core.LocalAddressContext
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 
 @Composable
 fun Navigator(
-    routeState: StateFlow<NavRoute>,
     changeRoute: (NavRoute) -> Unit,
     config: PondConfig,
     exitApp: (() -> Unit)?,
     navController: NavHostController = rememberNavController(),
-    nav: NavigatorModel = viewModel { NavigatorModel(routeState.value, navController) }
+    nav: NavigatorModel = viewModel { NavigatorModel(config.home, navController) }
 ) {
     val state by nav.state.collectAsState()
-    val route by routeState.collectAsState()
+    val addressContext = LocalAddressContext.current
+    val addressState by addressContext.state.collectAsState()
 
-    LaunchedEffect(route) {
-        nav.go(route)
+    LaunchedEffect(addressState.address) {
+        nav.go(addressState.addressRoute)
     }
 
     LaunchedEffect(state.route) {
@@ -43,7 +42,7 @@ fun Navigator(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = routeState.value,
+                startDestination = config.home,
                 modifier = Modifier
                     .fillMaxSize()
             ) {

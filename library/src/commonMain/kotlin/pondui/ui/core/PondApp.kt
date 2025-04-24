@@ -10,14 +10,12 @@ import pondui.ui.theme.ProvideSkyColors
 
 @Composable
 fun PondApp(
-    routeState: StateFlow<NavRoute>,
     config: PondConfig,
     changeRoute: (NavRoute) -> Unit,
     exitApp: (() -> Unit)?,
 ) {
     ProvideSkyColors {
         Navigator(
-            routeState = routeState,
             config = config,
             changeRoute = changeRoute,
             exitApp = exitApp
