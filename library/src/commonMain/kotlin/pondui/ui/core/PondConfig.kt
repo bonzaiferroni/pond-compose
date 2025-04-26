@@ -13,7 +13,7 @@ data class PondConfig(
     val routes: ImmutableList<RouteConfig>,
     val doors: ImmutableList<PortalItem>
 ) {
-    fun toRoute(path: String) = routes.firstNotNullOfOrNull { it.toRoute?.invoke(path) }
+    fun toRoute(address: String) = routes.firstNotNullOfOrNull { it.toRoute?.invoke(address) }
 }
 
 data class RouteConfig(

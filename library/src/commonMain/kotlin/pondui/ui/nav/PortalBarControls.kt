@@ -35,14 +35,14 @@ fun RowScope.PortalBarControls(
     val navState by nav.state.collectAsState()
     val currentRoute = navState.route
     val userContext = LocalUserContext.current
-    val userContextState = userContext?.state?.collectAsState()
+    val userContextState = userContext?.state?.collectAsState()?.value
 
     Row(
         modifier = Modifier.weight(1f)
     ) {
         for (item in portalItems) {
             val portalDoor = item as? PortalDoor
-            if (portalDoor?.requireLogin == true && userContextState?.value?.isLoggedIn != true) continue
+            if (portalDoor?.requireLogin == true && userContextState?.isLoggedIn != true) continue
             val route = portalDoor?.route
             PortalItemControl(
                 icon = item.icon,
@@ -59,7 +59,7 @@ fun RowScope.PortalBarControls(
     }
 
     if (userContextState != null) {
-        val label = userContextState.value.user?.username ?: "Log in"
+        val label = userContextState.user?.username ?: "Log in"
         PortalItemControl(
             icon = TablerIcons.User,
             label = label,

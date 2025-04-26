@@ -47,11 +47,7 @@ fun ProvideUserContext(
     }
 
     CompositionLocalProvider(LocalUserContext provides userContext) {
-        if (state.isLoggingIn) {
-            Text("Logging in...")
-        } else {
-            block()
-        }
+        block()
     }
 }
 

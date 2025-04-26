@@ -1,37 +1,33 @@
 package pondui.ui.core
 
 import androidx.compose.runtime.*
-import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.flow.StateFlow
-import pondui.ui.nav.NavRoute
 
 class AddressContext(
-    private val config: PondConfig,
-): StateModel<AddressState>(AddressState(addressRoute = config.home)) {
+    initialAddress: String?,
+): StateModel<AddressState>(AddressState(address = initialAddress)) {
 
-    fun setAddress(address: String?) {
-        if (address == null || address == stateNow.address) return
-        val route = config.toRoute(address) ?: stateNow.addressRoute
-        setState { it.copy(address = address, addressRoute = route) }
+    fun setAddress(path: String) {
+        setState { it.copy(address = path) }
     }
 }
 
 data class AddressState(
     val address: String? = null,
-    val addressRoute: NavRoute
 )
 
 @Composable
 fun ProvideAddressContext(
-    address: String? = null,
-    config: PondConfig,
-    viewModel: AddressContext = viewModel { AddressContext(config) },
+    initialAddress: String? = null,
+    updatedAddress: String? = null,
+    viewModel: AddressContext = remember { AddressContext(initialAddress) },
     content: @Composable () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
-    LaunchedEffect(address) {
-        viewModel.setAddress(address)
+    LaunchedEffect(updatedAddress) {
+        if (updatedAddress != null) {
+            viewModel.setAddress(updatedAddress)
+        }
     }
 
     CompositionLocalProvider(LocalAddressContext provides viewModel) {

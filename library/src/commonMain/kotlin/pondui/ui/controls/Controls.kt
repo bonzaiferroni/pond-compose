@@ -16,7 +16,6 @@ fun Controls(
 ) = FlowRow (
     horizontalArrangement = Pond.ruler.rowTight,
     verticalArrangement = Pond.ruler.columnTight,
-    itemVerticalAlignment = Alignment.CenterVertically,
     maxItemsInEachRow = maxItemsInEachRow,
     modifier = modifier.clip(Pond.ruler.rounded)
 ) {

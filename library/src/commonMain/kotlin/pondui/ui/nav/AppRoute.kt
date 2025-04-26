@@ -14,7 +14,7 @@ open class AppRoute(
     fun matchRoute(path: String) = if (path.startsWith(titlePath)) this else null
 }
 
-fun <T: AppRoute> matchIdRoute(path: String, routeTitle: String, toRoute: (Long) -> T): T? =
+fun <T> matchIdRoute(path: String, routeTitle: String, toRoute: (Long) -> T): T? =
     path.takeIf { it.startsWith(routeTitle) }?.let {
         val split = path.split('/')
         if (split.size != 2) return@let null
