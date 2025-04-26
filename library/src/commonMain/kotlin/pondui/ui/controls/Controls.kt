@@ -2,6 +2,7 @@ package pondui.ui.controls
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import pondui.ui.theme.Pond
@@ -15,6 +16,7 @@ fun Controls(
 ) = FlowRow (
     horizontalArrangement = Pond.ruler.rowTight,
     verticalArrangement = Pond.ruler.columnTight,
+    itemVerticalAlignment = Alignment.CenterVertically,
     maxItemsInEachRow = maxItemsInEachRow,
     modifier = modifier.clip(Pond.ruler.rounded)
 ) {

@@ -67,8 +67,8 @@ fun LogoutControl(
     ) {
         Text("Logged in as $username.")
         Controls {
-            TextButton("Logout", onClick = logout, modifier = Modifier.weight(1f))
-            TextButton("Cancel", onClick = dismiss, background = Pond.colors.secondary, modifier = Modifier.weight(1f))
+            Button("Logout", onClick = logout, modifier = Modifier.weight(1f))
+            Button("Cancel", onClick = dismiss, background = Pond.colors.secondary, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -110,10 +110,10 @@ fun LoginControls(
         label = "Stay logged in",
     )
     Controls {
-        TextButton(
+        Button(
             text = "Log in", onClick = login, modifier = Modifier.weight(1f),
         )
-        TextButton(
+        Button(
             text = "Cancel", onClick = dismiss, modifier = Modifier.weight(1f),
             background = Pond.colors.secondary
         )

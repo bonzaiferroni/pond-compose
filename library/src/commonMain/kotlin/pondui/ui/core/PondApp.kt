@@ -14,11 +14,9 @@ fun PondApp(
     changeRoute: (NavRoute) -> Unit,
     exitApp: (() -> Unit)?,
 ) {
-    ProvideSkyColors {
-        Navigator(
-            config = config,
-            changeRoute = changeRoute,
-            exitApp = exitApp
-        )
-    }
+    Navigator(
+        config = config,
+        changeRoute = changeRoute,
+        exitApp = exitApp
+    )
 }

@@ -13,7 +13,6 @@ import androidx.navigation.toRoute
 import pondui.ui.behavior.SlideIn
 import pondui.ui.core.LocalAddressContext
 import pondui.ui.core.PondConfig
-import pondui.ui.theme.Pond
 
 @Composable
 fun Navigator(
@@ -24,12 +23,14 @@ fun Navigator(
     nav: NavigatorModel = viewModel { NavigatorModel(config.home, navController) }
 ) {
     val state by nav.state.collectAsState()
-    val addressContext = LocalAddressContext.current
-    val addressState by addressContext.state.collectAsState()
+    val addressState = LocalAddressContext.current?.state?.collectAsState()?.value
 
-    LaunchedEffect(addressState.address) {
-        nav.go(addressState.addressRoute)
+    if (addressState != null) {
+        LaunchedEffect(addressState.address) {
+            nav.go(addressState.addressRoute)
+        }
     }
+
 
     LaunchedEffect(state.route) {
         changeRoute(state.route)

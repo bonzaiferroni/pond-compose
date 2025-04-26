@@ -28,7 +28,9 @@ fun ProvideTheme(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(LocalTheme provides theme) {
-        content()
+        ProvideSkyColors {
+            content()
+        }
     }
 }
 

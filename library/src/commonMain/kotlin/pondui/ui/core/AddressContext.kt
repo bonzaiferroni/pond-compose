@@ -2,6 +2,7 @@ package pondui.ui.core
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.flow.StateFlow
 import pondui.ui.nav.NavRoute
 
 class AddressContext(
@@ -38,6 +39,6 @@ fun ProvideAddressContext(
     }
 }
 
-val LocalAddressContext = staticCompositionLocalOf<AddressContext> {
-    error("No PlatformContext provided")
+val LocalAddressContext = staticCompositionLocalOf<AddressContext?> {
+    null
 }

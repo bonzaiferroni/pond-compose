@@ -11,9 +11,11 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import kabinet.api.DeleteEndpoint
 import kabinet.api.GetByIdEndpoint
 import kabinet.api.GetEndpoint
 import kabinet.api.PostEndpoint
+import kabinet.api.UpdateEndpoint
 import kabinet.api.UserApi
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
@@ -59,6 +61,18 @@ class ApiClient(
         value: Sent,
         vararg params: Pair<String, String>?
     ): Returned = request(HttpMethod.Post, endpoint.path, value, *params)
+
+    suspend inline fun <reified Sent> update(
+        endpoint: UpdateEndpoint<Sent>,
+        value: Sent,
+        vararg params: Pair<String, String>?
+    ): Boolean = request(HttpMethod.Put, endpoint.path, value, *params)
+
+    suspend inline fun <reified Sent> delete(
+        endpoint: DeleteEndpoint<Sent>,
+        value: Sent,
+        vararg params: Pair<String, String>?
+    ): Boolean = request(HttpMethod.Delete, endpoint.path, value, *params)
 
     suspend inline fun <reified Sent, reified Received> request(
         method: HttpMethod,

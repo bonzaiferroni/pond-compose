@@ -7,6 +7,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.TextStyle
 import pondui.utils.modifyIfTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
@@ -30,5 +31,21 @@ fun Button(
         ) {
             content()
         }
+    }
+}
+
+@Composable
+fun Button(
+    text: String,
+    isEnabled: Boolean = true,
+    background: Color = Pond.colors.primary,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    Button(onClick = onClick, isEnabled = isEnabled, background = background, modifier = modifier) {
+        Text(
+            text = text.uppercase(),
+            style = TextStyle(fontSize = Pond.typo.label.fontSize),
+        )
     }
 }

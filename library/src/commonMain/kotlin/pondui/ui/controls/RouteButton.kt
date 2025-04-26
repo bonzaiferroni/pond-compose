@@ -1,21 +1,25 @@
 package pondui.ui.controls
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import pondui.ui.nav.LocalNav
+import pondui.ui.nav.NavRoute
 import pondui.ui.theme.Pond
 
 @Composable
-fun TextButton(
+fun RouteButton(
     text: String,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    getRoute: () -> NavRoute
 ) {
-    Button(onClick = onClick, isEnabled = isEnabled, background = background, modifier = modifier) {
+    val nav = LocalNav.current
+    Button(onClick = {
+        nav.go(getRoute())
+    }, isEnabled = isEnabled, background = background, modifier = modifier) {
         Text(
             text = text.uppercase(),
             style = TextStyle(fontSize = Pond.typo.label.fontSize),
