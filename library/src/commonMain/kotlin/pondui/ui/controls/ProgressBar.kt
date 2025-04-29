@@ -6,10 +6,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -33,7 +36,8 @@ fun ProgressBar(
     val color = Pond.colors.secondary
 
     Box(
-        modifier = modifier.height(minHeight)
+        modifier = modifier.height(IntrinsicSize.Max)
+            .defaultMinSize(minHeight = minHeight)
             .border(1.dp, color)
     ) {
         Box(
@@ -47,6 +51,12 @@ fun ProgressBar(
                     )
                 }
         )
-        content?.invoke()
+        content?.let {
+            Box(
+                modifier = Modifier.padding(Pond.ruler.innerPadding)
+            ) {
+                it()
+            }
+        }
     }
 }
