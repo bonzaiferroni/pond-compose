@@ -1,12 +1,11 @@
 package pondui.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import pondui.utils.darken
 
 interface PondColors {
     val primary: Color
     val secondary: Color
-    val accent: Color
+    val tertiary: Color
     val contentSky: Color
     val surfaceSky: Color
     val contentBook: Color
@@ -36,8 +35,8 @@ data class PondLocalColors(
 
 object DefaultColors : PondColors{
     override val primary = Color(0xff559f59)
-    override val secondary = Color(0xff6e7e6f)
-    override val accent = Color(0xFF009489)
+    override val secondary = Color(0xFF009489)
+    override val tertiary = Color(0xff6e7e6f)
     override val contentSky = Color(0xFFf5f6f6)
     override val surfaceSky = Color.Transparent
     override val contentBook = Color(0xFF1d190e)
