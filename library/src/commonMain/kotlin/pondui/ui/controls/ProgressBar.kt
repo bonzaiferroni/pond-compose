@@ -1,6 +1,8 @@
 package pondui.ui.controls
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -20,11 +22,14 @@ import pondui.ui.theme.Pond
 @Composable
 fun ProgressBar(
     progress: Float,
+    animationSpec: AnimationSpec<Float> = tween(
+        durationMillis = 300
+    ),
     minHeight: Dp = 10.dp,
     modifier: Modifier = Modifier.fillMaxWidth(),
     content: @Composable (() -> Unit)? = null
 ) {
-    val animatedProgress by animateFloatAsState(progress)
+    val animatedProgress by animateFloatAsState(progress, animationSpec)
     val color = Pond.colors.secondary
 
     Box(
