@@ -1,5 +1,6 @@
 package pondui.ui.controls
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,8 @@ fun Card(
     ProvideBookColors {
         Column(
             modifier = modifier.background(Pond.localColors.surface)
-                .padding(Pond.ruler.innerPadding),
+                .padding(Pond.ruler.innerPadding)
+                .animateContentSize(),
             verticalArrangement = Pond.ruler.columnTight
         ) {
             content()

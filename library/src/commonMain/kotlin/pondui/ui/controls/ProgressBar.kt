@@ -13,14 +13,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import pondui.ui.theme.Pond
+import pondui.ui.theme.ProvideSkyColors
 
 @Composable
 fun ProgressBar(
@@ -29,33 +33,50 @@ fun ProgressBar(
         durationMillis = 300
     ),
     minHeight: Dp = 10.dp,
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    minWidth: Dp = 80.dp,
+    modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null
 ) {
     val animatedProgress by animateFloatAsState(progress, animationSpec)
     val color = Pond.colors.secondary
+    val voidColor = Pond.colors.void
 
     Box(
         modifier = modifier.height(IntrinsicSize.Max)
-            .defaultMinSize(minHeight = minHeight)
-            .border(1.dp, color)
+            .width(IntrinsicSize.Max)
+            .defaultMinSize(minHeight = minHeight, minWidth = minWidth)
     ) {
         Box(
             modifier = Modifier.fillMaxSize()
                 .drawBehind {
                     val barWidth = size.width * animatedProgress
-                    drawRect(
-                        color = color, // or the color of yer flag
-                        size = Size(barWidth, size.height),
-                        topLeft = Offset.Zero // anchors to port side (left)
-                    )
+                    drawRoundRect(color = voidColor, cornerRadius = CornerRadius(size.height))
+                    val barRatio = size.height / size.width
+                    if (animatedProgress < barRatio) {
+                        drawCircle(
+                            color = color,
+                            radius = size.height * animatedProgress / 2,
+                            center = Offset(size.height / 2, size.height / 2)
+                        )
+                    } else {
+                        drawRoundRect(
+                            color = color, // or the color of yer flag
+                            size = Size(barWidth, size.height),
+                            topLeft = Offset.Zero, // anchors to port side (left)
+                            cornerRadius = CornerRadius(size.height)
+                        )
+                    }
                 }
         )
         content?.let {
-            Box(
-                modifier = Modifier.padding(Pond.ruler.innerPadding)
-            ) {
-                it()
+            ProvideSkyColors {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                        .padding(Pond.ruler.innerPadding)
+                ) {
+                    it()
+                }
             }
         }
     }

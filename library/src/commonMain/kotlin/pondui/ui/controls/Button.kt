@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import pondui.utils.modifyIfTrue
@@ -17,13 +19,14 @@ fun Button(
     onClick: () -> Unit,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
-    modifier: Modifier = Modifier,
+    shape: Shape = Pond.ruler.round,
+    modifier: Modifier = Modifier.background(background),
     content: @Composable BoxScope.() -> Unit
 ) {
     ProvideSkyColors {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = modifier
+            modifier = modifier.clip(shape)
                 .modifyIfTrue(isEnabled) { clickable(onClick = onClick) }
                 .graphicsLayer( alpha = if (isEnabled) 1f else .5f )
                 .background(background)
