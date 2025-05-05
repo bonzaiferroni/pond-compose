@@ -54,7 +54,7 @@ fun Text(
 @Composable
 fun Label(
     text: String,
-    color: Color = Pond.localColors.contentDim,
+    color: Color = Pond.localColors.content,
     style: TextStyle = Pond.typo.label,
     maxLines: Int = 1,
     modifier: Modifier = Modifier
