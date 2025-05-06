@@ -73,7 +73,7 @@ kotlin {
             api("com.russhwolf:multiplatform-settings-no-arg:1.3.0")
             api(libs.composeIcons.tablerIcons)
             api(libs.kotlinx.collections.immutable)
-            implementation(libs.kotlinx.serialization.json)
+            api(libs.kotlinx.serialization.json)
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
