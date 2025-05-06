@@ -54,7 +54,7 @@ fun Text(
 @Composable
 fun Label(
     text: String,
-    color: Color = Pond.localColors.content,
+    color: Color = Pond.localColors.contentDim,
     style: TextStyle = Pond.typo.label,
     maxLines: Int = 1,
     modifier: Modifier = Modifier
@@ -120,6 +120,21 @@ fun H4(
     text = text,
     color = { color },
     style = Pond.typo.h4.merge(style),
+    maxLines = maxLines,
+    modifier = modifier
+)
+
+@Composable
+fun H5(
+    text: String,
+    color: Color = Pond.localColors.content,
+    maxLines: Int = Int.MAX_VALUE,
+    style: TextStyle? = null,
+    modifier: Modifier = Modifier
+) = BasicText(
+    text = text,
+    color = { color },
+    style = Pond.typo.h5.merge(style),
     maxLines = maxLines,
     modifier = modifier
 )

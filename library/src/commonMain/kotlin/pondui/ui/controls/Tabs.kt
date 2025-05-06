@@ -2,9 +2,14 @@ package pondui.ui.controls
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import pondui.utils.darken
@@ -18,6 +23,7 @@ import pondui.ui.theme.Pond
 fun Tabs(
     initialTab: String? = null,
     modifyRoute: ((String) -> NavRoute)? = null,
+    headerShape: Shape = RoundedCornerShape(100.dp, 100.dp, Pond.ruler.corner.dp, Pond.ruler.corner.dp),
     modifier: Modifier = Modifier,
     viewModel: TabsModel = viewModel { TabsModel(initialTab) },
     content: @Composable TabScope.() -> Unit
@@ -46,21 +52,24 @@ fun Tabs(
     }
 
     Column(
+        verticalArrangement = Pond.ruler.columnTight,
         modifier = modifier.fillMaxWidth()
     ) {
-        Row {
+        Row(
+            modifier = Modifier.clip(headerShape)
+                .background(Pond.colors.void)
+        ) {
             for (tab in tabs) {
                 if (!tab.isVisible) continue
-                val (background, elevation) = when {
-                    currentTab.name == tab.name -> Pond.localColors.surface to Pond.ruler.shadowElevation
-                    else -> Pond.localColors.surface.darken() to 0.dp
+                val background = when {
+                    currentTab.name == tab.name -> Pond.colors.secondary
+                    else -> Color.Transparent
                 }
                 Box(
-                    modifier = Modifier.Companion
+                    modifier = Modifier.clip(headerShape)
                         .modifyIfTrue(currentTab.name != tab.name) { Modifier.clickable { onTabChange(tab.name) } }
-                        .shadow(elevation)
                         .background(background)
-                        .padding(Pond.ruler.basePadding)
+                        .padding(Pond.ruler.halfPadding)
                         .weight(1f)
                 ) {
                     Text(
@@ -75,16 +84,13 @@ fun Tabs(
             currentTab.scrollable -> rememberScrollState()
             else -> null
         }
-        Surface(
+        Column(
+            verticalArrangement = Pond.ruler.columnTight,
             modifier = Modifier.fillMaxWidth()
+                .clip(Pond.ruler.rounded)
                 .modifyIfNotNull(scrollState) { verticalScroll(it) }
         ) {
-            Column(
-                modifier = Modifier.Companion.padding(Pond.ruler.innerPadding)
-                    .fillMaxWidth()
-            ) {
-                currentTab.content()
-            }
+            currentTab.content()
         }
     }
 }

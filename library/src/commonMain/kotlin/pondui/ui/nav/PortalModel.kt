@@ -15,5 +15,6 @@ class PortalModel: StateModel<PortalState>(PortalState()) {
 
 data class PortalState(
     val hoverText: String = "",
+    val topBarIsVisible: Boolean = true,
     val bottomBarIsVisible: Boolean = true,
 )

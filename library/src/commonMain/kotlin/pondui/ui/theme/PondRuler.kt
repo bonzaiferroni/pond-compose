@@ -33,45 +33,59 @@ interface PondRuler {
     val smallRounded: Shape get() = RoundedCornerShape((corner / 2).dp)
     val innerCorners: Shape get() = RoundedCornerShape((corner / 4).dp)
 
-    val roundTop: Shape get() = RoundedCornerShape(
+    val roundedTop: Shape get() = RoundedCornerShape(
         topStart = corner.dp,
         topEnd = corner.dp,
         bottomStart = 0.dp,
         bottomEnd = 0.dp
     )
 
-    val roundStart: Shape get() = RoundedCornerShape(
+    val roundedStart: Shape get() = RoundedCornerShape(
         topStart = corner.dp,
         topEnd = 0.dp,
         bottomStart = corner.dp,
         bottomEnd = 0.dp
     )
 
-    val roundEnd: Shape get() = RoundedCornerShape(
+    val roundedEnd: Shape get() = RoundedCornerShape(
         topStart = 0.dp,
         topEnd = corner.dp,
         bottomStart = 0.dp,
-        bottomEnd = corner.dp
-    )
-
-    val roundBottom: Shape get() = RoundedCornerShape(
-        topStart = 0.dp,
-        topEnd = 0.dp,
-        bottomStart = corner.dp,
         bottomEnd = corner.dp
     )
 
     val roundedBottom: Shape get() = RoundedCornerShape(
+        topStart = 0.dp,
+        topEnd = 0.dp,
+        bottomStart = corner.dp,
+        bottomEnd = corner.dp
+    )
+
+    val roundBottom: Shape get() = RoundedCornerShape(
         topStartPercent = 0,
         topEndPercent = 0,
         bottomStartPercent = 50,
         bottomEndPercent = 50
     )
 
-    val roundedTop: Shape get() = RoundedCornerShape(
+    val roundTop: Shape get() = RoundedCornerShape(
         topStartPercent = 50,
         topEndPercent = 50,
         bottomStartPercent = 0,
+        bottomEndPercent = 0
+    )
+
+    val roundEnd: Shape get() = RoundedCornerShape(
+        topStartPercent = 0,
+        topEndPercent = 50,
+        bottomStartPercent = 0,
+        bottomEndPercent = 50
+    )
+
+    val roundStart: Shape get() = RoundedCornerShape(
+        topStartPercent = 50,
+        topEndPercent = 0,
+        bottomStartPercent = 50,
         bottomEndPercent = 0
     )
 }

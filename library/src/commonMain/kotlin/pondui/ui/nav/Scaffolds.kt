@@ -1,6 +1,7 @@
 package pondui.ui.nav
 
 import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,9 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import pondui.ui.behavior.SlideIn
 import pondui.ui.theme.Pond
 
@@ -32,15 +33,13 @@ fun LazyScaffold(
     SlideIn(enter = transition) {
         LazyColumn {
             item {
-                Spacer(modifier = Modifier.height(portalTopBarHeight + Pond.ruler.innerSpacing))
+                TopBarSpacer()
             }
 
             content()
 
-            if (showBottomNav) {
-                item {
-                    Spacer(modifier = Modifier.height(portalBottomBarHeight + Pond.ruler.innerSpacing))
-                }
+            item {
+                BottomBarSpacer()
             }
         }
     }
@@ -64,7 +63,7 @@ fun Scaffold(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Pond.ruler.columnTight
         ) {
-            Spacer(modifier = Modifier.height(portalTopBarHeight))
+            TopBarSpacer()
 
             Column(
                 modifier = Modifier.weight(1f),
@@ -73,9 +72,27 @@ fun Scaffold(
                 content()
             }
 
-            if (showBottomNav) {
-                Spacer(modifier = Modifier.height(portalBottomBarHeight))
-            }
+            BottomBarSpacer()
         }
     }
+}
+
+@Composable
+fun TopBarSpacer() {
+    val state by LocalPortal.current.state.collectAsState()
+    val height = if (state.topBarIsVisible) portalTopBarHeight else 0.dp
+    Spacer(
+        modifier = Modifier.animateContentSize()
+            .height(height)
+    )
+}
+
+@Composable
+fun BottomBarSpacer() {
+    val state by LocalPortal.current.state.collectAsState()
+    val height = if (state.bottomBarIsVisible) portalBottomBarHeight else 0.dp
+    Spacer(
+        modifier = Modifier.animateContentSize()
+            .height(height)
+    )
 }

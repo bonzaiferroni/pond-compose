@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import pondui.ui.core.LocalAddressContext
 import pondui.ui.core.PondConfig
+import pondui.ui.theme.Pond
 
 @Composable
 fun Navigator(
@@ -60,7 +61,11 @@ inline fun <reified T: NavRoute> NavGraphBuilder.defaultScreen(
 ) {
     composable<T> { backStackEntry ->
         val route: T = backStackEntry.toRoute()
-        content(route)
+        Column(
+            verticalArrangement = Pond.ruler.columnTight
+        ) {
+            content(route)
+        }
     }
 }
 

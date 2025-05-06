@@ -14,6 +14,7 @@ interface PondTypography {
     val h2: TextStyle
     val h3: TextStyle
     val h4: TextStyle
+    val h5: TextStyle
     val body: TextStyle
     val label: TextStyle
 }
@@ -31,6 +32,7 @@ fun defaultTypography(
 
     override val title = base.copy(
         fontSize = 20.sp,
+        fontFamily = h2Font
     )
     override val h1 = base.copy(
         fontSize = 28.sp,
@@ -48,13 +50,19 @@ fun defaultTypography(
         fontFamily = h2Font,
     )
     override val h4 = base.copy(
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Light,
         fontFamily = h4Font,
     )
+    override val h5 = base.copy(
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = h4Font,
+    )
+
     override val body = base
     override val label = base.copy(
-        fontSize = 12.sp,
+        // fontSize = 12.sp,
     )
 }
 
