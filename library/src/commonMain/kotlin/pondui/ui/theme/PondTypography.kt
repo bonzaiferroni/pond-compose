@@ -51,7 +51,7 @@ fun defaultTypography(
     )
     override val h4 = base.copy(
         fontSize = 16.sp,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Bold,
         fontFamily = h4Font,
     )
     override val h5 = base.copy(
@@ -62,7 +62,8 @@ fun defaultTypography(
 
     override val body = base
     override val label = base.copy(
-        // fontSize = 12.sp,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Bold,
     )
 }
 

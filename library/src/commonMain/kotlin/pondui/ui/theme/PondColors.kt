@@ -6,6 +6,7 @@ interface PondColors {
     val primary: Color
     val secondary: Color
     val tertiary: Color
+    val disabled: Color
     val contentSky: Color
     val surfaceSky: Color
     val contentBook: Color
@@ -37,7 +38,8 @@ data class PondLocalColors(
 object DefaultColors : PondColors{
     override val primary = Color(0xff559f6c)
     override val secondary = Color(0xFF009489)
-    override val tertiary = Color(0xff6e7e6f)
+    override val tertiary = Color(0xff5e5045)
+    override val disabled = Color(0xff6e7e6f)
     override val contentSky = Color(0xFFf5f6f6)
     override val surfaceSky = Color.Transparent
     override val contentBook = Color(0xFF1d190e)

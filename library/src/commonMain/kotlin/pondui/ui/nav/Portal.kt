@@ -1,5 +1,6 @@
 package pondui.ui.nav
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -27,9 +29,14 @@ import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import pondui.utils.darken
 import pondui.ui.behavior.SlideIn
+import pondui.ui.controls.Icon
 import pondui.ui.controls.IconButton
+import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
+import pondui.utils.lighten
+import pondui.utils.modifyIfNotNull
+import pondui.utils.modifyIfTrue
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -51,8 +58,8 @@ fun Portal(
                 .background(Pond.colors.background)
                 .fillMaxSize()
         ) {
-            val barHeight = 50.dp
-            val hazeBackground = Pond.colors.background.darken(-.1f)
+            val barHeight = portalTopBarHeight
+
             Box(
                 modifier = Modifier
                     .hazeSource(state = hazeState)
@@ -67,31 +74,69 @@ fun Portal(
             }
 
             Row(
-                horizontalArrangement = Pond.ruler.rowTight,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
                     .align(Alignment.TopStart)
-                    .fillMaxWidth()
-                    .shadow(Pond.ruler.shadowElevation)
-                    .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(hazeBackground))
-                    .height(barHeight)
-                    .padding(Pond.ruler.innerPadding)
             ) {
                 val backRoute = navState.backRoute
                 val backAlpha by animateFloatAsState(if (backRoute != null) 1f else 0f)
-                val backRouteTitle = backRoute?.title ?: ""
-                IconButton(
-                    imageVector = TablerIcons.ArrowBack,
-                    hoverText = backRouteTitle,
-                    modifier = Modifier
-                        .graphicsLayer { this.alpha = backAlpha }
-                ) { nav.goBack() }
+                Box(
+                    modifier = Modifier.size(barHeight)
+                        .shadow(
+                            Pond.ruler.shadowElevation,
+                            shape = RoundedCornerShape(bottomEnd = Pond.ruler.shroomCorner)
+                        )
+                        .hazeEffect(
+                            state = hazeState,
+                            style = HazeMaterials.ultraThin(Pond.colors.background.lighten(.1f))
+                        )
+                        .modifyIfNotNull(backRoute) { actionable(it.title) { nav.goBack() } }
+                ) {
+                    Icon(
+                        imageVector = TablerIcons.ArrowBack,
+                        modifier = Modifier.padding(5.dp)
+                            .graphicsLayer { this.alpha = backAlpha }
+                    )
+                }
 
-                PortalTitle(state.hoverText, currentRoute)
+                Box(
+                    modifier = Modifier.width(IntrinsicSize.Max)
+                        .height(barHeight)
+                        .shadow(
+                            Pond.ruler.shadowElevation,
+                            shape = RoundedCornerShape(
+                                bottomStart = Pond.ruler.shroomCorner,
+                                bottomEnd = Pond.ruler.shroomCorner
+                            )
+                        )
+                        .hazeEffect(
+                            state = hazeState,
+                            style = HazeMaterials.ultraThin(Pond.colors.void)
+                        )
+                        .animateContentSize()
+                ) {
+                    PortalTitle(state.hoverText, currentRoute)
+                }
 
                 if (exitAction != null) {
-                    Spacer(modifier = Modifier.width(0.dp))
-                    IconButton(TablerIcons.X) { exitAction() }
+                    Box(
+                        modifier = Modifier.size(barHeight)
+                            .shadow(
+                                Pond.ruler.shadowElevation,
+                                shape = RoundedCornerShape(bottomStart = Pond.ruler.shroomCorner)
+                            )
+                            .hazeEffect(
+                                state = hazeState,
+                                style = HazeMaterials.ultraThin(Pond.colors.background.lighten(.1f))
+                            )
+                            .actionable("Exit ${config.name}") { exitAction() }
+                    ) {
+                        Icon(
+                            imageVector = TablerIcons.X,
+                            modifier = Modifier.padding(top = 5.dp, start = 10.dp)
+                                .graphicsLayer { this.alpha = backAlpha }
+                        )
+                    }
                 }
             }
 
@@ -106,15 +151,9 @@ fun Portal(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                         .height(portalBottomBarHeight)
-                        .shadow(
-                            Pond.ruler.shadowElevation, RoundedCornerShape(
-                                topStartPercent = 50, topEndPercent = 50,
-                                bottomStartPercent = 0, bottomEndPercent = 0
-                            )
-                        )
+                        .shadow(Pond.ruler.shadowElevation, Pond.ruler.shroomed)
                         .pointerInput(Unit) { }
-                        .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(hazeBackground))
-                        .padding(horizontal = Pond.ruler.innerSpacing)
+                        .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.void))
                 ) {
                     PortalBarControls(portalItems = config.doors)
                 }
@@ -156,7 +195,7 @@ val LocalPortal = staticCompositionLocalOf<PortalModel> {
     error("No portal provided")
 }
 
-val portalTopBarHeight = 50.dp
+val portalTopBarHeight = 40.dp
 val portalBottomBarHeight = 70.dp
 
 //            .drawBehind {

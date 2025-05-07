@@ -1,5 +1,6 @@
 package pondui.ui.nav
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -24,6 +25,7 @@ import pondui.ui.controls.Icon
 import pondui.ui.controls.Label
 import pondui.ui.controls.actionable
 import pondui.ui.theme.Pond
+import pondui.utils.lighten
 import pondui.utils.modifyIfTrue
 
 
@@ -83,20 +85,22 @@ fun PortalItemControl(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
             .aspectRatio(1f)
-            .clip(Pond.ruler.rounded)
+            .clip(Pond.ruler.shroomed)
             .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
+            .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.secondary.lighten(.4f).copy(.2f))}
             .padding(Pond.ruler.innerPadding)
     ) {
         val color = when (isCurrentRoute) {
-            true -> Pond.colors.shine
+            true -> Pond.localColors.content
             false -> Pond.localColors.contentDim
         }
         Icon(
             imageVector = icon,
             tint = color,
             modifier = Modifier.weight(1f).aspectRatio(1f)
+                .padding(Pond.ruler.innerPadding)
         )
-        Spacer(modifier = Modifier.height(3.dp))
+        Spacer(modifier = Modifier.height(2.dp))
         Label(label, color)
     }
 }

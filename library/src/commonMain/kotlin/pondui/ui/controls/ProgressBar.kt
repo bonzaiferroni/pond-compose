@@ -93,11 +93,11 @@ fun ProgressBarButton(
     labelText: String? = null,
     isEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
-    content: @Composable (() -> Unit)? = labelText?.let { { Label(it.uppercase())} }
+    content: @Composable (() -> Unit)? = labelText?.let { { Label(it.uppercase(), color = Pond.localColors.content)} }
 ) {
     val color = when {
         isEnabled -> Pond.colors.primary
-        else -> Pond.colors.tertiary
+        else -> Pond.colors.disabled
     }
     ProgressBar(
         progress = ratio,

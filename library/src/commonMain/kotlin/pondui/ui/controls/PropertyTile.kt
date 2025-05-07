@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import pondui.utils.brighten
+import pondui.utils.lighten
 import pondui.utils.darken
 import pondui.ui.theme.Pond
 
@@ -49,7 +49,7 @@ fun <T> PropertyTile(
                 horizontalArrangement = Arrangement.spacedBy(Pond.ruler.halfSpacing, Alignment.CenterHorizontally),
                 modifier = Modifier.sizeIn(minHeight = 40.dp)
                     .fillMaxWidth()
-                    .background(color = Pond.localColors.surface.brighten())
+                    .background(color = Pond.localColors.surface.lighten())
                     .padding(Pond.ruler.innerPadding)
             ) {
                 content(value)

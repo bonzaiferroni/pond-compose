@@ -23,7 +23,7 @@ import pondui.ui.theme.Pond
 fun Tabs(
     initialTab: String? = null,
     modifyRoute: ((String) -> NavRoute)? = null,
-    headerShape: Shape = RoundedCornerShape(100.dp, 100.dp, Pond.ruler.corner.dp, Pond.ruler.corner.dp),
+    headerShape: Shape = Pond.ruler.shroomed,
     modifier: Modifier = Modifier,
     viewModel: TabsModel = viewModel { TabsModel(initialTab) },
     content: @Composable TabScope.() -> Unit

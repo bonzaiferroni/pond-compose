@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 fun SlideIn(
     isVisible: Boolean = true,
     factor: Float = 1f,
-    enter: EnterTransition = slideInVertically { (it * factor).toInt() },
+    enter: EnterTransition = slideInVertically { -(it * factor).toInt() },
     exit: ExitTransition = slideOutVertically { -(it * factor).toInt() },
     modifier: Modifier = Modifier,
     content: @Composable() () -> Unit

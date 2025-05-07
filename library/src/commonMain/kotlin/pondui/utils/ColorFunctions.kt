@@ -10,4 +10,4 @@ fun Color.darken(amount: Float = 0.2f): Color {
     return Color(r / 255f, g / 255f, b / 255f, alpha)
 }
 
-fun Color.brighten(amount: Float = 0.2f) = darken(-amount)
+fun Color.lighten(amount: Float = 0.2f) = darken(-amount)
