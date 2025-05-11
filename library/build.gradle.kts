@@ -74,6 +74,9 @@ kotlin {
             api(libs.composeIcons.tablerIcons)
             api(libs.kotlinx.collections.immutable)
             api(libs.kotlinx.serialization.json)
+            api("io.github.alexzhirkevich:compottie:2.0.0-rc04")
+            api("io.github.alexzhirkevich:compottie-dot:2.0.0-rc04")
+
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
