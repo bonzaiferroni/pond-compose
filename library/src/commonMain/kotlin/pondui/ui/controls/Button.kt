@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
+import pondui.ui.nav.LocalNav
+import pondui.ui.nav.NavRoute
 import pondui.utils.modifyIfTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
@@ -46,6 +48,23 @@ fun Button(
     onClick: () -> Unit,
 ) {
     Button(onClick = onClick, isEnabled = isEnabled, background = background, modifier = modifier) {
+        Text(
+            text = text.uppercase(),
+            style = TextStyle(fontSize = Pond.typo.label.fontSize),
+        )
+    }
+}
+
+@Composable
+fun NavButton(
+    text: String,
+    isEnabled: Boolean = true,
+    background: Color = Pond.colors.primary,
+    modifier: Modifier = Modifier,
+    onClick: () -> NavRoute
+) {
+    val nav = LocalNav.current
+    Button(onClick = { nav.go(onClick()) }, isEnabled = isEnabled, background = background, modifier = modifier) {
         Text(
             text = text.uppercase(),
             style = TextStyle(fontSize = Pond.typo.label.fontSize),
