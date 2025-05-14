@@ -30,7 +30,7 @@ import pondui.ui.theme.Pond
 @Composable
 fun PortalTitle(
     hoverText: String,
-    currentRoute: NavRoute,
+    title: String,
 ) {
     var displayedHoverText by remember { mutableStateOf(hoverText) }
     var isHoverVisible by remember { mutableStateOf(true) }
@@ -44,7 +44,7 @@ fun PortalTitle(
     }
     val alpha by animateFloatAsState(if (isHoverVisible) 1f else 0f)
     Text(
-        text = currentRoute.title,
+        text = title,
         style = Pond.typo.title.copy(textAlign = TextAlign.Center),
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,

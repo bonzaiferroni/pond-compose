@@ -51,6 +51,9 @@ fun Portal(
     val navState by nav.state.collectAsState()
     val currentRoute = navState.route
     val hazeState = remember { HazeState() }
+    LaunchedEffect(currentRoute) {
+        viewModel.setTitle(null)
+    }
 
     CompositionLocalProvider(LocalPortal provides viewModel) {
         Box(
@@ -113,9 +116,8 @@ fun Portal(
                             state = hazeState,
                             style = HazeMaterials.ultraThin(Pond.colors.void)
                         )
-                        .animateContentSize()
                 ) {
-                    PortalTitle(state.hoverText, currentRoute)
+                    PortalTitle(state.hoverText, state.currentTitle ?: currentRoute.title)
                 }
 
                 if (exitAction != null) {
