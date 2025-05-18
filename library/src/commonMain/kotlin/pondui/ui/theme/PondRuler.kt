@@ -3,6 +3,7 @@ package pondui.ui.theme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -98,4 +99,24 @@ object DefaultRuler : PondRuler{
     override val corner: Int = 8
     override val bigCorner: Int = 64
     override val shadowElevation = 12.dp
+}
+
+enum class Spacing {
+    Tight,
+    Grouped,
+    Spaced,
+}
+
+@Composable
+fun Spacing.toColumnArrangement() = when (this) {
+    Spacing.Tight -> Pond.ruler.columnTight
+    Spacing.Grouped -> Pond.ruler.columnGrouped
+    Spacing.Spaced -> Pond.ruler.columnSpaced
+}
+
+@Composable
+fun Spacing.toRowArrangement() = when (this) {
+    Spacing.Tight -> Pond.ruler.rowTight
+    Spacing.Grouped -> Pond.ruler.rowGrouped
+    Spacing.Spaced -> Pond.ruler.rowSpaced
 }

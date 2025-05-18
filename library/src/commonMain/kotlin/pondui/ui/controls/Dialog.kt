@@ -3,23 +3,21 @@ package pondui.ui.controls
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideBookColors
 
 @Composable
-fun FloatyBox(
+fun Cloud(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    FloatyContent(
+    CloudContent(
         isVisible = isVisible,
         onDismiss = onDismiss,
     ) {
@@ -35,7 +33,7 @@ fun FloatyBox(
 }
 
 @Composable
-fun FloatyContent(
+fun CloudContent(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     content: @Composable () -> Unit

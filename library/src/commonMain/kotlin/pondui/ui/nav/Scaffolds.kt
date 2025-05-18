@@ -16,11 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pondui.ui.behavior.SlideIn
 import pondui.ui.theme.Pond
+import pondui.ui.theme.Spacing
+import pondui.ui.theme.toColumnArrangement
 
 
 @Composable
 fun LazyScaffold(
     showBottomNav: Boolean = true,
+    spacing: Spacing = Spacing.Tight,
     transition: EnterTransition = slideInVertically { it },
     content: LazyListScope.() -> Unit
 ) {
@@ -31,7 +34,9 @@ fun LazyScaffold(
     }
 
     SlideIn(enter = transition) {
-        LazyColumn {
+        LazyColumn(
+            verticalArrangement = spacing.toColumnArrangement()
+        ) {
             item {
                 TopBarSpacer()
             }

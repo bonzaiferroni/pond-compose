@@ -7,6 +7,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
@@ -44,10 +45,17 @@ fun Button(
     text: String,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    shape: Shape = Pond.ruler.round,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    Button(onClick = onClick, isEnabled = isEnabled, background = background, modifier = modifier) {
+    Button(
+        onClick = onClick,
+        isEnabled = isEnabled,
+        background = background,
+        shape = shape,
+        modifier = modifier
+    ) {
         Text(
             text = text.uppercase(),
             style = TextStyle(fontSize = Pond.typo.label.fontSize),
@@ -71,3 +79,20 @@ fun NavButton(
         )
     }
 }
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun FlowRowScope.ControlRowButton(
+    text: String,
+    isEnabled: Boolean = true,
+    background: Color = Pond.colors.primary,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) = Button(
+    text = text,
+    isEnabled = isEnabled,
+    background = background,
+    shape = RectangleShape,
+    modifier = modifier.fillMaxRowHeight(),
+    onClick = onClick,
+)

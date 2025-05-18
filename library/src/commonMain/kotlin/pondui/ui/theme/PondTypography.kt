@@ -63,7 +63,6 @@ fun defaultTypography(
     override val body = base
     override val label = base.copy(
         fontSize = 12.sp,
-        fontWeight = FontWeight.Bold,
     )
 }
 

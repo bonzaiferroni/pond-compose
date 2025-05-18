@@ -15,7 +15,7 @@ fun ProvideUserContext(
 ) {
     val state by userContext.state.collectAsState()
 
-    FloatyBox(
+    Cloud(
         isVisible = state.dialogVisible, onDismiss = userContext::toggle,
         modifier = Modifier.width(250.dp)
     ) {
