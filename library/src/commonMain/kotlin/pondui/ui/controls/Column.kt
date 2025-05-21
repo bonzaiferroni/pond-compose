@@ -13,13 +13,15 @@ fun Column(
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
-) = Column(
-    horizontalAlignment = horizontalAlignment,
-    verticalArrangement = when (spacing) {
-        Spacing.Tight -> pondui.ui.theme.Pond.ruler.columnTight
-        Spacing.Grouped -> pondui.ui.theme.Pond.ruler.columnGrouped
-        Spacing.Spaced -> pondui.ui.theme.Pond.ruler.columnSpaced
-    },
-    modifier = modifier,
-    content = content
-)
+) {
+    Column(
+        horizontalAlignment = horizontalAlignment,
+        verticalArrangement = when (spacing) {
+            Spacing.Tight -> pondui.ui.theme.Pond.ruler.columnTight
+            Spacing.Grouped -> pondui.ui.theme.Pond.ruler.columnGrouped
+            Spacing.Spaced -> pondui.ui.theme.Pond.ruler.columnSpaced
+        },
+        modifier = modifier,
+        content = content
+    )
+}
