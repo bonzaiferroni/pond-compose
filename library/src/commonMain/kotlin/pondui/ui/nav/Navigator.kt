@@ -62,7 +62,7 @@ inline fun <reified T: NavRoute> NavGraphBuilder.defaultScreen(
     composable<T> { backStackEntry ->
         val route: T = backStackEntry.toRoute()
         Column(
-            verticalArrangement = Pond.ruler.columnTight
+            verticalArrangement = Pond.ruler.columnUnit
         ) {
             content(route)
         }

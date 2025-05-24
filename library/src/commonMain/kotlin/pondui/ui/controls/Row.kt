@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import pondui.ui.theme.Pond
 import pondui.ui.theme.Spacing
+import pondui.ui.theme.toRowArrangement
 
 @Composable
 fun Row(
@@ -15,11 +15,7 @@ fun Row(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
 ) = Row(
-    horizontalArrangement = when(spacing) {
-        Spacing.Tight -> Pond.ruler.rowTight
-        Spacing.Grouped -> Pond.ruler.rowGrouped
-        Spacing.Spaced -> Pond.ruler.rowSpaced
-    },
+    horizontalArrangement = spacing.toRowArrangement(),
     modifier = modifier,
     content = content,
     verticalAlignment = verticalAlignment

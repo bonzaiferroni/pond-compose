@@ -1,6 +1,5 @@
 package pondui.ui.nav
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -11,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -27,16 +25,13 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
-import pondui.utils.darken
 import pondui.ui.behavior.SlideIn
 import pondui.ui.controls.Icon
-import pondui.ui.controls.IconButton
 import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.utils.modifyIfNotNull
-import pondui.utils.modifyIfTrue
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable

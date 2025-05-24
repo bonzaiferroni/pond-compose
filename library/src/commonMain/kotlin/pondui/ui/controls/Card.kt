@@ -2,9 +2,7 @@ package pondui.ui.controls
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -29,7 +27,7 @@ fun Card(
                 .background(background)
                 .padding(innerPadding)
                 .animateContentSize(),
-            verticalArrangement = Pond.ruler.columnTight
+            verticalArrangement = Pond.ruler.columnUnit
         ) {
             content()
         }

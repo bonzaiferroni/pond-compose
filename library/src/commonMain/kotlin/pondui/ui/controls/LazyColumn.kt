@@ -1,7 +1,7 @@
 package pondui.ui.controls
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -9,13 +9,13 @@ import pondui.ui.theme.Spacing
 import pondui.ui.theme.toColumnArrangement
 
 @Composable
-fun Column(
+fun LazyColumn(
     spacing: Spacing,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.() -> Unit
+    content: LazyListScope.() -> Unit
 ) {
-    Column(
+    LazyColumn(
         horizontalAlignment = horizontalAlignment,
         verticalArrangement = spacing.toColumnArrangement(),
         modifier = modifier,

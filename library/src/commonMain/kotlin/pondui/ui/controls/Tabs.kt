@@ -2,17 +2,13 @@ package pondui.ui.controls
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import pondui.utils.darken
 import pondui.utils.modifyIfNotNull
 import pondui.utils.modifyIfTrue
 import pondui.ui.nav.LocalNav
@@ -52,7 +48,7 @@ fun Tabs(
     }
 
     Column(
-        verticalArrangement = Pond.ruler.columnTight,
+        verticalArrangement = Pond.ruler.columnUnit,
         modifier = modifier.fillMaxWidth()
     ) {
         Row(
@@ -85,7 +81,7 @@ fun Tabs(
             else -> null
         }
         Column(
-            verticalArrangement = Pond.ruler.columnTight,
+            verticalArrangement = Pond.ruler.columnUnit,
             modifier = Modifier.fillMaxWidth()
                 .clip(Pond.ruler.rounded)
                 .modifyIfNotNull(scrollState) { verticalScroll(it) }

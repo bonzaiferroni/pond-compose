@@ -23,7 +23,7 @@ import pondui.ui.theme.toColumnArrangement
 @Composable
 fun LazyScaffold(
     showBottomNav: Boolean = true,
-    spacing: Spacing = Spacing.Tight,
+    spacing: Spacing = Spacing.Unit,
     transition: EnterTransition = slideInVertically { it },
     content: LazyListScope.() -> Unit
 ) {
@@ -54,7 +54,7 @@ fun LazyScaffold(
 fun Scaffold(
     showBottomNav: Boolean = true,
     transition: EnterTransition = slideInVertically { it },
-    verticalArrangement: Arrangement.Vertical = Pond.ruler.columnTight,
+    verticalArrangement: Arrangement.Vertical = Pond.ruler.columnUnit,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val portal = LocalPortal.current
@@ -66,7 +66,7 @@ fun Scaffold(
     SlideIn(enter = transition) {
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Pond.ruler.columnTight
+            verticalArrangement = Pond.ruler.columnUnit
         ) {
             TopBarSpacer()
 

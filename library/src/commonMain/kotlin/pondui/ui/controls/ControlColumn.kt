@@ -12,7 +12,7 @@ fun ControlColumn(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) = Column(
-    verticalArrangement = Pond.ruler.columnTight,
+    verticalArrangement = Pond.ruler.columnUnit,
     modifier = modifier.clip(Pond.ruler.rounded)
 ) {
     content()

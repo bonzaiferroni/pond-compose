@@ -20,7 +20,7 @@ fun ProvideUserContext(
         modifier = Modifier.width(250.dp)
     ) {
         Column(
-            verticalArrangement = Pond.ruler.columnTight
+            verticalArrangement = Pond.ruler.columnUnit
         ) {
             val user = state.user
             if (user != null) {
@@ -59,7 +59,7 @@ fun LogoutControl(
     dismiss: () -> Unit,
 ) {
     Column(
-        verticalArrangement = Pond.ruler.columnTight
+        verticalArrangement = Pond.ruler.columnUnit
     ) {
         Text("Logged in as $username.")
         Controls {

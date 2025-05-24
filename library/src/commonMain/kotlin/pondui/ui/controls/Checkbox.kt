@@ -9,12 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ThumbUp
-import pondui.utils.modifyIfTrue
 import pondui.ui.theme.Pond
 
 @Composable
@@ -52,7 +49,7 @@ fun LabelCheckbox(
     label: String,
 ) {
     Row(
-        horizontalArrangement = Pond.ruler.rowTight,
+        horizontalArrangement = Pond.ruler.rowUnit,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(value, onValueChanged)

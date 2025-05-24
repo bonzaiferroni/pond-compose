@@ -3,7 +3,6 @@ package pondui.ui.theme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -21,10 +20,10 @@ interface PondRuler {
     val halfPadding: PaddingValues get() = PaddingValues(halfSpacing)
     val innerPadding: PaddingValues get() = PaddingValues(innerSpacing)
 
-    val rowTight: Arrangement.Horizontal get() = Arrangement.spacedBy(innerSpacing)
+    val rowUnit: Arrangement.Horizontal get() = Arrangement.spacedBy(innerSpacing)
     val rowGrouped: Arrangement.Horizontal get() = Arrangement.spacedBy(halfSpacing)
     val rowSpaced: Arrangement.Horizontal get() = Arrangement.spacedBy(baseSpacing)
-    val columnTight: Arrangement.Vertical get() = Arrangement.spacedBy(innerSpacing)
+    val columnUnit: Arrangement.Vertical get() = Arrangement.spacedBy(innerSpacing)
     val columnGrouped: Arrangement.Vertical get() = Arrangement.spacedBy(halfSpacing)
     val columnSpaced: Arrangement.Vertical get() = Arrangement.spacedBy(baseSpacing)
 
@@ -99,24 +98,4 @@ object DefaultRuler : PondRuler{
     override val corner: Int = 8
     override val bigCorner: Int = 64
     override val shadowElevation = 12.dp
-}
-
-enum class Spacing {
-    Tight,
-    Grouped,
-    Spaced,
-}
-
-@Composable
-fun Spacing.toColumnArrangement() = when (this) {
-    Spacing.Tight -> Pond.ruler.columnTight
-    Spacing.Grouped -> Pond.ruler.columnGrouped
-    Spacing.Spaced -> Pond.ruler.columnSpaced
-}
-
-@Composable
-fun Spacing.toRowArrangement() = when (this) {
-    Spacing.Tight -> Pond.ruler.rowTight
-    Spacing.Grouped -> Pond.ruler.rowGrouped
-    Spacing.Spaced -> Pond.ruler.rowSpaced
 }

@@ -86,7 +86,7 @@ fun <Item> CardFeed(
         fun getKey(index: Int, item: Item): Any = getId(item)
 
         LazyColumn(
-            verticalArrangement = Pond.ruler.columnTight,
+            verticalArrangement = Pond.ruler.columnUnit,
             state = listState,
         ) {
             itemsIndexed(items, ::getKey) { index, item ->
