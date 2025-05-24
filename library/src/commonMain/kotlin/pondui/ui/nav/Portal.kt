@@ -136,7 +136,6 @@ fun Portal(
                         Icon(
                             imageVector = TablerIcons.X,
                             modifier = Modifier.padding(top = 5.dp, start = 10.dp)
-                                .graphicsLayer { this.alpha = backAlpha }
                         )
                     }
                 }
