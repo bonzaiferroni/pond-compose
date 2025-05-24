@@ -62,7 +62,7 @@ fun LogoutControl(
         verticalArrangement = Pond.ruler.columnUnit
     ) {
         Text("Logged in as $username.")
-        Controls {
+        ControlSet {
             Button("Logout", onClick = logout, modifier = Modifier.weight(1f))
             Button("Cancel", onClick = dismiss, background = Pond.colors.tertiary, modifier = Modifier.weight(1f))
         }
@@ -105,7 +105,7 @@ fun LoginControls(
         onValueChanged = setStayLoggedIn,
         label = "Stay logged in",
     )
-    Controls {
+    ControlSet {
         Button(
             text = "Log in", onClick = login, modifier = Modifier.weight(1f),
         )
