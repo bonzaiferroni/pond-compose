@@ -2,6 +2,7 @@ package pondui.io
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,7 +60,8 @@ fun LogoutControl(
     dismiss: () -> Unit,
 ) {
     Column(
-        verticalArrangement = Pond.ruler.columnUnit
+        verticalArrangement = Pond.ruler.columnUnit,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Logged in as $username.")
         ControlSet {
@@ -83,7 +85,7 @@ fun LoginControls(
     login: () -> Unit,
     dismiss: () -> Unit,
 ) {
-    ControlColumn {
+    ControlSet(maxItemsInEachRow = 1) {
         TextField(
             text = usernameOrEmail, onTextChange = setUsernameOrEmail,
             placeholder = "Username",

@@ -33,7 +33,7 @@ fun Button(
                 .modifyIfTrue(isEnabled) { clickable(onClick = onClick) }
                 .graphicsLayer( alpha = if (isEnabled) 1f else .5f )
                 .background(background)
-                .padding(Pond.ruler.halfPadding)
+                .padding(Pond.ruler.doublePadding)
         ) {
             content()
         }
@@ -82,7 +82,7 @@ fun NavButton(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FlowRowScope.ControlRowButton(
+fun FlowRowScope.ControlSetButton(
     text: String,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
@@ -95,4 +95,20 @@ fun FlowRowScope.ControlRowButton(
     shape = RectangleShape,
     modifier = modifier.fillMaxRowHeight(),
     onClick = onClick,
+)
+
+@Composable
+fun DangerButton(
+    text: String,
+    isEnabled: Boolean = true,
+    shape: Shape = Pond.ruler.round,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) = Button(
+    text = text,
+    isEnabled = isEnabled,
+    background = Pond.colors.danger,
+    shape = shape,
+    onClick = onClick,
+    modifier = modifier
 )

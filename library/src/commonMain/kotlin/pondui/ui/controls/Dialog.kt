@@ -23,9 +23,9 @@ fun Cloud(
     ) {
         Box(
             modifier = modifier
-                .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.rounded)
+                .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
                 .background(Pond.localColors.surface)
-                .padding(Pond.ruler.halfPadding)
+                .padding(Pond.ruler.doublePadding)
         ) {
             content()
         }

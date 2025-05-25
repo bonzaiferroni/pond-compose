@@ -33,7 +33,7 @@ fun IconToggle(
             .shadow(15.dp, shape = Pond.ruler.round, ambientColor = shadowColor, spotColor = shadowColor)
             .background(Pond.localColors.content.copy(alpha = .2f))
             .modifyIfTrue(enabled) { clickable { onToggle(!value) } }
-            .padding(Pond.ruler.halfPadding),
+            .padding(Pond.ruler.doublePadding),
         tint = when {
             !enabled -> tint.copy(.5f)
             value -> Pond.colors.shine

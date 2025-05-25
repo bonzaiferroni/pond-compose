@@ -65,7 +65,7 @@ fun Tabs(
                     modifier = Modifier.clip(headerShape)
                         .modifyIfTrue(currentTab.name != tab.name) { Modifier.clickable { onTabChange(tab.name) } }
                         .background(background)
-                        .padding(Pond.ruler.halfPadding)
+                        .padding(Pond.ruler.doublePadding)
                         .weight(1f)
                 ) {
                     Text(
@@ -83,7 +83,7 @@ fun Tabs(
         Column(
             verticalArrangement = Pond.ruler.columnUnit,
             modifier = Modifier.fillMaxWidth()
-                .clip(Pond.ruler.rounded)
+                .clip(Pond.ruler.midCorners)
                 .modifyIfNotNull(scrollState) { verticalScroll(it) }
         ) {
             currentTab.content()

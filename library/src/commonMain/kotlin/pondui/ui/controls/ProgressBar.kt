@@ -73,7 +73,7 @@ fun ProgressBar(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()
-                        .padding(Pond.ruler.halfPadding)
+                        .padding(Pond.ruler.doublePadding)
                 ) {
                     it()
                 }

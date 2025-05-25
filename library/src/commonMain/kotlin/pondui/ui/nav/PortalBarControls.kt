@@ -88,7 +88,7 @@ fun PortalItemControl(
             .clip(Pond.ruler.shroomed)
             .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
             .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.secondary.lighten(.4f).copy(.2f))}
-            .padding(Pond.ruler.innerPadding)
+            .padding(Pond.ruler.unitPadding)
     ) {
         val color = when (isCurrentRoute) {
             true -> Pond.localColors.content
@@ -98,7 +98,7 @@ fun PortalItemControl(
             imageVector = icon,
             tint = color,
             modifier = Modifier.weight(1f).aspectRatio(1f)
-                .padding(Pond.ruler.innerPadding)
+                .padding(Pond.ruler.unitPadding)
         )
         Spacer(modifier = Modifier.height(2.dp))
         Label(label, color)

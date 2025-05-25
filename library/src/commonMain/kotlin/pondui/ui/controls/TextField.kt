@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
@@ -38,6 +39,8 @@ fun TextField(
         val color = Pond.localColors.content
         Box(
             modifier = modifier.width(IntrinsicSize.Min)
+                .clip(Pond.ruler.unitCorners)
+                .background(Pond.colors.textField)
         ) {
             BasicTextField(
                 value = text,
@@ -47,8 +50,7 @@ fun TextField(
                 minLines = minLines,
                 modifier = modifier.defaultMinSize(150.dp)
                     .fillMaxWidth()
-                    .background(Pond.colors.textField)
-                    .padding(Pond.ruler.halfPadding)
+                    .padding(Pond.ruler.doublePadding)
                     .onFocusChanged { isFocused = it.isFocused }
                     .onKeyEvent { isFocused && it.key != Key.Tab }
                     .changeFocusWithTab(),
@@ -63,7 +65,7 @@ fun TextField(
                     color = Pond.localColors.contentDim,
                     style = TextStyle(fontSize = Pond.typo.label.fontSize),
                     modifier = Modifier.wrapContentSize()
-                        .padding(Pond.ruler.halfPadding)
+                        .padding(Pond.ruler.doublePadding)
                 )
             }
         }

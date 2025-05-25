@@ -51,7 +51,7 @@ fun ButtonToggle(
                     )
                 }
             }
-            .padding(Pond.ruler.halfPadding)
+            .padding(Pond.ruler.doublePadding)
     ) {
         content()
     }

@@ -8,58 +8,56 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 interface PondRuler {
-    val spacing: Int
-    val corner: Int
-    val bigCorner: Int
+    val spacingUnit: Int
     val shadowElevation: Dp
 
-    val baseSpacing: Dp get() = spacing.dp
-    val halfSpacing: Dp get() = (spacing / 2).dp
-    val innerSpacing: Dp get() = (spacing / 4).dp
-    val basePadding: PaddingValues get() = PaddingValues(baseSpacing)
-    val halfPadding: PaddingValues get() = PaddingValues(halfSpacing)
-    val innerPadding: PaddingValues get() = PaddingValues(innerSpacing)
+    val doubleSpacing: Dp get() = (spacingUnit * 2).dp
+    val unitSpacing: Dp get() = spacingUnit.dp
+    val doublePadding: PaddingValues get() = PaddingValues(doubleSpacing)
+    val unitPadding: PaddingValues get() = PaddingValues(unitSpacing)
 
-    val rowUnit: Arrangement.Horizontal get() = Arrangement.spacedBy(innerSpacing)
-    val rowGrouped: Arrangement.Horizontal get() = Arrangement.spacedBy(halfSpacing)
-    val rowSpaced: Arrangement.Horizontal get() = Arrangement.spacedBy(baseSpacing)
-    val columnUnit: Arrangement.Vertical get() = Arrangement.spacedBy(innerSpacing)
-    val columnGrouped: Arrangement.Vertical get() = Arrangement.spacedBy(halfSpacing)
-    val columnSpaced: Arrangement.Vertical get() = Arrangement.spacedBy(baseSpacing)
+    val rowUnit: Arrangement.Horizontal get() = Arrangement.spacedBy(unitSpacing)
+    val rowSpaced: Arrangement.Horizontal get() = Arrangement.spacedBy(doubleSpacing)
+    val columnUnit: Arrangement.Vertical get() = Arrangement.spacedBy(unitSpacing)
+    val columnSpaced: Arrangement.Vertical get() = Arrangement.spacedBy(doubleSpacing)
 
     val round: Shape get() = RoundedCornerShape(percent = 100)
-    val rounded: Shape get() = RoundedCornerShape(corner.dp)
-    val bigRounded: Shape get() = RoundedCornerShape(bigCorner.dp)
-    val smallRounded: Shape get() = RoundedCornerShape((corner / 2).dp)
-    val innerCorners: Shape get() = RoundedCornerShape((corner / 4).dp)
-    val shroomCorner: Dp get() = 30.dp
+
+    val unitCorner: Dp get() = spacingUnit.dp
+    val midCorner: Dp get() = unitCorner * 4
+    val bigCorner: Dp get() = unitCorner * 5
+    val unitCorners: Shape get() = RoundedCornerShape(unitCorner)
+    val midCorners: Shape get() = RoundedCornerShape(midCorner)
+    val bigCorners: Shape get() = RoundedCornerShape(bigCorner)
+
+    val innerCorners: Shape get() = RoundedCornerShape((unitCorner / 2))
 
     val roundedTop: Shape get() = RoundedCornerShape(
-        topStart = corner.dp,
-        topEnd = corner.dp,
+        topStart = unitCorner,
+        topEnd = unitCorner,
         bottomStart = 0.dp,
         bottomEnd = 0.dp
     )
 
     val roundedStart: Shape get() = RoundedCornerShape(
-        topStart = corner.dp,
+        topStart = unitCorner,
         topEnd = 0.dp,
-        bottomStart = corner.dp,
+        bottomStart = unitCorner,
         bottomEnd = 0.dp
     )
 
     val roundedEnd: Shape get() = RoundedCornerShape(
         topStart = 0.dp,
-        topEnd = corner.dp,
+        topEnd = unitCorner,
         bottomStart = 0.dp,
-        bottomEnd = corner.dp
+        bottomEnd = unitCorner
     )
 
     val roundedBottom: Shape get() = RoundedCornerShape(
         topStart = 0.dp,
         topEnd = 0.dp,
-        bottomStart = corner.dp,
-        bottomEnd = corner.dp
+        bottomStart = unitCorner,
+        bottomEnd = unitCorner
     )
 
     val roundBottom: Shape get() = RoundedCornerShape(
@@ -90,12 +88,10 @@ interface PondRuler {
         bottomEndPercent = 0
     )
 
-    val shroomed: Shape get() = RoundedCornerShape(shroomCorner, shroomCorner, corner.dp, corner.dp)
+    val shroomed: Shape get() = RoundedCornerShape(bigCorner, bigCorner, unitCorner, unitCorner)
 }
 
 object DefaultRuler : PondRuler{
-    override val spacing: Int = 24
-    override val corner: Int = 8
-    override val bigCorner: Int = 64
+    override val spacingUnit: Int = 6
     override val shadowElevation = 12.dp
 }

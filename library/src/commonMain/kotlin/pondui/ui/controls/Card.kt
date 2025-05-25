@@ -15,9 +15,9 @@ import pondui.ui.theme.ProvideBookColors
 
 @Composable
 fun Card(
-    shape: Shape = Pond.ruler.rounded,
+    shape: Shape = Pond.ruler.midCorners,
     background: Color = Pond.colors.surfaceBook,
-    innerPadding: Dp = Pond.ruler.innerSpacing,
+    innerPadding: Dp = Pond.ruler.unitSpacing,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {

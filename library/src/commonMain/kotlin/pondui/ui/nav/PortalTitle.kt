@@ -3,10 +3,7 @@ package pondui.ui.nav
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -60,8 +57,8 @@ fun PortalTitle(
             modifier = Modifier.fillMaxSize()
                 .clip(
                     RoundedCornerShape(
-                        bottomStart = Pond.ruler.shroomCorner,
-                        bottomEnd = Pond.ruler.shroomCorner
+                        bottomStart = Pond.ruler.bigCorner,
+                        bottomEnd = Pond.ruler.bigCorner
                     )
                 )
                 .background(Pond.colors.secondary)

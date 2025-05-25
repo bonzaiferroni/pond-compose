@@ -63,8 +63,8 @@ fun Portal(
                     .hazeSource(state = hazeState)
                     .padding(
                         top = 0.dp,
-                        start = Pond.ruler.innerSpacing,
-                        end = Pond.ruler.innerSpacing,
+                        start = Pond.ruler.unitSpacing,
+                        end = Pond.ruler.unitSpacing,
                         bottom = 0.dp,
                     )
             ) {
@@ -82,7 +82,7 @@ fun Portal(
                     modifier = Modifier.size(barHeight)
                         .shadow(
                             Pond.ruler.shadowElevation,
-                            shape = RoundedCornerShape(bottomEnd = Pond.ruler.shroomCorner)
+                            shape = RoundedCornerShape(bottomEnd = Pond.ruler.bigCorner)
                         )
                         .hazeEffect(
                             state = hazeState,
@@ -103,8 +103,8 @@ fun Portal(
                         .shadow(
                             Pond.ruler.shadowElevation,
                             shape = RoundedCornerShape(
-                                bottomStart = Pond.ruler.shroomCorner,
-                                bottomEnd = Pond.ruler.shroomCorner
+                                bottomStart = Pond.ruler.bigCorner,
+                                bottomEnd = Pond.ruler.bigCorner
                             )
                         )
                         .hazeEffect(
@@ -120,7 +120,7 @@ fun Portal(
                         modifier = Modifier.size(barHeight)
                             .shadow(
                                 Pond.ruler.shadowElevation,
-                                shape = RoundedCornerShape(bottomStart = Pond.ruler.shroomCorner)
+                                shape = RoundedCornerShape(bottomStart = Pond.ruler.bigCorner)
                             )
                             .hazeEffect(
                                 state = hazeState,

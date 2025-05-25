@@ -18,7 +18,7 @@ fun ControlSet(
     verticalArrangement = Pond.ruler.columnUnit,
     itemVerticalAlignment = Alignment.CenterVertically,
     maxItemsInEachRow = maxItemsInEachRow,
-    modifier = modifier.clip(Pond.ruler.rounded)
+    modifier = modifier.clip(Pond.ruler.midCorners)
 ) {
     content()
 }

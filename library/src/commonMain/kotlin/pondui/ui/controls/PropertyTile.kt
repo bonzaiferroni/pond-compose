@@ -41,16 +41,16 @@ fun <T> PropertyTile(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = Pond.localColors.surface.darken())
-                .padding(Pond.ruler.innerPadding)
+                .padding(Pond.ruler.unitPadding)
         )
         SelectionContainer {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Pond.ruler.halfSpacing, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(Pond.ruler.doubleSpacing, Alignment.CenterHorizontally),
                 modifier = Modifier.sizeIn(minHeight = 40.dp)
                     .fillMaxWidth()
                     .background(color = Pond.localColors.surface.lighten())
-                    .padding(Pond.ruler.innerPadding)
+                    .padding(Pond.ruler.unitPadding)
             ) {
                 content(value)
             }

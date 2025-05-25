@@ -24,10 +24,10 @@ fun Checkbox(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(CheckboxSize)
-            .clip(Pond.ruler.smallRounded)
+            .clip(Pond.ruler.unitCorners)
             .clickable { onValueChanged(!value) }
             .background(Pond.colors.primary)
-            .padding(Pond.ruler.innerPadding)
+            .padding(Pond.ruler.unitPadding)
     ) {
         Icon(
             imageVector = TablerIcons.ThumbUp,
