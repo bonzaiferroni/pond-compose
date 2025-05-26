@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.window.Dialog
+import pondui.ui.behavior.FadeIn
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideBookColors
 
@@ -21,13 +22,15 @@ fun Cloud(
         isVisible = isVisible,
         onDismiss = onDismiss,
     ) {
-        Box(
-            modifier = modifier
-                .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
-                .background(Pond.localColors.surface)
-                .padding(Pond.ruler.doublePadding)
-        ) {
-            content()
+        FadeIn {
+            Box(
+                modifier = modifier
+                    .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
+                    .background(Pond.localColors.surface)
+                    .padding(Pond.ruler.doublePadding)
+            ) {
+                content()
+            }
         }
     }
 }
@@ -38,13 +41,13 @@ fun CloudContent(
     onDismiss: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    if (isVisible) {
-        Dialog(
-            onDismissRequest = onDismiss,
-        ) {
-            ProvideBookColors {
-                content()
-            }
+    if (!isVisible) return
+
+    Dialog(
+        onDismissRequest = onDismiss,
+    ) {
+        ProvideBookColors {
+            content()
         }
     }
 }

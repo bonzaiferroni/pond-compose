@@ -137,8 +137,6 @@ fun Portal(
             }
 
             SlideIn(
-                enter = slideInVertically { it },
-                exit = slideOutVertically { it },
                 isVisible = state.bottomBarIsVisible,
                 modifier = Modifier.align(Alignment.BottomStart)
             ) {

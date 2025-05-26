@@ -92,7 +92,7 @@ fun FlowRowScope.ControlSetButton(
     text = text,
     isEnabled = isEnabled,
     background = background,
-    shape = RectangleShape,
+    shape = Pond.ruler.unitCorners,
     modifier = modifier.fillMaxRowHeight(),
     onClick = onClick,
 )

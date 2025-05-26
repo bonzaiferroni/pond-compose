@@ -51,6 +51,7 @@ fun PortalTitle(
     )
     SlideIn(
         isHoverVisible,
+        factor = -1f,
     ) {
         Box(
             contentAlignment = Alignment.TopCenter,
