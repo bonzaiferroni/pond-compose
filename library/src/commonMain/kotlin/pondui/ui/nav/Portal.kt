@@ -1,21 +1,23 @@
 package pondui.ui.nav
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ArrowBack
@@ -25,7 +27,12 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import pondui.ui.behavior.FadeIn
 import pondui.ui.behavior.SlideIn
+import pondui.ui.behavior.clickableWithoutHoverEffect
+import pondui.ui.controls.Column
+import pondui.ui.controls.H1
+import pondui.ui.controls.H2
 import pondui.ui.controls.Icon
 import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
@@ -38,9 +45,9 @@ import pondui.utils.modifyIfNotNull
 fun Portal(
     config: PondConfig,
     exitAction: (() -> Unit)?,
-    viewModel: PortalModel = viewModel { PortalModel() },
     content: @Composable () -> Unit,
 ) {
+    val viewModel: PortalModel = viewModel { PortalModel() }
     val state by viewModel.state.collectAsState()
     val nav = LocalNav.current
     val navState by nav.state.collectAsState()
@@ -48,6 +55,7 @@ fun Portal(
     val hazeState = remember { HazeState() }
     LaunchedEffect(currentRoute) {
         viewModel.setTitle(null)
+        viewModel.hideDialog()
     }
 
     CompositionLocalProvider(LocalPortal provides viewModel) {
@@ -58,6 +66,13 @@ fun Portal(
         ) {
             val barHeight = portalTopBarHeight
 
+            // glow effect
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.background))
+            )
+
+            // navigation content
             Box(
                 modifier = Modifier
                     .hazeSource(state = hazeState)
@@ -71,6 +86,25 @@ fun Portal(
                 content()
             }
 
+            // dialog
+            FadeIn(state.isDialogVisible) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                        .background(Pond.colors.background.copy(.3f))
+                        .padding(Pond.ruler.doublePadding)
+                        .clickableWithoutHoverEffect(onClick = state.dismissDialog)
+                ) {
+                    FadeIn(offsetX = -60) {
+                        H2(state.dialogTitle)
+                    }
+                    Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
+                    state.dialogContent()
+                }
+            }
+
+            // top bar
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
@@ -136,6 +170,7 @@ fun Portal(
                 }
             }
 
+            // bottom bar
             SlideIn(
                 isVisible = state.bottomBarIsVisible,
                 modifier = Modifier.align(Alignment.BottomStart)

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.window.Dialog
 import pondui.ui.behavior.FadeIn
+import pondui.ui.nav.LocalPortal
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideBookColors
 
@@ -48,6 +49,31 @@ fun CloudContent(
     ) {
         ProvideBookColors {
             content()
+        }
+    }
+}
+
+@Composable
+fun TitleCloud (
+    title: String,
+    isVisible: Boolean,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    val portal = LocalPortal.current
+    portal.setDialogContent(title, isVisible, onDismiss) {
+        ProvideBookColors {
+            FadeIn(offsetX = 60) {
+                Box(
+                    modifier = modifier
+                        .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
+                        .background(Pond.localColors.surface)
+                        .padding(Pond.ruler.doublePadding)
+                ) {
+                    content()
+                }
+            }
         }
     }
 }

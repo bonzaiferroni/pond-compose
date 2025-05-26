@@ -49,7 +49,7 @@ fun FadeIn(
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
-    scale: Boolean = true,
+    scale: Boolean = false,
     modifier: Modifier = Modifier,
     content: @Composable() () -> Unit
 ) {
@@ -64,8 +64,8 @@ fun FadeIn(
     Box(
         modifier = modifier
             .graphicsLayer {
-                translationY = offsetX * (1 - animatedVisibility)
-                translationX = offsetY * (1 - animatedVisibility)
+                translationY = offsetY * (1 - animatedVisibility)
+                translationX = offsetX * (1 - animatedVisibility)
                 this.rotationX = rotationX * (1 - animatedVisibility)
                 this.rotationY = rotationY * (1 - animatedVisibility)
                 this.rotationZ = rotationZ * (1 - animatedVisibility)
