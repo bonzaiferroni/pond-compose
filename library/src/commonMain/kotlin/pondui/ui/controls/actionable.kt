@@ -6,7 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import pondui.utils.modifyIfNotNull
+import pondui.ui.behavior.modifyIfNotNull
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.LocalPortal
 import pondui.ui.nav.NavRoute

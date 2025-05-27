@@ -7,13 +7,12 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.NavRoute
-import pondui.utils.modifyIfTrue
+import pondui.ui.behavior.modifyIfTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 

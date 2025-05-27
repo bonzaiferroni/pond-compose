@@ -21,6 +21,9 @@ interface PondRuler {
     val columnUnit: Arrangement.Vertical get() = Arrangement.spacedBy(unitSpacing)
     val columnSpaced: Arrangement.Vertical get() = Arrangement.spacedBy(doubleSpacing)
 
+    fun rowArrangement(units: Int) = Arrangement.spacedBy(unitSpacing * units)
+    fun columnArrangement(units: Int) = Arrangement.spacedBy(unitSpacing * units)
+
     val round: Shape get() = RoundedCornerShape(percent = 100)
 
     val unitCorner: Dp get() = spacingUnit.dp

@@ -4,10 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import pondui.ui.behavior.FadeIn
+import pondui.ui.behavior.HotKey
 import pondui.ui.nav.LocalPortal
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideBookColors
@@ -62,6 +66,8 @@ fun TitleCloud (
     content: @Composable () -> Unit
 ) {
     val portal = LocalPortal.current
+    if (isVisible) HotKey(Key.Escape, onDismiss)
+
     portal.setDialogContent(title, isVisible, onDismiss) {
         ProvideBookColors {
             FadeIn(offsetX = 60) {

@@ -9,8 +9,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.lifecycle.viewmodel.compose.viewModel
-import pondui.utils.modifyIfNotNull
-import pondui.utils.modifyIfTrue
+import pondui.ui.behavior.modifyIfNotNull
+import pondui.ui.behavior.modifyIfTrue
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.NavRoute
 import pondui.ui.theme.Pond

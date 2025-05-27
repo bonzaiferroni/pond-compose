@@ -2,22 +2,22 @@ package pondui.ui.nav
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ArrowBack
@@ -30,15 +30,14 @@ import dev.chrisbanes.haze.materials.HazeMaterials
 import pondui.ui.behavior.FadeIn
 import pondui.ui.behavior.SlideIn
 import pondui.ui.behavior.clickableWithoutHoverEffect
-import pondui.ui.controls.Column
-import pondui.ui.controls.H1
 import pondui.ui.controls.H2
 import pondui.ui.controls.Icon
 import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
-import pondui.utils.modifyIfNotNull
+import pondui.ui.behavior.modifyIfNotNull
+import pondui.ui.behavior.takeInitialFocus
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -60,9 +59,11 @@ fun Portal(
 
     CompositionLocalProvider(LocalPortal provides viewModel) {
         Box(
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .background(Pond.colors.background)
                 .fillMaxSize()
+                .onPreviewKeyEvent(viewModel::keyEvent)
+                .takeInitialFocus()
         ) {
             val barHeight = portalTopBarHeight
 

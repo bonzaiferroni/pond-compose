@@ -21,7 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import pondui.utils.changeFocusWithTab
+import pondui.ui.behavior.changeFocusWithTab
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 
@@ -38,9 +38,8 @@ fun TextField(
     ProvideSkyColors {
         val color = Pond.localColors.content
         Box(
-            modifier = modifier.width(IntrinsicSize.Min)
+            modifier = Modifier.width(IntrinsicSize.Min)
                 .clip(Pond.ruler.unitCorners)
-                .background(Pond.colors.textField)
         ) {
             BasicTextField(
                 value = text,
@@ -50,6 +49,7 @@ fun TextField(
                 minLines = minLines,
                 modifier = modifier.defaultMinSize(150.dp)
                     .fillMaxWidth()
+                    .background(Pond.colors.textField)
                     .padding(Pond.ruler.doublePadding)
                     .onFocusChanged { isFocused = it.isFocused }
                     .onKeyEvent { isFocused && it.key != Key.Tab }
