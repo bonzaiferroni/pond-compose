@@ -60,7 +60,7 @@ class ApiClient(
         endpoint: PostEndpoint<Sent, Returned>,
         value: Sent,
         vararg params: Pair<String, String>?
-    ): Returned = request(HttpMethod.Post, endpoint.path, value, *params)
+    ): Returned? = requestOrNull(HttpMethod.Post, endpoint.path, value, *params)
 
     suspend inline fun <reified Sent> update(
         endpoint: UpdateEndpoint<Sent>,
