@@ -17,8 +17,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import pondui.ui.behavior.changeFocusWithTab
@@ -31,9 +33,24 @@ fun TextField(
     onTextChange: (String) -> Unit,
     placeholder: String? = null,
     hideCharacters: Boolean = false,
+    initialSelectAll: Boolean = false,
     minLines: Int = 1,
     modifier: Modifier = Modifier
 ) {
+    var value by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = text,
+                selection = if (initialSelectAll) TextRange(0, text.length) else TextRange(text.length)
+            )
+        )
+    }
+
+    LaunchedEffect(text) {
+        if (text == value.text) return@LaunchedEffect
+        value = value.copy(text, selection = TextRange(text.length))
+    }
+
     var isFocused by remember { mutableStateOf(false) }
     ProvideSkyColors {
         val color = Pond.localColors.content
@@ -42,8 +59,12 @@ fun TextField(
                 .clip(Pond.ruler.unitCorners)
         ) {
             BasicTextField(
-                value = text,
-                onValueChange = { if (!it.contains('\t')) onTextChange(it) },
+                value = value,
+                onValueChange = {
+                    if (it.text != text && !it.text.contains('\t')) {
+                        onTextChange(it.text)
+                    }
+                },
                 textStyle = TextStyle(color = color),
                 cursorBrush = SolidColor(color),
                 minLines = minLines,
