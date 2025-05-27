@@ -12,8 +12,6 @@ import pondui.utils.Broadcaster
 
 class PortalModel : StateModel<PortalState>(PortalState()) {
 
-    val keypresses = Broadcaster<KeyEvent>()
-
     fun setHoverText(text: String) {
         setState { it.copy(hoverText = text) }
     }
@@ -43,11 +41,6 @@ class PortalModel : StateModel<PortalState>(PortalState()) {
 
     fun hideDialog() {
         setState { it.copy(isDialogVisible = false) }
-    }
-
-    fun keyEvent(event: KeyEvent): Boolean {
-        if (event.type != KeyEventType.KeyDown) return false
-        return keypresses.broadcast(event)
     }
 }
 

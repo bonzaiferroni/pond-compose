@@ -62,8 +62,6 @@ fun Portal(
             modifier = Modifier
                 .background(Pond.colors.background)
                 .fillMaxSize()
-                .onPreviewKeyEvent(viewModel::keyEvent)
-                .takeInitialFocus()
         ) {
             val barHeight = portalTopBarHeight
 
