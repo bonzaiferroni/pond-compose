@@ -18,8 +18,7 @@ fun Icon(
     tint: Color = Pond.localColors.content,
     modifier: Modifier = Modifier
 ) {
-    val colorFilter =
-        remember(tint) { if (tint == Color.Unspecified) null else ColorFilter.tint(tint) }
+    val colorFilter = remember(tint) { if (tint == Color.Unspecified) null else ColorFilter.tint(tint) }
     Box(
         modifier
             .toolingGraphicsLayer()

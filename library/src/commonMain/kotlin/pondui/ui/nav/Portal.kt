@@ -110,7 +110,7 @@ fun Portal(
                     .align(Alignment.TopStart)
             ) {
                 val backRoute = navState.backRoute
-                val backAlpha by animateFloatAsState(if (backRoute != null) 1f else 0f)
+                val backAlpha by animateFloatAsState(if (backRoute != null) 1f else .2f)
                 Box(
                     modifier = Modifier.size(barHeight)
                         .shadow(

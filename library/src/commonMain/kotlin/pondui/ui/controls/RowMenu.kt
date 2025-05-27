@@ -1,13 +1,57 @@
 package pondui.ui.controls
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
+import compose.icons.TablerIcons
+import compose.icons.tablericons.ChevronLeft
+import compose.icons.tablericons.ChevronRight
+import compose.icons.tablericons.Dots
 import kotlinx.collections.immutable.ImmutableList
+import pondui.ui.behavior.FadeIn
+import pondui.ui.theme.Pond
 
 @Composable
 fun RowMenu(
-    label: String,
-
-    options: ImmutableList<String>
+    closedIcon: ImageVector = TablerIcons.Dots,
+    openIcon: ImageVector = TablerIcons.ChevronRight,
+    items: ImmutableList<RowMenuItem>
 ) {
+    var isExpanded by remember { mutableStateOf(false) }
 
+    Row(1) {
+        FadeIn(isExpanded, offsetX = 20) {
+            ControlSet {
+                for (item in items) {
+                    Button(item.icon, onClick = item.action, background = item.background ?: Pond.colors.secondary)
+                }
+            }
+        }
+        Button(
+            background = if (isExpanded) Pond.colors.primary else Pond.colors.secondary,
+            padding = Pond.ruler.unitPadding,
+            onClick = { isExpanded = !isExpanded },
+            shape = Pond.ruler.round
+        ) {
+            FadeIn(!isExpanded, offsetX = -5) {
+                Icon(closedIcon)
+            }
+            FadeIn(isExpanded, offsetX = 5) {
+                Icon(openIcon)
+            }
+        }
+    }
 }
+
+data class RowMenuItem(
+    val icon: ImageVector,
+    val background: Color? = null,
+    val action: () -> Unit
+)
