@@ -21,12 +21,13 @@ import pondui.ui.theme.Pond
 @Composable
 fun RowMenu(
     closedIcon: ImageVector = TablerIcons.Dots,
-    openIcon: ImageVector = TablerIcons.ChevronRight,
-    items: ImmutableList<RowMenuItem>
+    openIcon: ImageVector = TablerIcons.ChevronLeft,
+    items: ImmutableList<RowMenuItem>,
+    modifier: Modifier = Modifier,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
-    Row(1) {
+    Row(1, modifier = modifier) {
         FadeIn(isExpanded, offsetX = 20) {
             ControlSet {
                 for (item in items) {
