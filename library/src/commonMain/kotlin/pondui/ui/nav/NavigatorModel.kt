@@ -11,8 +11,7 @@ class NavigatorModel(
     private val backStack: MutableList<NavRoute> = mutableListOf()
 
     override fun go(route: NavRoute) {
-        backStack.add(stateNow.route)
-        if (backStack.size > 40) backStack.removeAt(0)
+        addCurrentToBackStack()
         navController.navigate(route)
         setState { state ->
             state.copy(
@@ -24,18 +23,25 @@ class NavigatorModel(
 
     override fun goBack() {
         if (backStack.isEmpty()) return
-        val next = backStack.removeLast()
+        val lastRoute = backStack.removeLast()
         navController.navigateUp()
-        setRoute(next)
+        // navController.navigate(lastRoute)
+        setRoute(lastRoute)
     }
 
-    override fun setRoute(route: NavRoute) {
+    override fun setRoute(route: NavRoute, addToBackStack: Boolean) {
+        // if (addToBackStack) addCurrentToBackStack()
         setState { state ->
             state.copy(
                 route = route,
                 backRoute = backStack.lastOrNull()
             )
         }
+    }
+
+    private fun addCurrentToBackStack() {
+        backStack.add(stateNow.route)
+        if (backStack.size > 40) backStack.removeAt(0)
     }
 }
 
