@@ -3,7 +3,10 @@ package pondui.ui.behavior
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
@@ -49,7 +52,9 @@ fun FadeIn(
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
+    durationMillis: Int = 300,
     scale: Boolean = false,
+    easing: Easing = FastOutSlowInEasing,
     modifier: Modifier = Modifier,
     content: @Composable() () -> Unit
 ) {
@@ -58,7 +63,10 @@ fun FadeIn(
         currentVisibility = isVisible
     }
 
-    val animatedVisibility by animateFloatAsState(if (currentVisibility) 1f else 0f)
+    val animatedVisibility by animateFloatAsState(
+        targetValue =  if (currentVisibility) 1f else 0f,
+        animationSpec =  tween(durationMillis, easing = easing)
+    )
     if (animatedVisibility == 0f) return
 
     Box(
