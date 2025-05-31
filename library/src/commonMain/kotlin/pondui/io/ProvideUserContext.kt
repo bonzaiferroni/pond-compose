@@ -6,6 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import pondui.ui.behavior.onEnterPressed
 import pondui.ui.theme.Pond
 import pondui.ui.controls.*
 
@@ -95,6 +96,7 @@ fun LoginControls(
             text = password, onTextChange = setPassword, hideCharacters = true,
             placeholder = "Password",
             modifier = Modifier.fillMaxWidth()
+                .onEnterPressed(login)
         )
     }
     LabelCheckbox(
