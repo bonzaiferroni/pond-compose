@@ -48,7 +48,7 @@ fun TextField(
 
     LaunchedEffect(text) {
         if (text == value.text) return@LaunchedEffect
-        value = value.copy(text, selection = TextRange(text.length))
+        value = value.copy(text)
     }
 
     var isFocused by remember { mutableStateOf(false) }
@@ -61,7 +61,8 @@ fun TextField(
             BasicTextField(
                 value = value,
                 onValueChange = {
-                    if (it.text != text && !it.text.contains('\t')) {
+                    if (!it.text.contains('\t')) {
+                        value = it
                         onTextChange(it.text)
                     }
                 },
