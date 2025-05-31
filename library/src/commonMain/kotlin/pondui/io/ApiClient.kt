@@ -92,6 +92,7 @@ class ApiClient(
         if (response.status == HttpStatusCode.Unauthorized && loginRequest != null) {
             println("ApiClient: Logging in")
             val auth = login()
+            println("auth: $auth")
             if (auth != null) {
                 return sendRequest<Sent>(method, path, body, *params).body()
             }
