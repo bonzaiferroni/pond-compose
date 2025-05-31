@@ -34,7 +34,7 @@ kotlin {
                 outputFileName = "composeApp.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
                     static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
+                        // Serve sources to debug inside the browser
                         add(rootDirPath)
                         add(projectDirPath)
                     }
@@ -76,8 +76,6 @@ kotlin {
             api(libs.kotlinx.serialization.json)
             api("io.github.alexzhirkevich:compottie:2.0.0-rc04")
             api("io.github.alexzhirkevich:compottie-dot:2.0.0-rc04")
-            api("io.github.darkokoa:datetime-wheel-picker:1.0.3")
-
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
