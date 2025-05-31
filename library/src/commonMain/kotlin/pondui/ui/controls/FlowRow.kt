@@ -14,7 +14,7 @@ import pondui.ui.theme.toRowArrangement
 @Composable
 fun FlowRow(
     unitSpacing: Int,
-    maxItemsInEachRow: Int,
+    maxItemsInEachRow: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     content: @Composable FlowRowScope.() -> Unit
 ) {

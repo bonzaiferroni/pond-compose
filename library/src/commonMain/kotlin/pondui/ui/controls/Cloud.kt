@@ -71,7 +71,8 @@ fun TitleCloud (
     portal.setDialogContent(title, isVisible, onDismiss) {
         ProvideBookColors {
             FadeIn(offsetX = 60) {
-                Box(
+                Column(
+                    spacingUnits = 1,
                     modifier = modifier
                         .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
                         .background(Pond.localColors.surface)

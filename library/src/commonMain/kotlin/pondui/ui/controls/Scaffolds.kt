@@ -1,4 +1,4 @@
-package pondui.ui.nav
+package pondui.ui.controls
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.animateContentSize
@@ -15,6 +15,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pondui.ui.behavior.SlideIn
+import pondui.ui.nav.LocalPortal
+import pondui.ui.nav.portalBottomBarHeight
+import pondui.ui.nav.portalTopBarHeight
 import pondui.ui.theme.Pond
 import pondui.ui.theme.Spacing
 import pondui.ui.theme.toColumnArrangement

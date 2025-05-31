@@ -76,6 +76,7 @@ kotlin {
             api(libs.kotlinx.serialization.json)
             api("io.github.alexzhirkevich:compottie:2.0.0-rc04")
             api("io.github.alexzhirkevich:compottie-dot:2.0.0-rc04")
+            api("io.github.darkokoa:datetime-wheel-picker:1.0.3")
 
 
             implementation(libs.ktor.client.core)
