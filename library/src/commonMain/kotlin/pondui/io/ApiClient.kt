@@ -56,6 +56,11 @@ class ApiClient(
         vararg params: Pair<String, String>?
     ): Returned = request(HttpMethod.Get, endpoint.path, null, *params)
 
+    suspend inline fun <reified Returned> getOrNull(
+        endpoint: GetEndpoint<Returned>,
+        vararg params: Pair<String, String>?
+    ): Returned? = requestOrNull(HttpMethod.Get, endpoint.path, null, *params)
+
     suspend inline fun <reified Sent, reified Returned> post(
         endpoint: PostEndpoint<Sent, Returned>,
         value: Sent,
