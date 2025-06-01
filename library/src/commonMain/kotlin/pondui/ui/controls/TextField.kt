@@ -54,40 +54,36 @@ fun TextField(
     var isFocused by remember { mutableStateOf(false) }
     ProvideSkyColors {
         val color = Pond.localColors.content
-        Box(
-            modifier = Modifier.width(IntrinsicSize.Min)
+        BasicTextField(
+            value = value,
+            onValueChange = {
+                if (!it.text.contains('\t')) {
+                    value = it
+                    onTextChange(it.text)
+                }
+            },
+            textStyle = TextStyle(color = color),
+            cursorBrush = SolidColor(color),
+            minLines = minLines,
+            modifier = modifier.width(IntrinsicSize.Min)
                 .clip(Pond.ruler.unitCorners)
-        ) {
-            BasicTextField(
-                value = value,
-                onValueChange = {
-                    if (!it.text.contains('\t')) {
-                        value = it
-                        onTextChange(it.text)
-                    }
-                },
-                textStyle = TextStyle(color = color),
-                cursorBrush = SolidColor(color),
-                minLines = minLines,
-                modifier = modifier.defaultMinSize(150.dp)
-                    .fillMaxWidth()
-                    .background(Pond.colors.textField)
-                    .padding(Pond.ruler.doublePadding)
-                    .onFocusChanged { isFocused = it.isFocused }
-                    .onKeyEvent { isFocused && it.key != Key.Tab }
-                    .changeFocusWithTab(),
-                visualTransformation = when (hideCharacters) {
-                    true -> PasswordVisualTransformation()
-                    else -> VisualTransformation.None
-                },
-            )
+                .defaultMinSize(150.dp)
+                .background(Pond.colors.textField)
+                .padding(Pond.ruler.doublePadding)
+                .onFocusChanged { isFocused = it.isFocused }
+                .onKeyEvent { isFocused && it.key != Key.Tab }
+                .changeFocusWithTab(),
+            visualTransformation = when (hideCharacters) {
+                true -> PasswordVisualTransformation()
+                else -> VisualTransformation.None
+            },
+        ) { innerTextField ->
+            innerTextField()
             if (placeholder != null && text.isEmpty() && !isFocused) {
                 Text(
                     text = placeholder.uppercase(),
                     color = Pond.localColors.contentDim,
                     style = TextStyle(fontSize = Pond.typo.label.fontSize),
-                    modifier = Modifier.wrapContentSize()
-                        .padding(Pond.ruler.doublePadding)
                 )
             }
         }
