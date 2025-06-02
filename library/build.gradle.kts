@@ -82,7 +82,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.content.negotiation)
 
-            implementation(project(":kabinet"))
+            api(project(":kabinet"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

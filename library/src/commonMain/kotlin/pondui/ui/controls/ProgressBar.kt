@@ -39,7 +39,8 @@ fun ProgressBar(
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null
 ) {
-    val animatedProgress by animateFloatAsState(progress, animationSpec)
+    val consumedProgress = if (progress.isNaN()) 0f else progress
+    val animatedProgress by animateFloatAsState(consumedProgress, animationSpec)
     val animatedColor by animateColorAsState(color)
     val voidColor = Pond.colors.void
 
