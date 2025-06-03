@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.modifyIfTrue
@@ -47,8 +48,8 @@ fun Tabs(
             modifier = Modifier.clip(headerShape)
                 .background(Pond.colors.void)
         ) {
-            for (tab in tabs) {
-                if (!tab.isVisible) continue
+            tabs.forEachIndexed { index, tab ->
+                if (!tab.isVisible) return@forEachIndexed
                 Box(
                     modifier = Modifier.modifyIfTrue(currentTab.name != tab.name) { Modifier.clickable { changeTab(tab.name) } }
                         .weight(1f)
@@ -65,7 +66,8 @@ fun Tabs(
                     Text(
                         text = tab.name,
                         modifier = Modifier.align(Alignment.Center)
-                            .padding(Pond.ruler.doublePadding),
+                            .padding(Pond.ruler.doublePadding)
+                            .magic(offsetX = -(index * 10 + 10), durationMillis = index * 300 + 300),
                         maxLines = 1
                     )
                 }
@@ -88,9 +90,38 @@ fun Tabs(
     }
 }
 
+@Composable
+fun Tabs(
+    selectedTab: String = "",
+    onChangeTab: ((String) -> Unit)? = null,
+    headerShape: Shape = Pond.ruler.shroomed,
+    modifier: Modifier = Modifier,
+    tabContent: TabContentBuilder.() -> Unit
+) {
+    val tabs = remember {
+        val builder = TabContentBuilder()
+        tabContent(builder)
+        builder.tabs.toImmutableList()
+    }
+    Tabs(
+        selectedTab = selectedTab,
+        tabs = tabs,
+        onChangeTab = onChangeTab,
+        headerShape = headerShape,
+        modifier = modifier,
+    )
+}
+
+class TabContentBuilder {
+    val tabs = mutableListOf<Tab>()
+
+    fun tab(label: String, content: @Composable () -> Unit,) {
+        tabs.add(Tab(label, true, content))
+    }
+}
+
 data class Tab(
     val name: String,
-    val scrollable: Boolean = true,
     val isVisible: Boolean = true,
     val content: @Composable () -> Unit,
 )
