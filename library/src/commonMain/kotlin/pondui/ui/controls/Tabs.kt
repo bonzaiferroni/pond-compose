@@ -27,6 +27,7 @@ fun Tabs(
     headerShape: Shape = Pond.ruler.shroomed,
     modifier: Modifier = Modifier,
 ) {
+    if (tabs.isEmpty()) return
     var currentTab by remember { mutableStateOf(tabs.first()) }
     var indexDelta by remember { mutableStateOf(0) }
 
@@ -84,7 +85,6 @@ fun Tabs(
                     Column(
                         verticalArrangement = Pond.ruler.columnUnit,
                         modifier = Modifier.fillMaxWidth()
-                            .clip(Pond.ruler.midCorners)
                     ) {
                         tab.content()
                     }
