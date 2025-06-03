@@ -8,43 +8,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntSize
+import kotlinx.collections.immutable.ImmutableList
+import pondui.ui.behavior.FadeIn
+import pondui.ui.behavior.fadeIn
 import pondui.ui.behavior.modifyIfNotNull
 import pondui.ui.behavior.modifyIfTrue
-import pondui.ui.nav.LocalNav
-import pondui.ui.nav.NavRoute
 import pondui.ui.theme.Pond
 
 @Composable
 fun Tabs(
-    initialTab: String? = null,
-    modifyRoute: ((String) -> NavRoute)? = null,
+    selectedTab: String = "",
+    tabs: ImmutableList<Tab>,
+    onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape = Pond.ruler.shroomed,
     modifier: Modifier = Modifier,
-    viewModel: TabsModel = viewModel { TabsModel(initialTab) },
-    content: @Composable TabScope.() -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
-    val nav = LocalNav.current
+    var currentTab by remember { mutableStateOf(tabs.first()) }
+    var indexDelta by remember { mutableStateOf(0) }
 
-    fun onTabChange(tab: String) {
-        modifyRoute?.let {
-            val navRoute = it(tab)
-            nav.setRoute(navRoute)
-        }
-        viewModel.setTab(tab)
+    fun changeTab(tabName: String) {
+        val startIndex = tabs.indexOf(currentTab)
+        val tab = tabs.firstOrNull() { it.name == tabName } ?: tabs.first()
+        if (tab == currentTab) return
+        val endIndex = tabs.indexOf(tab)
+        indexDelta = endIndex - startIndex
+        currentTab = tab
+        onChangeTab?.invoke(tab.name)
     }
 
-    val scope = TabScope()
-    scope.content()
-    val tabs: List<TabItem> = scope.tabs
-    if (tabs.isEmpty()) return
-
-    val currentTab = tabs.firstOrNull() { it.name == state.tab }
-
-    if (currentTab == null) {
-        onTabChange(tabs.first().name)
-        return
+    LaunchedEffect(selectedTab) {
+        changeTab(selectedTab)
     }
 
     Column(
@@ -57,63 +54,49 @@ fun Tabs(
         ) {
             for (tab in tabs) {
                 if (!tab.isVisible) continue
-                val background = when {
-                    currentTab.name == tab.name -> Pond.colors.secondary
-                    else -> Color.Transparent
-                }
                 Box(
-                    modifier = Modifier.clip(headerShape)
-                        .modifyIfTrue(currentTab.name != tab.name) { Modifier.clickable { onTabChange(tab.name) } }
-                        .background(background)
-                        .padding(Pond.ruler.doublePadding)
+                    modifier = Modifier.modifyIfTrue(currentTab.name != tab.name) { Modifier.clickable { changeTab(tab.name) } }
                         .weight(1f)
+                        .height(IntrinsicSize.Max)
                 ) {
+                    val offsetX = if (currentTab.name == tab.name) -indexDelta * 100 else indexDelta * 100
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                            .fadeIn(currentTab.name == tab.name, offsetX = offsetX)
+                            .clip(headerShape)
+                            .background(Pond.colors.secondary)
+                    )
+
                     Text(
                         text = tab.name,
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.align(Alignment.Center)
+                            .padding(Pond.ruler.doublePadding),
                         maxLines = 1
                     )
                 }
             }
         }
-        val scrollState = when {
-            currentTab.scrollable -> rememberScrollState()
-            else -> null
-        }
-        Column(
-            verticalArrangement = Pond.ruler.columnUnit,
-            modifier = Modifier.fillMaxWidth()
-                .clip(Pond.ruler.midCorners)
-                .modifyIfNotNull(scrollState) { verticalScroll(it) }
-        ) {
-            currentTab.content()
+        Box {
+            for (tab in tabs) {
+                if (!tab.isVisible) continue
+                val offsetX = if (currentTab.name == tab.name) indexDelta * 100 else -indexDelta * 100
+                FadeIn(tab.name == currentTab.name, offsetX = offsetX) {
+                    Column(
+                        verticalArrangement = Pond.ruler.columnUnit,
+                        modifier = Modifier.fillMaxWidth()
+                            .clip(Pond.ruler.midCorners)
+                    ) {
+                        tab.content()
+                    }
+                }
+            }
         }
     }
 }
 
-@Composable
-fun TabScope.Tab(
-    name: String,
-    scrollable: Boolean = true,
-    isVisible: Boolean = true,
-    content: @Composable () -> Unit,
-) {
-    this.tabs.add(TabItem(
-        name = name,
-        scrollable = scrollable,
-        isVisible = isVisible,
-        content = content
-    ))
-}
-
-internal data class TabItem(
+data class Tab(
     val name: String,
     val scrollable: Boolean = true,
     val isVisible: Boolean = true,
     val content: @Composable () -> Unit,
 )
-
-@Stable
-class TabScope internal constructor() {
-    internal val tabs = mutableListOf<TabItem>()
-}

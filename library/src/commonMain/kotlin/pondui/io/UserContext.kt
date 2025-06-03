@@ -90,7 +90,7 @@ class UserContext(
 data class UserContextState(
     val user: User? = null,
     val isAnon: Boolean = true,
-    val dialogVisible: Boolean = true,
+    val dialogVisible: Boolean = false,
     val usernameOrEmail: String = "",
     val password: String = "",
     val saveLogin: Boolean = true,
