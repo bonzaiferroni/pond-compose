@@ -40,3 +40,12 @@ fun <T> matchStringIdRoute(path: String, routeTitle: String, toRoute: (String) -
         if (id.isEmpty()) return@let null
         toRoute(id)
     }
+
+fun <T> matchStringOrNullIdRoute(path: String, routeTitle: String, toRoute: (String?) -> T): T? =
+    path.takeIf { it.startsWith(routeTitle.lowercase()) }?.let {
+        val split = path.split('/')
+        if (split.size != 2) return@let toRoute(null)
+        val id = split[1]
+        if (id.isEmpty()) return@let toRoute(null)
+        toRoute(id)
+    }
