@@ -1,6 +1,5 @@
 package pondui.ui.controls
 
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,13 +8,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ChevronLeft
-import compose.icons.tablericons.ChevronRight
 import compose.icons.tablericons.Dots
 import kotlinx.collections.immutable.ImmutableList
-import pondui.ui.behavior.FadeIn
+import pondui.ui.behavior.Magic
 import pondui.ui.theme.Pond
 
 @Composable
@@ -28,7 +25,7 @@ fun RowMenu(
     var isExpanded by remember { mutableStateOf(false) }
 
     Row(1, modifier = modifier) {
-        FadeIn(isExpanded, offsetX = 20) {
+        Magic(isExpanded, offsetX = 20) {
             ControlSet {
                 for (item in items) {
                     Button(item.icon, onClick = item.action, background = item.background ?: Pond.colors.secondary)
@@ -41,10 +38,10 @@ fun RowMenu(
             onClick = { isExpanded = !isExpanded },
             shape = Pond.ruler.round
         ) {
-            FadeIn(!isExpanded, offsetX = -5) {
+            Magic(!isExpanded, offsetX = -5) {
                 Icon(closedIcon)
             }
-            FadeIn(isExpanded, offsetX = 5) {
+            Magic(isExpanded, offsetX = 5) {
                 Icon(openIcon)
             }
         }

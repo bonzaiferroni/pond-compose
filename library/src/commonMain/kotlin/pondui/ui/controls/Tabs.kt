@@ -6,16 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.IntSize
 import kotlinx.collections.immutable.ImmutableList
-import pondui.ui.behavior.FadeIn
-import pondui.ui.behavior.fadeIn
-import pondui.ui.behavior.modifyIfNotNull
+import pondui.ui.behavior.Magic
+import pondui.ui.behavior.magic
 import pondui.ui.behavior.modifyIfTrue
 import pondui.ui.theme.Pond
 
@@ -63,7 +57,7 @@ fun Tabs(
                     val offsetX = if (currentTab.name == tab.name) -indexDelta * 100 else indexDelta * 100
                     Box(
                         modifier = Modifier.fillMaxSize()
-                            .fadeIn(currentTab.name == tab.name, offsetX = offsetX)
+                            .magic(currentTab.name == tab.name, offsetX = offsetX)
                             .clip(headerShape)
                             .background(Pond.colors.secondary)
                     )
@@ -81,7 +75,7 @@ fun Tabs(
             for (tab in tabs) {
                 if (!tab.isVisible) continue
                 val offsetX = if (currentTab.name == tab.name) indexDelta * 100 else -indexDelta * 100
-                FadeIn(tab.name == currentTab.name, offsetX = offsetX) {
+                Magic(tab.name == currentTab.name, offsetX = offsetX) {
                     Column(
                         verticalArrangement = Pond.ruler.columnUnit,
                         modifier = Modifier.fillMaxWidth()

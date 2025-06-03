@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 
 @Composable
-fun FadeIn(
+fun Magic(
     isVisible: Boolean = true,
     offsetX: Int = 0,
     offsetY: Int = 0,
@@ -59,7 +59,7 @@ fun FadeIn(
 }
 
 @Composable
-fun Modifier.fadeIn(
+fun Modifier.magic(
     isVisible: Boolean = true,
     offsetX: Int = 0,
     offsetY: Int = 0,

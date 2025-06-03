@@ -2,7 +2,6 @@ package pondui.ui.nav
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
@@ -10,12 +9,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,7 +23,7 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
-import pondui.ui.behavior.FadeIn
+import pondui.ui.behavior.Magic
 import pondui.ui.behavior.SlideIn
 import pondui.ui.behavior.clickableWithoutHoverEffect
 import pondui.ui.controls.H2
@@ -37,7 +33,6 @@ import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.ui.behavior.modifyIfNotNull
-import pondui.ui.behavior.takeInitialFocus
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -86,7 +81,7 @@ fun Portal(
             }
 
             // dialog
-            FadeIn(state.isDialogVisible) {
+            Magic(state.isDialogVisible) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -95,7 +90,7 @@ fun Portal(
                         .padding(Pond.ruler.doublePadding)
                         .clickableWithoutHoverEffect(onClick = state.dismissDialog)
                 ) {
-                    FadeIn(offsetX = -60) {
+                    Magic(offsetX = -60) {
                         H2(state.dialogTitle)
                     }
                     Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))

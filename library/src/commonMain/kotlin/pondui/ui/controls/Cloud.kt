@@ -4,13 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
-import pondui.ui.behavior.FadeIn
+import pondui.ui.behavior.Magic
 import pondui.ui.behavior.HotKey
 import pondui.ui.nav.LocalPortal
 import pondui.ui.theme.Pond
@@ -27,7 +25,7 @@ fun Cloud(
         isVisible = isVisible,
         onDismiss = onDismiss,
     ) {
-        FadeIn {
+        Magic {
             Box(
                 modifier = modifier
                     .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
@@ -70,7 +68,7 @@ fun TitleCloud (
 
     portal.setDialogContent(title, isVisible, onDismiss) {
         ProvideBookColors {
-            FadeIn(offsetX = 60) {
+            Magic(offsetX = 60) {
                 Column(
                     spacingUnits = 1,
                     modifier = modifier
