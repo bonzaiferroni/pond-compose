@@ -20,6 +20,6 @@ class KeyCaster {
 
 // .onPreviewKeyEvent(viewModel::keyEvent)
 
-val LocalKeyCaster = staticCompositionLocalOf<KeyCaster> {
-    error("No keycaster provided")
+val LocalKeyCaster = staticCompositionLocalOf<KeyCaster?> {
+    null
 }

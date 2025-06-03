@@ -28,7 +28,6 @@ import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.ui.behavior.modifyIfTrue
 
-
 @Composable
 fun RowScope.PortalBarControls(
     portalItems: ImmutableList<PortalItem>
@@ -84,7 +83,6 @@ fun PortalItemControl(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
-            .aspectRatio(1f)
             .clip(Pond.ruler.shroomed)
             .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
             .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.secondary.lighten(.4f).copy(.2f))}

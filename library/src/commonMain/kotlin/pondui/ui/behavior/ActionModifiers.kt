@@ -9,16 +9,16 @@ import pondui.ui.nav.LocalKeyCaster
 
 @Composable
 fun HotKey(key: Key, onPress: () -> Unit) {
-    val portal = LocalKeyCaster.current
+    val keyCaster = LocalKeyCaster.current ?: return
     DisposableEffect(Unit) {
         val func: (KeyEvent) -> Boolean = { event ->
             val isPressed = event.key == key
             if (isPressed) onPress()
             isPressed
         }
-        portal.keypresses.register(func)
+        keyCaster.keypresses.register(func)
         onDispose {
-            portal.keypresses.unregister(func)
+            keyCaster.keypresses.unregister(func)
         }
     }
 }
