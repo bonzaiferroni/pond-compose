@@ -178,7 +178,7 @@ fun Portal(
                         .pointerInput(Unit) { }
                         .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.void))
                 ) {
-                    PortalBarControls(portalItems = config.doors)
+                    BottomBar(portalItems = config.doors)
                 }
             }
         }

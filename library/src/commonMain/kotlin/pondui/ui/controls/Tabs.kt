@@ -60,7 +60,7 @@ fun Tabs(
                         modifier = Modifier.fillMaxSize()
                             .magic(currentTab.name == tab.name, offsetX = offsetX)
                             .clip(headerShape)
-                            .background(Pond.colors.secondary)
+                            .background(Pond.colors.selected)
                     )
 
                     Text(

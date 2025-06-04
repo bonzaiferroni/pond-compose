@@ -66,7 +66,7 @@ fun Modifier.magic(
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
-    durationMillis: Int = 300,
+    durationMillis: Int = 500,
     scale: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
 ): Modifier {

@@ -15,8 +15,8 @@ fun ControlSet(
     modifier: Modifier = Modifier,
     content: @Composable FlowRowScope.() -> Unit,
 ) = FlowRow (
-    horizontalArrangement = Pond.ruler.rowUnit,
-    verticalArrangement = Pond.ruler.columnUnit,
+    horizontalArrangement = Arrangement.spacedBy(Pond.ruler.unitSpacing * .5f),
+    verticalArrangement = Arrangement.spacedBy(Pond.ruler.unitSpacing * .5f),
     itemVerticalAlignment = Alignment.CenterVertically,
     maxItemsInEachRow = maxItemsInEachRow,
     modifier = modifier.clip(Pond.ruler.midCorners)

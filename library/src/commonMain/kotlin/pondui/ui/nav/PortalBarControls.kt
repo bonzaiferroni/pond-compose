@@ -29,7 +29,7 @@ import pondui.utils.lighten
 import pondui.ui.behavior.modifyIfTrue
 
 @Composable
-fun RowScope.PortalBarControls(
+fun RowScope.BottomBar(
     portalItems: ImmutableList<PortalItem>
 ) {
     val nav = LocalNav.current
@@ -45,7 +45,7 @@ fun RowScope.PortalBarControls(
             val portalDoor = item as? PortalDoor
             if (portalDoor?.requireLogin == true && userContextState?.isLoggedIn != true) continue
             val route = portalDoor?.route
-            PortalItemControl(
+            BottomBarItem(
                 icon = item.icon,
                 label = item.label,
                 isCurrentRoute = route == currentRoute,
@@ -61,7 +61,7 @@ fun RowScope.PortalBarControls(
 
     if (userContextState != null) {
         val label = userContextState.user?.username ?: "Log in"
-        PortalItemControl(
+        BottomBarItem(
             icon = TablerIcons.User,
             label = label,
             isCurrentRoute = false,
@@ -73,7 +73,7 @@ fun RowScope.PortalBarControls(
 }
 
 @Composable
-fun PortalItemControl(
+fun BottomBarItem(
     icon: ImageVector,
     label: String,
     isCurrentRoute: Boolean,
@@ -83,6 +83,7 @@ fun PortalItemControl(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
+            .aspectRatio(.9f)
             .clip(Pond.ruler.shroomed)
             .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
             .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.secondary.lighten(.4f).copy(.2f))}

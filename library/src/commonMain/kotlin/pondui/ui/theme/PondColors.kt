@@ -6,6 +6,7 @@ interface PondColors {
     val primary: Color
     val secondary: Color
     val tertiary: Color
+    val selected: Color
     val disabled: Color
     val danger: Color
     val contentSky: Color
@@ -41,6 +42,7 @@ object DefaultColors : PondColors{
     override val secondary = Color(0xFF009489)
     override val tertiary = Color(0xff5e5045)
     override val disabled = Color(0xff6e7e6f)
+    override val selected = Color(0xff7e5aa3)
     override val danger = Color(0xff884444)
     override val contentSky = Color(0xFFf5f6f6)
     override val surfaceSky = Color.Transparent
