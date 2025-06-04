@@ -36,7 +36,7 @@ fun RowMenu(
             background = if (isExpanded) Pond.colors.primary else Pond.colors.secondary,
             padding = Pond.ruler.unitPadding,
             onClick = { isExpanded = !isExpanded },
-            shape = Pond.ruler.round
+            shape = Pond.ruler.pill
         ) {
             Magic(!isExpanded, offsetX = -5) {
                 Icon(closedIcon)

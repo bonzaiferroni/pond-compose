@@ -1,6 +1,5 @@
 package pondui.ui.controls
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +18,7 @@ fun ControlSet(
     verticalArrangement = Arrangement.spacedBy(Pond.ruler.unitSpacing * .5f),
     itemVerticalAlignment = Alignment.CenterVertically,
     maxItemsInEachRow = maxItemsInEachRow,
-    modifier = modifier.clip(Pond.ruler.midCorners)
+    modifier = modifier.clip(Pond.ruler.defaultCorners)
 ) {
     content()
 }

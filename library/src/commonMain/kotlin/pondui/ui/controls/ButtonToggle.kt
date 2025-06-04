@@ -29,7 +29,7 @@ fun ButtonToggle(
 ) {
     val outlineColor = Pond.localColors.content.copy(alpha = .5f)
     val scale by animateFloat(if (value) 1f else 0f)
-    val shape = Pond.ruler.round
+    val shape = Pond.ruler.pill
     val density = LocalDensity.current
     Box(
         modifier = Modifier

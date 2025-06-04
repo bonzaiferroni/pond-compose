@@ -11,11 +11,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.drawscope.draw
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -32,7 +30,7 @@ fun Button(
     onClick: () -> Unit,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
-    shape: Shape = Pond.ruler.round,
+    shape: Shape = Pond.ruler.pill,
     padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
@@ -77,7 +75,7 @@ fun Button(
     text: String,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
-    shape: Shape = Pond.ruler.round,
+    shape: Shape = Pond.ruler.pill,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -100,7 +98,7 @@ fun Button(
     imageVector: ImageVector,
     isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
-    shape: Shape = Pond.ruler.round,
+    shape: Shape = Pond.ruler.pill,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {

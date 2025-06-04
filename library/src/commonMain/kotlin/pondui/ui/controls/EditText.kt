@@ -40,13 +40,13 @@ import pondui.ui.theme.Pond
 @Composable
 fun EditText(
     text: String,
-    onAcceptEdit: (String) -> Unit,
+    style: TextStyle = Pond.typo.body,
     initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
-    style: TextStyle = Pond.typo.body,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAcceptEdit: (String) -> Unit,
 ) {
     var isEditing by remember { mutableStateOf(false) }
     var fieldValue by remember {
@@ -78,7 +78,7 @@ fun EditText(
     val cornerRadius = Pond.ruler.unitCorner
 
     Box(
-        modifier = Modifier.clickable(enabled = !isEditing) { isEditing = true }
+        modifier = modifier.clickable(enabled = !isEditing) { isEditing = true }
             .drawBehind {
                 drawRoundRect(
                     color = backgroundColor,
@@ -93,7 +93,7 @@ fun EditText(
             BasicTextField(
                 value = fieldValue,
                 onValueChange = { fieldValue = it },
-                modifier = modifier.width(IntrinsicSize.Min)
+                modifier = Modifier.width(IntrinsicSize.Min)
                     .focusRequester(focusRequester)
                     .filterKeyPress(Key.Tab)
                     .onEnterPressed { acceptEdit(fieldValue.text) },
@@ -101,7 +101,7 @@ fun EditText(
                 maxLines = maxLines
             )
         } else {
-            Text(fieldValue.text, color, style, maxLines, overflow, modifier)
+            Text(fieldValue.text, color, style, maxLines, overflow, Modifier)
         }
 
         val offset = with(LocalDensity.current) { 32.dp.toPx().toInt() }

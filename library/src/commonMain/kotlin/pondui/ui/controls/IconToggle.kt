@@ -30,7 +30,7 @@ fun IconToggle(
     Icon(
         imageVector = imageVector,
         modifier = modifier
-            .shadow(15.dp, shape = Pond.ruler.round, ambientColor = shadowColor, spotColor = shadowColor)
+            .shadow(15.dp, shape = Pond.ruler.pill, ambientColor = shadowColor, spotColor = shadowColor)
             .background(Pond.localColors.content.copy(alpha = .2f))
             .modifyIfTrue(enabled) { clickable { onToggle(!value) } }
             .padding(Pond.ruler.doublePadding),

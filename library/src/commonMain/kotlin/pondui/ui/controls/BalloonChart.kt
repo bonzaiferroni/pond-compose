@@ -136,7 +136,7 @@ fun BalloonChart(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxSize()
-                            .clip(ruler.round)
+                            .clip(CircleShape)
                             .alpha(.5f)
                     )
                 }

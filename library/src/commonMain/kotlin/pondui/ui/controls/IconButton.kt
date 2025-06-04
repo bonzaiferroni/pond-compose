@@ -21,7 +21,7 @@ fun IconButton(
     Icon(
         imageVector = imageVector,
         modifier = modifier
-            .clip(Pond.ruler.midCorners)
+            .clip(Pond.ruler.defaultCorners)
             .modifyIfTrue(isEnabled) { this.actionable(hoverText, onClick = onClick) }
             .padding(Pond.ruler.unitPadding),
         tint = tint
