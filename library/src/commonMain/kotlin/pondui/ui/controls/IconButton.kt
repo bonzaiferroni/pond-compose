@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import pondui.ui.behavior.modifyIfTrue
+import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 
 @Composable
@@ -22,7 +22,7 @@ fun IconButton(
         imageVector = imageVector,
         modifier = modifier
             .clip(Pond.ruler.defaultCorners)
-            .modifyIfTrue(isEnabled) { this.actionable(hoverText, onClick = onClick) }
+            .ifTrue(isEnabled) { this.actionable(hoverText, onClick = onClick) }
             .padding(Pond.ruler.unitPadding),
         tint = tint
     )

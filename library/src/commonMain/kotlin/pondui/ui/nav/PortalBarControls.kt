@@ -26,7 +26,7 @@ import pondui.ui.controls.Label
 import pondui.ui.controls.actionable
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
-import pondui.ui.behavior.modifyIfTrue
+import pondui.ui.behavior.ifTrue
 
 @Composable
 fun RowScope.BottomBar(
@@ -85,8 +85,8 @@ fun BottomBarItem(
         modifier = Modifier.fillMaxHeight()
             .aspectRatio(.9f)
             .clip(Pond.ruler.shroomed)
-            .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
-            .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.selected.lighten(.2f).copy(.3f))}
+            .ifTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
+            .ifTrue(isCurrentRoute) { this.background(Pond.colors.selected.lighten(.2f).copy(.3f))}
             .padding(Pond.ruler.unitPadding)
     ) {
         val color = when (isCurrentRoute) {

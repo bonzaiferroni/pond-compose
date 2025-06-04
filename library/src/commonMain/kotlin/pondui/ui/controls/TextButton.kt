@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import pondui.ui.behavior.modifyIfTrue
+import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 
 @Composable
@@ -19,7 +19,7 @@ fun TextButton(
 ) {
     Text(
         text = text,
-        modifier = modifier.modifyIfTrue(isEnabled) { clickable(onClick = onClick) }
+        modifier = modifier.ifTrue(isEnabled) { clickable(onClick = onClick) }
             .graphicsLayer { alpha = if (isEnabled) 1f else .5f }
             .padding(padding)
     )

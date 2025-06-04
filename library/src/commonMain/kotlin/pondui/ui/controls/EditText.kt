@@ -18,7 +18,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalDensity
@@ -34,6 +33,7 @@ import compose.icons.tablericons.Check
 import compose.icons.tablericons.X
 import pondui.ui.behavior.filterKeyPress
 import pondui.ui.behavior.magic
+import pondui.ui.behavior.ifTrue
 import pondui.ui.behavior.onEnterPressed
 import pondui.ui.theme.Pond
 
@@ -41,6 +41,7 @@ import pondui.ui.theme.Pond
 fun EditText(
     text: String,
     style: TextStyle = Pond.typo.body,
+    isEditable: Boolean = true,
     initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
@@ -58,12 +59,6 @@ fun EditText(
         )
     }
 
-    LaunchedEffect(text) {
-        if (text == fieldValue.text) return@LaunchedEffect
-        fieldValue = fieldValue.copy(text)
-        isEditing = false
-    }
-
     fun acceptEdit(value: String) {
         onAcceptEdit(value)
         isEditing = false
@@ -74,11 +69,21 @@ fun EditText(
         isEditing = false
     }
 
+    LaunchedEffect(isEditable) {
+        if (!isEditable) cancelEdit(text)
+    }
+
+    LaunchedEffect(text) {
+        if (text == fieldValue.text) return@LaunchedEffect
+        fieldValue = fieldValue.copy(text)
+        isEditing = false
+    }
+
     val backgroundColor by animateColorAsState(if (isEditing) Pond.colors.void.copy(.2f) else Color.Transparent)
     val cornerRadius = Pond.ruler.unitCorner
 
     Box(
-        modifier = modifier.clickable(enabled = !isEditing) { isEditing = true }
+        modifier = modifier.ifTrue(!isEditing && isEditable) { clickable { isEditing = true } }
             .drawBehind {
                 drawRoundRect(
                     color = backgroundColor,

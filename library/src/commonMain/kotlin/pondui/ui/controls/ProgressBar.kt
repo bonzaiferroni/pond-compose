@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
-import pondui.ui.behavior.modifyIfNotNull
+import pondui.ui.behavior.ifNotNull
 
 @Composable
 fun ProgressBar(
@@ -99,7 +99,7 @@ fun ProgressBarButton(
         progress = ratio,
         color = color,
         modifier = Modifier.clip(Pond.ruler.pill)
-            .modifyIfNotNull(onClick) { this.actionable(labelText, isEnabled, onClick = it) }
+            .ifNotNull(onClick) { this.actionable(labelText, isEnabled, onClick = it) }
     ) {
         content?.invoke()
     }

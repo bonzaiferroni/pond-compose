@@ -11,7 +11,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
-import pondui.ui.behavior.modifyIfTrue
+import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 
 @Composable
@@ -51,7 +51,7 @@ fun Tabs(
             tabs.forEachIndexed { index, tab ->
                 if (!tab.isVisible) return@forEachIndexed
                 Box(
-                    modifier = Modifier.modifyIfTrue(currentTab.name != tab.name) { Modifier.clickable { changeTab(tab.name) } }
+                    modifier = Modifier.ifTrue(currentTab.name != tab.name) { Modifier.clickable { changeTab(tab.name) } }
                         .weight(1f)
                         .height(IntrinsicSize.Max)
                 ) {

@@ -20,7 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.NavRoute
-import pondui.ui.behavior.modifyIfTrue
+import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.lighten
@@ -28,8 +28,8 @@ import pondui.utils.lighten
 @Composable
 fun Button(
     onClick: () -> Unit,
-    isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
@@ -46,7 +46,7 @@ fun Button(
         Box(
             contentAlignment = Alignment.Center,
             modifier = modifier
-                .modifyIfTrue(isEnabled) {
+                .ifTrue(isEnabled) {
                     clickable(
                         interactionSource = interactionSource,
                         indication = null,
@@ -73,8 +73,8 @@ fun Button(
 @Composable
 fun Button(
     text: String,
-    isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
@@ -96,8 +96,8 @@ fun Button(
 @Composable
 fun Button(
     imageVector: ImageVector,
-    isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
@@ -120,8 +120,8 @@ fun Button(
 @Composable
 fun NavButton(
     text: String,
-    isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    isEnabled: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: () -> NavRoute
 ) {
@@ -138,8 +138,8 @@ fun NavButton(
 @Composable
 fun FlowRowScope.ControlSetButton(
     text: String,
-    isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    isEnabled: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) = Button(
@@ -155,8 +155,8 @@ fun FlowRowScope.ControlSetButton(
 @Composable
 fun FlowRowScope.ControlSetButton(
     imageVector: ImageVector,
-    isEnabled: Boolean = true,
     background: Color = Pond.colors.primary,
+    isEnabled: Boolean = true,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) = Button(

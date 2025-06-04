@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.modifyIfTrue
+import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 
 @Composable
@@ -32,7 +32,7 @@ fun IconToggle(
         modifier = modifier
             .shadow(15.dp, shape = Pond.ruler.pill, ambientColor = shadowColor, spotColor = shadowColor)
             .background(Pond.localColors.content.copy(alpha = .2f))
-            .modifyIfTrue(enabled) { clickable { onToggle(!value) } }
+            .ifTrue(enabled) { clickable { onToggle(!value) } }
             .padding(Pond.ruler.doublePadding),
         tint = when {
             !enabled -> tint.copy(.5f)

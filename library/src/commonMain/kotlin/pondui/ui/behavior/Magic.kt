@@ -24,6 +24,7 @@ fun Magic(
     rotationX: Int = 0,
     durationMillis: Int = 300,
     scale: Boolean = false,
+    fade: Boolean = true,
     easing: Easing = FastOutSlowInEasing,
     modifier: Modifier = Modifier,
     content: @Composable() () -> Unit
@@ -47,7 +48,9 @@ fun Magic(
                 this.rotationX = rotationX * (1 - animatedVisibility)
                 this.rotationY = rotationY * (1 - animatedVisibility)
                 this.rotationZ = rotationZ * (1 - animatedVisibility)
-                alpha = animatedVisibility
+                if (fade) {
+                    alpha = animatedVisibility
+                }
                 if (scale) {
                     scaleX = animatedVisibility
                     scaleY = animatedVisibility

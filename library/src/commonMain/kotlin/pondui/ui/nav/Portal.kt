@@ -32,7 +32,7 @@ import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
-import pondui.ui.behavior.modifyIfNotNull
+import pondui.ui.behavior.ifNotNull
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -116,7 +116,7 @@ fun Portal(
                             state = hazeState,
                             style = HazeMaterials.ultraThin(Pond.colors.background.lighten(.1f))
                         )
-                        .modifyIfNotNull(backRoute) { actionable(it.title) { nav.goBack() } }
+                        .ifNotNull(backRoute) { actionable(it.title) { nav.goBack() } }
                 ) {
                     Icon(
                         imageVector = TablerIcons.ArrowBack,
