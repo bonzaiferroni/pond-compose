@@ -13,7 +13,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalFocusManager
 
 @Composable
-inline fun <V> Modifier.ifNotNull(
+fun <V> Modifier.ifNotNull(
     value: V?,
     block: @Composable Modifier.(V) -> Modifier
 ): Modifier {
@@ -22,7 +22,7 @@ inline fun <V> Modifier.ifNotNull(
 }
 
 @Composable
-inline fun Modifier.ifTrue(
+fun Modifier.ifTrue(
     value: Boolean,
     block: @Composable Modifier.() -> Modifier
 ): Modifier {

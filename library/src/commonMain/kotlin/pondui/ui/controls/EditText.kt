@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
@@ -28,9 +29,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.zIndex
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
 import compose.icons.tablericons.X
+import pondui.ui.behavior.Magic
 import pondui.ui.behavior.filterKeyPress
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
@@ -109,28 +113,40 @@ fun EditText(
             Text(fieldValue.text, color, style, maxLines, overflow, Modifier)
         }
 
-        val offset = with(LocalDensity.current) { 32.dp.toPx().toInt() }
-        Popup(
-            alignment = Alignment.CenterStart,
-            offset = IntOffset(-offset, 0)
+        val offset = 32.dp
+        val offsetPx = with(LocalDensity.current) { offset.toPx().toInt() }
+
+        Magic(
+            isVisible = isEditing,
+            offsetX = offsetPx,
+            modifier = Modifier.align(Alignment.CenterStart)
+                .offset(-offset)
         ) {
-            Button(
-                TablerIcons.X,
-                background = Pond.colors.tertiary,
-                modifier = Modifier
-                    .magic(isEditing, offsetX = offset)
-            ) { cancelEdit(text) }
+            Popup(
+                alignment = Alignment.CenterStart
+            ) {
+                Button(
+                    TablerIcons.X,
+                    isEnabled = isEditing,
+                    background = Pond.colors.tertiary,
+                ) { cancelEdit(text) }
+            }
         }
 
-        Popup(
-            alignment = Alignment.CenterEnd,
-            offset = IntOffset(offset, 0)
+        Magic(
+            isVisible = isEditing,
+            offsetX = -offsetPx,
+            modifier = Modifier.align(Alignment.CenterEnd)
+                .offset(offset)
         ) {
-            Button(
-                TablerIcons.Check,
-                modifier = Modifier
-                    .magic(isEditing, offsetX = -offset)
-            ) { acceptEdit(fieldValue.text) }
+            Popup(
+                alignment = Alignment.CenterEnd
+            ) {
+                Button(
+                    TablerIcons.Check,
+                    isEnabled = isEditing,
+                ) { acceptEdit(fieldValue.text) }
+            }
         }
     }
 }
