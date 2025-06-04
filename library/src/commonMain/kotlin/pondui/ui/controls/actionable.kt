@@ -24,8 +24,7 @@ fun Modifier.actionable(
     onClick: () -> Unit,
 ): Modifier {
     return if (isEnabled) {
-        this
-            .modifyIfNotNull(hoverText) {
+        this.modifyIfNotNull(hoverText) {
                 val source = remember { MutableInteractionSource() }
                 val isHovered = source.collectIsHoveredAsState().value
                 val portal = LocalPortal.current

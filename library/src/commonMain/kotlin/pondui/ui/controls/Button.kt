@@ -1,8 +1,12 @@
 package pondui.ui.controls
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -21,6 +25,7 @@ import pondui.ui.nav.NavRoute
 import pondui.ui.behavior.modifyIfTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
+import pondui.utils.lighten
 
 @Composable
 fun Button(
@@ -32,14 +37,31 @@ fun Button(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
-    val animatedBackground by animateColorAsState(background, animationSpec = tween(500))
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered by interactionSource.collectIsHoveredAsState()
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val bg = if (isPressed) background.lighten(.3f) else if (isHovered) background.lighten(.1f) else background
+    val animatedBackground by animateColorAsState(bg, animationSpec = tween(300))
+    val animatedScale by animateFloatAsState(if (isPressed) .9f else 1f)
 
     ProvideSkyColors {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = modifier.clip(shape)
-                .modifyIfTrue(isEnabled) { clickable(onClick = onClick) }
-                .graphicsLayer { alpha = if (isEnabled) 1f else .5f }
+            modifier = modifier
+                .modifyIfTrue(isEnabled) {
+                    clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClick
+                    )
+                }
+                .graphicsLayer {
+                    alpha = if (isEnabled) 1f else .5f
+                    this.shape = shape
+                    clip = true
+                    scaleY = animatedScale
+                    scaleX = animatedScale
+                }
                 .drawBehind {
                     drawRect(animatedBackground)
                 }

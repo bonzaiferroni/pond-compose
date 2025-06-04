@@ -86,7 +86,7 @@ fun BottomBarItem(
             .aspectRatio(.9f)
             .clip(Pond.ruler.shroomed)
             .modifyIfTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
-            .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.secondary.lighten(.4f).copy(.2f))}
+            .modifyIfTrue(isCurrentRoute) { this.background(Pond.colors.selected.lighten(.2f).copy(.3f))}
             .padding(Pond.ruler.unitPadding)
     ) {
         val color = when (isCurrentRoute) {

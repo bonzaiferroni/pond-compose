@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.ui.behavior.modifyIfNotNull
+import pondui.utils.darken
 
 @Composable
 fun ProgressBar(
@@ -35,7 +36,7 @@ fun ProgressBar(
     ),
     minHeight: Dp = 10.dp,
     minWidth: Dp = 100.dp,
-    color: Color = Pond.colors.secondary,
+    color: Color = Pond.colors.data,
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null
 ) {
@@ -74,7 +75,7 @@ fun ProgressBar(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()
-                        .padding(Pond.ruler.doublePadding)
+                        .padding(Pond.ruler.unitPadding)
                 ) {
                     it()
                 }
