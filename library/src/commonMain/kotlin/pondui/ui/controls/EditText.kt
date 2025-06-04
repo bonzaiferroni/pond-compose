@@ -1,13 +1,10 @@
 package pondui.ui.controls
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.background
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,9 +14,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -27,7 +32,7 @@ import androidx.compose.ui.window.Popup
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
 import compose.icons.tablericons.X
-import pondui.ui.behavior.Magic
+import pondui.ui.behavior.filterKeyPress
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.onEnterPressed
 import pondui.ui.theme.Pond
@@ -35,8 +40,8 @@ import pondui.ui.theme.Pond
 @Composable
 fun EditText(
     text: String,
-    onTextChange: (String) -> Unit,
     onAcceptEdit: (String) -> Unit,
+    initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
     style: TextStyle = Pond.typo.body,
     maxLines: Int = Int.MAX_VALUE,
@@ -44,10 +49,19 @@ fun EditText(
     modifier: Modifier = Modifier
 ) {
     var isEditing by remember { mutableStateOf(false) }
-    var cachedText by remember { mutableStateOf(text) }
+    var fieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = text,
+                selection = if (initialSelectAll) TextRange(0, text.length) else TextRange(text.length)
+            )
+        )
+    }
 
-    LaunchedEffect(isEditing) {
-        cachedText = text
+    LaunchedEffect(text) {
+        if (text == fieldValue.text) return@LaunchedEffect
+        fieldValue = fieldValue.copy(text)
+        isEditing = false
     }
 
     fun acceptEdit(value: String) {
@@ -56,26 +70,41 @@ fun EditText(
     }
 
     fun cancelEdit(value: String) {
-        onTextChange(value)
+        fieldValue = fieldValue.copy(value)
         isEditing = false
     }
 
+    val backgroundColor by animateColorAsState(if (isEditing) Pond.colors.void.copy(.2f) else Color.Transparent)
+    val cornerRadius = Pond.ruler.unitCorner
+
     Box(
         modifier = Modifier.clickable(enabled = !isEditing) { isEditing = true }
+            .drawBehind {
+                drawRoundRect(
+                    color = backgroundColor,
+                    cornerRadius = CornerRadius(cornerRadius.toPx())
+                )
+            }
     ) {
-        Magic(!isEditing) {
-            Text(text, color, style, maxLines, overflow, modifier)
-        }
-        Magic(isEditing) {
+        if (isEditing) {
+            val focusRequester = remember { FocusRequester() }
+            LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
             BasicTextField(
-                value = text,
-                onValueChange = onTextChange,
-                modifier = modifier.width(IntrinsicSize.Min).onEnterPressed { acceptEdit(text) },
+                value = fieldValue,
+                onValueChange = { fieldValue = it },
+                modifier = modifier.width(IntrinsicSize.Min)
+                    .focusRequester(focusRequester)
+                    .filterKeyPress(Key.Tab)
+                    .onEnterPressed { acceptEdit(fieldValue.text) },
                 textStyle = style.copy(color = color),
                 maxLines = maxLines
             )
+        } else {
+            Text(fieldValue.text, color, style, maxLines, overflow, modifier)
         }
-        val offset = with (LocalDensity.current) { 32.dp.toPx().toInt() }
+
+        val offset = with(LocalDensity.current) { 32.dp.toPx().toInt() }
         Popup(
             alignment = Alignment.CenterStart,
             offset = IntOffset(-offset, 0)
@@ -85,7 +114,7 @@ fun EditText(
                 background = Pond.colors.tertiary,
                 modifier = Modifier
                     .magic(isEditing, offsetX = offset)
-            ) { cancelEdit(cachedText) }
+            ) { cancelEdit(text) }
         }
 
         Popup(
@@ -96,7 +125,7 @@ fun EditText(
                 TablerIcons.Check,
                 modifier = Modifier
                     .magic(isEditing, offsetX = -offset)
-            ) { acceptEdit(text) }
+            ) { acceptEdit(fieldValue.text) }
         }
     }
 }

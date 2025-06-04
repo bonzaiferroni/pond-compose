@@ -29,3 +29,8 @@ fun Modifier.takeInitialFocus(): Modifier {
     return this.focusable()
         .focusRequester(focusRequester)
 }
+
+@Composable
+fun Modifier.filterKeyPress(key: Key) = this.onPreviewKeyEvent { event ->
+    event.key == key
+}
