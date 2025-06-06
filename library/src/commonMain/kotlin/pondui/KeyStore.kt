@@ -1,6 +1,8 @@
 package pondui
 
 import com.russhwolf.settings.Settings
+import com.russhwolf.settings.set
+import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 
 class KeyStore() {
@@ -30,4 +32,8 @@ class KeyStore() {
     inline fun <reified T> writeObject(key: String, value: T) {
         settings.putString(key, Json.Default.encodeToString(value))
     }
+
+    fun readInstant(key: String) = settings.getLong(key, 0).let { Instant.fromEpochMilliseconds(it) }
+
+    fun writeInstant(key: String, value: Instant) = settings.set(key, value.toEpochMilliseconds())
 }

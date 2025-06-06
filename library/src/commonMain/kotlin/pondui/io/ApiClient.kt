@@ -65,6 +65,13 @@ class ApiClient(
         endpoint: PostEndpoint<Sent, Returned>,
         value: Sent,
         vararg params: Pair<String, String>?
+    ): Returned = requestOrNull(HttpMethod.Post, endpoint.path, value, *params)
+        ?: error("Response was null: ${endpoint.path}")
+
+    suspend inline fun <reified Sent, reified Returned> postOrNull(
+        endpoint: PostEndpoint<Sent, Returned>,
+        value: Sent,
+        vararg params: Pair<String, String>?
     ): Returned? = requestOrNull(HttpMethod.Post, endpoint.path, value, *params)
 
     suspend inline fun <reified Sent> update(
@@ -84,7 +91,8 @@ class ApiClient(
         path: String,
         body: Sent,
         vararg params: Pair<String, String>?
-    ): Received = requestOrNull(method, path, body, *params) ?: error("Request result is null")
+    ): Received = requestOrNull(method, path, body, *params)
+        ?: error("Response was null: $path")
 
     suspend inline fun <reified Sent, reified Received> requestOrNull(
         method: HttpMethod,

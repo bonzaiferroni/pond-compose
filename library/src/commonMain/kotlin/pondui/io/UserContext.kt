@@ -11,7 +11,7 @@ import kabinet.utils.obfuscate
 
 class UserContext(
     private val keyStore: KeyStore = KeyStore(),
-    private val userStore: UserStore = UserStore()
+    private val userStore: UserRepository = UserRepository()
 ): StateModel<UserContextState>(UserContextState()) {
 
     var _cache = keyStore.readObjectOrNull() ?: UserContextCache()

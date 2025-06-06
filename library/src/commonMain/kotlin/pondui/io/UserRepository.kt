@@ -5,7 +5,7 @@ import kabinet.model.Auth
 import kabinet.model.LoginRequest
 import kabinet.model.User
 
-class UserStore : ApiStore() {
+class UserRepository(private val client: ApiClient = globalApiClient) {
 
     suspend fun login(request: LoginRequest): Auth? = client.login(request)
 
