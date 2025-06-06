@@ -19,6 +19,7 @@ interface PondTypography {
     val body: TextStyle
     val bodyLarge: TextStyle
     val label: TextStyle
+    val small: TextStyle
 }
 
 fun defaultTypography(
@@ -67,6 +68,9 @@ fun defaultTypography(
         fontSize = 16.sp
     )
     override val label = base
+    override val small = base.copy(
+        fontSize = 12.sp
+    )
 }
 
 @Composable

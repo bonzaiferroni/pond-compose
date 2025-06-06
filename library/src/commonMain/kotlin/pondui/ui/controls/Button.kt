@@ -88,7 +88,7 @@ fun Button(
     ) {
         Text(
             text = text.uppercase(),
-            style = TextStyle(fontSize = Pond.typo.label.fontSize),
+            style = Pond.typo.small,
         )
     }
 }
