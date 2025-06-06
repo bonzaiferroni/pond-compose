@@ -15,15 +15,15 @@ import pondui.ui.theme.ProvideBookColors
 @Composable
 fun TabCard(
     initialTab: String = "",
-    tabs: ImmutableList<Tab>,
     onChangeTab: ((String) -> Unit)? = null,
     shape: Shape = RectangleShape, // todo: implement shape
     modifier: Modifier = Modifier, // todo: implement modifier
+    content: @Composable TabScope.() -> Unit
 ) {
     ProvideBookColors {
         Tabs(
             selectedTab = initialTab,
-            tabs = tabs,
+            content = content,
             onChangeTab = onChangeTab,
             modifier = modifier
                 .shadow(Pond.ruler.shadowElevation, shape)

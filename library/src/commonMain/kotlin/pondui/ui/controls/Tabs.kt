@@ -7,39 +7,31 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
+import pondui.ui.core.StateScope
 import pondui.ui.theme.Pond
-import pondui.utils.addShadow
 import pondui.utils.darken
 
 @Composable
 fun Tabs(
     selectedTab: String = "",
-    tabs: ImmutableList<Tab>,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape = Pond.ruler.shroomed,
     modifier: Modifier = Modifier,
+    content: @Composable TabScope.() -> Unit
 ) {
-    if (tabs.isEmpty()) return
-    var currentTab by remember { mutableStateOf(tabs.first()) }
+    var currentTab by remember { mutableStateOf(selectedTab) }
     var indexDelta by remember { mutableStateOf(0) }
+    val scope = remember { TabScope() }
+    val state by scope.state.collectAsState()
+    val items = state.items
 
-    fun changeTab(tabName: String) {
-        val startIndex = tabs.indexOf(currentTab)
-        val tab = tabs.firstOrNull() { it.name == tabName } ?: tabs.first()
-        if (tab == currentTab) return
-        val endIndex = tabs.indexOf(tab)
-        indexDelta = endIndex - startIndex
-        currentTab = tab
-        onChangeTab?.invoke(tab.name)
-    }
-
-    LaunchedEffect(selectedTab) {
-        changeTab(selectedTab)
+    LaunchedEffect(state.currentLabel) {
+        if (state.currentLabel.isNotEmpty()) {
+            onChangeTab?.invoke(state.currentLabel)
+        }
     }
 
     Column(
@@ -50,11 +42,11 @@ fun Tabs(
             modifier = Modifier.clip(headerShape)
                 .background(Pond.colors.void)
         ) {
-            tabs.forEachIndexed { index, tab ->
+            items.forEachIndexed { index, tab ->
                 if (!tab.isVisible) return@forEachIndexed
-                val isSelected = currentTab.name == tab.name
+                val isSelected = currentTab == tab.label
                 Box(
-                    modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { changeTab(tab.name) } }
+                    modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { scope.changeTab(tab.label) } }
                         .weight(1f)
                         .height(IntrinsicSize.Max)
                 ) {
@@ -69,7 +61,7 @@ fun Tabs(
                     val color = if (isSelected) Pond.colors.contentSky else Pond.colors.contentSky.darken()
 
                     Text(
-                        text = tab.name,
+                        text = tab.label,
                         color = color,
                         modifier = Modifier.align(Alignment.Center)
                             .padding(Pond.ruler.doublePadding)
@@ -80,54 +72,72 @@ fun Tabs(
             }
         }
         Box {
-            for (tab in tabs) {
-                if (!tab.isVisible) continue
-                val offsetX = if (currentTab.name == tab.name) indexDelta * 100 else -indexDelta * 100
-                Magic(tab.name == currentTab.name, offsetX = offsetX) {
-                    Column(
-                        verticalArrangement = Pond.ruler.columnUnit,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        tab.content()
-                    }
-                }
-            }
+            scope.content()
         }
+    }
+
+    LaunchedEffect(selectedTab) {
+        scope.changeTab(selectedTab)
     }
 }
 
 @Composable
-fun Tabs(
-    selectedTab: String = "",
-    onChangeTab: ((String) -> Unit)? = null,
-    headerShape: Shape = Pond.ruler.shroomed,
-    modifier: Modifier = Modifier,
-    tabContent: TabContentBuilder.() -> Unit
+fun TabScope.Tab(
+    label: String,
+    isVisible: Boolean = true,
+    content: @Composable () -> Unit,
 ) {
-    val tabs = remember {
-        val builder = TabContentBuilder()
-        tabContent(builder)
-        builder.tabs.toImmutableList()
+    val state by this@Tab.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        this@Tab.addItem(TabItem(label, isVisible))
     }
-    Tabs(
-        selectedTab = selectedTab,
-        tabs = tabs,
-        onChangeTab = onChangeTab,
-        headerShape = headerShape,
-        modifier = modifier,
-    )
+
+    LaunchedEffect(isVisible) {
+        this@Tab.changeVisibility(label, isVisible)
+    }
+
+    val offsetX = if (state.currentLabel == label) state.indexDelta * 100 else -state.indexDelta * 100
+    Magic(label == state.currentLabel, offsetX = offsetX) {
+        Column(
+            verticalArrangement = Pond.ruler.columnUnit,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            content()
+        }
+    }
 }
 
-class TabContentBuilder {
-    val tabs = mutableListOf<Tab>()
+class TabScope: StateScope<TabState>(TabState()) {
 
-    fun tab(label: String, content: @Composable () -> Unit,) {
-        tabs.add(Tab(label, true, content))
+    fun addItem(item: TabItem) {
+        setState { it.copy(items = it.items + item) }
+    }
+
+    fun changeVisibility(label: String, isVisible: Boolean) {
+        if (stateNow.items.all { it.label != label || it.isVisible == isVisible }) return
+        val items = stateNow.items.map { if (it.label == label) it.copy(isVisible = isVisible) else it }
+        setState { it.copy(items = items) }
+    }
+
+    fun changeTab(tabName: String) {
+        val currentLabel = stateNow.currentLabel
+        val items = stateNow.items
+        val startIndex = items.indexOfFirst { it.label == currentLabel }
+        val item = items.firstOrNull() { it.label == tabName } ?: items.first { it.isVisible }
+        if (item.label == currentLabel) return
+        val endIndex = items.indexOfFirst { it.label == tabName }
+        setState { it.copy(indexDelta = endIndex - startIndex, currentLabel = item.label) }
     }
 }
 
-data class Tab(
-    val name: String,
-    val isVisible: Boolean = true,
-    val content: @Composable () -> Unit,
+data class TabState(
+    val currentLabel: String = "",
+    val indexDelta: Int = 0,
+    val items: List<TabItem> = emptyList(),
+)
+
+data class TabItem(
+    val label: String,
+    val isVisible: Boolean
 )
