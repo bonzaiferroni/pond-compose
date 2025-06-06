@@ -83,17 +83,8 @@ fun EditText(
         isEditing = false
     }
 
-    val backgroundColor by animateColorAsState(if (isEditing) Pond.colors.void.copy(.2f) else Color.Transparent)
-    val cornerRadius = Pond.ruler.unitCorner
-
     Box(
         modifier = modifier.ifTrue(!isEditing && isEditable) { clickable { isEditing = true } }
-            .drawBehind {
-                drawRoundRect(
-                    color = backgroundColor,
-                    cornerRadius = CornerRadius(cornerRadius.toPx())
-                )
-            }
     ) {
         if (isEditing) {
             val focusRequester = remember { FocusRequester() }
@@ -110,7 +101,14 @@ fun EditText(
                 maxLines = maxLines
             )
         } else {
-            Text(fieldValue.text, color, style, maxLines, overflow, Modifier)
+            Text(
+                text = fieldValue.text,
+                style = style,
+                color = color,
+                maxLines = maxLines,
+                overflow = overflow,
+                modifier = Modifier
+            )
         }
 
         val offset = 32.dp

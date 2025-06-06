@@ -13,6 +13,8 @@ import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
+import pondui.utils.addShadow
+import pondui.utils.darken
 
 @Composable
 fun Tabs(
@@ -50,21 +52,25 @@ fun Tabs(
         ) {
             tabs.forEachIndexed { index, tab ->
                 if (!tab.isVisible) return@forEachIndexed
+                val isSelected = currentTab.name == tab.name
                 Box(
-                    modifier = Modifier.ifTrue(currentTab.name != tab.name) { Modifier.clickable { changeTab(tab.name) } }
+                    modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { changeTab(tab.name) } }
                         .weight(1f)
                         .height(IntrinsicSize.Max)
                 ) {
-                    val offsetX = if (currentTab.name == tab.name) -indexDelta * 100 else indexDelta * 100
+                    val offsetX = if (isSelected) -indexDelta * 100 else indexDelta * 100
                     Box(
                         modifier = Modifier.fillMaxSize()
-                            .magic(currentTab.name == tab.name, offsetX = offsetX)
+                            .magic(isSelected, offsetX = offsetX)
                             .clip(headerShape)
                             .background(Pond.colors.selected)
                     )
 
+                    val color = if (isSelected) Pond.colors.contentSky else Pond.colors.contentSky.darken()
+
                     Text(
                         text = tab.name,
+                        color = color,
                         modifier = Modifier.align(Alignment.Center)
                             .padding(Pond.ruler.doublePadding)
                             .magic(offsetX = -(index * 10 + 10), durationMillis = index * 300 + 300),

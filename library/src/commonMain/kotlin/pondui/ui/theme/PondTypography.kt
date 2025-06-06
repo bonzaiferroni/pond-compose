@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.FontResource
+import pondui.utils.addShadow
 
 interface PondTypography {
     val title: TextStyle
@@ -16,6 +17,7 @@ interface PondTypography {
     val h4: TextStyle
     val h5: TextStyle
     val body: TextStyle
+    val bodyLarge: TextStyle
     val label: TextStyle
 }
 
@@ -61,6 +63,9 @@ fun defaultTypography(
     )
 
     override val body = base
+    override val bodyLarge = base.copy(
+        fontSize = 16.sp
+    )
     override val label = base
 }
 

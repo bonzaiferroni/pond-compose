@@ -100,6 +100,6 @@ fun BottomBarItem(
                 .padding(Pond.ruler.unitPadding)
         )
         Spacer(modifier = Modifier.height(2.dp))
-        Label(label, color)
+        Label(label, color = color)
     }
 }

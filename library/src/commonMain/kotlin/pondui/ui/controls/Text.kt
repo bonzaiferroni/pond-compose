@@ -20,8 +20,8 @@ import pondui.ui.theme.Pond
 @Composable
 fun Text(
     text: String,
-    color: Color = Pond.localColors.content,
     style: TextStyle = Pond.typo.body,
+    color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
     modifier: Modifier = Modifier
@@ -37,8 +37,8 @@ fun Text(
 @Composable
 fun Text(
     text: AnnotatedString,
-    color: Color = Pond.localColors.content,
     style: TextStyle = Pond.typo.body,
+    color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
     modifier: Modifier = Modifier
@@ -54,8 +54,8 @@ fun Text(
 @Composable
 fun Label(
     text: String,
-    color: Color = Pond.localColors.contentDim,
     style: TextStyle = Pond.typo.label,
+    color: Color = Pond.localColors.contentDim,
     maxLines: Int = 1,
     modifier: Modifier = Modifier
 ) = BasicText(
@@ -77,6 +77,7 @@ fun H1(
     color = { color },
     style = Pond.typo.h1,
     maxLines = maxLines,
+    modifier = modifier
 )
 
 @Composable
@@ -84,12 +85,11 @@ fun H2(
     text: String,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    style: TextStyle? = null,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
     color = { color },
-    style = Pond.typo.h2.merge(style),
+    style = Pond.typo.h2,
     maxLines = maxLines,
     modifier = modifier
 )
@@ -99,12 +99,11 @@ fun H3(
     text: String,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    style: TextStyle? = null,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
     color = { color },
-    style = Pond.typo.h3.merge(style),
+    style = Pond.typo.h3,
     maxLines = maxLines,
     modifier = modifier
 )
@@ -114,12 +113,11 @@ fun H4(
     text: String,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    style: TextStyle? = null,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
     color = { color },
-    style = Pond.typo.h4.merge(style),
+    style = Pond.typo.h4,
     maxLines = maxLines,
     modifier = modifier
 )
@@ -129,12 +127,11 @@ fun H5(
     text: String,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    style: TextStyle? = null,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
     color = { color },
-    style = Pond.typo.h5.merge(style),
+    style = Pond.typo.h5,
     maxLines = maxLines,
     modifier = modifier
 )
