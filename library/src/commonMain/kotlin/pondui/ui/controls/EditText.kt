@@ -59,7 +59,7 @@ fun EditText(
     var fieldValue by remember {
         mutableStateOf(
             TextFieldValue(
-                text = text,
+                text = text.takeIf { it.isNotEmpty() } ?: placeholder,
                 selection = if (initialSelectAll) TextRange(0, text.length) else TextRange(text.length)
             )
         )

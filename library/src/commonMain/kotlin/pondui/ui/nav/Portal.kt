@@ -33,6 +33,8 @@ import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.ui.behavior.ifNotNull
+import pondui.ui.controls.Text
+import pondui.utils.addShadow
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -86,12 +88,12 @@ fun Portal(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxSize()
-                        .background(Pond.colors.background.copy(.3f))
+                        .background(Pond.colors.background.copy(.5f))
                         .padding(Pond.ruler.doublePadding)
                         .clickableWithoutHoverEffect(onClick = state.dismissDialog)
                 ) {
                     Magic(offsetX = -60) {
-                        H2(state.dialogTitle)
+                        Text(state.dialogTitle, Pond.typo.h2.addShadow())
                     }
                     Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
                     state.dialogContent()

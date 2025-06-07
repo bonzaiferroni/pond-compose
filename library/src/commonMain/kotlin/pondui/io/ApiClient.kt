@@ -103,7 +103,6 @@ class ApiClient(
         val response = sendRequest<Sent>(method, "$baseUrl$path", body, *params)
         if (response.status == HttpStatusCode.OK) return response.body()
         if (response.status == HttpStatusCode.Unauthorized && loginRequest != null) {
-            println("ApiClient: Logging in")
             val auth = login()
             if (auth != null) {
                 return sendRequest<Sent>(method, "$baseUrl$path", body, *params).body()
