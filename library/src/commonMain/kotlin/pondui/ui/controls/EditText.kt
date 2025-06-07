@@ -51,7 +51,7 @@ fun EditText(
     initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
     modifier: Modifier = Modifier,
     onAcceptEdit: (String) -> Unit,
 ) {
@@ -100,7 +100,7 @@ fun EditText(
                     .filterKeyPress(Key.Tab)
                     .onEnterPressed { acceptEdit(fieldValue.text) },
                 textStyle = style.copy(color = color),
-                maxLines = maxLines
+                maxLines = maxLines,
             )
         } else {
             val textColor = if (fieldValue.text.isNotEmpty()) color else Pond.localColors.contentDim

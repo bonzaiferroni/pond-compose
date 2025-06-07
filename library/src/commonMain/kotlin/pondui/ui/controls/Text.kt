@@ -64,6 +64,7 @@ fun Label(
     modifier = modifier,
     style = style,
     maxLines = maxLines,
+    overflow = TextOverflow.Ellipsis
 )
 
 @Composable
@@ -77,7 +78,8 @@ fun H1(
     color = { color },
     style = Pond.typo.h1,
     maxLines = maxLines,
-    modifier = modifier
+    overflow = TextOverflow.Ellipsis,
+    modifier = modifier,
 )
 
 @Composable
@@ -91,6 +93,7 @@ fun H2(
     color = { color },
     style = Pond.typo.h2,
     maxLines = maxLines,
+    overflow = TextOverflow.Ellipsis,
     modifier = modifier
 )
 
@@ -105,6 +108,7 @@ fun H3(
     color = { color },
     style = Pond.typo.h3,
     maxLines = maxLines,
+    overflow = TextOverflow.Ellipsis,
     modifier = modifier
 )
 
@@ -119,6 +123,7 @@ fun H4(
     color = { color },
     style = Pond.typo.h4,
     maxLines = maxLines,
+    overflow = TextOverflow.Ellipsis,
     modifier = modifier
 )
 
@@ -133,54 +138,6 @@ fun H5(
     color = { color },
     style = Pond.typo.h5,
     maxLines = maxLines,
+    overflow = TextOverflow.Ellipsis,
     modifier = modifier
 )
-
-@Composable
-fun OtherText(
-    text: String,
-    modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified,
-    fontSize: TextUnit = TextUnit.Unspecified,
-    fontStyle: FontStyle? = null,
-    fontWeight: FontWeight? = null,
-    fontFamily: FontFamily? = null,
-    letterSpacing: TextUnit = TextUnit.Unspecified,
-    textDecoration: TextDecoration? = null,
-    textAlign: TextAlign? = null,
-    lineHeight: TextUnit = TextUnit.Unspecified,
-    overflow: TextOverflow = TextOverflow.Clip,
-    softWrap: Boolean = true,
-    maxLines: Int = Int.MAX_VALUE,
-    minLines: Int = 1,
-    onTextLayout: ((TextLayoutResult) -> Unit)? = null,
-    style: TextStyle = TextStyle.Default,
-) {
-    val textColor = color.takeOrElse { Pond.localColors.content }
-
-    BasicText(
-        text,
-        modifier,
-        style.merge(
-            color = textColor,
-            fontSize = fontSize,
-            fontWeight = fontWeight,
-            textAlign = textAlign ?: TextAlign.Unspecified,
-            lineHeight = lineHeight,
-            fontFamily = fontFamily,
-            textDecoration = textDecoration,
-            fontStyle = fontStyle,
-            letterSpacing = letterSpacing
-        ),
-        onTextLayout,
-        overflow,
-        softWrap,
-        maxLines,
-        minLines
-    )
-}
-
-@Composable
-fun OtherH1(
-    text: String,
-) = OtherText(text, style = Pond.typo.h1)
