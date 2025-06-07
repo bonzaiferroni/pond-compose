@@ -22,6 +22,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -44,6 +45,7 @@ import pondui.ui.theme.Pond
 @Composable
 fun EditText(
     text: String,
+    placeholder: String,
     style: TextStyle = Pond.typo.body,
     isEditable: Boolean = true,
     initialSelectAll: Boolean = true,
@@ -101,10 +103,11 @@ fun EditText(
                 maxLines = maxLines
             )
         } else {
+            val textColor = if (fieldValue.text.isNotEmpty()) color else Pond.localColors.contentDim
             Text(
-                text = fieldValue.text,
+                text = fieldValue.text.takeIf { it.isNotEmpty() } ?: placeholder,
                 style = style,
-                color = color,
+                color = textColor,
                 maxLines = maxLines,
                 overflow = overflow,
                 modifier = Modifier

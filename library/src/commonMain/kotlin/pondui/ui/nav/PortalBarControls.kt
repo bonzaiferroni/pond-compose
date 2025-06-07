@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.User
 import kotlinx.collections.immutable.ImmutableList
@@ -100,6 +101,6 @@ fun BottomBarItem(
                 .padding(Pond.ruler.unitPadding)
         )
         Spacer(modifier = Modifier.height(2.dp))
-        Label(label, color = color)
+        Label(label.uppercase(), style = Pond.typo.small.copy(fontSize = 10.sp), color = color)
     }
 }
