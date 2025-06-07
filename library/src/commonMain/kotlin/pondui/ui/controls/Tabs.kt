@@ -22,10 +22,10 @@ fun Tabs(
     modifier: Modifier = Modifier,
     content: @Composable TabScope.() -> Unit
 ) {
-    var currentTab by remember { mutableStateOf(selectedTab) }
-    var indexDelta by remember { mutableStateOf(0) }
     val scope = remember { TabScope() }
     val state by scope.state.collectAsState()
+    val currentLabel = state.currentLabel
+    val indexDelta = state.indexDelta
     val items = state.items
 
     LaunchedEffect(state.currentLabel) {
@@ -44,7 +44,7 @@ fun Tabs(
         ) {
             items.forEachIndexed { index, tab ->
                 if (!tab.isVisible) return@forEachIndexed
-                val isSelected = currentTab == tab.label
+                val isSelected = currentLabel == tab.label
                 Box(
                     modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { scope.changeTab(tab.label) } }
                         .weight(1f)
