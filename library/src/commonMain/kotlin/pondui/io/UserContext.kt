@@ -4,20 +4,20 @@ import androidx.lifecycle.viewModelScope
 import pondui.ui.core.StateModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import pondui.KeyStore
+import pondui.LocalValueRepository
 import kabinet.model.User
 import kabinet.model.LoginRequest
 import kabinet.utils.obfuscate
 
 class UserContext(
-    private val keyStore: KeyStore = KeyStore(),
+    private val settingsValueRepository: LocalValueRepository = LocalValueRepository(),
     private val userStore: UserRepository = UserRepository()
 ): StateModel<UserContextState>(UserContextState()) {
 
-    var _cache = keyStore.readObjectOrNull() ?: UserContextCache()
+    var _cache = settingsValueRepository.readObjectOrNull() ?: UserContextCache()
     var cache
         get() = _cache
-        set(value) = keyStore.writeObject(value).also { _cache = value }
+        set(value) = settingsValueRepository.writeObject(value).also { _cache = value }
 
     init {
         val (usernameOrEmail, stayLoggedIn, refreshToken) = cache
@@ -59,7 +59,7 @@ class UserContext(
             ))
             if (auth != null) {
                 cache = cache.copy(refreshToken = auth.refreshToken)
-                keyStore.writeObject(cache)
+                settingsValueRepository.writeObject(cache)
                 val user = userStore.readUser()
                 setState { it.copy(user = user, dialogVisible = false, isLoggingIn = false)}
             } else {
