@@ -1,5 +1,6 @@
 package pondui.ui.controls
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -15,6 +16,10 @@ import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
@@ -33,11 +38,12 @@ import kotlin.math.sin
 fun <T> RoloMenu(
     selectedItem: T,
     options: ImmutableList<T>,
+    width: Dp,
     label: String? = null,
     toLabel: (T) -> String = { it.toString() },
     offsetRowCount: Int = 1,
-    width: Dp = 64.dp,
     rowHeight: Dp = 18.dp,
+    indicatorColor: Color = Pond.colors.primary,
     modifier: Modifier = Modifier,
     onSelect: (T) -> Unit
 ) {
@@ -45,8 +51,10 @@ fun <T> RoloMenu(
     val flingBehavior = rememberSnapFlingBehavior(listState)
     val scope = rememberCoroutineScope()
     val isScrollInProgress = listState.isScrollInProgress
+    var isScrolling by remember { mutableStateOf(false) }
 
     LaunchedEffect(isScrollInProgress) {
+        isScrolling = isScrollInProgress
         if (!isScrollInProgress) {
             val index = calculateSnappedItemIndex(listState)
             onSelect(options[index])
@@ -54,19 +62,31 @@ fun <T> RoloMenu(
     }
 
     val rowCount = offsetRowCount * 2 + 1
-    val size = DpSize(width = width, height = rowHeight * rowCount)
+    val wheelSize = DpSize(width = width, height = rowHeight * rowCount)
     val color = Pond.localColors.content
     val layoutInfo = listState.layoutInfo
     val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
     val rowHeightPx = viewPortHeight / rowCount
     val centerIndex = listState.firstVisibleItemIndex
     val scrollOffset = listState.firstVisibleItemScrollOffset
+    val isScrollingAnimation by animateFloatAsState(if (isScrolling) 1f else 0f)
 
     Row(
         spacingUnits = 1,
         modifier = modifier
+            .drawBehind {
+                val width = size.width * (1 - isScrollingAnimation)
+                drawRect(
+                    color = indicatorColor,
+                    topLeft = Offset(size.width / 2 * isScrollingAnimation, rowHeightPx * 2 - 2),
+                    size = Size(width, 2f)
+                )
+            }
             .pointerInput(Unit) {
                 detectVerticalDragGestures(
+                    onDragStart = {
+                        isScrolling = true
+                    },
                     onVerticalDrag = { change, dragAmount ->
                         change.consume()  // mark it handled
                         scope.launch {
@@ -74,6 +94,7 @@ fun <T> RoloMenu(
                         }
                     },
                     onDragEnd = {
+                        isScrolling = false
                         // ⚓️ call yer function here
                         val index = calculateSnappedItemIndex(listState)
                         // println("scrolling to $index")
@@ -87,10 +108,10 @@ fun <T> RoloMenu(
         verticalAlignment = Alignment.CenterVertically
     ) {
         LazyColumn(
-            modifier = modifier.size(size),
             state = listState,
             flingBehavior = flingBehavior,
             contentPadding = PaddingValues(vertical = rowHeight * offsetRowCount),
+            modifier = modifier.size(wheelSize),
         ) {
             itemsIndexed(options) { index, option ->
                 val label = toLabel(option)
@@ -102,12 +123,13 @@ fun <T> RoloMenu(
                 } else {
                     0.2f
                 }
-                val rotationX = (-20 * (rowCenterDelta / rowHeightPx)).takeUnless { it.isNaN() } ?: 0f
-                val maxTiltDeg = 20f
 
-                val radiusPx = rowHeightPx / (maxTiltDeg * (PI.toFloat() / 180f))
-                val angleRad  = maxTiltDeg * (rowCenterDelta / rowHeightPx) * (PI.toFloat() / 180f)
-                val wheelY    = radiusPx * sin(angleRad)
+                val maxTiltDeg = 40f
+                val rotationX = (-maxTiltDeg * (rowCenterDelta / rowHeightPx)).takeUnless { it.isNaN() } ?: 0f
+
+                val radiusPx = ((rowHeightPx * rowCount) / 2)
+                val angleRad = maxTiltDeg * (rowCenterDelta / rowHeightPx) * (PI.toFloat() / 180f)
+                val wheelY = radiusPx * sin(angleRad)
                 val translationY = wheelY - rowCenterDelta
 
                 BasicText(
@@ -116,7 +138,7 @@ fun <T> RoloMenu(
                     style = TextStyle(textAlign = TextAlign.End),
                     modifier = Modifier
                         .height(rowHeight)
-                        .width(size.width)
+                        .width(wheelSize.width)
                         // .width(size.width)
                         .graphicsLayer {
                             this.rotationX = rotationX
