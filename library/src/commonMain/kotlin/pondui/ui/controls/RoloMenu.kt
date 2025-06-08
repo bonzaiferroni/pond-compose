@@ -1,5 +1,6 @@
 package pondui.ui.controls
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.scrollBy
@@ -38,7 +39,6 @@ import kotlin.math.sin
 fun <T> RoloMenu(
     selectedItem: T,
     options: ImmutableList<T>,
-    width: Dp,
     label: String? = null,
     toLabel: (T) -> String = { it.toString() },
     offsetRowCount: Int = 1,
@@ -62,7 +62,7 @@ fun <T> RoloMenu(
     }
 
     val rowCount = offsetRowCount * 2 + 1
-    val wheelSize = DpSize(width = width, height = rowHeight * rowCount)
+    val wheelHeight = rowHeight * rowCount
     val color = Pond.localColors.content
     val layoutInfo = listState.layoutInfo
     val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
@@ -111,7 +111,9 @@ fun <T> RoloMenu(
             state = listState,
             flingBehavior = flingBehavior,
             contentPadding = PaddingValues(vertical = rowHeight * offsetRowCount),
-            modifier = modifier.size(wheelSize),
+            modifier = modifier.height(wheelHeight)
+                .animateContentSize(),
+            horizontalAlignment = Alignment.End
         ) {
             itemsIndexed(options) { index, option ->
                 val label = toLabel(option)
@@ -135,11 +137,8 @@ fun <T> RoloMenu(
                 BasicText(
                     text = label,
                     color = { color },
-                    style = TextStyle(textAlign = TextAlign.End),
                     modifier = Modifier
                         .height(rowHeight)
-                        .width(wheelSize.width)
-                        // .width(size.width)
                         .graphicsLayer {
                             this.rotationX = rotationX
                             this.alpha = alpha
