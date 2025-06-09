@@ -3,6 +3,7 @@ package pondui.ui.theme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -21,8 +22,10 @@ interface PondRuler {
     val columnUnit: Arrangement.Vertical get() = Arrangement.spacedBy(unitSpacing)
     val columnSpaced: Arrangement.Vertical get() = Arrangement.spacedBy(doubleSpacing)
 
-    fun rowArrangement(units: Int) = Arrangement.spacedBy(unitSpacing * units)
-    fun columnArrangement(units: Int) = Arrangement.spacedBy(unitSpacing * units)
+    fun rowArrangement(units: Int = 1, alignment: Alignment.Horizontal = Alignment.Start) =
+        Arrangement.spacedBy(unitSpacing * units, alignment)
+    fun columnArrangement(units: Int = 1, alignment: Alignment.Vertical = Alignment.Top) =
+        Arrangement.spacedBy(unitSpacing * units, alignment)
 
     val pill: Shape get() = RoundedCornerShape(percent = 100)
 

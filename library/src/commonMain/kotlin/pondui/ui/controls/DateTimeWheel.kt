@@ -27,33 +27,9 @@ fun DateTimeWheel(
     onChangeInstant: (Instant) -> Unit,
 ) {
     Row(1, modifier = modifier) {
-        val time = instant.toLocalDateTime()
         TimeWheel(instant, onChangeInstant = onChangeInstant)
         Label("on")
-        // month
-        MenuWheel(
-            selectedItem = MonthName.entries.first { it.calendarNumber == time.monthNumber },
-            toLabel = { it.abbrevation },
-            options = MonthName.entries.toImmutableList(),
-        ) {
-            onChangeInstant(LocalDateTime(time.year, it.calendarNumber, time.dayOfMonth, time.hour, time.minute).toInstantUtc())
-        }
-        // dayOfMonth
-        MenuWheel(
-            selectedItem = time.dayOfMonth,
-            options = days(time.year, time.monthNumber),
-            itemAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.width(menuPartWidth)
-        ) {
-            onChangeInstant(LocalDateTime(time.year, time.month, it, time.hour, time.minute).toInstantUtc())
-        }
-        // year
-        MenuWheel(
-            selectedItem = time.year,
-            options = years.toImmutableList(),
-        ) {
-            onChangeInstant(LocalDateTime(it, time.month, time.dayOfMonth, time.hour, time.minute).toInstantUtc())
-        }
+        DateWheel(instant, onChangeInstant = onChangeInstant)
     }
 }
 
@@ -93,6 +69,41 @@ fun TimeWheel(
         ) {
             isPm = it == "PM"
             onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour.to24Hour(isPm), time.minute).toInstantUtc())
+        }
+    }
+}
+
+@Composable
+fun DateWheel(
+    instant: Instant,
+    modifier: Modifier = Modifier,
+    onChangeInstant: (Instant) -> Unit,
+) {
+    Row(1, modifier = modifier) {
+        val time = instant.toLocalDateTime()
+        // month
+        MenuWheel(
+            selectedItem = MonthName.entries.first { it.calendarNumber == time.monthNumber },
+            toLabel = { it.abbrevation },
+            options = MonthName.entries.toImmutableList(),
+        ) {
+            onChangeInstant(LocalDateTime(time.year, it.calendarNumber, time.dayOfMonth, time.hour, time.minute).toInstantUtc())
+        }
+        // dayOfMonth
+        MenuWheel(
+            selectedItem = time.dayOfMonth,
+            options = days(time.year, time.monthNumber),
+            itemAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.width(menuPartWidth)
+        ) {
+            onChangeInstant(LocalDateTime(time.year, time.month, it, time.hour, time.minute).toInstantUtc())
+        }
+        // year
+        MenuWheel(
+            selectedItem = time.year,
+            options = years.toImmutableList(),
+        ) {
+            onChangeInstant(LocalDateTime(it, time.month, time.dayOfMonth, time.hour, time.minute).toInstantUtc())
         }
     }
 }
