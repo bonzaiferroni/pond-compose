@@ -34,7 +34,7 @@ import kotlin.math.abs
 import kotlin.math.sin
 
 @Composable
-fun <T> RoloMenu(
+fun <T> MenuWheel(
     selectedItem: T,
     options: ImmutableList<T>,
     label: String? = null,
