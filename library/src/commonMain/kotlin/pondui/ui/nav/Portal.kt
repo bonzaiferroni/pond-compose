@@ -2,6 +2,7 @@ package pondui.ui.nav
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
@@ -96,7 +97,9 @@ fun Portal(
                         Text(state.dialogTitle, Pond.typo.h2.addShadow())
                     }
                     Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
-                    state.dialogContent()
+                    Box(modifier = Modifier.clickableWithoutHoverEffect { }) {
+                        state.dialogContent()
+                    }
                 }
             }
 

@@ -7,8 +7,6 @@ import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,18 +16,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import pondui.ui.theme.ColorMode
 import pondui.ui.theme.Pond
 import kotlin.math.PI
 import kotlin.math.abs
@@ -44,10 +42,13 @@ fun <T> RoloMenu(
     offsetRowCount: Int = 1,
     rowHeight: Dp = 18.dp,
     indicatorColor: Color = Pond.colors.primary,
+    itemAlignment: Alignment.Horizontal = Alignment.End,
     modifier: Modifier = Modifier,
     onSelect: (T) -> Unit
 ) {
-    val listState = rememberLazyListState(options.indexOf(selectedItem))
+    if (options.isEmpty()) return
+    var selectedIndex by remember { mutableStateOf(options.indexOf(selectedItem)) }
+    val listState = rememberLazyListState(if (selectedIndex >= 0) selectedIndex else 0)
     val flingBehavior = rememberSnapFlingBehavior(listState)
     val scope = rememberCoroutineScope()
     val isScrollInProgress = listState.isScrollInProgress
@@ -56,25 +57,54 @@ fun <T> RoloMenu(
     LaunchedEffect(isScrollInProgress) {
         isScrolling = isScrollInProgress
         if (!isScrollInProgress) {
-            val index = calculateSnappedItemIndex(listState)
-            onSelect(options[index])
+            selectedIndex = calculateSnappedItemIndex(listState)
         }
+    }
+
+    LaunchedEffect(selectedIndex, options) {
+        if (selectedIndex >= 0 && selectedIndex < options.size)
+            onSelect(options[selectedIndex])
     }
 
     val rowCount = offsetRowCount * 2 + 1
     val wheelHeight = rowHeight * rowCount
-    val color = Pond.localColors.content
+
     val layoutInfo = listState.layoutInfo
     val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
     val rowHeightPx = viewPortHeight / rowCount
     val centerIndex = listState.firstVisibleItemIndex
     val scrollOffset = listState.firstVisibleItemScrollOffset
     val isScrollingAnimation by animateFloatAsState(if (isScrolling) 1f else 0f)
+    val unitSpacing = Pond.ruler.unitSpacing
+
+    val localColors = Pond.localColors
+    val color = localColors.content
+    val wheelColor = if (localColors.mode == ColorMode.Sky) Pond.colors.void else Pond.colors.void.copy(.2f)
 
     Row(
         spacingUnits = 1,
         modifier = modifier
             .drawBehind {
+                val stops = arrayOf(
+                    0.00f to Color.Transparent,
+                    0.30f to wheelColor,
+                    0.70f to wheelColor,
+                    1.00f to Color.Transparent
+                )
+                drawRoundRect(
+                    brush = Brush.verticalGradient(colorStops = stops),
+                    alpha = .8f * isScrollingAnimation,
+                    cornerRadius = CornerRadius(
+                        x = unitSpacing.toPx(),
+                        y = (wheelHeight / 2).toPx(),
+                    ),
+                    size = Size(
+                        width = size.width + (unitSpacing * 2).toPx(),
+                        height = size.height
+                    ),
+                    topLeft = Offset(-unitSpacing.toPx(), 0f)
+                )
+
                 val width = size.width * (1 - isScrollingAnimation)
                 drawRect(
                     color = indicatorColor,
@@ -100,7 +130,7 @@ fun <T> RoloMenu(
                         // println("scrolling to $index")
                         scope.launch {
                             listState.scrollToItem(index)
-                            onSelect(options[index])
+                            selectedIndex = index
                         }
                     }
                 )
@@ -113,7 +143,7 @@ fun <T> RoloMenu(
             contentPadding = PaddingValues(vertical = rowHeight * offsetRowCount),
             modifier = modifier.height(wheelHeight)
                 .animateContentSize(),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = itemAlignment
         ) {
             itemsIndexed(options) { index, option ->
                 val label = toLabel(option)
