@@ -9,7 +9,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kabinet.utils.toInstantUtc
+import kabinet.utils.toInstantFromLocal
+import kabinet.utils.toInstantFromUtc
 import kabinet.utils.toLocalDateTime
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.Clock
@@ -49,7 +50,7 @@ fun TimeWheel(
                 options = hours,
                 modifier = Modifier.width(menuPartWidth)
             ) {
-                onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, it.to24Hour(isPm), time.minute).toInstantUtc())
+                onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, it.to24Hour(isPm), time.minute).toInstantFromLocal())
             }
             Label(":")
             // minutes
@@ -59,16 +60,17 @@ fun TimeWheel(
                 itemAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.width(menuPartWidth)
             ) {
-                onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour, it.toInt()).toInstantUtc())
+                onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour, it.toInt()).toInstantFromLocal())
             }
         }
         // am/pm
         MenuWheel(
             selectedItem = if (isPm) "PM" else "AM",
             options = amPm,
+            menuWidth = 22.dp
         ) {
             isPm = it == "PM"
-            onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour.to24Hour(isPm), time.minute).toInstantUtc())
+            onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour.to24Hour(isPm), time.minute).toInstantFromLocal())
         }
     }
 }
@@ -87,7 +89,7 @@ fun DateWheel(
             toLabel = { it.abbrevation },
             options = MonthName.entries.toImmutableList(),
         ) {
-            onChangeInstant(LocalDateTime(time.year, it.calendarNumber, time.dayOfMonth, time.hour, time.minute).toInstantUtc())
+            onChangeInstant(LocalDateTime(time.year, it.calendarNumber, time.dayOfMonth, time.hour, time.minute).toInstantFromLocal())
         }
         // dayOfMonth
         MenuWheel(
@@ -96,21 +98,21 @@ fun DateWheel(
             itemAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.width(menuPartWidth)
         ) {
-            onChangeInstant(LocalDateTime(time.year, time.month, it, time.hour, time.minute).toInstantUtc())
+            onChangeInstant(LocalDateTime(time.year, time.month, it, time.hour, time.minute).toInstantFromLocal())
         }
         // year
         MenuWheel(
             selectedItem = time.year,
             options = years.toImmutableList(),
         ) {
-            onChangeInstant(LocalDateTime(it, time.month, time.dayOfMonth, time.hour, time.minute).toInstantUtc())
+            onChangeInstant(LocalDateTime(it, time.month, time.dayOfMonth, time.hour, time.minute).toInstantFromLocal())
         }
     }
 }
 
 private val menuPartWidth = 20.dp
 private val hours = (listOf(12) + (1..11)).toImmutableList()
-private val minutes = (0..12).map { (it * 5).toString().padStart(2, '0') }.toImmutableList()
+private val minutes = (0..11).map { (it * 5).toString().padStart(2, '0') }.toImmutableList()
 private fun days(year: Int, month: Int) = daysInMonth(year, month).let { (1..it).toImmutableList() }
 private val years = Clock.System.now().toLocalDateTime().year.let { (it..(it + 12)) }
 private val amPm = listOf("AM", "PM").toImmutableList()

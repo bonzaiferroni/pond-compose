@@ -7,6 +7,8 @@ import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,6 +27,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import pondui.ui.theme.ColorMode
@@ -40,9 +43,10 @@ fun <T> MenuWheel(
     label: String? = null,
     toLabel: (T) -> String = { it.toString() },
     offsetRowCount: Int = 1,
+    menuWidth: Dp? = null,
     rowHeight: Dp = 18.dp,
     indicatorColor: Color = Pond.colors.primary,
-    itemAlignment: Alignment.Horizontal = Alignment.End,
+    itemAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     modifier: Modifier = Modifier,
     onSelect: (T) -> Unit
 ) {
@@ -68,7 +72,7 @@ fun <T> MenuWheel(
 
     val rowCount = offsetRowCount * 2 + 1
     val wheelHeight = rowHeight * rowCount
-
+    val listWidth = remember(menuWidth) { menuWidth ?: (options.maxOf { toLabel(it).length } * 10.dp) }
     val layoutInfo = listState.layoutInfo
     val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
     val rowHeightPx = viewPortHeight / rowCount
@@ -141,8 +145,8 @@ fun <T> MenuWheel(
             state = listState,
             flingBehavior = flingBehavior,
             contentPadding = PaddingValues(vertical = rowHeight * offsetRowCount),
-            modifier = modifier.height(wheelHeight)
-                .animateContentSize(),
+            modifier = modifier.width(listWidth)
+                .height(wheelHeight),
             horizontalAlignment = itemAlignment
         ) {
             itemsIndexed(options) { index, option ->
