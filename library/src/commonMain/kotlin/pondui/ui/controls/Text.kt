@@ -23,7 +23,7 @@ fun Text(
     style: TextStyle = Pond.typo.body,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
@@ -40,7 +40,7 @@ fun Text(
     style: TextStyle = Pond.typo.body,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
