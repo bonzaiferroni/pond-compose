@@ -49,7 +49,7 @@ object DefaultColors : PondColors{
     override val contentSky = Color(0xFFf5f6f6)
     override val surfaceSky = Color.Transparent
     override val contentBook = Color(0xFF1d190e)
-    override val surfaceBook = Color(0xFFdbdcdc)
+    override val surfaceBook = Color(0xFFcecfcf)
     override val background = Color(0xFF1b7161)
     override val void = Color(0xff3b4242)
     override val shine = Color(0xFFffe746)

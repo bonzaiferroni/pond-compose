@@ -60,25 +60,12 @@ fun TitleCloud (
     title: String,
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     val portal = LocalPortal.current
     if (isVisible) HotKey(Key.Escape, onDismiss)
 
     portal.setDialogContent(title, isVisible, onDismiss) {
-        ProvideBookColors {
-            Magic(offsetX = 60) {
-                Column(
-                    spacingUnits = 1,
-                    modifier = modifier
-                        .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
-                        .background(Pond.localColors.surface)
-                        .padding(Pond.ruler.doublePadding)
-                ) {
-                    content()
-                }
-            }
-        }
+        content()
     }
 }

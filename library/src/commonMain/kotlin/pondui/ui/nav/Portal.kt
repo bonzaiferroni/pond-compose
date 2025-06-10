@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -34,8 +35,12 @@ import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.ui.behavior.ifNotNull
+import pondui.ui.controls.Column
+import pondui.ui.controls.Label
 import pondui.ui.controls.Text
+import pondui.ui.theme.ProvideBookColors
 import pondui.utils.addShadow
+import pondui.utils.darken
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -93,12 +98,28 @@ fun Portal(
                         .padding(Pond.ruler.doublePadding)
                         .clickableWithoutHoverEffect(onClick = state.dismissDialog)
                 ) {
-                    Magic(offsetX = -60) {
-                        Text(state.dialogTitle, Pond.typo.h2.addShadow())
-                    }
-                    Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
-                    Box(modifier = Modifier.clickableWithoutHoverEffect { }) {
-                        state.dialogContent()
+                    ProvideBookColors {
+                        Magic(offsetY = 60, rotationX = 90, durationMillis = 1000) {
+                            Box(
+                                modifier = Modifier.shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.pill)
+                                    .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.surfaceBook))
+                                    .padding(horizontal = Pond.ruler.unitSpacing * 6, vertical = Pond.ruler.unitSpacing * 2)
+                            ) {
+                                Label(state.dialogTitle, Pond.typo.h3)
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
+                        Magic(offsetX = 60) {
+                            Box(
+                                modifier = Modifier.clickableWithoutHoverEffect { }
+                                    .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
+                                    .background(Pond.localColors.surface)
+                                    // .hazeEffect(state = hazeState, style = HazeMaterials.regular(Pond.localColors.surface.darken(.05f)))
+                                    .padding(Pond.ruler.doublePadding)
+                            ) {
+                                state.dialogContent()
+                            }
+                        }
                     }
                 }
             }
@@ -130,6 +151,7 @@ fun Portal(
                     )
                 }
 
+                // top section
                 Box(
                     modifier = Modifier.width(IntrinsicSize.Max)
                         .height(barHeight)
