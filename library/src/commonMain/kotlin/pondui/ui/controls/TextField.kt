@@ -35,6 +35,7 @@ fun TextField(
     hideCharacters: Boolean = false,
     initialSelectAll: Boolean = false,
     minLines: Int = 1,
+    maxLines: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier
 ) {
     var value by remember {
@@ -65,6 +66,7 @@ fun TextField(
             textStyle = TextStyle(color = color),
             cursorBrush = SolidColor(color),
             minLines = minLines,
+            maxLines = maxLines,
             modifier = modifier.width(IntrinsicSize.Min)
                 .clip(Pond.ruler.unitCorners)
                 .defaultMinSize(150.dp)

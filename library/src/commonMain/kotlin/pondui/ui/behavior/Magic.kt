@@ -1,3 +1,5 @@
+@file:Suppress("DuplicatedCode")
+
 package pondui.ui.behavior
 
 import androidx.compose.animation.core.Easing
@@ -22,9 +24,10 @@ fun Magic(
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
-    durationMillis: Int = 300,
+    durationMillis: Int = 500,
     scale: Boolean = false,
     fade: Boolean = true,
+    exitOpposite: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
     modifier: Modifier = Modifier,
     content: @Composable() () -> Unit
@@ -43,11 +46,12 @@ fun Magic(
     Box(
         modifier = modifier
             .graphicsLayer {
-                translationY = offsetY * (1 - animatedVisibility)
-                translationX = offsetX * (1 - animatedVisibility)
-                this.rotationX = rotationX * (1 - animatedVisibility)
-                this.rotationY = rotationY * (1 - animatedVisibility)
-                this.rotationZ = rotationZ * (1 - animatedVisibility)
+                val opposite = !isVisible && exitOpposite
+                translationY = (if (opposite) -offsetY else offsetY) * (1 - animatedVisibility)
+                translationX = (if (opposite) -offsetX else offsetX) * (1 - animatedVisibility)
+                this.rotationX = (if (opposite) -rotationX else rotationX) * (1 - animatedVisibility)
+                this.rotationY = (if (opposite) -rotationY else rotationY) * (1 - animatedVisibility)
+                this.rotationZ = (if (opposite) -rotationZ else rotationZ) * (1 - animatedVisibility)
                 if (fade) {
                     alpha = animatedVisibility
                 }
@@ -71,6 +75,8 @@ fun Modifier.magic(
     rotationX: Int = 0,
     durationMillis: Int = 500,
     scale: Boolean = false,
+    fade: Boolean = true,
+    exitOpposite: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
 ): Modifier {
     var currentVisibility by remember { mutableStateOf(false) }
@@ -84,12 +90,15 @@ fun Modifier.magic(
     )
 
     return this.graphicsLayer {
-        translationY = offsetY * (1 - animatedVisibility)
-        translationX = offsetX * (1 - animatedVisibility)
-        this.rotationX = rotationX * (1 - animatedVisibility)
-        this.rotationY = rotationY * (1 - animatedVisibility)
-        this.rotationZ = rotationZ * (1 - animatedVisibility)
-        alpha = animatedVisibility
+        val opposite = !isVisible && exitOpposite
+        translationY = (if (opposite) -offsetY else offsetY) * (1 - animatedVisibility)
+        translationX = (if (opposite) -offsetX else offsetX) * (1 - animatedVisibility)
+        this.rotationX = (if (opposite) -rotationX else rotationX) * (1 - animatedVisibility)
+        this.rotationY = (if (opposite) -rotationY else rotationY) * (1 - animatedVisibility)
+        this.rotationZ = (if (opposite) -rotationZ else rotationZ) * (1 - animatedVisibility)
+        if (fade) {
+            alpha = animatedVisibility
+        }
         if (scale) {
             scaleX = animatedVisibility
             scaleY = animatedVisibility
