@@ -8,18 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import pondui.ui.theme.Pond
-import pondui.ui.theme.Spacing
-import pondui.ui.theme.toColumnArrangement
-import pondui.ui.theme.toRowArrangement
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FlowRow(
-    unitSpacing: Int,
+    spacingUnits: Int,
     maxItemsInEachRow: Int = Int.MAX_VALUE,
     itemVerticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    horizontalArrangement: Arrangement.Horizontal = Pond.ruler.rowArrangement(unitSpacing),
-    verticalArrangement: Arrangement.Vertical = Pond.ruler.columnArrangement(unitSpacing),
+    horizontalArrangement: Arrangement.Horizontal = Pond.ruler.rowArrangement(spacingUnits),
+    verticalArrangement: Arrangement.Vertical = Pond.ruler.columnArrangement(spacingUnits),
     modifier: Modifier = Modifier,
     content: @Composable FlowRowScope.() -> Unit
 ) {
