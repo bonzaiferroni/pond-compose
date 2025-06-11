@@ -97,16 +97,16 @@ fun <T> MenuWheel(
                 )
                 drawRoundRect(
                     brush = Brush.verticalGradient(colorStops = stops),
-                    alpha = .8f * isScrollingAnimation,
+                    alpha = .6f * isScrollingAnimation + .4f,
                     cornerRadius = CornerRadius(
                         x = unitSpacing.toPx(),
                         y = (wheelHeight / 2).toPx(),
                     ),
                     size = Size(
-                        width = size.width + (unitSpacing * 2).toPx(),
+                        width = size.width + unitSpacing.toPx(),
                         height = size.height
                     ),
-                    topLeft = Offset(-unitSpacing.toPx(), 0f)
+                    topLeft = Offset(-(unitSpacing / 2).toPx(), 0f)
                 )
 
                 val width = size.width * (1 - isScrollingAnimation)
