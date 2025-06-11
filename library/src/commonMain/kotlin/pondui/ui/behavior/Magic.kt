@@ -15,12 +15,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun Magic(
     isVisible: Boolean = true,
-    offsetX: Int = 0,
-    offsetY: Int = 0,
+    offsetX: Dp = 0.dp,
+    offsetY: Dp = 0.dp,
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
@@ -43,12 +46,16 @@ fun Magic(
     )
     if (animatedVisibility == 0f) return
 
+    val density = LocalDensity.current
+    val offsetPxX = with(density) { offsetX.toPx() }
+    val offsetPxY = with(density) { offsetY.toPx() }
+
     Box(
         modifier = modifier
             .graphicsLayer {
                 val opposite = !isVisible && exitOpposite
-                translationY = (if (opposite) -offsetY else offsetY) * (1 - animatedVisibility)
-                translationX = (if (opposite) -offsetX else offsetX) * (1 - animatedVisibility)
+                translationY = (if (opposite) -offsetPxY else offsetPxY) * (1 - animatedVisibility)
+                translationX = (if (opposite) -offsetPxX else offsetPxX) * (1 - animatedVisibility)
                 this.rotationX = (if (opposite) -rotationX else rotationX) * (1 - animatedVisibility)
                 this.rotationY = (if (opposite) -rotationY else rotationY) * (1 - animatedVisibility)
                 this.rotationZ = (if (opposite) -rotationZ else rotationZ) * (1 - animatedVisibility)
@@ -68,8 +75,8 @@ fun Magic(
 @Composable
 fun Modifier.magic(
     isVisible: Boolean = true,
-    offsetX: Int = 0,
-    offsetY: Int = 0,
+    offsetX: Dp = 0.dp,
+    offsetY: Dp = 0.dp,
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
@@ -89,10 +96,14 @@ fun Modifier.magic(
         animationSpec =  tween(durationMillis, easing = easing)
     )
 
+    val density = LocalDensity.current
+    val offsetPxX = with(density) { offsetX.toPx() }
+    val offsetPxY = with(density) { offsetY.toPx() }
+
     return this.graphicsLayer {
         val opposite = !isVisible && exitOpposite
-        translationY = (if (opposite) -offsetY else offsetY) * (1 - animatedVisibility)
-        translationX = (if (opposite) -offsetX else offsetX) * (1 - animatedVisibility)
+        translationY = (if (opposite) -offsetPxY else offsetPxY) * (1 - animatedVisibility)
+        translationX = (if (opposite) -offsetPxX else offsetPxX) * (1 - animatedVisibility)
         this.rotationX = (if (opposite) -rotationX else rotationX) * (1 - animatedVisibility)
         this.rotationY = (if (opposite) -rotationY else rotationY) * (1 - animatedVisibility)
         this.rotationZ = (if (opposite) -rotationZ else rotationZ) * (1 - animatedVisibility)

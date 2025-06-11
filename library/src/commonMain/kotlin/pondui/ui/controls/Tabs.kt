@@ -7,6 +7,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
 import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
@@ -53,7 +54,7 @@ fun Tabs(
                     val offsetX = if (isSelected) -indexDelta * 100 else indexDelta * 100
                     Box(
                         modifier = Modifier.fillMaxSize()
-                            .magic(isSelected, offsetX = offsetX)
+                            .magic(isSelected, offsetX = offsetX.dp)
                             .clip(headerShape)
                             .background(Pond.colors.selected)
                     )
@@ -65,7 +66,7 @@ fun Tabs(
                         color = color,
                         modifier = Modifier.align(Alignment.Center)
                             .padding(Pond.ruler.doublePadding)
-                            .magic(offsetX = -(index * 10 + 10), durationMillis = index * 300 + 300),
+                            .magic(offsetX = (-index * 10 + 10).dp, durationMillis = index * 300 + 300),
                         maxLines = 1
                     )
                 }
@@ -98,7 +99,7 @@ fun TabScope.Tab(
     }
 
     val offsetX = if (state.currentLabel == label) state.indexDelta * 100 else -state.indexDelta * 100
-    Magic(label == state.currentLabel, offsetX = offsetX) {
+    Magic(label == state.currentLabel, offsetX = offsetX.dp) {
         Column(
             verticalArrangement = Pond.ruler.columnUnit,
             modifier = Modifier.fillMaxWidth()

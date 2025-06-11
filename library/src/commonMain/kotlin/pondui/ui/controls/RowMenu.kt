@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ChevronLeft
 import compose.icons.tablericons.Dots
@@ -25,7 +26,7 @@ fun RowMenu(
     var isExpanded by remember { mutableStateOf(false) }
 
     Row(1, modifier = modifier) {
-        Magic(isExpanded, offsetX = 20) {
+        Magic(isExpanded, offsetX = 20.dp) {
             ControlSet {
                 for (item in items) {
                     Button(item.icon, onClick = item.action, background = item.background ?: Pond.colors.secondary)
@@ -38,10 +39,10 @@ fun RowMenu(
             onClick = { isExpanded = !isExpanded },
             shape = Pond.ruler.pill
         ) {
-            Magic(!isExpanded, offsetX = -5) {
+            Magic(!isExpanded, offsetX = (-5).dp) {
                 Icon(closedIcon)
             }
-            Magic(isExpanded, offsetX = 5) {
+            Magic(isExpanded, offsetX = 5.dp) {
                 Icon(openIcon)
             }
         }

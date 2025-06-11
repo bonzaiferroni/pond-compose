@@ -17,13 +17,14 @@ import pondui.ui.theme.Pond
 @Composable
 fun Checkbox(
     value: Boolean,
+    modifier: Modifier = Modifier,
     onValueChanged: (Boolean) -> Unit
 ) {
     val animate by animateFloatAsState(if (value) 1f else 0f)
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(CheckboxSize)
+        modifier = modifier.size(CheckboxSize)
             .clip(Pond.ruler.unitCorners)
             .clickable { onValueChanged(!value) }
             .background(Pond.colors.primary)
@@ -52,7 +53,7 @@ fun LabelCheckbox(
         horizontalArrangement = Pond.ruler.rowUnit,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(value, onValueChanged)
+        Checkbox(value, onValueChanged = onValueChanged)
         Text(label)
     }
 }

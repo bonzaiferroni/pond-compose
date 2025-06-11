@@ -99,7 +99,7 @@ fun Portal(
                         .clickableWithoutHoverEffect(onClick = state.dismissDialog)
                 ) {
                     ProvideBookColors {
-                        Magic(offsetY = 60, rotationX = 90, durationMillis = 1000) {
+                        Magic(offsetY = 60.dp, rotationX = 90, durationMillis = 1000) {
                             Box(
                                 modifier = Modifier.shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.pill)
                                     .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.surfaceBook))
@@ -109,7 +109,7 @@ fun Portal(
                             }
                         }
                         Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
-                        Magic(offsetX = 60) {
+                        Magic(offsetX = 60.dp) {
                             Box(
                                 modifier = Modifier.clickableWithoutHoverEffect { }
                                     .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)

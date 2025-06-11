@@ -6,11 +6,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 @Composable
 fun <T> MagicItem(
     item: T?,
+    offsetX: Dp = 0.dp,
+    offsetY: Dp = 0.dp,
+    rotationY: Int = 0,
+    rotationX: Int = 0,
     durationMillis: Int = 300,
     modifier: Modifier = Modifier,
     itemContent: @Composable (T) -> Unit,
@@ -32,7 +38,10 @@ fun <T> MagicItem(
         modifier = modifier
             .magic(
                 isVisible = !isClearing,
-                offsetX = 50,
+                offsetX = offsetX,
+                offsetY = offsetY,
+                rotationY = rotationY,
+                rotationX = rotationX,
                 durationMillis = durationMillis,
                 exitOpposite = true
             ),
@@ -49,6 +58,10 @@ fun <T> MagicItem(
 @Composable
 fun <T> MagicItem(
     item: T,
+    offsetX: Dp = 0.dp,
+    offsetY: Dp = 0.dp,
+    rotationY: Int = 0,
+    rotationX: Int = 0,
     durationMillis: Int = 300,
     modifier: Modifier = Modifier,
     content: @Composable (T) -> Unit,
@@ -68,7 +81,10 @@ fun <T> MagicItem(
         modifier = modifier
             .magic(
                 isVisible = !isClearing,
-                rotationX = 90,
+                offsetX = offsetX,
+                offsetY = offsetY,
+                rotationY = rotationY,
+                rotationX = rotationX,
                 durationMillis = durationMillis,
                 exitOpposite = true
             )

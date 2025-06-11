@@ -119,7 +119,7 @@ fun EditText(
 
         Magic(
             isVisible = isEditing,
-            offsetX = offsetPx,
+            offsetX = offsetPx.dp,
             modifier = Modifier.align(Alignment.CenterStart)
                 .offset(-offset)
         ) {
@@ -136,7 +136,7 @@ fun EditText(
 
         Magic(
             isVisible = isEditing,
-            offsetX = -offsetPx,
+            offsetX = -offsetPx.dp,
             modifier = Modifier.align(Alignment.CenterEnd)
                 .offset(offset)
         ) {
