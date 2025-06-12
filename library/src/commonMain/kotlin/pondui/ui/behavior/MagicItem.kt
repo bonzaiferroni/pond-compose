@@ -18,6 +18,7 @@ fun <T> MagicItem(
     rotationY: Int = 0,
     rotationX: Int = 0,
     durationMillis: Int = 300,
+    isVisibleInit: Boolean = false,
     modifier: Modifier = Modifier,
     itemContent: @Composable (T) -> Unit,
     defaultContent: @Composable () -> Unit
@@ -43,7 +44,8 @@ fun <T> MagicItem(
                 rotationY = rotationY,
                 rotationX = rotationX,
                 durationMillis = durationMillis,
-                exitOpposite = true
+                exitOpposite = true,
+                isVisibleInit = isVisibleInit,
             ),
     ) {
         val visibleItem = cachedItem
@@ -63,6 +65,7 @@ fun <T> MagicItem(
     rotationY: Int = 0,
     rotationX: Int = 0,
     durationMillis: Int = 300,
+    isVisibleInit: Boolean = false,
     modifier: Modifier = Modifier,
     content: @Composable (T) -> Unit,
 ) {
@@ -86,7 +89,8 @@ fun <T> MagicItem(
                 rotationY = rotationY,
                 rotationX = rotationX,
                 durationMillis = durationMillis,
-                exitOpposite = true
+                exitOpposite = true,
+                isVisibleInit = isVisibleInit,
             )
     ) {
         content(cachedItem)

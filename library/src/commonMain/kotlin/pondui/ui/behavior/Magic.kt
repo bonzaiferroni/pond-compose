@@ -31,11 +31,12 @@ fun Magic(
     scale: Boolean = false,
     fade: Boolean = true,
     exitOpposite: Boolean = false,
+    isVisibleInit: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
     modifier: Modifier = Modifier,
     content: @Composable() () -> Unit
 ) {
-    var currentVisibility by remember { mutableStateOf(false) }
+    var currentVisibility by remember { mutableStateOf(isVisibleInit) }
     LaunchedEffect(isVisible) {
         currentVisibility = isVisible
     }
@@ -84,9 +85,10 @@ fun Modifier.magic(
     scale: Boolean = false,
     fade: Boolean = true,
     exitOpposite: Boolean = false,
+    isVisibleInit: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
 ): Modifier {
-    var currentVisibility by remember { mutableStateOf(false) }
+    var currentVisibility by remember { mutableStateOf(isVisibleInit) }
     LaunchedEffect(isVisible) {
         currentVisibility = isVisible
     }
