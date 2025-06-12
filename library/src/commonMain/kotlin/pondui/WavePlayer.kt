@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 
 expect class WavePlayer() {
-    suspend fun play(url: String)
+    fun play(url: String)
 }
 
 @Composable
