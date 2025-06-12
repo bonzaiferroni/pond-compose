@@ -10,8 +10,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -36,6 +39,7 @@ import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.ui.behavior.ifNotNull
 import pondui.ui.controls.Column
+import pondui.ui.controls.H3
 import pondui.ui.controls.Label
 import pondui.ui.controls.Text
 import pondui.ui.theme.ProvideBookColors
@@ -98,17 +102,26 @@ fun Portal(
                         .padding(Pond.ruler.doublePadding)
                         .clickableWithoutHoverEffect(onClick = state.dismissDialog)
                 ) {
-                    ProvideBookColors {
-                        Magic(offsetY = 60.dp, rotationX = 90, durationMillis = 1000) {
-                            Box(
-                                modifier = Modifier.shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.pill)
-                                    .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.surfaceBook))
-                                    .padding(horizontal = Pond.ruler.unitSpacing * 6, vertical = Pond.ruler.unitSpacing * 2)
-                            ) {
-                                Label(state.dialogTitle, Pond.typo.h3)
-                            }
+                    Magic(offsetY = 40.dp, rotationY = 90, durationMillis = 1000) {
+                        val surfaceBook = Pond.colors.surfaceBook
+                        Box(
+                            modifier = Modifier.clip(Pond.ruler.pill)
+                                .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.background.lighten(.1f).copy(.8f)))
+                                .drawBehind {
+                                    drawRoundRect(
+                                        color = surfaceBook,
+                                        size = size,
+                                        cornerRadius = CornerRadius(50f, 50f),
+                                        style = Stroke(width = 6f)
+                                    )
+                                }
+                                .padding(horizontal = Pond.ruler.unitSpacing * 6, vertical = Pond.ruler.unitSpacing)
+                        ) {
+                            Text(state.dialogTitle, Pond.typo.h3.addShadow())
                         }
-                        Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
+                    }
+                    Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
+                    ProvideBookColors {
                         Magic(offsetX = 60.dp) {
                             Box(
                                 modifier = Modifier.clickableWithoutHoverEffect { }
