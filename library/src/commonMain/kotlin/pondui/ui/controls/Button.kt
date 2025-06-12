@@ -76,6 +76,7 @@ fun Button(
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
+    padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -84,6 +85,7 @@ fun Button(
         isEnabled = isEnabled,
         background = background,
         shape = shape,
+        padding = padding,
         modifier = modifier
     ) {
         Text(
@@ -99,6 +101,7 @@ fun Button(
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
+    padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -107,7 +110,7 @@ fun Button(
         isEnabled = isEnabled,
         background = background,
         shape = shape,
-        padding = Pond.ruler.unitPadding,
+        padding = padding,
         modifier = modifier,
     ) {
         Icon(
@@ -122,11 +125,18 @@ fun NavButton(
     text: String,
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
+    padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
     onClick: () -> NavRoute
 ) {
     val nav = LocalNav.current
-    Button(onClick = { nav.go(onClick()) }, isEnabled = isEnabled, background = background, modifier = modifier) {
+    Button(
+        onClick = { nav.go(onClick()) },
+        isEnabled = isEnabled,
+        padding = padding,
+        background = background,
+        modifier = modifier
+    ) {
         Text(
             text = text.uppercase(),
             style = TextStyle(fontSize = Pond.typo.label.fontSize),
@@ -140,6 +150,7 @@ fun FlowRowScope.ControlSetButton(
     text: String,
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
+    padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) = Button(
@@ -147,6 +158,7 @@ fun FlowRowScope.ControlSetButton(
     isEnabled = isEnabled,
     background = background,
     shape = Pond.ruler.unitCorners,
+    padding = padding,
     modifier = modifier,
     onClick = onClick,
 )
@@ -157,6 +169,7 @@ fun FlowRowScope.ControlSetButton(
     imageVector: ImageVector,
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
+    padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) = Button(
@@ -164,6 +177,7 @@ fun FlowRowScope.ControlSetButton(
     isEnabled = isEnabled,
     background = background,
     shape = Pond.ruler.unitCorners,
+    padding = padding,
     modifier = modifier.fillMaxRowHeight(),
     onClick = onClick,
 )
