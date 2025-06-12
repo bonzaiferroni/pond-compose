@@ -101,7 +101,7 @@ fun Button(
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
-    padding: PaddingValues = Pond.ruler.doublePadding,
+    padding: PaddingValues = Pond.ruler.unitPadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -169,7 +169,7 @@ fun FlowRowScope.ControlSetButton(
     imageVector: ImageVector,
     background: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
-    padding: PaddingValues = Pond.ruler.doublePadding,
+    padding: PaddingValues = Pond.ruler.unitPadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) = Button(

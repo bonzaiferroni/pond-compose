@@ -42,6 +42,7 @@ actual class WavePlayer {
                 val durationMs = (durationS * 1000).toLong()          // in ms
 
                 println("Clip expects: $durationS s ($durationMs ms), frames: $frames, frameRate: $frameRate")
+//                clip.start()
                 clip.loop(1)
                 delay(durationMs)
                 clip.stop()

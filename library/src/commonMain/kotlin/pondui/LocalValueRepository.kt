@@ -4,6 +4,7 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
+import kotlin.reflect.KClass
 
 class LocalValueRepository(): ValueRepository {
 
@@ -22,6 +23,10 @@ class LocalValueRepository(): ValueRepository {
     override fun readInstantOrNull(key: String) = settings.getLongOrNull(key)?.let { Instant.fromEpochMilliseconds(it) }
     override fun readInstant(key: String, defaultValue: Long) = settings.getLong(key, defaultValue).let { Instant.fromEpochMilliseconds(it) }
     override fun writeInstant(key: String, value: Instant) = settings.set(key, value.toEpochMilliseconds())
+
+    override fun readIntOrNull(key: String) = settings.getIntOrNull(key)
+    override fun readInt(key: String, defaultValue: Int) = settings.getInt(key, defaultValue)
+    override fun writeInt(key: String, value: Int) = settings.putInt(key, value)
 
     inline fun <reified T> readObjectOrNull(): T? = T::class.simpleName?.let { className ->
         readObjectOrNull(className)
