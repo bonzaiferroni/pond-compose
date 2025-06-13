@@ -118,13 +118,3 @@ fun Modifier.magic(
         }
     }
 }
-
-//@Composable
-//fun <T> FlipMagic(
-//    item: T?,
-//    modifier: Modifier = Modifier,
-//    defaultContent: @Composable () -> Unit,
-//    itemContent: @Composable (T) -> Unit
-//) {
-//    // val animatedRotation by animateFloatAsState(if)
-//}
