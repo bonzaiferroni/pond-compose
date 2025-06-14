@@ -15,14 +15,6 @@ actual class WavePlayer {
     private val clip = AudioSystem.getClip()
     private var job: Job? = null
 
-    init {
-        clip.addLineListener { ev ->
-            if (ev.type == LineEvent.Type.STOP) {
-                println("Stopped at frame ${clip.framePosition} of ${clip.frameLength}")
-            }
-        }
-    }
-
     actual fun play(url: String) {
         job?.cancel()
         job = CoroutineScope(Dispatchers.IO).launch {
@@ -41,9 +33,9 @@ actual class WavePlayer {
                 val durationS  = frames / frameRate                   // in seconds
                 val durationMs = (durationS * 1000).toLong()          // in ms
 
-                println("Clip expects: $durationS s ($durationMs ms), frames: $frames, frameRate: $frameRate")
-//                clip.start()
-                clip.loop(1)
+                // println("Clip expects: $durationS s ($durationMs ms), frames: $frames, frameRate: $frameRate")
+                // clip.start()
+                clip.loop(1) // annoying but necessary hack
                 delay(durationMs)
                 clip.stop()
             } catch (e: Exception) {
