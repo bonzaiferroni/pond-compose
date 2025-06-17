@@ -1,5 +1,6 @@
 package pondui.ui.core
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraphBuilder
@@ -8,6 +9,7 @@ import pondui.ui.nav.NavRoute
 import pondui.ui.nav.PortalItem
 
 @Stable
+@Immutable
 data class PondConfig(
     val name: String,
     val logo: ImageVector,
