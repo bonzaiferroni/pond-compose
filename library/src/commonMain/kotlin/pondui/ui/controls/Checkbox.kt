@@ -62,7 +62,7 @@ fun Checkbox(
                     style = Stroke(2.5f.dp.toPx())
                 )
             }
-            .padding(Pond.ruler.unitPadding)
+            .padding(Pond.ruler.halfPadding)
     ) {
         Icon(
             imageVector = TablerIcons.ThumbUp,

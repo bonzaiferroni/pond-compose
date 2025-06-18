@@ -13,6 +13,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun <T> MagicItem(
     item: T?,
+    key: (T?) -> Any? = { item },
     offsetX: Dp = 0.dp,
     offsetY: Dp = 0.dp,
     rotationY: Int = 0,
@@ -26,7 +27,7 @@ fun <T> MagicItem(
     var cachedItem by remember { mutableStateOf(item) }
     var isClearing by remember { mutableStateOf(false) }
 
-    LaunchedEffect(item) {
+    LaunchedEffect(key(item)) {
         if (item == cachedItem) return@LaunchedEffect
         isClearing = true
         delay((durationMillis - 10).toLong())
@@ -60,6 +61,7 @@ fun <T> MagicItem(
 @Composable
 fun <T> MagicItem(
     item: T,
+    key: (T) -> Any? = { item },
     offsetX: Dp = 0.dp,
     offsetY: Dp = 0.dp,
     rotationY: Int = 0,
@@ -72,7 +74,7 @@ fun <T> MagicItem(
     var cachedItem by remember { mutableStateOf(item) }
     var isClearing by remember { mutableStateOf(false) }
 
-    LaunchedEffect(item) {
+    LaunchedEffect(key(item)) {
         if (item == cachedItem) return@LaunchedEffect
         isClearing = true
         delay((durationMillis - 10).toLong())

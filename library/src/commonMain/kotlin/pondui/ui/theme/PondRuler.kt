@@ -16,6 +16,7 @@ interface PondRuler {
     val unitSpacing: Dp get() = spacingUnit.dp
     val doublePadding: PaddingValues get() = PaddingValues(doubleSpacing)
     val unitPadding: PaddingValues get() = PaddingValues(unitSpacing)
+    val halfPadding: PaddingValues get() = PaddingValues(unitSpacing / 2)
 
     val rowUnit: Arrangement.Horizontal get() = Arrangement.spacedBy(unitSpacing)
     val rowSpaced: Arrangement.Horizontal get() = Arrangement.spacedBy(doubleSpacing)

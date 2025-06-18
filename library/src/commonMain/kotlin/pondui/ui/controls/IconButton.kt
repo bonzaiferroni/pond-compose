@@ -1,11 +1,13 @@
 package pondui.ui.controls
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import kotlinx.datetime.format.Padding
 import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 
@@ -15,6 +17,7 @@ fun IconButton(
     tint: Color = Pond.localColors.content,
     hoverText: String? = null,
     isEnabled: Boolean = true,
+    padding: PaddingValues = Pond.ruler.unitPadding,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -23,7 +26,7 @@ fun IconButton(
         modifier = modifier
             .clip(Pond.ruler.defaultCorners)
             .ifTrue(isEnabled) { this.actionable(hoverText, onClick = onClick) }
-            .padding(Pond.ruler.unitPadding),
+            .padding(padding),
         tint = tint
     )
 }
