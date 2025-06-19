@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PathMeasure
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StampedPathEffectStyle
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import pondui.ui.theme.DefaultColors.swatches
 import pondui.ui.theme.Pond
 import pondui.utils.mix
+import kotlin.math.absoluteValue
 
 @Composable
 fun LineChart(
@@ -77,14 +77,19 @@ fun LineChart(
                 // compute pixels per unit
                 val scaleX = chartRangeX / dataRangeX
                 val scaleY = chartRangeY / dataRangeY
+                val points = mutableListOf<List<PointDefinition>>()
                 val paths = arrays.mapIndexed { i, array ->
                     val color = colors[i]
+                    val mixedColor = glowColor?.let { mix(it, color) } ?: color
                     val path = Path()
                     var prevX: Float? = null
                     var prevY: Float? = null
+                    val arrayPoints = mutableListOf<PointDefinition>()
                     array.values.forEachIndexed { idx, value ->
                         val x = chartMinX + (value.x - dataMinX) * scaleX
                         val y = size.height - axisPadding - (value.y - dataMinY) * scaleY
+
+                        arrayPoints.add(PointDefinition(Offset(x, y), mix(color, mixedColor, ((value.y - dataMinY) / dataRangeY))))
                         if (idx == 0) path.moveTo(x, y)
                         else if (array.isBezier) path.drawBezier(
                             prevX = prevX ?: x,
@@ -102,15 +107,15 @@ fun LineChart(
                         join = StrokeJoin.Round,
                         pathEffect = PathEffect.cornerPathEffect(16.dp.toPx())
                     )
-                    val brush = glowColor?.let {
-                        Brush.verticalGradient(
-                            colors = listOf(color, mix(it, color)),
-                            startY = chartRangeY,
-                            endY = 0f
-                        )
-                    } ?: SolidColor(color)
+                    val brush = Brush.verticalGradient(
+                        colors = listOf(color, mixedColor),
+                        startY = chartRangeY,
+                        endY = 0f
+                    )
+                    points.add(arrayPoints)
                     PathDefinition(path, stroke, brush)
                 }
+                val pointRadius = 8.dp.toPx()
 
                 val labelPadding = CHART_AXIS_PADDING.dp.toPx()
                 val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
@@ -181,8 +186,7 @@ fun LineChart(
                         )
                     }
                 }
-
-                val stamped = PathEffect.stampedPathEffect(
+                val horizontalLineStamp = PathEffect.stampedPathEffect(
                     shape   = Path().apply {
                         val dotSize = 4.dp.toPx()
                         addOval(Rect(0f, 0f, dotSize, dotSize))
@@ -193,28 +197,16 @@ fun LineChart(
                 )
 
                 onDrawBehind {
-                    for ((path, stroke, brush) in paths) {
-                        if (animation == 1f) {
-                            drawPath(
-                                path = path,
-                                style = stroke,
-                                brush = brush,
-                            )
-                        } else {
-                            val pathMeasure = PathMeasure().apply {
-                                setPath(path, false)
-                            }
-                            val currentLength = animation * pathMeasure.length
-                            val partialPath = Path().apply {
-                                pathMeasure.getSegment(0f, currentLength, this, true)
-                            }
-                            drawPath(
-                                path = partialPath,
-                                brush = brush,
-                                style = stroke,
-                            )
-                        }
-
+                    horizontalLines?.forEachIndexed { i, line ->
+                        val alpha = -i + animation * horizontalLines.size
+                        drawLine(
+                            brush = line.brush,
+                            start = line.start,
+                            end = line.end,
+                            strokeWidth = horizontalLineWidth,
+                            alpha = .5f * alpha.coerceIn(0f, 1f),
+                            pathEffect = horizontalLineStamp
+                        )
                     }
 
                     leftAxisLabels?.forEachIndexed { i, label ->
@@ -244,16 +236,49 @@ fun LineChart(
                         )
                     }
 
-                    horizontalLines?.forEachIndexed { i, line ->
-                        val alpha = -i + animation * horizontalLines.size
-                        drawLine(
-                            brush = line.brush,
-                            start = line.start,
-                            end = line.end,
-                            strokeWidth = horizontalLineWidth,
-                            alpha = .5f * alpha.coerceIn(0f, 1f),
-                            pathEffect = stamped
-                        )
+                    for ((path, stroke, brush) in paths) {
+                        if (animation == 1f) {
+                            drawPath(
+                                path = path,
+                                style = stroke,
+                                brush = brush,
+                            )
+                        } else {
+                            val pathMeasure = PathMeasure().apply {
+                                setPath(path, false)
+                            }
+                            val currentLength = animation * pathMeasure.length
+                            val partialPath = Path().apply {
+                                pathMeasure.getSegment(0f, currentLength, this, true)
+                            }
+                            drawPath(
+                                path = partialPath,
+                                brush = brush,
+                                style = stroke,
+                            )
+                        }
+
+                    }
+
+                    for (arrayPoints in points) {
+                        arrayPoints.forEachIndexed { i, point ->
+                            val indexAnimation = (-i + animation * arrayPoints.size).coerceIn(0f, 1f)
+                            val radius = pointRadius * indexAnimation
+                            // colored dot
+                            drawCircle(
+                                color  = point.color,
+                                radius = radius,
+                                center = point.offset,
+                                alpha = indexAnimation
+                            )
+                            // white “pupil”
+                            drawCircle(
+                                color  = contentColor,
+                                radius = radius / 2,
+                                center = point.offset,
+                                alpha = indexAnimation
+                            )
+                        }
                     }
                 }
             },
@@ -264,6 +289,11 @@ internal data class PathDefinition(
     val path: Path,
     val stroke: Stroke,
     val brush: Brush
+)
+
+internal data class PointDefinition(
+    val offset: Offset,
+    val color: Color,
 )
 
 internal data class LabelDefinition(

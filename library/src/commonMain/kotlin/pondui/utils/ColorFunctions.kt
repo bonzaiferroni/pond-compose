@@ -12,11 +12,10 @@ fun Color.darken(amount: Float = 0.2f): Color {
 
 fun Color.lighten(amount: Float = 0.2f) = darken(-amount)
 
-fun mix(c1: Color, c2: Color): Color =
-    Color(
-        red   = (c1.red   + c2.red)   / 2f,
-        green = (c1.green + c2.green) / 2f,
-        blue  = (c1.blue  + c2.blue)  / 2f,
-        alpha = (c1.alpha + c2.alpha) / 2f
-    )
+fun mix(c1: Color, c2: Color, ratio: Float = 0.5f) = Color(
+    red   = c1.red   * (1 - ratio) + c2.red   * ratio,
+    green = c1.green * (1 - ratio) + c2.green * ratio,
+    blue  = c1.blue  * (1 - ratio) + c2.blue  * ratio,
+    alpha = c1.alpha * (1 - ratio) + c2.alpha * ratio
+)
 
