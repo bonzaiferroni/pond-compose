@@ -23,7 +23,7 @@ fun IconToggle(
 ) {
     val shadowColor = when {
         !enabled -> Color.Transparent
-        value -> Pond.colors.shine
+        value -> Pond.colors.glow
         else -> DefaultShadowColor
     }
 
@@ -36,7 +36,7 @@ fun IconToggle(
             .padding(Pond.ruler.doublePadding),
         tint = when {
             !enabled -> tint.copy(.5f)
-            value -> Pond.colors.shine
+            value -> Pond.colors.glow
             else -> tint
         }
     )

@@ -16,7 +16,7 @@ interface PondColors {
     val surfaceBook: Color
     val background: Color
     val void: Color
-    val shine: Color
+    val glow: Color
     val swatches: List<Color>
     val textField: Color
 
@@ -52,10 +52,10 @@ object DefaultColors : PondColors{
     override val surfaceBook = Color(0xFFcecfcf)
     override val background = Color(0xFF1b7161)
     override val void = Color(0xff3b4242)
-    override val shine = Color(0xFFffe746)
+    override val glow = Color(0xffecffb6)
     override val swatches = listOf(
-        Color(0xFF18B199),
-        Color(0xFF004587),
+        Color(0xff6fffe2),
+        Color(0xfffebcb8),
         Color(0xFFA11B0A),
         Color(0xFFE3A100),
         Color(0xFF6B3E26),

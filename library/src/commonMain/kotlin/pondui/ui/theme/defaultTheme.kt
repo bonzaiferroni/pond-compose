@@ -17,14 +17,14 @@ fun defaultTheme(
         mode = ColorMode.Sky,
         content = colors.contentSky,
         surface = colors.surfaceSky,
-        highlight = colors.shine.darken(-.4f)
+        highlight = colors.glow.darken(-.4f)
     )
 
     override val bookColors = PondLocalColors(
         mode = ColorMode.Book,
         content = colors.contentBook,
         surface = colors.surfaceBook,
-        highlight = colors.shine.darken(.4f)
+        highlight = colors.glow.darken(.4f)
     )
 
     override val typography = defaultTypography(
