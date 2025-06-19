@@ -14,17 +14,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StampedPathEffectStyle
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import pondui.ui.theme.DefaultColors.swatches
 import pondui.ui.theme.Pond
 import pondui.utils.mix
@@ -42,16 +50,24 @@ fun LineChart(
     LaunchedEffect(Unit) {
         animationTarget = 1f
     }
-    val animation by animateFloatAsState(animationTarget, tween(1000))
+    val animation by animateFloatAsState(animationTarget, tween(2000))
 
     val colors = remember { arrays.mapIndexed { i, a -> a.color ?: swatches[i] } }
+    val textRuler = rememberTextMeasurer()
+    val contentColor = config.contentColor ?: Pond.localColors.content
 
     Box(
         modifier = modifier.sizeIn(minWidth = minSize.width, minHeight = minSize.height)
             .drawWithCache {
-                val chartMinX = if (config.leftAxis != null) CHART_MARGIN.dp.toPx() else 0f
-                val chartMaxX = if (config.rightAxis != null) size.width - CHART_MARGIN.dp.toPx() else size.width
+                val labelHeight = CHART_AXIS_LABEL_HEIGHT.sp.toPx()
+                val axisPadding = CHART_SIDE_AXIS_MARGIN.dp.toPx()
+                // val bottomAxisMarginHeight = labelHeight + CHART_AXIS_PADDING.dp.toPx()
+                val chartMinX = if (config.leftAxis != null) axisPadding else 0f
+                val chartMaxX = if (config.rightAxis != null) size.width - axisPadding else size.width
+                val chartMinY = labelHeight / 2
+                val chartMaxY = if (config.bottomAxis != null) size.height - axisPadding else size.height
                 val chartRangeX = chartMaxX - chartMinX
+                val chartRangeY = chartMaxY - chartMinY
 
                 val dataMinX = parameters.minX
                 val dataMinY = parameters.minY
@@ -59,16 +75,16 @@ fun LineChart(
                 val dataRangeY = parameters.rangeY.takeIf { it != 0f } ?: 1f
 
                 // compute pixels per unit
-                val scaleX = chartRangeX  / dataRangeX
-                val scaleY = size.height / dataRangeY
+                val scaleX = chartRangeX / dataRangeX
+                val scaleY = chartRangeY / dataRangeY
                 val paths = arrays.mapIndexed { i, array ->
                     val color = colors[i]
                     val path = Path()
                     var prevX: Float? = null
                     var prevY: Float? = null
                     array.values.forEachIndexed { idx, value ->
-                        val x = (value.x - dataMinX) * scaleX + chartMinX
-                        val y = size.height - (value.y - dataMinY) * scaleY
+                        val x = chartMinX + (value.x - dataMinX) * scaleX
+                        val y = size.height - axisPadding - (value.y - dataMinY) * scaleY
                         if (idx == 0) path.moveTo(x, y)
                         else if (array.isBezier) path.drawBezier(
                             prevX = prevX ?: x,
@@ -89,12 +105,93 @@ fun LineChart(
                     val brush = glowColor?.let {
                         Brush.verticalGradient(
                             colors = listOf(color, mix(it, color)),
-                            startY = size.height,
+                            startY = chartRangeY,
                             endY = 0f
                         )
                     } ?: SolidColor(color)
                     PathDefinition(path, stroke, brush)
                 }
+
+                val labelPadding = CHART_AXIS_PADDING.dp.toPx()
+                val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
+
+                val leftAxisLabels = config.leftAxis?.let { axisConfig ->
+                    val color = axisConfig.color ?: swatches[0]
+                    axisConfig.values.mapIndexed { i, axisValue ->
+                        val result = textRuler.measure(
+                            text = axisValue.label,
+                            style = TextStyle(color = color, fontSize = labelFontSize)
+                        )
+                        LabelDefinition(
+                            layoutResult = result,
+                            topLeft = Offset(
+                                x = 0f,
+                                y = size.height - axisPadding - axisValue.value * scaleY - result.size.height / 2
+                            )
+                        )
+                    }
+                }
+                val rightAxisLabels = config.rightAxis?.let { axisConfig ->
+                    val color = axisConfig.color ?: swatches[1]
+                    axisConfig.values.mapIndexed { i, axisValue ->
+                        val result = textRuler.measure(
+                            text = axisValue.label,
+                            style = TextStyle(color = color, fontSize = labelFontSize)
+                        )
+                        LabelDefinition(
+                            layoutResult = result,
+                            topLeft = Offset(
+                                x = size.width - result.size.width,
+                                y = size.height - axisPadding - axisValue.value * scaleY - result.size.height / 2
+                            )
+                        )
+                    }
+                }
+                val bottomAxisLabels = config.bottomAxis?.let { axisConfig ->
+                    val color = axisConfig.color ?: contentColor
+                    axisConfig.values.mapIndexed { i, axisValue ->
+                        val result = textRuler.measure(
+                            text = axisValue.label,
+                            style = TextStyle(color = color, fontSize = labelFontSize)
+                        )
+                        LabelDefinition(
+                            layoutResult = result,
+                            topLeft = Offset(
+                                x = chartMinX + axisValue.value * scaleX - result.size.width / 2f,
+                                y = size.height - result.size.height
+                            )
+                        )
+                    }
+                }
+
+                val horizontalLineWidth = 2.dp.toPx()
+                val horizontalLines = config.leftAxis?.let { axisConfig ->
+                    val startColor = axisConfig.color ?: swatches[0]
+                    val endColor = config.rightAxis?.color ?: swatches[1] // startColor
+                    axisConfig.values.map { axisValue ->
+                        val height = size.height - axisPadding - axisValue.value * scaleY - horizontalLineWidth / 2
+                        LineDefinition(
+                            start = Offset(x = chartMinX, y = height),
+                            end = Offset(x = chartMaxX, y = height),
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(startColor, endColor),
+                                startX = chartMinX,
+                                endX   = chartMaxX
+                            )
+                        )
+                    }
+                }
+
+                val stamped = PathEffect.stampedPathEffect(
+                    shape   = Path().apply {
+                        val dotSize = 4.dp.toPx()
+                        addOval(Rect(0f, 0f, dotSize, dotSize))
+                    },
+                    advance = 8.dp.toPx(),
+                    phase   = 0f,
+                    style   = StampedPathEffectStyle.Translate
+                )
+
                 onDrawBehind {
                     for ((path, stroke, brush) in paths) {
                         if (animation == 1f) {
@@ -119,26 +216,91 @@ fun LineChart(
                         }
 
                     }
+
+                    leftAxisLabels?.forEachIndexed { i, label ->
+                        val alpha = -i + animation * leftAxisLabels.size
+                        drawText(
+                            textLayoutResult = label.layoutResult,
+                            topLeft = label.topLeft,
+                            alpha = alpha
+                        )
+                    }
+
+                    rightAxisLabels?.forEachIndexed { i, label ->
+                        val alpha = -i + animation * rightAxisLabels.size
+                        drawText(
+                            textLayoutResult = label.layoutResult,
+                            topLeft = label.topLeft,
+                            alpha = alpha
+                        )
+                    }
+
+                    bottomAxisLabels?.forEachIndexed { i, label ->
+                        val alpha = -i + animation * bottomAxisLabels.size
+                        drawText(
+                            textLayoutResult = label.layoutResult,
+                            topLeft = label.topLeft,
+                            alpha = alpha
+                        )
+                    }
+
+                    horizontalLines?.forEachIndexed { i, line ->
+                        val alpha = -i + animation * horizontalLines.size
+                        drawLine(
+                            brush = line.brush,
+                            start = line.start,
+                            end = line.end,
+                            strokeWidth = horizontalLineWidth,
+                            alpha = .5f * alpha.coerceIn(0f, 1f),
+                            pathEffect = stamped
+                        )
+                    }
                 }
             },
     )
 }
 
-const val CHART_MARGIN = 30
+internal data class PathDefinition(
+    val path: Path,
+    val stroke: Stroke,
+    val brush: Brush
+)
+
+internal data class LabelDefinition(
+    val layoutResult: TextLayoutResult,
+    val topLeft: Offset
+)
+
+internal data class LineDefinition(
+    val start: Offset,
+    val end: Offset,
+    val brush: Brush,
+)
+
+const val CHART_SIDE_AXIS_MARGIN = 30
+const val CHART_AXIS_LABEL_HEIGHT = 12
+const val CHART_AXIS_PADDING = CHART_AXIS_LABEL_HEIGHT / 2
 
 @Stable
 @Immutable
 data class ChartConfig(
     val isAnimated: Boolean = true,
-    val leftAxis: VerticalAxisConfig? = null,
-    val rightAxis: VerticalAxisConfig? = null,
+    val contentColor: Color? = null,
+    val leftAxis: AxisConfig? = null,
+    val rightAxis: AxisConfig? = null,
+    val bottomAxis: AxisConfig? = null,
 )
 
 @Stable
 @Immutable
-data class VerticalAxisConfig(
-    val values: List<Float>,
+data class AxisConfig(
+    val values: List<AxisValue>,
     val color: Color? = null
+)
+
+data class AxisValue(
+    val value: Float,
+    val label: String = value.toInt().toString()
 )
 
 @Stable
@@ -162,17 +324,11 @@ data class CartesianParameters(
     val maxY: Float,
     val minY: Float,
 ) {
-    val rangeX get () = maxX - minX
-    val rangeY get () = maxY - minY
+    val rangeX get() = maxX - minX
+    val rangeY get() = maxY - minY
 }
 
-private data class PathDefinition(
-    val path: Path,
-    val stroke: Stroke,
-    val brush: Brush
-)
-
-private fun gatherParameters(arrays: List<ChartArray>): CartesianParameters {
+internal fun gatherParameters(arrays: List<ChartArray>): CartesianParameters {
     var xMin = Float.MAX_VALUE
     var xMax = Float.MIN_VALUE
     var yMin = Float.MAX_VALUE
