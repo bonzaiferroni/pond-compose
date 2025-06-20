@@ -8,47 +8,57 @@ import androidx.compose.ui.text.drawText
 
 internal data class ChartAxisLabel(
     val layoutResult: TextLayoutResult,
-    val topLeft: Offset
+    val point: Offset,
 )
 
 internal fun ChartScope.gatherAxisLabels(
     axisConfig: AxisConfig,
-    gatherOffset: ChartScope.(AxisValue, TextLayoutResult) -> Offset
-) = axisConfig.values.mapIndexed { i, axisValue ->
-    val result = textRuler.measure(
-        text = axisValue.label,
-        style = TextStyle(color = axisConfig.color, fontSize = labelFontSize)
-    )
-    ChartAxisLabel(
-        layoutResult = result,
-        topLeft = gatherOffset(axisValue, result)
-    )
+    gatherLabelPoint: ChartScope.(AxisValue, TextLayoutResult, Float) -> Offset
+): List<ChartAxisLabel> {
+
+    val pairs = axisConfig.values.map { axisValue ->
+        val result = textRuler.measure(
+            text = axisValue.label,
+            style = TextStyle(color = axisConfig.color, fontSize = labelFontSize)
+        )
+        Pair(axisValue, result)
+    }
+
+    val maxLayoutWidth = pairs.maxOf { it.second.size.width }.toFloat()
+
+    return pairs.map {
+        val (axisValue, layoutResult) = it
+        ChartAxisLabel(
+            layoutResult = layoutResult,
+            point = gatherLabelPoint(axisValue, layoutResult, maxLayoutWidth)
+        )
+    }
 }
 
 internal fun ChartScope.gatherLeftAxisLabels(
     axisConfig: AxisConfig
-) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult ->
+) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult, maxLayoutWidth ->
     Offset(
-        x = 0f,
-        y = sizePx.height - axisPaddingPx - axisValue.value * scaleY - textLayoutResult.size.height / 2
+        x = maxLayoutWidth / 2,
+        y = sizePx.height - axisMarginPx - axisValue.value * scaleY
     )
 }
 
 internal fun ChartScope.gatherRightAxisLabels(
     axisConfig: AxisConfig
-) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult ->
+) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult, maxLayoutWidth ->
     Offset(
-        x = sizePx.width - textLayoutResult.size.width,
-        y = sizePx.height - axisPaddingPx - axisValue.value * scaleY - textLayoutResult.size.height / 2
+        x = sizePx.width - maxLayoutWidth / 2,
+        y = sizePx.height - axisMarginPx - axisValue.value * scaleY
     )
 }
 
 internal fun ChartScope.gatherBottomAxisLabels(
     axisConfig: AxisConfig
-) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult ->
+) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult, maxLayoutWidth ->
     Offset(
-        x = chartMinX + axisValue.value * scaleX - textLayoutResult.size.width / 2f,
-        y = sizePx.height - textLayoutResult.size.height
+        x = chartMinX + axisValue.value * scaleX,
+        y = sizePx.height - textLayoutResult.size.height / 2f
     )
 }
 
@@ -59,7 +69,10 @@ internal fun DrawScope.drawAxisLabels(
     val alpha = -i + animation * labels.size
     drawText(
         textLayoutResult = label.layoutResult,
-        topLeft = label.topLeft,
-        alpha = alpha
+        topLeft = Offset(
+            x = label.point.x - label.layoutResult.size.width / 2f,
+            y = label.point.y - label.layoutResult.size.height / 2f
+        ),
+        alpha = alpha,
     )
 }

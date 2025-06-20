@@ -32,7 +32,7 @@ internal fun ChartScope.gatherHorizontaRule(
             style = StampedPathEffectStyle.Translate
         ),
         lines = leftAxisConfig.values.map { axisValue ->
-            val height = sizePx.height - axisPaddingPx - axisValue.value * scaleY - horizontalLineWidthPx / 2
+            val height = sizePx.height - axisMarginPx - axisValue.value * scaleY - horizontalLineWidthPx / 2
             ChartAxisLine(
                 start = Offset(x = chartMinX, y = height),
                 end = Offset(x = chartMaxX, y = height),

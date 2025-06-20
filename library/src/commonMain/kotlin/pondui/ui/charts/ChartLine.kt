@@ -41,7 +41,7 @@ internal fun ChartScope.gatherChartLines(
         val arrayPoints = mutableListOf<ChartPoint>()
         array.values.forEachIndexed { idx, value ->
             val x = chartMinX + (value.x - data.minX) * scaleX
-            val y = sizePx.height - axisPaddingPx - (value.y - data.minY) * scaleY
+            val y = sizePx.height - axisMarginPx - (value.y - data.minY) * scaleY
 
             arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((value.y - data.minY) / data.rangeY))))
             if (idx == 0) path.moveTo(x, y)
