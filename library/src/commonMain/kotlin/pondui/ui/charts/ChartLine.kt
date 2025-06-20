@@ -70,7 +70,8 @@ internal fun ChartScope.gatherChartLines(
     return chartLines
 }
 
-internal fun DrawScope.drawChartLines(lines: List<ChartLine>, animation: Float) {
+internal fun DrawScope.drawChartLines(lines: List<ChartLine>, animation: Float, focusAnimation: Float) {
+    val alpha = (1 - focusAnimation) * .5f + .5f
     for (line in lines) {
         val (path, stroke, brush) = line.path
         if (animation == 1f) {
@@ -78,6 +79,7 @@ internal fun DrawScope.drawChartLines(lines: List<ChartLine>, animation: Float) 
                 path = path,
                 style = stroke,
                 brush = brush,
+                alpha = alpha
             )
         } else {
             val pathMeasure = PathMeasure().apply {
@@ -91,6 +93,7 @@ internal fun DrawScope.drawChartLines(lines: List<ChartLine>, animation: Float) 
                 path = partialPath,
                 brush = brush,
                 style = stroke,
+                alpha = alpha
             )
         }
     }
@@ -100,22 +103,28 @@ internal fun DrawScope.drawChartPoints(
     lines: List<ChartLine>,
     chartScope: ChartScope,
     chartConfig: ChartConfig,
-    animation: Float
+    animation: Float,
+    pointerTarget: ChartPoint?,
+    pointerTargetPrev: ChartPoint?,
+    pointerAnimation: Float
 ) {
     for (line in lines) {
         line.points.forEachIndexed { i, point ->
             val indexAnimation = (-i + animation * line.points.size).coerceIn(0f, 1f)
-            val radius = chartScope.pointRadiusPx * indexAnimation
+            val bump = if (pointerTarget == point) pointerAnimation * chartScope.pointRadiusPx
+            else if (pointerTargetPrev == point) (1 - pointerAnimation) * chartScope.pointRadiusPx
+            else 0f
+            val radius = chartScope.pointRadiusPx * indexAnimation + bump
             // colored dot
             drawCircle(
-                color  = point.color,
+                color = point.color,
                 radius = radius,
                 center = point.offset,
                 alpha = indexAnimation * .5f
             )
             // white “pupil”
             drawCircle(
-                color  = chartConfig.contentColor,
+                color = chartConfig.contentColor,
                 radius = radius / 2,
                 center = point.offset,
                 alpha = indexAnimation * .5f
