@@ -22,7 +22,7 @@ data class ChartAxis(
 
 data class AxisValue(
     val value: Float,
-    val label: String = value.toInt().toString(),
+    val label: String,
     val layout: TextLayoutResult
 )
 
@@ -54,7 +54,7 @@ fun gatherAxis(
 ): ChartAxis {
     val values = (0 until axisConfig.tickCount).map { tickIndex ->
         val value = tickIndex * (dimension.range / (axisConfig.tickCount - 1)) + dimension.min
-        val label = value.toMetricString()
+        val label = axisConfig.toLabel(value)
         val layout = textRuler.measure(
             text = label,
             style = TextStyle(color = color, fontSize = fontSize)
