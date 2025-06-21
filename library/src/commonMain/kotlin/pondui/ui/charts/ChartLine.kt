@@ -32,8 +32,10 @@ internal fun <T> ChartScope.gatherChartLines(
     glowColor: Color?,
 ): List<ChartLine> {
     val chartLines = mutableListOf<ChartLine>()
+    val (scalePxX, _, minX) = this.dimensionX
     arrays.forEachIndexed { i, array ->
-        val (scaleX, scaleY, dataScope) = dimensions[i]
+        val dimensionY = dimensionsY[i]
+        val (scalePxY, _, minY) = dimensionY
         val color = array.color
         val mixedColor = glowColor?.let { mix(it, color) } ?: color
         val path = Path()
@@ -43,10 +45,10 @@ internal fun <T> ChartScope.gatherChartLines(
         array.values.forEachIndexed { i, value ->
             val valueX = array.provideX(value)
             val valueY = array.provideY(value)
-            val x = chartMinX + (valueX - dataScope.minX) * scaleX
-            val y = sizePx.height - chartMinY - (valueY - dataScope.minY) * scaleY
+            val x = chartMinX + (valueX - minX) * scalePxX
+            val y = sizePx.height - chartMinY - (valueY - minY) * scalePxY
 
-            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - dataScope.minY) / dataScope.rangeY))))
+            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - minY) / dimensionY.range))))
             if (i == 0) path.moveTo(x, y)
             else if (array.isBezier) path.drawBezier(
                 prevX = prevX ?: x,

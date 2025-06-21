@@ -35,7 +35,7 @@ data class ChartArray<T>(
     val color: Color,
     val provideX: (T) -> Float,
     val provideY: (T) -> Float,
-    val dataScope: DataScope? = null,
+    val scope: DataScope? = null,
     val label: String? = null,
     val isBezier: Boolean = true,
     val axis: VerticalAxis? = null

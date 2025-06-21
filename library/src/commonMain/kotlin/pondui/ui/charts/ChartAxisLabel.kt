@@ -38,8 +38,8 @@ internal fun ChartScope.gatherAxisLabels(
 internal fun ChartScope.gatherLeftAxisLabels(
     axisConfig: AxisConfig
 ) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult, maxLayoutWidth ->
-    val minY = axisConfig.dimension.dataScope.minY
-    val scaleY = axisConfig.dimension.scaleY
+    val minY = axisConfig.dimension.min
+    val scaleY = axisConfig.dimension.scalePx
     Offset(
         x = maxLayoutWidth / 2,
         y = sizePx.height - chartMinY - (axisValue.value - minY) * scaleY
@@ -49,8 +49,8 @@ internal fun ChartScope.gatherLeftAxisLabels(
 internal fun ChartScope.gatherRightAxisLabels(
     axisConfig: AxisConfig
 ) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult, maxLayoutWidth ->
-    val minY = axisConfig.dimension.dataScope.minY
-    val scaleY = axisConfig.dimension.scaleY
+    val minY = axisConfig.dimension.min
+    val scaleY = axisConfig.dimension.scalePx
     Offset(
         x = sizePx.width - maxLayoutWidth / 2,
         y = sizePx.height - chartMinY - (axisValue.value - minY) * scaleY
@@ -61,7 +61,7 @@ internal fun ChartScope.gatherBottomAxisLabels(
     axisConfig: AxisConfig
 ) = gatherAxisLabels(axisConfig) { axisValue, textLayoutResult, maxLayoutWidth ->
     Offset(
-        x = chartMinX + axisValue.value * scaleX,
+        x = chartMinX + axisValue.value * axisConfig.dimension.scalePx,
         y = sizePx.height - textLayoutResult.size.height / 2f
     )
 }

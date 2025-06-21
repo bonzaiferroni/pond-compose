@@ -28,10 +28,10 @@ fun <T> ChartScope.gatherVerticalAxis(
     axis: VerticalAxis,
 ) = arrays.withIndex().firstOrNull { it.value.axis == axis }?.let {
     val (index, array) = it
-    val dimension = this.dimensions[index]
-    val minY = dimension.dataScope.minY
-    val maxY = dimension.dataScope.maxY
-    val midY = dimension.dataScope.rangeY / 2 + minY
+    val dimension = this.dimensionsY[index]
+    val minY = dimension.min
+    val maxY = dimension.max
+    val midY = dimension.range / 2 + minY
     AxisConfig(
         values = listOf(
             AxisValue(minY, minY.toMetricString()),

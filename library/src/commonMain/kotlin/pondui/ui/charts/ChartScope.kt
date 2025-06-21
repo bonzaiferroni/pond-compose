@@ -10,14 +10,14 @@ import androidx.compose.ui.unit.sp
 
 data class ChartScope(
     val config: ChartConfig,
-    val dimensions: List<ChartDimension>,
+    val dimensionX: ChartDimension,
+    val dimensionsY: List<ChartDimension>,
     val chartMinX: Float,
     val chartMaxX: Float,
     val chartMinY: Float,
     val chartMaxY: Float,
     val chartRangeX: Float,
     val chartRangeY: Float,
-    val scaleX: Float,
     val sizePx: Size,
     val density: Float,
     val axisMarginPx: Float,
@@ -33,10 +33,12 @@ data class ChartScope(
 }
 
 data class ChartDimension(
-    val scaleX: Float,
-    val scaleY: Float,
-    val dataScope: DataScope
-)
+    val scalePx: Float,
+    val max: Float,
+    val min: Float
+) {
+    val range get() = max - min
+}
 
 internal fun <T> CacheDrawScope.gatherChartScope(
     config: ChartConfig,
@@ -57,7 +59,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
     val chartRangeY = chartMaxY - chartMinY
     val isSingularDimensionY = chartArrays.all { it.axis != VerticalAxis.Left } || chartArrays.all { it.axis != VerticalAxis.Right }
 
-    val dataScopes = chartArrays.map { c -> c.dataScope ?: gatherDataScope(c.values, c.provideX, c.provideY) }
+    val dataScopes = chartArrays.map { c -> c.scope ?: gatherDataScope(c.values, c.provideX, c.provideY) }
         .let { scopes ->
             val minX = scopes.minOf { it.minX }
             val maxX = scopes.maxOf { it.maxX }
@@ -67,30 +69,26 @@ internal fun <T> CacheDrawScope.gatherChartScope(
                 DataScope(maxX, minX, maxY, minY)
             }
         }
-    val dimensions = dataScopes.map { dataScope ->
-        val dataRangeX = dataScope.rangeX.takeIf { it != 0f } ?: 1f
+    val dimensionsY = dataScopes.map { dataScope ->
         val dataRangeY = dataScope.rangeY.takeIf { it != 0f } ?: 1f
-        ChartDimension(
-            scaleX = chartRangeX / dataRangeX,
-            scaleY = chartRangeY / dataRangeY,
-            dataScope = dataScope
-        )
+        ChartDimension(scalePx = chartRangeY / dataRangeY, max = dataScope.maxY, min = dataScope.minY)
     }
 
-    val dataMinX = dimensions.minOf { it.dataScope.minX }
-    val dataMaxX = dimensions.maxOf { it.dataScope.maxX }
+    val dataMinX = dataScopes.minOf { it.minX }
+    val dataMaxX = dataScopes.maxOf { it.maxX }
     val dataRangeX = dataMaxX - dataMinX
+    val dimensionX = ChartDimension(scalePx = chartRangeX / dataRangeX, max = dataMaxX, min = dataMinX)
 
     return ChartScope(
         config = config,
-        dimensions = dimensions,
+        dimensionX = dimensionX,
+        dimensionsY = dimensionsY,
         chartMinX = chartMinX,
         chartMaxX = chartMaxX,
         chartMinY = chartMinY,
         chartMaxY = chartMaxY,
         chartRangeX = chartRangeX,
         chartRangeY = chartRangeY,
-        scaleX = chartRangeX / dataRangeX,
         sizePx = size,
         density = density,
         axisMarginPx = axisPaddingPx,
