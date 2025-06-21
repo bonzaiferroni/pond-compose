@@ -20,6 +20,8 @@ internal fun ChartScope.gatherHorizontaRule(
 ): ChartHorizontalRule {
     val startColor = leftAxisConfig.color
     val endColor = rightAxisConfig?.color ?: leftAxisConfig.color
+    val scaleY = leftAxisConfig.dimension.scaleY
+    val minY = leftAxisConfig.dimension.dataScope.minY
 
     return ChartHorizontalRule(
         stamp = PathEffect.stampedPathEffect(
@@ -32,7 +34,7 @@ internal fun ChartScope.gatherHorizontaRule(
             style = StampedPathEffectStyle.Translate
         ),
         lines = leftAxisConfig.values.map { axisValue ->
-            val height = sizePx.height - axisMarginPx - axisValue.value * scaleY - horizontalLineWidthPx / 2
+            val height = sizePx.height - chartMinY - (axisValue.value - minY) * scaleY - horizontalLineWidthPx / 2
             ChartAxisLine(
                 start = Offset(x = chartMinX, y = height),
                 end = Offset(x = chartMaxX, y = height),

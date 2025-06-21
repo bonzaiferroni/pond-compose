@@ -27,24 +27,27 @@ internal data class ChartPoint(
     val color: Color,
 )
 
-internal fun ChartScope.gatherChartLines(
-    arrays: List<ChartArray>,
+internal fun <T> ChartScope.gatherChartLines(
+    arrays: List<ChartArray<T>>,
     glowColor: Color?,
 ): List<ChartLine> {
     val chartLines = mutableListOf<ChartLine>()
     arrays.forEachIndexed { i, array ->
+        val (scaleX, scaleY, dataScope) = dimensions[i]
         val color = array.color
         val mixedColor = glowColor?.let { mix(it, color) } ?: color
         val path = Path()
         var prevX: Float? = null
         var prevY: Float? = null
         val arrayPoints = mutableListOf<ChartPoint>()
-        array.values.forEachIndexed { idx, value ->
-            val x = chartMinX + (value.x - data.minX) * scaleX
-            val y = sizePx.height - axisMarginPx - (value.y - data.minY) * scaleY
+        array.values.forEachIndexed { i, value ->
+            val valueX = array.provideX(value)
+            val valueY = array.provideY(value)
+            val x = chartMinX + (valueX - dataScope.minX) * scaleX
+            val y = sizePx.height - chartMinY - (valueY - dataScope.minY) * scaleY
 
-            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((value.y - data.minY) / data.rangeY))))
-            if (idx == 0) path.moveTo(x, y)
+            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - dataScope.minY) / dataScope.rangeY))))
+            if (i == 0) path.moveTo(x, y)
             else if (array.isBezier) path.drawBezier(
                 prevX = prevX ?: x,
                 prevY = prevY ?: y,
