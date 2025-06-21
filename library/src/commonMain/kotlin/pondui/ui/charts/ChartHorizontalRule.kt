@@ -14,14 +14,12 @@ internal data class ChartHorizontalRule(
     val lines: List<ChartAxisLine>
 )
 
-internal fun ChartScope.gatherHorizontaRule(
-    leftAxisConfig: AxisConfig,
-    rightAxisConfig: AxisConfig?,
-): ChartHorizontalRule {
-    val startColor = leftAxisConfig.color
-    val endColor = rightAxisConfig?.color ?: leftAxisConfig.color
-    val scaleY = leftAxisConfig.dimension.scalePx
-    val minY = leftAxisConfig.dimension.min
+internal fun ChartScope.gatherHorizontaRule(): ChartHorizontalRule? {
+    val leftAxis = this.leftAxis ?: return null
+    val startColor = leftAxis.color
+    val endColor = rightAxis?.color ?: leftAxis.color
+    val scaleY = leftAxis.dimension.scalePx
+    val minY = leftAxis.dimension.min
 
     return ChartHorizontalRule(
         stamp = PathEffect.stampedPathEffect(
@@ -33,8 +31,9 @@ internal fun ChartScope.gatherHorizontaRule(
             phase = 0f,
             style = StampedPathEffectStyle.Translate
         ),
-        lines = leftAxisConfig.values.map { axisValue ->
-            val height = sizePx.height - chartMinY - (axisValue.value - minY) * scaleY - horizontalLineWidthPx / 2
+        lines = leftAxis.values.map { axisValue ->
+            val valuePx = (axisValue.value - minY) * scaleY
+            val height = sizePx.height - chartMinY - valuePx - horizontalLineWidthPx / 2
             ChartAxisLine(
                 start = Offset(x = chartMinX, y = height),
                 end = Offset(x = chartMaxX, y = height),

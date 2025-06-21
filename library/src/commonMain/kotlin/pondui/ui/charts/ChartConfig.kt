@@ -2,17 +2,9 @@ package pondui.ui.charts
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 const val CHART_POINTER_TARGET_DISTANCE = 30
-
-internal data class ChartAxisLine(
-    val start: Offset,
-    val end: Offset,
-    val brush: Brush,
-)
 
 const val CHART_SIDE_AXIS_MARGIN = 24
 const val CHART_AXIS_LABEL_HEIGHT = 12
@@ -24,8 +16,7 @@ data class ChartConfig(
     val contentColor: Color,
     val isAnimated: Boolean = true,
     val glowColor: Color? = null,
-    val rightAxis: AxisConfig? = null,
-    val bottomAxis: AxisConfig? = null,
+    val bottomAxis: BottomAxisConfig? = null,
 )
 
 @Stable
@@ -38,8 +29,32 @@ data class ChartArray<T>(
     val scope: DataScope? = null,
     val label: String? = null,
     val isBezier: Boolean = true,
-    val axis: VerticalAxis? = null
+    val axis: SideAxisConfig ? = null
 )
+
+interface AxisConfig {
+    val tickCount: Int
+
+    interface Side: AxisConfig {
+        val side: AxisSide
+    }
+
+    interface Bottom: AxisConfig
+}
+
+data class SideAxisConfig(
+    override val tickCount: Int,
+    override val side: AxisSide
+): AxisConfig.Side
+
+data class BottomAxisConfig(
+    override val tickCount: Int
+): AxisConfig.Bottom
+
+enum class AxisSide {
+    Left,
+    Right,
+}
 
 data class ChartValue(
     val x: Float,

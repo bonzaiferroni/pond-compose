@@ -55,20 +55,19 @@ fun <T> LineChart(
     Box(
         modifier = modifier
             .drawWithCache {
+
                 val chartScope = gatherChartScope(config, arrays, textRuler)
                 chartScopeCache = chartScope
 
                 val lines = chartScope.gatherChartLines(arrays, config.glowColor)
                 chartLinesCache = lines
 
-                val leftAxis = chartScope.gatherVerticalAxis(arrays, VerticalAxis.Left)
-                val rightAxis = chartScope.gatherVerticalAxis(arrays, VerticalAxis.Right)
 
-                val leftAxisLabels = leftAxis?.let { chartScope.gatherLeftAxisLabels(it) }
-                val rightAxisLabels = rightAxis?.let { chartScope.gatherRightAxisLabels(it) }
-                val bottomAxisLabels = config.bottomAxis?.let { chartScope.gatherBottomAxisLabels(it) }
+                val leftAxisLabels = chartScope.gatherLeftAxisLabels()
+                val rightAxisLabels = chartScope.gatherRightAxisLabels()
+                val bottomAxisLabels = chartScope.gatherBottomAxisLabels()
 
-                val horizontalRule = leftAxis?.let { chartScope.gatherHorizontaRule(it, config.rightAxis) }
+                val horizontalRule = chartScope.gatherHorizontaRule()
 
                 onDrawBehind {
                     horizontalRule?.let { drawHorizontalRule(it, chartScope, animation) }

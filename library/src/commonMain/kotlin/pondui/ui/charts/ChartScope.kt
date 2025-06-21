@@ -12,6 +12,9 @@ data class ChartScope(
     val config: ChartConfig,
     val dimensionX: ChartDimension,
     val dimensionsY: List<ChartDimension>,
+    val leftAxis: ChartAxis?,
+    val rightAxis: ChartAxis?,
+    val bottomAxis: ChartAxis?,
     val chartMinX: Float,
     val chartMaxX: Float,
     val chartMinY: Float,
@@ -42,24 +45,22 @@ data class ChartDimension(
 
 internal fun <T> CacheDrawScope.gatherChartScope(
     config: ChartConfig,
-    chartArrays: List<ChartArray<T>>,
+    arrays: List<ChartArray<T>>,
     textRuler: TextMeasurer
 ): ChartScope {
-    val labelHeightPx = CHART_AXIS_LABEL_HEIGHT.sp.toPx()
+    val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
+    val labelHeightPx = labelFontSize.toPx()
     val axisPaddingPx = CHART_SIDE_AXIS_MARGIN.dp.toPx()
     val pointRadiusPx = 8.dp.toPx()
-    val hasLeftAxis = chartArrays.any { it.axis == VerticalAxis.Left }
-    val hasRightAxis = chartArrays.any { it.axis == VerticalAxis.Right }
-    // val bottomAxisMarginHeight = labelHeight + CHART_AXIS_PADDING.dp.toPx()
-    val chartMinX = (if (hasLeftAxis) axisPaddingPx else 0f) + pointRadiusPx
-    val chartMaxX = (if (hasRightAxis) size.width - axisPaddingPx else size.width) - pointRadiusPx
+
+    // vertical space
     val chartMinY = (if (config.bottomAxis != null) axisPaddingPx else 0f) + pointRadiusPx
     val chartMaxY = size.height - pointRadiusPx
-    val chartRangeX = chartMaxX - chartMinX
     val chartRangeY = chartMaxY - chartMinY
-    val isSingularDimensionY = chartArrays.all { it.axis != VerticalAxis.Left } || chartArrays.all { it.axis != VerticalAxis.Right }
 
-    val dataScopes = chartArrays.map { c -> c.scope ?: gatherDataScope(c.values, c.provideX, c.provideY) }
+    val isSingularDimensionY = arrays.all { it.axis?.side != AxisSide.Left }
+            || arrays.all { it.axis?.side != AxisSide.Right }
+    val dataScopes = arrays.map { c -> c.scope ?: gatherDataScope(c.values, c.provideX, c.provideY) }
         .let { scopes ->
             val minX = scopes.minOf { it.minX }
             val maxX = scopes.maxOf { it.maxX }
@@ -69,20 +70,34 @@ internal fun <T> CacheDrawScope.gatherChartScope(
                 DataScope(maxX, minX, maxY, minY)
             }
         }
+
     val dimensionsY = dataScopes.map { dataScope ->
         val dataRangeY = dataScope.rangeY.takeIf { it != 0f } ?: 1f
         ChartDimension(scalePx = chartRangeY / dataRangeY, max = dataScope.maxY, min = dataScope.minY)
     }
 
+    val leftAxis = gatherSideAxis(AxisSide.Left, arrays, dimensionsY, textRuler, labelFontSize)
+    val rightAxis = gatherSideAxis(AxisSide.Right, arrays, dimensionsY, textRuler, labelFontSize)
+
+    // horizontal space
+    // val bottomAxisMarginHeight = labelHeight + CHART_AXIS_PADDING.dp.toPx()
+    val chartMinX = (leftAxis?.maxLabelWidthPx ?: 0f) + pointRadiusPx
+    val chartMaxX = size.width - (rightAxis?.maxLabelWidthPx ?: 0f) - pointRadiusPx
+    val chartRangeX = chartMaxX - chartMinX
+
     val dataMinX = dataScopes.minOf { it.minX }
     val dataMaxX = dataScopes.maxOf { it.maxX }
     val dataRangeX = dataMaxX - dataMinX
     val dimensionX = ChartDimension(scalePx = chartRangeX / dataRangeX, max = dataMaxX, min = dataMinX)
+    val bottomAxis = config.bottomAxis?.let { gatherAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize) }
 
     return ChartScope(
         config = config,
         dimensionX = dimensionX,
         dimensionsY = dimensionsY,
+        leftAxis = leftAxis,
+        rightAxis = rightAxis,
+        bottomAxis = bottomAxis,
         chartMinX = chartMinX,
         chartMaxX = chartMaxX,
         chartMinY = chartMinY,
