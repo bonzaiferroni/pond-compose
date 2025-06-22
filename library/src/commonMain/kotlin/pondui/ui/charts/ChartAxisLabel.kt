@@ -45,8 +45,10 @@ internal fun ChartScope.gatherRightAxisLabels() = this.rightAxis?.let { chartAxi
 
 internal fun ChartScope.gatherBottomAxisLabels() = this.bottomAxis?.let { chartAxis ->
     gatherAxisLabels(chartAxis) { axisValue, maxLayoutWidth ->
+        val minX = chartAxis.dimension.min
+        val scaleX = chartAxis.dimension.scalePx
         Offset(
-            x = chartMinX + axisValue.value * chartAxis.dimension.scalePx,
+            x = chartMinX + (axisValue.value - minX) * scaleX,
             y = sizePx.height - axisValue.layout.size.height / 2f
         )
     }

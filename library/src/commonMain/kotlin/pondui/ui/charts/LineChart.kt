@@ -62,7 +62,6 @@ fun <T> LineChart(
                 val lines = chartScope.gatherChartLines(arrays, config.glowColor)
                 chartLinesCache = lines
 
-
                 val leftAxisLabels = chartScope.gatherLeftAxisLabels()
                 val rightAxisLabels = chartScope.gatherRightAxisLabels()
                 val bottomAxisLabels = chartScope.gatherBottomAxisLabels()
