@@ -61,7 +61,13 @@ internal fun <T> CacheDrawScope.gatherChartScope(
 
     val isSingularDimensionY = arrays.all { it.axis?.side != AxisSide.Left }
             || arrays.all { it.axis?.side != AxisSide.Right }
-    val dataScopes = arrays.map { c -> c.scope ?: gatherDataScope(c.values, provideX, c.provideY) }
+    val dataScopes = arrays.map { c -> gatherDataScope(
+        array = c.values,
+        floor = c.floor,
+        ceiling = c.ceiling,
+        provideX = provideX,
+        provideY = c.provideY
+    ) }
         .let { scopes ->
             val minX = scopes.minOf { it.minX }
             val maxX = scopes.maxOf { it.maxX }
