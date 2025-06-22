@@ -46,7 +46,8 @@ data class ChartDimension(
 internal fun <T> CacheDrawScope.gatherChartScope(
     config: ChartConfig,
     arrays: List<ChartArray<T>>,
-    textRuler: TextMeasurer
+    textRuler: TextMeasurer,
+    provideX: (T) -> Float
 ): ChartScope {
     val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
     val labelHeightPx = labelFontSize.toPx()
@@ -60,7 +61,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
 
     val isSingularDimensionY = arrays.all { it.axis?.side != AxisSide.Left }
             || arrays.all { it.axis?.side != AxisSide.Right }
-    val dataScopes = arrays.map { c -> c.scope ?: gatherDataScope(c.values, c.provideX, c.provideY) }
+    val dataScopes = arrays.map { c -> c.scope ?: gatherDataScope(c.values, provideX, c.provideY) }
         .let { scopes ->
             val minX = scopes.minOf { it.minX }
             val maxX = scopes.maxOf { it.maxX }

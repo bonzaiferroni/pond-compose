@@ -17,45 +17,18 @@ import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun <T> TimeChart(
-    arrays: List<TimeChartArray<T>>,
+    arrays: List<ChartArray<T>>,
     config: ChartConfig,
     modifier: Modifier = Modifier,
+    provideX: (T) -> Instant
 ) {
-//    val ticks = remember {
-//        val earliest = arrays.minOf { array -> array.values.minOf { array.provideX(it) } }
-//        generateTimeAxis(earliest)
-//    }
-
     LineChart(
-        arrays = arrays.map { array ->
-            ChartArray(
-                values = array.values,
-                color = array.color,
-                provideX = { array.provideX(it).epochSeconds.toFloat() },
-                provideY = array.provideY,
-                scope = array.scope,
-                label = array.label,
-                isBezier = array.isBezier,
-                axis = array.axis,
-            )
-        },
+        arrays = arrays,
         config = config,
-        modifier = modifier
+        modifier = modifier,
+        provideX = { provideX(it).epochSeconds.toFloat() }
     )
 }
-
-@Stable
-@Immutable
-data class TimeChartArray<T>(
-    val values: List<T>,
-    val color: Color,
-    val provideX: (T) -> Instant,
-    val provideY: (T) -> Float,
-    val scope: DataScope? = null,
-    val label: String? = null,
-    val isBezier: Boolean = true,
-    val axis: AxisConfig.Side ? = null
-)
 
 fun generateTimeAxis(earliest: Instant, latest: Instant = Clock.System.now()): List<AxisTick> {
     val now = Clock.System.now()

@@ -25,12 +25,11 @@ data class ChartConfig(
 data class ChartArray<T>(
     val values: List<T>,
     val color: Color,
-    val provideX: (T) -> Float,
-    val provideY: (T) -> Float,
     val scope: DataScope? = null,
     val label: String? = null,
     val isBezier: Boolean = true,
-    val axis: AxisConfig.Side ? = null
+    val axis: AxisConfig.Side ? = null,
+    val provideY: (T) -> Float,
 )
 
 data class DataScope(
