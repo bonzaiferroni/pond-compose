@@ -17,7 +17,7 @@ data class ChartConfig(
     val contentColor: Color,
     val isAnimated: Boolean = true,
     val glowColor: Color? = null,
-    val bottomAxis: BottomAxisConfig? = null,
+    val bottomAxis: AxisConfig.Bottom? = null,
 )
 
 @Stable
@@ -30,40 +30,7 @@ data class ChartArray<T>(
     val scope: DataScope? = null,
     val label: String? = null,
     val isBezier: Boolean = true,
-    val axis: SideAxisConfig ? = null
-)
-
-interface AxisConfig {
-    val tickCount: Int
-    val toLabel: (Float) -> String
-
-    interface Side: AxisConfig {
-        val side: AxisSide
-    }
-
-    interface Bottom: AxisConfig
-}
-
-data class SideAxisConfig(
-    override val tickCount: Int,
-    override val side: AxisSide,
-    override val toLabel: (Float) -> String = { it.toMetricString() }
-): AxisConfig.Side
-
-data class BottomAxisConfig(
-    override val tickCount: Int,
-    override val toLabel: (Float) -> String = { it.toMetricString() }
-): AxisConfig.Bottom
-
-enum class AxisSide {
-    Left,
-    Right,
-}
-
-data class ChartValue(
-    val x: Float,
-    val y: Float,
-    val key: Any
+    val axis: AxisConfig.Side ? = null
 )
 
 data class DataScope(

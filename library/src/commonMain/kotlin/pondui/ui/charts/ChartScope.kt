@@ -76,8 +76,8 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         ChartDimension(scalePx = chartRangeY / dataRangeY, max = dataScope.maxY, min = dataScope.minY)
     }
 
-    val leftAxis = gatherSideAxis(AxisSide.Left, arrays, dimensionsY, textRuler, labelFontSize)
-    val rightAxis = gatherSideAxis(AxisSide.Right, arrays, dimensionsY, textRuler, labelFontSize)
+    val leftAxis = gatherSideAutoAxis(AxisSide.Left, arrays, dimensionsY, textRuler, labelFontSize)
+    val rightAxis = gatherSideAutoAxis(AxisSide.Right, arrays, dimensionsY, textRuler, labelFontSize)
 
     // horizontal space
     // val bottomAxisMarginHeight = labelHeight + CHART_AXIS_PADDING.dp.toPx()
@@ -89,7 +89,12 @@ internal fun <T> CacheDrawScope.gatherChartScope(
     val dataMaxX = dataScopes.maxOf { it.maxX }
     val dataRangeX = dataMaxX - dataMinX
     val dimensionX = ChartDimension(scalePx = chartRangeX / dataRangeX, max = dataMaxX, min = dataMinX)
-    val bottomAxis = config.bottomAxis?.let { gatherAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize) }
+    val bottomAxis = config.bottomAxis?.let {
+        when (it) {
+            is BottomAxisAutoConfig -> gatherAutoAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize)
+            is BottomAxisConfig -> gatherAxis(it.ticks, dimensionX, textRuler, config.contentColor, labelFontSize)
+        }
+    }
 
     return ChartScope(
         config = config,

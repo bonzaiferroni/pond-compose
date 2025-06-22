@@ -9,7 +9,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
-import kabinet.utils.toMetricString
+import pondui.ui.controls.AxisTick
 
 @Stable
 @Immutable
@@ -32,7 +32,7 @@ internal data class ChartAxisLine(
     val brush: Brush,
 )
 
-fun <T> gatherSideAxis(
+fun <T> gatherSideAutoAxis(
     side: AxisSide,
     arrays: List<ChartArray<T>>,
     dimensionsY: List<ChartDimension>,
@@ -42,10 +42,10 @@ fun <T> gatherSideAxis(
     val (index, array) = indexedArray
     val axisConfig = array.axis!!
     val dimension = dimensionsY[index]
-    gatherAxis(axisConfig, dimension, textRuler, array.color, labelFontSize)
+    gatherAutoAxis(axisConfig, dimension, textRuler, array.color, labelFontSize)
 }
 
-fun gatherAxis(
+fun gatherAutoAxis(
     axisConfig: AxisConfig,
     dimension: ChartDimension,
     textRuler: TextMeasurer,
@@ -60,6 +60,30 @@ fun gatherAxis(
             style = TextStyle(color = color, fontSize = fontSize)
         )
         AxisValue(value, label, layout)
+    }
+    val maxLabelWidthPx = values.maxOf { it.layout.size.width }.toFloat()
+    return ChartAxis(
+        values = values,
+        color = color,
+        dimension = dimension,
+        maxLabelWidthPx = maxLabelWidthPx
+    )
+}
+
+fun gatherAxis(
+    ticks: List<AxisTick>,
+    dimension: ChartDimension,
+    textRuler: TextMeasurer,
+    color: Color,
+    labelFontSize: TextUnit
+): ChartAxis {
+    val values = ticks.map { tick ->
+        val value = tick.value + dimension.min
+        val layout = textRuler.measure(
+            text = tick.label,
+            style = TextStyle(color = color, fontSize = labelFontSize)
+        )
+        AxisValue(value, tick.label, layout)
     }
     val maxLabelWidthPx = values.maxOf { it.layout.size.width }.toFloat()
     return ChartAxis(

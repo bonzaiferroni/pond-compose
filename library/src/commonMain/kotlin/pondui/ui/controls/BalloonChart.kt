@@ -204,7 +204,7 @@ private fun generateBalloonSpace(config: BalloonsData): BalloonSpace {
     )
 }
 
-fun generateAxisTicks(earliest: Instant, latest: Instant = Clock.System.now()): ImmutableList<AxisTick> {
+fun generateAxisTicks(earliest: Instant, latest: Instant = Clock.System.now()): List<AxisTick> {
     val now = Clock.System.now()
     val span = latest - earliest
     val interval = when {
@@ -232,7 +232,7 @@ fun generateAxisTicks(earliest: Instant, latest: Instant = Clock.System.now()): 
         }
         val x = (now - time).inWholeHours / 24f
         AxisTick(-x, label)
-    }.toImmutableList()
+    }
 }
 
 data class BalloonsData(

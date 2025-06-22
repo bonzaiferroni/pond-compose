@@ -42,7 +42,7 @@ internal fun <T> ChartScope.gatherChartLines(
         var prevX: Float? = null
         var prevY: Float? = null
         val arrayPoints = mutableListOf<ChartPoint>()
-        array.values.forEachIndexed { i, value ->
+        array.values.sortedBy { array.provideX(it) }. forEachIndexed { i, value ->
             val valueX = array.provideX(value)
             val valueY = array.provideY(value)
             val x = chartMinX + (valueX - minX) * scalePxX
