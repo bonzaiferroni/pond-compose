@@ -37,17 +37,17 @@ data class ChartScope(
 
 data class ChartDimension(
     val scalePx: Float,
-    val max: Float,
-    val min: Float
+    val max: Double,
+    val min: Double
 ) {
-    val range get() = max - min
+    val range get() = (max - min).toFloat()
 }
 
 internal fun <T> CacheDrawScope.gatherChartScope(
     config: ChartConfig,
     arrays: List<ChartArray<T>>,
     textRuler: TextMeasurer,
-    provideX: (T) -> Float
+    provideX: (T) -> Double
 ): ChartScope {
     val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
     val labelHeightPx = labelFontSize.toPx()
@@ -73,8 +73,8 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         }
 
     val dimensionsY = dataScopes.map { dataScope ->
-        val dataRangeY = dataScope.rangeY.takeIf { it != 0f } ?: 1f
-        ChartDimension(scalePx = chartRangeY / dataRangeY, max = dataScope.maxY, min = dataScope.minY)
+        val dataRangeY = dataScope.rangeY.takeIf { it != 0.0 } ?: 0.0
+        ChartDimension(scalePx = chartRangeY / dataRangeY.toFloat(), max = dataScope.maxY, min = dataScope.minY)
     }
 
     val leftAxis = gatherSideAutoAxis(AxisSide.Left, arrays, dimensionsY, textRuler, labelFontSize)
@@ -89,7 +89,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
     val dataMinX = dataScopes.minOf { it.minX }
     val dataMaxX = dataScopes.maxOf { it.maxX }
     val dataRangeX = dataMaxX - dataMinX
-    val dimensionX = ChartDimension(scalePx = chartRangeX / dataRangeX, max = dataMaxX, min = dataMinX)
+    val dimensionX = ChartDimension(scalePx = chartRangeX / dataRangeX.toFloat(), max = dataMaxX, min = dataMinX)
     val bottomAxis = config.bottomAxis?.let {
         when (it) {
             is BottomAxisAutoConfig -> gatherAutoAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize)

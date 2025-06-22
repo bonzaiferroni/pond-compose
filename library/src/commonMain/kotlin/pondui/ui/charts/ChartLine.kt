@@ -30,7 +30,7 @@ internal data class ChartPoint(
 internal fun <T> ChartScope.gatherChartLines(
     arrays: List<ChartArray<T>>,
     glowColor: Color?,
-    provideX: (T) -> Float,
+    provideX: (T) -> Double,
 ): List<ChartLine> {
     val chartLines = mutableListOf<ChartLine>()
     val (scalePxX, _, minX) = this.dimensionX
@@ -46,10 +46,10 @@ internal fun <T> ChartScope.gatherChartLines(
         array.values.sortedBy { provideX(it) }. forEachIndexed { i, value ->
             val valueX = provideX(value)
             val valueY = array.provideY(value)
-            val x = chartMinX + (valueX - minX) * scalePxX
-            val y = sizePx.height - chartMinY - (valueY - minY) * scalePxY
+            val x = chartMinX + (valueX - minX).toFloat() * scalePxX
+            val y = sizePx.height - chartMinY - (valueY - minY).toFloat() * scalePxY
 
-            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - minY) / dimensionY.range))))
+            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - minY).toFloat() / dimensionY.range))))
             if (i == 0) path.moveTo(x, y)
             else if (array.isBezier) path.drawBezier(
                 prevX = prevX ?: x,

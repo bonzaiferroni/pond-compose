@@ -29,24 +29,24 @@ data class ChartArray<T>(
     val label: String? = null,
     val isBezier: Boolean = true,
     val axis: AxisConfig.Side ? = null,
-    val provideY: (T) -> Float,
+    val provideY: (T) -> Double,
 )
 
 data class DataScope(
-    val maxX: Float,
-    val minX: Float,
-    val maxY: Float,
-    val minY: Float,
+    val maxX: Double,
+    val minX: Double,
+    val maxY: Double,
+    val minY: Double,
 ) {
     val rangeX get() = maxX - minX
     val rangeY get() = maxY - minY
 }
 
-internal fun <T> gatherDataScope(array: List<T>, provideX: (T) -> Float, provideY: (T) -> Float): DataScope {
-    var xMin = Float.MAX_VALUE
-    var xMax = Float.MIN_VALUE
-    var yMin = Float.MAX_VALUE
-    var yMax = Float.MIN_VALUE
+internal fun <T> gatherDataScope(array: List<T>, provideX: (T) -> Double, provideY: (T) -> Double): DataScope {
+    var xMin = Double.MAX_VALUE
+    var xMax = Double.MIN_VALUE
+    var yMin = Double.MAX_VALUE
+    var yMax = Double.MIN_VALUE
     for (value in array) {
         val x = provideX(value)
         val y = provideY(value)

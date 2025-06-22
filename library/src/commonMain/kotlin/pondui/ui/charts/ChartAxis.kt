@@ -9,7 +9,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
-import pondui.ui.controls.AxisTick
+import pondui.ui.controls.BalloonAxisTick
 
 @Stable
 @Immutable
@@ -21,7 +21,7 @@ data class ChartAxis(
 )
 
 data class AxisValue(
-    val value: Float,
+    val value: Double,
     val label: String,
     val layout: TextLayoutResult
 )

@@ -46,7 +46,6 @@ import androidx.compose.ui.unit.toSize
 import coil3.compose.AsyncImage
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -146,7 +145,7 @@ fun BalloonChart(
 }
 
 @Composable
-internal fun AxisTickBox(xTicks: ImmutableList<AxisTick>, xScale: Float, space: BalloonSpace) {
+internal fun AxisTickBox(xTicks: ImmutableList<BalloonAxisTick>, xScale: Float, space: BalloonSpace) {
     val textMeasurer = rememberTextMeasurer()
     Box(
         modifier = Modifier.fillMaxSize()
@@ -204,7 +203,7 @@ private fun generateBalloonSpace(config: BalloonsData): BalloonSpace {
     )
 }
 
-fun generateAxisTicks(earliest: Instant, latest: Instant = Clock.System.now()): List<AxisTick> {
+fun generateAxisTicks(earliest: Instant, latest: Instant = Clock.System.now()): List<BalloonAxisTick> {
     val now = Clock.System.now()
     val span = latest - earliest
     val interval = when {
@@ -231,13 +230,13 @@ fun generateAxisTicks(earliest: Instant, latest: Instant = Clock.System.now()): 
             else -> "${localTime.hour}:${localTime.minute.toString().padStart(2, '0')}"
         }
         val x = (now - time).inWholeHours / 24f
-        AxisTick(-x, label)
+        BalloonAxisTick(-x, label)
     }
 }
 
 data class BalloonsData(
     val points: ImmutableList<BalloonPoint> = persistentListOf(),
-    val xTicks: ImmutableList<AxisTick>? = null,
+    val xTicks: ImmutableList<BalloonAxisTick>? = null,
     val xMax: Float? = null,
     val xMin: Float? = null,
 )
@@ -252,7 +251,7 @@ data class BalloonPoint(
     val imageUrl: String? = null,
 )
 
-data class AxisTick(
+data class BalloonAxisTick(
     val value: Float,
     val label: String,
 )

@@ -1,17 +1,14 @@
 package pondui.ui.charts
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import kabinet.utils.toDoubleMillis
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import pondui.ui.controls.AxisTick
+import pondui.ui.controls.BalloonAxisTick
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 
@@ -26,11 +23,11 @@ fun <T> TimeChart(
         arrays = arrays,
         config = config,
         modifier = modifier,
-        provideX = { provideX(it).epochSeconds.toFloat() }
+        provideX = { provideX(it).toDoubleMillis() }
     )
 }
 
-fun generateTimeAxis(earliest: Instant, latest: Instant = Clock.System.now()): List<AxisTick> {
+fun generateTimeAxis(earliest: Instant, latest: Instant = Clock.System.now()): List<BalloonAxisTick> {
     val now = Clock.System.now()
     val span = latest - earliest
     val interval = when {
@@ -57,6 +54,6 @@ fun generateTimeAxis(earliest: Instant, latest: Instant = Clock.System.now()): L
             else -> "${localTime.hour}:${localTime.minute.toString().padStart(2, '0')}"
         }
 
-        AxisTick(time.epochSeconds.toFloat(), label)
+        BalloonAxisTick(time.epochSeconds.toFloat(), label)
     }
 }

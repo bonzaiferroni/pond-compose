@@ -26,7 +26,7 @@ fun <T> LineChart(
     arrays: List<ChartArray<T>>,
     config: ChartConfig,
     modifier: Modifier = Modifier,
-    provideX: (T) -> Float,
+    provideX: (T) -> Double,
 ) {
     var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
     LaunchedEffect(Unit) {
