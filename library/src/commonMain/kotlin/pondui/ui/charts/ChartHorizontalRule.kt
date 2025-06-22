@@ -32,15 +32,15 @@ internal fun ChartScope.gatherHorizontaRule(): ChartHorizontalRule? {
             style = StampedPathEffectStyle.Translate
         ),
         lines = leftAxis.values.map { axisValue ->
-            val valuePx = (axisValue.value - minY).toFloat() * scaleY
-            val height = sizePx.height - chartMinY - valuePx - horizontalLineWidthPx / 2
+            val valueOffsetPx = valueOffsetPx(axisValue.value, minY, scaleY)
+            val height = sizePx.height - chartBottomMarginPx - valueOffsetPx - horizontalLineWidthPx / 2
             ChartAxisLine(
-                start = Offset(x = chartMinX, y = height),
-                end = Offset(x = chartMaxX, y = height),
+                start = Offset(x = chartLeftMarginPx, y = height),
+                end = Offset(x = chartLeftMarginPx + chartWidthPx, y = height),
                 brush = Brush.horizontalGradient(
                     colors = listOf(startColor, endColor),
-                    startX = chartMinX,
-                    endX = chartMaxX
+                    startX = chartLeftMarginPx,
+                    endX = chartLeftMarginPx + chartWidthPx
                 )
             )
         }

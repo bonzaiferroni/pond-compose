@@ -27,7 +27,7 @@ internal fun ChartScope.gatherLeftAxisLabels() = this.leftAxis?.let { chartAxis 
         val scaleY = chartAxis.dimension.scalePx
         Offset(
             x = maxLayoutWidth / 2,
-            y = sizePx.height - chartMinY - (axisValue.value - minY).toFloat() * scaleY
+            y = sizePx.height - chartBottomMarginPx - (axisValue.value - minY).toFloat() * scaleY
         )
     }
 }
@@ -38,7 +38,7 @@ internal fun ChartScope.gatherRightAxisLabels() = this.rightAxis?.let { chartAxi
         val scaleY = chartAxis.dimension.scalePx
         Offset(
             x = sizePx.width - maxLayoutWidth / 2,
-            y = sizePx.height - chartMinY - (axisValue.value - minY).toFloat() * scaleY
+            y = sizePx.height - chartBottomMarginPx - (axisValue.value - minY).toFloat() * scaleY
         )
     }
 }
@@ -48,7 +48,7 @@ internal fun ChartScope.gatherBottomAxisLabels() = this.bottomAxis?.let { chartA
         val minX = chartAxis.dimension.min
         val scaleX = chartAxis.dimension.scalePx
         Offset(
-            x = chartMinX + (axisValue.value - minX).toFloat() * scaleX,
+            x = chartLeftMarginPx + (axisValue.value - minX).toFloat() * scaleX,
             y = sizePx.height - axisValue.layout.size.height / 2f
         )
     }

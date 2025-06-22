@@ -46,8 +46,8 @@ internal fun <T> ChartScope.gatherChartLines(
         array.values.sortedBy { provideX(it) }. forEachIndexed { i, value ->
             val valueX = provideX(value)
             val valueY = array.provideY(value)
-            val x = chartMinX + (valueX - minX).toFloat() * scalePxX
-            val y = sizePx.height - chartMinY - (valueY - minY).toFloat() * scalePxY
+            val x = chartLeftMarginPx + valueOffsetPx(valueX, minX, scalePxX)
+            val y = sizePx.height - chartBottomMarginPx - valueOffsetPx(valueY, minY, scalePxY)
 
             arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - minY).toFloat() / dimensionY.range))))
             if (i == 0) path.moveTo(x, y)
@@ -68,7 +68,7 @@ internal fun <T> ChartScope.gatherChartLines(
         )
         val brush = Brush.verticalGradient(
             colors = listOf(color, mixedColor),
-            startY = chartRangeY,
+            startY = chartHeightPx,
             endY = 0f
         )
         chartLines.add(ChartLine(ChartPath(path, stroke, brush), arrayPoints))
@@ -155,3 +155,5 @@ private fun Path.drawBezier(
         currentX, currentY
     )
 }
+
+internal fun valueOffsetPx(value: Double, minValue: Double, scalePx: Float) = (value - minValue).toFloat() * scalePx
