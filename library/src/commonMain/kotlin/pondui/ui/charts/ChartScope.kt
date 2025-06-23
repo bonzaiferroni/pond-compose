@@ -51,11 +51,11 @@ internal fun <T> CacheDrawScope.gatherChartScope(
 ): ChartScope {
     val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
     val labelHeightPx = labelFontSize.toPx()
-    val axisPaddingPx = CHART_SIDE_AXIS_MARGIN.dp.toPx()
+    val bottomMarginPx = CHART_BOTTOM_MARGIN.dp.toPx()
     val pointRadiusPx = 8.dp.toPx()
 
     // vertical space
-    val chartBottomMarginPx = (if (config.bottomAxis != null) axisPaddingPx else 0f) + pointRadiusPx
+    val chartBottomMarginPx = (if (config.bottomAxis != null) labelHeightPx * 1.5f else 0f) + pointRadiusPx
     val chartTopMarginPx = pointRadiusPx
     val chartHeightPx = size.height - chartTopMarginPx - chartBottomMarginPx
 
@@ -65,6 +65,8 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         array = c.values,
         floor = c.floor,
         ceiling = c.ceiling,
+        startX = config.startX,
+        endX = config.endX,
         provideX = provideX,
         provideY = c.provideY
     ) }
@@ -80,7 +82,11 @@ internal fun <T> CacheDrawScope.gatherChartScope(
 
     val dimensionsY = dataScopes.map { dataScope ->
         val dataRangeY = dataScope.rangeY.takeIf { it != 0.0 } ?: 0.0
-        ChartDimension(scalePx = chartHeightPx / dataRangeY.toFloat(), max = dataScope.maxY, min = dataScope.minY)
+        ChartDimension(
+            scalePx = chartHeightPx / dataRangeY.toFloat(),
+            max = dataScope.maxY,
+            min = dataScope.minY
+        )
     }
 
     val leftAxis = gatherSideAutoAxis(AxisSide.Left, arrays, dimensionsY, textRuler, labelFontSize)
@@ -88,8 +94,8 @@ internal fun <T> CacheDrawScope.gatherChartScope(
 
     // horizontal space
     // val bottomAxisMarginHeight = labelHeight + CHART_AXIS_PADDING.dp.toPx()
-    val chartLeftMarginPx = (leftAxis?.maxLabelWidthPx ?: 0f) + pointRadiusPx
-    val chartRightMarginPx = (rightAxis?.maxLabelWidthPx ?: 0f) + pointRadiusPx
+    val chartLeftMarginPx = (leftAxis?.maxLabelWidthPx?.let { it + labelHeightPx / 2 } ?: 0f) + pointRadiusPx
+    val chartRightMarginPx = (rightAxis?.maxLabelWidthPx?.let { it + labelHeightPx / 2 } ?: 0f) + pointRadiusPx
     val chartWidthPx = size.width - chartRightMarginPx - chartLeftMarginPx
 
     val dataMinX = dataScopes.minOf { it.minX }
@@ -118,13 +124,13 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         chartHeightPx = chartHeightPx,
         sizePx = size,
         density = density,
-        axisMarginPx = axisPaddingPx,
+        axisMarginPx = bottomMarginPx,
         labelHeightPx = labelHeightPx,
         lineWidthPx = 4.dp.toPx(),
         pointRadiusPx = pointRadiusPx,
         labelPaddingPx = CHART_AXIS_PADDING.dp.toPx(),
         labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp,
         textRuler = textRuler,
-        horizontalLineWidthPx = 2.dp.toPx()
+        horizontalLineWidthPx = 3.dp.toPx()
     )
 }

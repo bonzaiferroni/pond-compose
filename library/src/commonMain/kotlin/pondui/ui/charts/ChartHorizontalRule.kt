@@ -24,10 +24,10 @@ internal fun ChartScope.gatherHorizontaRule(): ChartHorizontalRule? {
     return ChartHorizontalRule(
         stamp = PathEffect.stampedPathEffect(
             shape = Path().apply {
-                val dotSize = 4.dp.toPx()
+                val dotSize = horizontalLineWidthPx
                 addOval(Rect(0f, 0f, dotSize, dotSize))
             },
-            advance = 8.dp.toPx(),
+            advance = horizontalLineWidthPx * 2,
             phase = 0f,
             style = StampedPathEffectStyle.Translate
         ),

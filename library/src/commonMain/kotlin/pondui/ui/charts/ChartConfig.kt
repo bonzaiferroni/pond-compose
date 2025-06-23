@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 
 const val CHART_POINTER_TARGET_DISTANCE = 30
 
-const val CHART_SIDE_AXIS_MARGIN = 24
+const val CHART_BOTTOM_MARGIN = 24
 const val CHART_AXIS_LABEL_HEIGHT = 12
 const val CHART_AXIS_PADDING = CHART_AXIS_LABEL_HEIGHT / 2
 
@@ -17,6 +17,8 @@ data class ChartConfig(
     val isAnimated: Boolean = true,
     val glowColor: Color? = null,
     val bottomAxis: AxisConfig.Bottom? = null,
+    val startX: Double? = null,
+    val endX: Double? = null,
 )
 
 @Stable
@@ -46,13 +48,15 @@ internal fun <T> gatherDataScope(
     array: List<T>,
     floor: Double?,
     ceiling: Double?,
+    startX: Double?,
+    endX: Double?,
     provideX: (T) -> Double,
     provideY: (T) -> Double
 ): DataScope {
-    var minX = Double.MAX_VALUE
-    var maxX = Double.MIN_VALUE
-    var minY = Double.MAX_VALUE
-    var maxY = Double.MIN_VALUE
+    var minX = startX ?: Double.MAX_VALUE
+    var maxX = endX ?: Double.MIN_VALUE
+    var minY = floor ?: Double.MAX_VALUE
+    var maxY = ceiling ?: Double.MIN_VALUE
     for (value in array) {
         val x = provideX(value)
         val y = provideY(value)
@@ -64,7 +68,7 @@ internal fun <T> gatherDataScope(
     return DataScope(
         maxX = maxX,
         minX = minX,
-        maxY = ceiling ?: maxY,
-        minY = floor ?: minY,
+        maxY = maxY,
+        minY = minY,
     )
 }
