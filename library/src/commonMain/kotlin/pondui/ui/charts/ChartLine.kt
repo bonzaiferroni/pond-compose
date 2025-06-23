@@ -30,9 +30,8 @@ internal data class ChartPoint(
     val side: AxisSide
 )
 
-internal fun <T> ChartScope.gatherChartLines(
-    arrays: List<ChartArray<T>>,
-    glowColor: Color?,
+internal fun <T> LineChartScope.gatherChartLines(
+    arrays: List<LineChartArray<T>>,
     provideX: (T) -> Double,
 ): List<ChartLine> {
     val chartLines = mutableListOf<ChartLine>()
@@ -41,7 +40,7 @@ internal fun <T> ChartScope.gatherChartLines(
         val dimensionY = dimensionsY[i]
         val (scalePxY, _, minY) = dimensionY
         val color = array.color
-        val mixedColor = glowColor?.let { mix(it, color) } ?: color
+        val mixedColor = config.glowColor?.let { mix(it, color) } ?: color
         val path = Path()
         var prevX: Float? = null
         var prevY: Float? = null
@@ -116,8 +115,7 @@ internal fun DrawScope.drawChartLines(lines: List<ChartLine>, animation: Float, 
 
 internal fun DrawScope.drawChartPoints(
     lines: List<ChartLine>,
-    chartScope: ChartScope,
-    chartConfig: ChartConfig,
+    chartScope: LineChartScope,
     animation: Float,
     pointerTarget: ChartPoint?,
     pointerTargetPrev: ChartPoint?,
@@ -139,7 +137,7 @@ internal fun DrawScope.drawChartPoints(
             )
             // white “pupil”
             drawCircle(
-                color = chartConfig.contentColor,
+                color = chartScope.config.contentColor,
                 radius = radius / 2,
                 center = point.offset,
                 alpha = indexAnimation * .5f

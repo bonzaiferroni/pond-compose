@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
@@ -20,23 +19,24 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun <T> LineChart(
-    arrays: List<LineChartArray<T>>,
+fun <T> BarChart(
+    array: BarChartArray<T>,
     config: ChartConfig,
     modifier: Modifier = Modifier,
-    provideX: (T) -> Double,
 ) {
+    if (array.values.isEmpty()) return
+    println(array.values)
     var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
     LaunchedEffect(Unit) {
         animationTarget = 1f
     }
     val animation by animateFloatAsState(animationTarget, tween(2000))
     val textRuler = rememberTextMeasurer()
-    var chartLinesCache by remember { mutableStateOf<List<ChartLine>?>(null) }
+    var chartBarsCache by remember { mutableStateOf<List<ChartBar>?>(null) }
 
-    var pointerTarget by remember { mutableStateOf<ChartPoint?>(null) }
-    var pointerTargetNow by remember { mutableStateOf<ChartPoint?>(null) }
-    var pointerTargetPrev by remember { mutableStateOf<ChartPoint?>(null) }
+    var pointerTarget by remember { mutableStateOf<ChartBar?>(null) }
+    var pointerTargetNow by remember { mutableStateOf<ChartBar?>(null) }
+    var pointerTargetPrev by remember { mutableStateOf<ChartBar?>(null) }
     val pointerAnimatable = remember { Animatable(0f) }
     val focusAnimation by animateFloatAsState(if (pointerTarget != null) 1f else 0f)
     LaunchedEffect(pointerTarget) {
@@ -54,10 +54,10 @@ fun <T> LineChart(
         modifier = modifier
             .drawWithCache {
 
-                val chartScope = gatherChartScope(config, arrays, textRuler, provideX)
+                val chartScope = gatherBarChartScope(config, array, textRuler)
 
-                val lines = chartScope.gatherChartLines(arrays, provideX)
-                chartLinesCache = lines
+                val bars = chartScope.gatherChartBars(array)
+                chartBarsCache = bars
 
                 val leftAxisLabels = chartScope.gatherLeftAxisLabels()
                 val rightAxisLabels = chartScope.gatherRightAxisLabels()
@@ -72,9 +72,8 @@ fun <T> LineChart(
                     rightAxisLabels?.let { drawAxisLabels(it, animation) }
                     bottomAxisLabels?.let { drawAxisLabels(it, animation) }
 
-                    drawChartLines(lines, animation, focusAnimation)
-                    drawChartPoints(
-                        lines = lines,
+                    drawChartBars(
+                        bars = bars,
                         chartScope = chartScope,
                         animation = animation,
                         pointerTarget = pointerTargetNow,
@@ -93,41 +92,16 @@ fun <T> LineChart(
                             }
 
                             PointerEventType.Move -> {
-                                val chartLines = chartLinesCache ?: continue
-                                pointerTarget = detectPointerTarget(
-                                    event.changes.first().position,
-                                    chartLines,
-                                    pointerMinDistanceSquared
-                                )
+//                                val chartLines = chartBarsCache ?: continue
+//                                pointerTarget = detectPointerTarget(
+//                                    event.changes.first().position,
+//                                    chartLines,
+//                                    pointerMinDistanceSquared
+//                                )
                             }
                         }
                     }
                 }
             }
     )
-}
-
-internal fun detectPointerTarget(
-    pointerPos: Offset,
-    chartLines: List<ChartLine>,
-    minDistanceSquared: Float
-): ChartPoint? {
-    var closestPoint: ChartPoint? = null
-    var closestDistance = Float.MAX_VALUE
-    for (line in chartLines) {
-        for (point in line.points) {
-            val distanceSquared = distanceSquared(pointerPos, point.offset)
-            if (distanceSquared > minDistanceSquared || distanceSquared > closestDistance) continue
-            closestDistance = distanceSquared
-            closestPoint = point
-        }
-    }
-    return closestPoint
-}
-
-
-fun distanceSquared(a: Offset, b: Offset): Float {
-    val dx = a.x - b.x
-    val dy = a.y - b.y
-    return dx * dx + dy * dy
 }

@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StampedPathEffectStyle
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.unit.dp
 
 internal data class ChartHorizontalRule(
     val stamp: PathEffect,
@@ -49,7 +48,7 @@ internal fun ChartScope.gatherHorizontaRule(): ChartHorizontalRule? {
 
 internal fun DrawScope.drawHorizontalRule(
     rule: ChartHorizontalRule,
-    chartScope: ChartScope,
+    lineChartScope: ChartScope,
     animation: Float
 ) {
     rule.lines.forEachIndexed { i, line ->
@@ -58,7 +57,7 @@ internal fun DrawScope.drawHorizontalRule(
             brush = line.brush,
             start = line.start,
             end = line.end,
-            strokeWidth = chartScope.horizontalLineWidthPx,
+            strokeWidth = lineChartScope.horizontalLineWidthPx,
             alpha = .5f * alpha.coerceIn(0f, 1f),
             pathEffect = rule.stamp
         )

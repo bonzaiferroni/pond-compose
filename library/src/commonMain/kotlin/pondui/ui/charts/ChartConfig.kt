@@ -23,20 +23,6 @@ data class ChartConfig(
     val provideLabelX: (Double) -> String = { it.toMetricString() }
 )
 
-@Stable
-@Immutable
-data class ChartArray<T>(
-    val values: List<T>,
-    val color: Color,
-    val label: String? = null,
-    val isBezier: Boolean = true,
-    val axis: AxisConfig.Side ? = null,
-    val floor: Double? = null,
-    val ceiling: Double? = null,
-    val provideLabelY: (Double) -> String = { it.toMetricString() },
-    val provideY: (T) -> Double,
-)
-
 data class DataScope(
     val maxX: Double,
     val minX: Double,
@@ -45,6 +31,14 @@ data class DataScope(
 ) {
     val rangeX get() = maxX - minX
     val rangeY get() = maxY - minY
+}
+
+data class ChartDimension(
+    val scalePx: Float,
+    val max: Double,
+    val min: Double
+) {
+    val range get() = (max - min).toFloat()
 }
 
 internal fun <T> gatherDataScope(

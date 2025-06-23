@@ -16,7 +16,7 @@ import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun <T> TimeChart(
-    arrays: List<ChartArray<T>>,
+    arrays: List<LineChartArray<T>>,
     config: ChartConfig,
     modifier: Modifier = Modifier,
     provideX: (T) -> Instant

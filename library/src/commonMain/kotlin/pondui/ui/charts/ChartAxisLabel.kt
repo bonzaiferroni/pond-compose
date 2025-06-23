@@ -3,7 +3,6 @@ package pondui.ui.charts
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 
 internal data class ChartAxisLabel(
@@ -43,12 +42,23 @@ internal fun ChartScope.gatherRightAxisLabels() = this.rightAxis?.let { chartAxi
     }
 }
 
-internal fun ChartScope.gatherBottomAxisLabels() = this.bottomAxis?.let { chartAxis ->
+internal fun LineChartScope.gatherBottomAxisLabels() = this.bottomAxis?.let { chartAxis ->
     gatherAxisLabels(chartAxis) { axisValue, maxLayoutWidth ->
         val minX = chartAxis.dimension.min
         val scaleX = chartAxis.dimension.scalePx
         Offset(
             x = chartLeftMarginPx + valueOffsetPx(axisValue.value, minX, scaleX),
+            y = sizePx.height - axisValue.layout.size.height / 2f
+        )
+    }
+}
+
+internal fun BarChartScope.gatherBottomAxisLabels() = this.bottomAxis?.let { chartAxis ->
+    gatherAxisLabels(chartAxis) { axisValue, maxLayoutWidth ->
+        val minX = chartAxis.dimension.min
+        val scaleX = chartAxis.dimension.scalePx
+        Offset(
+            x = chartLeftMarginPx + barWidthPx / 2 + valueOffsetPx(axisValue.value, minX, scaleX),
             y = sizePx.height - axisValue.layout.size.height / 2f
         )
     }

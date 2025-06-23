@@ -40,17 +40,21 @@ fun LazyScaffold(
         LazyColumn(
             verticalArrangement = spacing.toColumnArrangement()
         ) {
-            item {
-                TopBarSpacer()
-            }
+            topBarSpacerItem()
 
             content()
 
-            item {
-                BottomBarSpacer()
-            }
+            bottomBarSpacerItem()
         }
     }
+}
+
+fun LazyListScope.topBarSpacerItem() = item {
+    TopBarSpacer()
+}
+
+fun LazyListScope.bottomBarSpacerItem() = item {
+    BottomBarSpacer()
 }
 
 @Composable

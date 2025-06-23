@@ -33,7 +33,7 @@ internal data class ChartAxisLine(
 
 fun <T> gatherSideAutoAxis(
     side: AxisSide,
-    arrays: List<ChartArray<T>>,
+    arrays: List<LineChartArray<T>>,
     dimensionsY: List<ChartDimension>,
     textRuler: TextMeasurer,
     labelFontSize: TextUnit
