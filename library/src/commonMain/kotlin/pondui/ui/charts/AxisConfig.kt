@@ -6,7 +6,7 @@ import pondui.ui.controls.BalloonAxisTick
 
 interface AxisConfig {
     val tickCount: Int
-    val toLabel: (Double) -> String
+    // val toLabel: (Double) -> String
 
     interface Side: AxisConfig {
         val side: AxisSide
@@ -18,19 +18,19 @@ interface AxisConfig {
 data class SideAxisAutoConfig(
     override val tickCount: Int,
     override val side: AxisSide,
-    override val toLabel: (Double) -> String = { it.toMetricString() }
+    // override val toLabel: (Double) -> String = { it.toMetricString() }
 ): AxisConfig.Side
 
 data class BottomAxisAutoConfig(
     override val tickCount: Int,
-    override val toLabel: (Double) -> String = { it.toMetricString() }
+    // override val toLabel: (Double) -> String = { it.toMetricString() }
 ): AxisConfig.Bottom
 
 data class BottomAxisConfig(
     val ticks: List<AxisTick>
 ): AxisConfig.Bottom {
     override val tickCount get () = ticks.size
-    override val toLabel: (Double) -> String = { value -> ticks.first { it.value == value }.label }
+    // override val toLabel: (Double) -> String = { value -> ticks.first { it.value == value }.label }
 }
 
 data class AxisTick(

@@ -9,7 +9,6 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
-import pondui.ui.controls.BalloonAxisTick
 
 @Stable
 @Immutable
@@ -42,7 +41,7 @@ fun <T> gatherSideAutoAxis(
     val (index, array) = indexedArray
     val axisConfig = array.axis!!
     val dimension = dimensionsY[index]
-    gatherAutoAxis(axisConfig, dimension, textRuler, array.color, labelFontSize)
+    gatherAutoAxis(axisConfig, dimension, textRuler, array.color, labelFontSize, array.provideLabelY)
 }
 
 fun gatherAutoAxis(
@@ -50,11 +49,12 @@ fun gatherAutoAxis(
     dimension: ChartDimension,
     textRuler: TextMeasurer,
     color: Color,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    toLabel: (Double) -> String,
 ): ChartAxis {
     val values = (0 until axisConfig.tickCount).map { tickIndex ->
         val value = tickIndex * (dimension.range / (axisConfig.tickCount - 1)) + dimension.min
-        val label = axisConfig.toLabel(value)
+        val label = toLabel(value)
         val layout = textRuler.measure(
             text = label,
             style = TextStyle(color = color, fontSize = fontSize)

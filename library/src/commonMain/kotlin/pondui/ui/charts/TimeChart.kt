@@ -2,7 +2,9 @@ package pondui.ui.charts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import kabinet.utils.fromDoubleMillis
 import kabinet.utils.toDoubleMillis
+import kabinet.utils.toTimeFormat
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -21,7 +23,7 @@ fun <T> TimeChart(
 ) {
     LineChart(
         arrays = arrays,
-        config = config,
+        config = config.copy(provideLabelX = { Instant.fromDoubleMillis(it).toTimeFormat() } ),
         modifier = modifier,
         provideX = { provideX(it).toDoubleMillis() }
     )

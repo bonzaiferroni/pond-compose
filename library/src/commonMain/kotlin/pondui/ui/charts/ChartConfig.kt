@@ -3,6 +3,7 @@ package pondui.ui.charts
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import kabinet.utils.toMetricString
 
 const val CHART_POINTER_TARGET_DISTANCE = 30
 
@@ -19,6 +20,7 @@ data class ChartConfig(
     val bottomAxis: AxisConfig.Bottom? = null,
     val startX: Double? = null,
     val endX: Double? = null,
+    val provideLabelX: (Double) -> String = { it.toMetricString() }
 )
 
 @Stable
@@ -31,6 +33,7 @@ data class ChartArray<T>(
     val axis: AxisConfig.Side ? = null,
     val floor: Double? = null,
     val ceiling: Double? = null,
+    val provideLabelY: (Double) -> String = { it.toMetricString() },
     val provideY: (T) -> Double,
 )
 

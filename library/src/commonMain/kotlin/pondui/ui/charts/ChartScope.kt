@@ -104,7 +104,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
     val dimensionX = ChartDimension(scalePx = chartWidthPx / dataRangeX.toFloat(), max = dataMaxX, min = dataMinX)
     val bottomAxis = config.bottomAxis?.let {
         when (it) {
-            is BottomAxisAutoConfig -> gatherAutoAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize)
+            is BottomAxisAutoConfig -> gatherAutoAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize, config.provideLabelX)
             is BottomAxisConfig -> gatherAxis(it.ticks, dimensionX, textRuler, config.contentColor, labelFontSize)
         }
     }
