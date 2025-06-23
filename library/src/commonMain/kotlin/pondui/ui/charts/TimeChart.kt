@@ -23,7 +23,7 @@ fun <T> TimeChart(
 ) {
     LineChart(
         arrays = arrays,
-        config = config.copy(provideLabelX = { Instant.fromDoubleMillis(it).toTimeFormat() } ),
+        config = config.copy(provideLabelX = { Instant.fromDoubleMillis(it).toTimeFormat(true) } ),
         modifier = modifier,
         provideX = { provideX(it).toDoubleMillis() }
     )
