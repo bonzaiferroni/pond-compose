@@ -129,7 +129,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         lineWidthPx = 4.dp.toPx(),
         pointRadiusPx = pointRadiusPx,
         labelPaddingPx = CHART_AXIS_PADDING.dp.toPx(),
-        labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp,
+        labelFontSize = labelFontSize,
         textRuler = textRuler,
         horizontalLineWidthPx = 3.dp.toPx()
     )

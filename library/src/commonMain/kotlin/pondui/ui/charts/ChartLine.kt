@@ -25,6 +25,9 @@ internal data class ChartPath(
 internal data class ChartPoint(
     val offset: Offset,
     val color: Color,
+    val labelX: String,
+    val labelY: String,
+    val side: AxisSide
 )
 
 internal fun <T> ChartScope.gatherChartLines(
@@ -49,7 +52,13 @@ internal fun <T> ChartScope.gatherChartLines(
             val x = chartLeftMarginPx + valueOffsetPx(valueX, minX, scalePxX)
             val y = sizePx.height - chartBottomMarginPx - valueOffsetPx(valueY, minY, scalePxY)
 
-            arrayPoints.add(ChartPoint(Offset(x, y), mix(color, mixedColor, ((valueY - minY).toFloat() / dimensionY.range))))
+            arrayPoints.add(ChartPoint(
+                offset = Offset(x, y),
+                color = mix(color, mixedColor, ((valueY - minY).toFloat() / dimensionY.range)),
+                labelX = config.provideLabelX(valueX),
+                labelY = array.provideLabelY(valueY),
+                side = array.axis?.side ?: AxisSide.Left
+            ))
             if (i == 0) path.moveTo(x, y)
             else if (array.isBezier) path.drawBezier(
                 prevX = prevX ?: x,

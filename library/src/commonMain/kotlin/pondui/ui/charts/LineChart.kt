@@ -95,6 +95,7 @@ fun <T> LineChart(
                         pointerTargetPrev = pointerTargetPrev,
                         pointerAnimation = pointerAnimatable.value
                     )
+                    // drawFocusValue(chartScope, pointerTarget, pointerTargetPrev, pointerAnimatable.value)
                 }
                 .pointerInput(Unit) {
                     awaitPointerEventScope {
