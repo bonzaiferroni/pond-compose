@@ -6,11 +6,11 @@ import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextMeasurer
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kabinet.utils.toMetricString
+import kotlin.math.roundToInt
 
 data class BarChartScope(
     override val config: ChartConfig,
@@ -40,6 +40,7 @@ data class BarChartScope(
 @Immutable
 data class BarChartArray<T>(
     val values: List<T>,
+    val interval: Double,
     val label: String? = null,
     val axis: AxisConfig.Side ? = null,
     val floor: Double? = null,
@@ -99,24 +100,17 @@ internal fun <T> CacheDrawScope.gatherBarChartScope(
         ?.maxLabelWidthPx?.let { it + labelHeightPx / 2 } ?: 0f) + pointRadiusPx
     val chartWidthPx = size.width - chartRightMarginPx - chartLeftMarginPx
 
-    var minDeltaX = Double.MAX_VALUE
-    var prevX: Double? = null
-    for (value in array.values.sortedBy { array.provideX(it) }) {
-        val x = array.provideX(value)
-        prevX?.let { minDeltaX = minOf(minDeltaX, x - it) }
-        prevX = x
-    }
-    val dataRangeX = dataScope.maxX - dataScope.minX
-    val dimensionX = ChartDimension(scalePx = chartWidthPx / (dataRangeX + minDeltaX).toFloat(), max = dataScope.maxX, min = dataScope.minX)
+    val dataRangeX = (dataScope.maxX - dataScope.minX).takeIf { it > 0 } ?: 1.0
+    val barCount = (dataRangeX / array.interval).roundToInt() + 1
+    val barWidthPx = chartWidthPx / barCount
+
+    val dimensionX = ChartDimension(scalePx = (chartWidthPx - barWidthPx) / dataRangeX.toFloat(), max = dataScope.maxX, min = dataScope.minX)
     val bottomAxis = config.bottomAxis?.let {
         when (it) {
             is BottomAxisAutoConfig -> gatherAutoAxis(it, dimensionX, textRuler, config.contentColor, labelFontSize, config.provideLabelX)
             is BottomAxisConfig -> gatherAxis(it.ticks, dimensionX, textRuler, config.contentColor, labelFontSize)
         }
     }
-
-    val barWidthPx = ((minDeltaX * dimensionX.scalePx).toFloat() - CHART_BAR_GAP_WIDTH.dp.toPx())
-        .coerceIn(CHART_MIN_BAR_WIDTH.dp.toPx(), CHART_MAX_BAR_WIDTH.dp.toPx())
 
     return BarChartScope(
         config = config,
@@ -143,6 +137,4 @@ internal fun <T> CacheDrawScope.gatherBarChartScope(
     )
 }
 
-internal const val CHART_MIN_BAR_WIDTH = 2
-internal const val CHART_MAX_BAR_WIDTH = 50
-internal const val CHART_BAR_GAP_WIDTH = 2
+internal const val CHART_BAR_GAP_WIDTH = 1

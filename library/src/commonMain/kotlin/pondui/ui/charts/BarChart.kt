@@ -25,7 +25,7 @@ fun <T> BarChart(
     modifier: Modifier = Modifier,
 ) {
     if (array.values.isEmpty()) return
-    println(array.values)
+    println("bar chart buckets: ${array.values}")
     var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
     LaunchedEffect(Unit) {
         animationTarget = 1f
@@ -55,7 +55,6 @@ fun <T> BarChart(
             .drawWithCache {
 
                 val chartScope = gatherBarChartScope(config, array, textRuler)
-
                 val bars = chartScope.gatherChartBars(array)
                 chartBarsCache = bars
 

@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.unit.dp
 import pondui.utils.mix
 
 data class ChartBar(
@@ -61,24 +62,25 @@ internal fun DrawScope.drawChartBars(
     pointerTargetPrev: ChartBar?,
     pointerAnimation: Float,
 ) {
+    val barWidth = chartScope.barWidthPx - CHART_BAR_GAP_WIDTH.dp.toPx()
     bars.forEachIndexed { i, bar ->
         val indexAnimation = (-i + animation * bars.size).coerceIn(0f, 1f)
         // val bump = if (pointerTarget == point) pointerAnimation * chartScope.pointRadiusPx
         // else if (pointerTargetPrev == point) (1 - pointerAnimation) * chartScope.pointRadiusPx
         // else 0f
 
-        // colored dot
+        val corners = maxOf(chartScope.barWidthPx / 8, 2.dp.toPx())
         drawRoundRect(
             brush = bar.brush,
             topLeft = Offset(
-                x = bar.centerPx - chartScope.barWidthPx / 2,
+                x = bar.centerPx - barWidth / 2,
                 y = chartScope.sizePx.height - chartScope.chartBottomMarginPx - bar.heightPx
             ),
             size = Size(
-                width = chartScope.barWidthPx,
+                width = barWidth,
                 height = bar.heightPx
             ),
-            cornerRadius = CornerRadius(2f, 2f)
+            cornerRadius = CornerRadius(corners, corners)
         )
     }
 }
