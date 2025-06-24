@@ -11,17 +11,15 @@ const val CHART_BOTTOM_MARGIN = 24
 const val CHART_AXIS_LABEL_HEIGHT = 12
 const val CHART_AXIS_PADDING = CHART_AXIS_LABEL_HEIGHT / 2
 
-@Stable
-@Immutable
-data class ChartConfig(
-    val contentColor: Color,
-    val isAnimated: Boolean = true,
-    val glowColor: Color? = null,
-    val bottomAxis: AxisConfig.Bottom? = null,
-    val startX: Double? = null,
-    val endX: Double? = null,
-    val provideLabelX: (Double) -> String = { it.toMetricString() }
-)
+interface ChartConfig {
+    val contentColor: Color
+    val isAnimated: Boolean
+    val glowColor: Color?
+    val bottomAxis: AxisConfig.Bottom?
+    val startX: Double?
+    val endX: Double?
+    val provideLabelX: (Double) -> String
+}
 
 data class DataScope(
     val maxX: Double,

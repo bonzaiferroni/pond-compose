@@ -52,8 +52,7 @@ data class BarChartArray<T>(
 )
 
 internal fun <T> CacheDrawScope.gatherBarChartScope(
-    config: ChartConfig,
-    array: BarChartArray<T>,
+    config: BarChartConfig<T>,
     textRuler: TextMeasurer,
 ): BarChartScope {
     val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
@@ -66,6 +65,7 @@ internal fun <T> CacheDrawScope.gatherBarChartScope(
     val chartTopMarginPx = pointRadiusPx
     val chartHeightPx = size.height - chartTopMarginPx - chartBottomMarginPx
 
+    val array = config.array
     val dataScope = gatherDataScope(
         array = array.values,
         floor = array.floor,

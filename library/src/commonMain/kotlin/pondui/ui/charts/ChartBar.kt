@@ -65,20 +65,18 @@ internal fun DrawScope.drawChartBars(
     val barWidth = chartScope.barWidthPx - CHART_BAR_GAP_WIDTH.dp.toPx()
     bars.forEachIndexed { i, bar ->
         val indexAnimation = (-i + animation * bars.size).coerceIn(0f, 1f)
-        // val bump = if (pointerTarget == point) pointerAnimation * chartScope.pointRadiusPx
-        // else if (pointerTargetPrev == point) (1 - pointerAnimation) * chartScope.pointRadiusPx
-        // else 0f
+        val barHeight = bar.heightPx * indexAnimation
 
         val corners = maxOf(chartScope.barWidthPx / 8, 2.dp.toPx())
         drawRoundRect(
             brush = bar.brush,
             topLeft = Offset(
                 x = bar.centerPx - barWidth / 2,
-                y = chartScope.sizePx.height - chartScope.chartBottomMarginPx - bar.heightPx
+                y = chartScope.sizePx.height - chartScope.chartBottomMarginPx - barHeight
             ),
             size = Size(
                 width = barWidth,
-                height = bar.heightPx
+                height = barHeight
             ),
             cornerRadius = CornerRadius(corners, corners)
         )

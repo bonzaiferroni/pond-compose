@@ -52,10 +52,8 @@ data class LineChartArray<T>(
 )
 
 internal fun <T> CacheDrawScope.gatherChartScope(
-    config: ChartConfig,
-    arrays: List<LineChartArray<T>>,
+    config: LineChartConfig<T>,
     textRuler: TextMeasurer,
-    provideX: (T) -> Double
 ): LineChartScope {
     val labelFontSize = CHART_AXIS_LABEL_HEIGHT.sp
     val labelHeightPx = labelFontSize.toPx()
@@ -67,6 +65,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
     val chartTopMarginPx = pointRadiusPx
     val chartHeightPx = size.height - chartTopMarginPx - chartBottomMarginPx
 
+    val arrays = config.arrays
     val isSingularDimensionY = arrays.all { it.axis?.side != AxisSide.Left }
             || arrays.all { it.axis?.side != AxisSide.Right }
     val dataScopes = arrays.map { c -> gatherDataScope(
@@ -75,7 +74,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         ceiling = c.ceiling,
         startX = config.startX,
         endX = config.endX,
-        provideX = provideX,
+        provideX = config.provideX,
         provideY = c.provideY
     ) }
         .let { scopes ->

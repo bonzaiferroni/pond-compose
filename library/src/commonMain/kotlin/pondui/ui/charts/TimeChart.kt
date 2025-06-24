@@ -16,16 +16,14 @@ import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun <T> TimeChart(
-    arrays: List<LineChartArray<T>>,
-    config: ChartConfig,
+    config: LineChartConfig<T>,
     modifier: Modifier = Modifier,
-    provideX: (T) -> Instant
 ) {
     LineChart(
-        arrays = arrays,
-        config = config.copy(provideLabelX = { Instant.fromDoubleMillis(it).toTimeFormat(true) } ),
+        config = config.copy(
+
+        ),
         modifier = modifier,
-        provideX = { provideX(it).toDoubleMillis() }
     )
 }
 

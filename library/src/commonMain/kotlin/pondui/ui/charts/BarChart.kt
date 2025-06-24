@@ -1,6 +1,7 @@
 package pondui.ui.charts
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -20,17 +21,21 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> BarChart(
-    array: BarChartArray<T>,
-    config: ChartConfig,
+    config: BarChartConfig<T>,
     modifier: Modifier = Modifier,
 ) {
-    if (array.values.isEmpty()) return
-    println("bar chart buckets: ${array.values}")
-    var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
-    LaunchedEffect(Unit) {
-        animationTarget = 1f
+    if (config.array.values.isEmpty()) return
+    var displayedConfig by remember { mutableStateOf(config) }
+
+    // chart drawing animator
+    val animation = remember { Animatable(0f) }
+    LaunchedEffect(config) {
+        if (animation.value > 0f)
+            animation.animateTo(0f, tween(1000, easing = LinearEasing))
+        displayedConfig = config
+        animation.animateTo(1f, tween(1000, easing = LinearEasing))
     }
-    val animation by animateFloatAsState(animationTarget, tween(2000))
+
     val textRuler = rememberTextMeasurer()
     var chartBarsCache by remember { mutableStateOf<List<ChartBar>?>(null) }
 
@@ -54,8 +59,8 @@ fun <T> BarChart(
         modifier = modifier
             .drawWithCache {
 
-                val chartScope = gatherBarChartScope(config, array, textRuler)
-                val bars = chartScope.gatherChartBars(array)
+                val chartScope = gatherBarChartScope(displayedConfig, textRuler)
+                val bars = chartScope.gatherChartBars(displayedConfig.array)
                 chartBarsCache = bars
 
                 val leftAxisLabels = chartScope.gatherLeftAxisLabels()
@@ -65,16 +70,16 @@ fun <T> BarChart(
                 val horizontalRule = chartScope.gatherHorizontaRule()
 
                 onDrawBehind {
-                    horizontalRule?.let { drawHorizontalRule(it, chartScope, animation) }
+                    horizontalRule?.let { drawHorizontalRule(it, chartScope, animation.value) }
 
-                    leftAxisLabels?.let { drawAxisLabels(it, animation) }
-                    rightAxisLabels?.let { drawAxisLabels(it, animation) }
-                    bottomAxisLabels?.let { drawAxisLabels(it, animation) }
+                    leftAxisLabels?.let { drawAxisLabels(it, animation.value) }
+                    rightAxisLabels?.let { drawAxisLabels(it, animation.value) }
+                    bottomAxisLabels?.let { drawAxisLabels(it, animation.value) }
 
                     drawChartBars(
                         bars = bars,
                         chartScope = chartScope,
-                        animation = animation,
+                        animation = animation.value,
                         pointerTarget = pointerTargetNow,
                         pointerTargetPrev = pointerTargetPrev,
                         pointerAnimation = pointerAnimatable.value

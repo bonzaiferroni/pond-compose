@@ -21,10 +21,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun <T> LineChart(
-    arrays: List<LineChartArray<T>>,
-    config: ChartConfig,
+    config: LineChartConfig<T>,
     modifier: Modifier = Modifier,
-    provideX: (T) -> Double,
 ) {
     var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
     LaunchedEffect(Unit) {
@@ -54,9 +52,9 @@ fun <T> LineChart(
         modifier = modifier
             .drawWithCache {
 
-                val chartScope = gatherChartScope(config, arrays, textRuler, provideX)
+                val chartScope = gatherChartScope(config, textRuler)
 
-                val lines = chartScope.gatherChartLines(arrays, provideX)
+                val lines = chartScope.gatherChartLines(config.arrays, config.provideX)
                 chartLinesCache = lines
 
                 val leftAxisLabels = chartScope.gatherLeftAxisLabels()
