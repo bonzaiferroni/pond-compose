@@ -31,7 +31,7 @@ fun <T> BarChart(
     val animation = remember { Animatable(0f) }
     LaunchedEffect(config) {
         if (animation.value > 0f)
-            animation.animateTo(0f, tween(1000, easing = LinearEasing))
+            animation.animateTo(0f, tween(800, easing = LinearEasing))
         displayedConfig = config
         animation.animateTo(1f, tween(1000, easing = LinearEasing))
     }
