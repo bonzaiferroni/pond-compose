@@ -39,8 +39,8 @@ fun ProgressBar(
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = null
 ) {
-    val consumedProgress = if (progress.isNaN()) 0f else progress
-    val animatedProgress by animateFloatAsState(consumedProgress, animationSpec)
+    val progress = if (progress.isNaN()) 0f else progress
+    val animatedProgress by animateFloatAsState(progress, animationSpec)
     val animatedColor by animateColorAsState(color)
     val voidColor = Pond.colors.void
 
@@ -56,7 +56,7 @@ fun ProgressBar(
                 if (animatedProgress < barRatio) {
                     drawCircle(
                         color = animatedColor,
-                        radius = size.height * animatedProgress / 2,
+                        radius = size.height * animatedProgress / barRatio / 2,
                         center = Offset(size.height / 2, size.height / 2)
                     )
                 } else {
