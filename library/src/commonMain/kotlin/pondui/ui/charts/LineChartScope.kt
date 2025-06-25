@@ -107,7 +107,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
 
     val dataMinX = dataScopes.minOf { it.minX }
     val dataMaxX = dataScopes.maxOf { it.maxX }
-    val dataRangeX = dataMaxX - dataMinX
+    val dataRangeX = (dataMaxX - dataMinX).takeIf { it > 0.0 } ?: 1.0
     val dimensionX = ChartDimension(scalePx = chartWidthPx / dataRangeX.toFloat(), max = dataMaxX, min = dataMinX)
     val bottomAxis = config.bottomAxis?.let {
         when (it) {
