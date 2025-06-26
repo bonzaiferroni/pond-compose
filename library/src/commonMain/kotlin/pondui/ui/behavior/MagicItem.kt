@@ -83,6 +83,7 @@ fun <T> MagicItem(
     }
 
     Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
             .magic(
                 isVisible = !isClearing,

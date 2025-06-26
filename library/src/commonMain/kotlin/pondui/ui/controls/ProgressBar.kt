@@ -50,19 +50,21 @@ fun ProgressBar(
             .defaultMinSize(minHeight = minHeight, minWidth = minWidth)
             .animateContentSize()
             .drawBehind {
-                val barWidth = minOf(size.width * animatedProgress, size.width)
+                val radius = size.height / 2
+                val barWidth = size.width - radius
+                val filledWidth = minOf(barWidth * animatedProgress, barWidth)
                 drawRoundRect(color = voidColor, cornerRadius = CornerRadius(size.height))
                 val barRatio = size.height / size.width
                 if (animatedProgress < barRatio) {
                     drawCircle(
                         color = animatedColor,
                         radius = size.height * animatedProgress / barRatio / 2,
-                        center = Offset(size.height / 2, size.height / 2)
+                        center = Offset(radius, radius)
                     )
                 } else {
                     drawRoundRect(
                         color = animatedColor, // or the color of yer flag
-                        size = Size(barWidth, size.height),
+                        size = Size(filledWidth + radius, size.height),
                         topLeft = Offset.Zero, // anchors to port side (left)
                         cornerRadius = CornerRadius(size.height)
                     )
@@ -85,20 +87,21 @@ fun ProgressBar(
 
 @Composable
 fun ProgressBarButton(
-    ratio: Float,
+    progress: Float,
     labelText: String? = null,
     isEnabled: Boolean = true,
     onClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = labelText?.let { { Label(it.uppercase(), color = Pond.localColors.content)} }
 ) {
     val color = when {
-        isEnabled -> Pond.colors.primary
+        isEnabled -> Pond.colors.data
         else -> Pond.colors.disabled
     }
     ProgressBar(
-        progress = ratio,
+        progress = progress,
         color = color,
-        modifier = Modifier.clip(Pond.ruler.pill)
+        modifier = modifier.clip(Pond.ruler.pill)
             .ifNotNull(onClick) { this.actionable(labelText, isEnabled, onClick = it) }
     ) {
         content?.invoke()
