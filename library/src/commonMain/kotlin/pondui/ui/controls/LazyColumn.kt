@@ -2,6 +2,8 @@ package pondui.ui.controls
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,12 +15,14 @@ import pondui.ui.theme.toColumnArrangement
 fun LazyColumn(
     spacingUnits: Int,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    state: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
     content: LazyListScope.() -> Unit
 ) {
     LazyColumn(
         horizontalAlignment = horizontalAlignment,
         verticalArrangement = Pond.ruler.columnArrangement(spacingUnits),
+        state = state,
         modifier = modifier,
         content = content
     )

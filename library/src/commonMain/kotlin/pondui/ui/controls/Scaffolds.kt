@@ -49,11 +49,11 @@ fun LazyScaffold(
     }
 }
 
-fun LazyListScope.topBarSpacerItem() = item {
+fun LazyListScope.topBarSpacerItem() = item("TopBarSpacer") {
     TopBarSpacer()
 }
 
-fun LazyListScope.bottomBarSpacerItem() = item {
+fun LazyListScope.bottomBarSpacerItem() = item("BottomBarSpacer") {
     BottomBarSpacer()
 }
 
