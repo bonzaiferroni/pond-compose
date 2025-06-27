@@ -86,6 +86,7 @@ fun Tabs(
 fun TabScope.Tab(
     label: String,
     isVisible: Boolean = true,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     val state by this@Tab.state.collectAsState()
@@ -102,7 +103,7 @@ fun TabScope.Tab(
     Magic(label == state.currentLabel, offsetX = offsetX.dp) {
         Column(
             verticalArrangement = Pond.ruler.columnUnit,
-            modifier = Modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
         ) {
             content()
         }
