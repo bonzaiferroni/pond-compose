@@ -6,6 +6,8 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,6 +25,7 @@ import pondui.utils.lighten
 @Composable
 fun Modifier.selected(
     isSelected: Boolean,
+    padding: PaddingValues = Pond.ruler.unitPadding,
     stroke: Dp = 2.dp,
     radius: Dp = Pond.ruler.midCorner,
 ): Modifier {
@@ -52,5 +55,5 @@ fun Modifier.selected(
             cornerRadius = CornerRadius(radiusPx, radiusPx),
             style = Stroke(width = strokePx)
         )
-    }
+    }.padding(padding)
 }
