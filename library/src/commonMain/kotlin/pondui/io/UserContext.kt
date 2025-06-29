@@ -50,7 +50,7 @@ class UserContext(
 
     private fun login(request: LoginRequest) {
         setState { it.copy(isLoggingIn = true) }
-        viewModelScope.launch {
+        this@UserContext.viewModelScope.launch {
             val auth = userStore.login(LoginRequest(
                 usernameOrEmail = request.usernameOrEmail,
                 stayLoggedIn = request.stayLoggedIn,

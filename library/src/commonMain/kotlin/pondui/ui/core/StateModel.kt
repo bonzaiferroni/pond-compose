@@ -21,10 +21,10 @@ abstract class StateModel<State>(initialState: State) : ViewModel() {
     }
 
     protected fun cancelJobs() {
-        viewModelScope.coroutineContext[Job]?.cancelChildren()
+        this@StateModel.viewModelScope.coroutineContext[Job]?.cancelChildren()
     }
 
-    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = viewModelScope.launch {
+    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = this@StateModel.viewModelScope.launch {
         this@launchCollect.collect(block)
     }.also { jobs.add(it) }
 

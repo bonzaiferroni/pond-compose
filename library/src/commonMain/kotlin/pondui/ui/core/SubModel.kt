@@ -1,6 +1,7 @@
 package pondui.ui.core
 
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
@@ -10,8 +11,9 @@ import kotlinx.coroutines.launch
 
 abstract class SubModel<State>(
     initialState: State,
+    viewModel: ViewModel
 ) {
-    protected abstract val coroutineScope: CoroutineScope
+    protected val viewModelScope = viewModel.viewModelScope
 
     protected val _state = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
@@ -19,15 +21,15 @@ abstract class SubModel<State>(
 
     private val jobs = mutableListOf<Job>()
 
-    protected fun setState(block: (State) -> State) {
+    fun setState(block: (State) -> State) {
         _state.value = block(state.value)
     }
 
-    protected fun cancelJobs() {
-        coroutineScope.coroutineContext[Job]?.cancelChildren()
-    }
+//    protected fun cancelJobs() {
+//        viewModelScope.coroutineContext[Job]?.cancelChildren()
+//    }
 
-    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = coroutineScope.launch {
+    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = viewModelScope.launch {
         this@launchCollect.collect(block)
     }.also { jobs.add(it) }
 
