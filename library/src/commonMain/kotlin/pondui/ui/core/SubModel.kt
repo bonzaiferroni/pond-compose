@@ -21,7 +21,7 @@ abstract class SubModel<State>(
 
     private val jobs = mutableListOf<Job>()
 
-    fun setState(block: (State) -> State) {
+    protected fun setState(block: (State) -> State) {
         _state.value = block(state.value)
     }
 

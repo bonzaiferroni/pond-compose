@@ -25,8 +25,8 @@ import pondui.utils.lighten
 @Composable
 fun Modifier.selected(
     isSelected: Boolean,
-    padding: PaddingValues = Pond.ruler.unitPadding,
     stroke: Dp = 2.dp,
+    padding: PaddingValues = PaddingValues(stroke * 3),
     radius: Dp = Pond.ruler.midCorner,
 ): Modifier {
     val factor by animateFloatAsState(if (isSelected) 1f else 0f, spring(
@@ -50,8 +50,8 @@ fun Modifier.selected(
 
         drawRoundRect(
             color = color.copy(factor).lighten(.2f * factor),
-            topLeft = Offset(strokePx / 2 + sizeFactor / 2, strokePx / 2 + sizeFactor / 2),
-            size = Size(size.width - strokePx - sizeFactor, size.height - strokePx - sizeFactor),
+            topLeft = Offset(strokePx + sizeFactor / 2, strokePx + sizeFactor / 2),
+            size = Size(size.width - strokePx * 2 - sizeFactor, size.height - strokePx * 2 - sizeFactor),
             cornerRadius = CornerRadius(radiusPx, radiusPx),
             style = Stroke(width = strokePx)
         )
