@@ -2,6 +2,8 @@ package pondui.ui.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +26,7 @@ abstract class StateModel<State>(initialState: State) : ViewModel() {
         this@StateModel.viewModelScope.coroutineContext[Job]?.cancelChildren()
     }
 
-    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = this@StateModel.viewModelScope.launch {
+    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = ioLaunch {
         this@launchCollect.collect(block)
     }.also { jobs.add(it) }
 
@@ -32,4 +34,7 @@ abstract class StateModel<State>(initialState: State) : ViewModel() {
         jobs.forEach { it.cancel() }
         jobs.clear()
     }
+
+    protected fun ioLaunch(block: suspend CoroutineScope.() -> Unit) =
+        viewModelScope.launch(Dispatchers.Default, block = block)
 }
