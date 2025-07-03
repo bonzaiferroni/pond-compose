@@ -23,19 +23,19 @@ abstract class SubModel<State>(
 
     private val jobs = mutableListOf<Job>()
 
-    protected fun setState(block: (State) -> State) {
+    fun setState(block: (State) -> State) {
         _state.value = block(state.value)
     }
 
-//    protected fun cancelJobs() {
-//        viewModelScope.coroutineContext[Job]?.cancelChildren()
-//    }
+    protected fun cancelViewModelScopeJobs() {
+        viewModelScope.coroutineContext[Job]?.cancelChildren()
+    }
 
-    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = ioLaunch {
+    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = viewModelScope.launch {
         this@launchCollect.collect(block)
     }.also { jobs.add(it) }
 
-    protected fun clearJobs() {
+    fun clearJobs() {
         jobs.forEach { it.cancel() }
         jobs.clear()
     }
