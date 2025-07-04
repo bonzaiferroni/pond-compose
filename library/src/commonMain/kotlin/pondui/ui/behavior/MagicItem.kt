@@ -18,7 +18,7 @@ fun <T> MagicItem(
     offsetY: Dp = 0.dp,
     rotationY: Int = 0,
     rotationX: Int = 0,
-    durationMillis: Int = 250,
+    durationMillis: Int = 200,
     isVisibleInit: Boolean = false,
     modifier: Modifier = Modifier,
     itemContent: @Composable (T) -> Unit,
