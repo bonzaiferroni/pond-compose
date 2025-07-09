@@ -2,6 +2,7 @@ package pondui.io
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.request
@@ -19,6 +20,7 @@ import kabinet.api.UpdateEndpoint
 import kabinet.api.UserApi
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
+import pondui.APP_API_URL
 
 class ApiClient(
     val baseUrl: String,
@@ -158,4 +160,4 @@ class ApiClient(
     }
 }
 
-val globalApiClient = ApiClient("http://192.168.1.100:8080")
+val globalApiClient = ApiClient(APP_API_URL)
