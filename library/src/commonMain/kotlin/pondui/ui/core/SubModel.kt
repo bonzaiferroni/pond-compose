@@ -19,7 +19,7 @@ abstract class SubModel<State>(
 
     protected val _state = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
-    protected val stateNow get() = state.value
+    val stateNow get() = state.value
 
     private val jobs = mutableListOf<Job>()
 
