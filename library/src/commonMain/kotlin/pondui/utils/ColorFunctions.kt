@@ -19,3 +19,4 @@ fun mix(c1: Color, c2: Color, ratio: Float = 0.5f) = Color(
     alpha = c1.alpha * (1 - ratio) + c2.alpha * ratio
 )
 
+fun Color.mixWith(color: Color, ratio: Float = 0.5f) = mix(this, color, ratio)

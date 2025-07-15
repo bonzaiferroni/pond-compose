@@ -52,5 +52,5 @@ data class PortalState(
     val dialogTitle: String = "",
     val isDialogVisible: Boolean = false,
     val dismissDialog: () -> Unit = { },
-    val dialogContent: @Composable () -> Unit = { }
+    val dialogContent: @Composable () -> Unit = { },
 )

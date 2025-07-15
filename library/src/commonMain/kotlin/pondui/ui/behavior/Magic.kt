@@ -27,9 +27,9 @@ fun Magic(
     rotationZ: Int = 0,
     rotationY: Int = 0,
     rotationX: Int = 0,
-    durationMillis: Int = 500,
-    scale: Boolean = false,
+    scale: Float = 1f,
     fade: Boolean = true,
+    durationMillis: Int = 500,
     exitOpposite: Boolean = false,
     isVisibleInit: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
@@ -63,9 +63,10 @@ fun Magic(
                 if (fade) {
                     alpha = animatedVisibility
                 }
-                if (scale) {
-                    scaleX = animatedVisibility
-                    scaleY = animatedVisibility
+                if (scale != 1f) {
+                    val currentScale = (1 - scale) * animatedVisibility + scale
+                    scaleX = currentScale
+                    scaleY = currentScale
                 }
             }
     ) {

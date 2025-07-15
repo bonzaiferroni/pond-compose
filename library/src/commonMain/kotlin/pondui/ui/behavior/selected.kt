@@ -26,7 +26,7 @@ import pondui.utils.lighten
 fun Modifier.selected(
     isSelected: Boolean,
     stroke: Dp = 2.dp,
-    padding: PaddingValues = PaddingValues(stroke * 3),
+    padding: Dp = stroke * 3,
     radius: Dp = Pond.ruler.midCorner,
 ): Modifier {
     val factor by animateFloatAsState(if (isSelected) 1f else 0f, spring(
@@ -40,20 +40,21 @@ fun Modifier.selected(
         val radiusPx = radius.toPx()
         // draw only the border
         val sizeFactor = (10 - 10 * factor).dp.toPx()
+        val paddingPx = padding.toPx()
 
         drawRoundRect(
             color = color.copy(.1f * factor),
-            topLeft = Offset(sizeFactor / 2, sizeFactor / 2),
-            size = Size(size.width - sizeFactor, size.height - sizeFactor),
+            topLeft = Offset(sizeFactor / 2 - paddingPx, sizeFactor / 2 - paddingPx),
+            size = Size(size.width - sizeFactor + paddingPx * 2, size.height - sizeFactor + paddingPx * 2),
             cornerRadius = CornerRadius(radiusPx, radiusPx),
         )
 
         drawRoundRect(
             color = color.copy(factor).lighten(.2f * factor),
-            topLeft = Offset(strokePx + sizeFactor / 2, strokePx + sizeFactor / 2),
-            size = Size(size.width - strokePx * 2 - sizeFactor, size.height - strokePx * 2 - sizeFactor),
+            topLeft = Offset(strokePx + sizeFactor / 2 - paddingPx, strokePx + sizeFactor / 2 - paddingPx),
+            size = Size(size.width - strokePx * 2 - sizeFactor + paddingPx * 2, size.height - strokePx * 2 - sizeFactor + paddingPx * 2),
             cornerRadius = CornerRadius(radiusPx, radiusPx),
             style = Stroke(width = strokePx)
         )
-    }.padding(padding)
+    }
 }
