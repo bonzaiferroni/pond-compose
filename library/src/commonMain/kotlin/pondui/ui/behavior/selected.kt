@@ -26,7 +26,7 @@ import pondui.utils.lighten
 fun Modifier.selected(
     isSelected: Boolean,
     stroke: Dp = 2.dp,
-    padding: Dp = stroke * 3,
+    padding: Dp = stroke * 2,
     radius: Dp = Pond.ruler.midCorner,
 ): Modifier {
     val factor by animateFloatAsState(if (isSelected) 1f else 0f, spring(
