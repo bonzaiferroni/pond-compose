@@ -1,13 +1,10 @@
 package pondui.ui.controls
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +17,7 @@ import pondui.ui.theme.Pond
 @Composable
 fun Section(
     label: String? = null,
-    color: Color = Pond.colors.void,
+    background: Color = Pond.localColors.sectionSurface,
     shape: Shape = Pond.ruler.defaultCorners,
     padding: PaddingValues = Pond.ruler.unitPadding,
     modifier: Modifier = Modifier,
@@ -30,7 +27,7 @@ fun Section(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .clip(shape)
-            .background(color.copy(.5f))
+            .background(background)
             .padding(padding)
     ) {
         label?.let {
@@ -38,7 +35,7 @@ fun Section(
                 text = label,
                 style = Pond.typo.label.copy(textAlign = TextAlign.Center),
                 modifier = Modifier.fillMaxWidth()
-                    .background(color.copy(.08f))
+                    .background(background.copy(.08f))
                     .padding(Pond.ruler.unitPadding)
             )
         }

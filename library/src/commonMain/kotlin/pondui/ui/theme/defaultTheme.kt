@@ -2,6 +2,7 @@ package pondui.ui.theme
 
 import androidx.compose.ui.text.font.FontFamily
 import pondui.utils.darken
+import pondui.utils.mixWith
 
 fun defaultTheme(
     baseFont: FontFamily = FontFamily.Default,
@@ -17,14 +18,16 @@ fun defaultTheme(
         mode = ColorMode.Sky,
         content = colors.contentSky,
         surface = colors.surfaceSky,
-        highlight = colors.glow.darken(-.4f)
+        highlight = colors.glow.darken(-.4f),
+        sectionSurface = colors.background.mixWith(colors.void)
     )
 
     override val bookColors = PondLocalColors(
         mode = ColorMode.Book,
         content = colors.contentBook,
         surface = colors.surfaceBook,
-        highlight = colors.glow.darken(.4f)
+        highlight = colors.glow.darken(.4f),
+        sectionSurface = colors.background.mixWith(colors.surfaceBook, .8f)
     )
 
     override val typography = defaultTypography(

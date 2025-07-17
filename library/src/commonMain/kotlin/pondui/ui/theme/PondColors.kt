@@ -34,6 +34,7 @@ data class PondLocalColors(
     val content: Color,
     val surface: Color,
     val highlight: Color,
+    val sectionSurface: Color,
 ) {
     val contentDim get() = content.copy(.75f)
 }
