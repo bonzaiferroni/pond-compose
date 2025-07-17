@@ -1,10 +1,12 @@
 package pondui.ui.controls
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -40,6 +43,7 @@ import pondui.ui.behavior.filterKeyPress
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
 import pondui.ui.behavior.onEnterPressed
+import pondui.ui.behavior.selected
 import pondui.ui.theme.Pond
 
 @Composable
@@ -48,6 +52,7 @@ fun EditText(
     placeholder: String,
     style: TextStyle = Pond.typo.body,
     isEditable: Boolean = true,
+    isContainerVisible: Boolean = false,
     initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
@@ -86,10 +91,18 @@ fun EditText(
     }
 
     Box(
-        modifier = modifier.ifTrue(!isEditing && isEditable) { clickable { isEditing = true } }
+        modifier = modifier
+            .clip(Pond.ruler.unitCorners)
+            .ifTrue(!isEditing && isEditable) { clickable { isEditing = true } }
+            .ifTrue(isContainerVisible) {
+                background(Pond.localColors.sectionSurface)
+                    .selected(isEditing, padding = 0.dp, radius = Pond.ruler.unitCorner)
+                    .padding(Pond.ruler.unitPadding)
+            }
     ) {
+        val focusRequester = remember { FocusRequester() }
+
         if (isEditing) {
-            val focusRequester = remember { FocusRequester() }
             LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
             BasicTextField(
@@ -114,39 +127,28 @@ fun EditText(
             )
         }
 
-        val offset = 32.dp
-        val offsetPx = with(LocalDensity.current) { offset.toPx().toInt() }
+        val offset = 36.dp
 
         Magic(
             isVisible = isEditing,
-            offsetX = offsetPx.dp,
-            modifier = Modifier.align(Alignment.CenterStart)
-                .offset(-offset)
+            offsetX = (-20).dp,
+            modifier = Modifier.align(Alignment.BottomEnd)
+                .offset(y = offset)
         ) {
             Popup(
-                alignment = Alignment.CenterStart
+                alignment = Alignment.BottomEnd,
             ) {
-                Button(
-                    TablerIcons.X,
-                    isEnabled = isEditing,
-                    background = Pond.colors.tertiary,
-                ) { cancelEdit(text) }
-            }
-        }
-
-        Magic(
-            isVisible = isEditing,
-            offsetX = -offsetPx.dp,
-            modifier = Modifier.align(Alignment.CenterEnd)
-                .offset(offset)
-        ) {
-            Popup(
-                alignment = Alignment.CenterEnd
-            ) {
-                Button(
-                    TablerIcons.Check,
-                    isEnabled = isEditing,
-                ) { acceptEdit(fieldValue.text) }
+                ControlSet {
+                    ControlSetButton(
+                        TablerIcons.X,
+                        isEnabled = isEditing,
+                        background = Pond.colors.tertiary,
+                    ) { cancelEdit(text) }
+                    ControlSetButton(
+                        TablerIcons.Check,
+                        isEnabled = isEditing,
+                    ) { acceptEdit(fieldValue.text) }
+                }
             }
         }
     }
