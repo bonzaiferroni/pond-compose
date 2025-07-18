@@ -13,7 +13,7 @@ import pondui.ui.theme.Pond
 @Composable
 fun TextButton(
     text: String,
-    style: TextStyle,
+    style: TextStyle = Pond.typo.body,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,

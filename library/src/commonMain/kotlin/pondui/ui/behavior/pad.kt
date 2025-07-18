@@ -1,0 +1,9 @@
+package pondui.ui.behavior
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import pondui.ui.theme.Pond
+
+@Composable
+fun Modifier.padBottom(units: Int) = this.padding(bottom = Pond.ruler.unitSpacing * units)
