@@ -12,6 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
@@ -23,7 +25,9 @@ import pondui.ui.nav.NavRoute
 import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
+import pondui.utils.darken
 import pondui.utils.lighten
+import pondui.utils.mixWith
 
 @Composable
 fun Button(
@@ -41,6 +45,7 @@ fun Button(
     val bg = if (isPressed) background.lighten(.3f) else if (isHovered) background.lighten(.1f) else background
     val animatedBackground by animateColorAsState(bg, animationSpec = tween(300))
     val animatedScale by animateFloatAsState(if (isPressed) .9f else 1f)
+    val glow = Pond.colors.glow.darken(.2f)
 
     ProvideSkyColors {
         Box(
@@ -61,7 +66,12 @@ fun Button(
                     scaleX = animatedScale
                 }
                 .drawBehind {
-                    drawRect(animatedBackground)
+                    val gradient = Brush.linearGradient(
+                        colors = listOf(animatedBackground.mixWith(glow, .4f), animatedBackground),
+                        start = Offset.Zero,                           // upper‑left
+                        end = Offset(size.width, size.height)          // lower‑right
+                    )
+                    drawRect(gradient)
                 }
                 .padding(padding)
         ) {
