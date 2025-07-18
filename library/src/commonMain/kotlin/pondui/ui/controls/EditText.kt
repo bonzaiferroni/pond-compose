@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,6 +24,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.Placeholder
@@ -38,7 +40,9 @@ import androidx.compose.ui.zIndex
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
 import compose.icons.tablericons.X
+import kotlinx.datetime.format.Padding
 import pondui.ui.behavior.Magic
+import pondui.ui.behavior.consumeHover
 import pondui.ui.behavior.filterKeyPress
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
@@ -55,6 +59,8 @@ fun EditText(
     isContainerVisible: Boolean = false,
     initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
+    padding: PaddingValues = Pond.ruler.unitPadding,
+    background: Color = Pond.localColors.sectionSurface,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     modifier: Modifier = Modifier,
@@ -93,11 +99,13 @@ fun EditText(
     Box(
         modifier = modifier
             .clip(Pond.ruler.unitCorners)
-            .ifTrue(!isEditing && isEditable) { clickable { isEditing = true } }
+            .ifTrue(!isEditing && isEditable) {
+                clickable { isEditing = true }
+            }
             .ifTrue(isContainerVisible) {
-                background(Pond.localColors.sectionSurface)
+                background(background)
                     .selected(isEditing, padding = 0.dp, radius = Pond.ruler.unitCorner)
-                    .padding(Pond.ruler.unitPadding)
+                    .padding(padding)
             }
     ) {
         val focusRequester = remember { FocusRequester() }
@@ -114,6 +122,7 @@ fun EditText(
                     .onEnterPressed { acceptEdit(fieldValue.text) },
                 textStyle = style.copy(color = color),
                 maxLines = maxLines,
+                cursorBrush = SolidColor(color)
             )
         } else {
             val textColor = if (fieldValue.text.isNotEmpty()) color else Pond.localColors.contentDim
