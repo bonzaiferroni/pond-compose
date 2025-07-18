@@ -1,12 +1,11 @@
 package pondui.ui.controls
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import pondui.ui.behavior.ifNotNull
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.LocalPortal
 import pondui.ui.nav.NavRoute
@@ -21,19 +20,22 @@ fun Modifier.actionable(route: NavRoute, isEnabled: Boolean = true): Modifier {
 fun Modifier.actionable(
     hoverText: String? = null,
     isEnabled: Boolean = true,
+    onHover: ((Boolean) -> Unit)? = null,
+    isIndicated: Boolean = true,
     onClick: () -> Unit,
 ): Modifier {
     return if (isEnabled) {
-        this.ifNotNull(hoverText) {
-                val source = remember { MutableInteractionSource() }
-                val isHovered = source.collectIsHoveredAsState().value
-                val portal = LocalPortal.current
-                LaunchedEffect(isHovered) {
-                    portal.setHoverText(if (isHovered) it else "")
-                }
-                this.hoverable(source)
+        val interactionSource = remember { MutableInteractionSource() }
+        val isHovered = interactionSource.collectIsHoveredAsState().value
+        val portal = LocalPortal.current
+        LaunchedEffect(isHovered) {
+            hoverText?.let {
+                portal.setHoverText(if (isHovered) it else "")
             }
-            .clickable(onClick = onClick)
+            onHover?.invoke(isHovered)
+        }
+        val indication = if (isIndicated) LocalIndication.current else null
+        this.clickable(onClick = onClick, interactionSource = interactionSource, indication = indication)
     } else {
         this
     }
