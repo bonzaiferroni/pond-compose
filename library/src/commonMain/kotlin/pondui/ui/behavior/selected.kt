@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
@@ -19,6 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import pondui.ui.controls.actionable
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 
@@ -58,3 +64,22 @@ fun Modifier.selected(
         )
     }
 }
+
+@Composable
+fun Modifier.selectable(
+    onSelectedChange: (Boolean) -> Unit
+): Modifier {
+    var isSelected by remember { mutableStateOf(false) }
+
+    return this.actionable {
+        selectedAction?.invoke()
+        selectedAction = {
+            isSelected = false
+            onSelectedChange(false)
+        }
+        isSelected = true
+        onSelectedChange(true)
+    }.selected(isSelected)
+}
+
+private var selectedAction: (() -> Unit)? = null
