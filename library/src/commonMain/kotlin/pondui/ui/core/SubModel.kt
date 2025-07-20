@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 
 abstract class SubModel<State>(
     initialState: State,
-    viewModel: ViewModel
 ) {
-    protected val viewModelScope = viewModel.viewModelScope
+    protected abstract val viewModel: ViewModel
+    protected val viewModelScope get() = viewModel.viewModelScope
 
     protected val _state = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
