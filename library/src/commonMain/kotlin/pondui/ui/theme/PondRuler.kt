@@ -82,10 +82,10 @@ interface PondRuler {
     )
 
     val roundEnd: Shape get() = RoundedCornerShape(
-        topStartPercent = 0,
-        topEndPercent = 50,
-        bottomStartPercent = 0,
-        bottomEndPercent = 50
+        topStart = unitCorner,
+        topEnd = bigCorner,
+        bottomStart = unitCorner,
+        bottomEnd = bigCorner
     )
 
     val roundStart: Shape get() = RoundedCornerShape(

@@ -26,6 +26,7 @@ import pondui.ui.behavior.ifTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.darken
+import pondui.utils.glowWith
 import pondui.utils.lighten
 import pondui.utils.mixWith
 
@@ -66,11 +67,7 @@ fun Button(
                     scaleX = animatedScale
                 }
                 .drawBehind {
-                    val gradient = Brush.linearGradient(
-                        colors = listOf(animatedBackground.mixWith(glow, .4f), animatedBackground),
-                        start = Offset.Zero,                           // upper‑left
-                        end = Offset(size.width, size.height)          // lower‑right
-                    )
+                    val gradient = animatedBackground.glowWith(glow, size)
                     drawRect(gradient)
                 }
                 .padding(padding)

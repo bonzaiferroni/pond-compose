@@ -1,5 +1,8 @@
 package pondui.utils
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 fun Color.darken(amount: Float = 0.2f): Color {
@@ -20,3 +23,9 @@ fun mix(c1: Color, c2: Color, ratio: Float = 0.5f) = Color(
 )
 
 fun Color.mixWith(color: Color, ratio: Float = 0.5f) = mix(this, color, ratio)
+
+fun Color.glowWith(glow: Color, size: Size, ratio: Float = 0.5f) = Brush.linearGradient(
+    colors = listOf(this.mixWith(glow, ratio), this),
+    start = Offset(size.width / 3, 0f),
+    end = Offset(size.width, size.height)
+)
