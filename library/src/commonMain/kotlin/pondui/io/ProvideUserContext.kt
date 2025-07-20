@@ -88,23 +88,23 @@ fun LoginControls(
 ) {
     ControlSet(maxItemsInEachRow = 1) {
         TextField(
-            text = usernameOrEmail, onTextChange = setUsernameOrEmail,
+            text = usernameOrEmail, onTextChanged = setUsernameOrEmail,
             placeholder = "Username",
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            text = password, onTextChange = setPassword, hideCharacters = true,
+            text = password, onTextChanged = setPassword, hideCharacters = true,
             placeholder = "Password",
             modifier = Modifier.fillMaxWidth()
                 .onEnterPressed(login)
         )
     }
-    LabelCheckbox(
+    LabeledCheckbox(
         value = saveLogin,
         onValueChanged = setSaveLogin,
         label = "Save username",
     )
-    LabelCheckbox(
+    LabeledCheckbox(
         value = stayLoggedIn,
         onValueChanged = setStayLoggedIn,
         label = "Stay logged in",

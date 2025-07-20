@@ -13,11 +13,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
@@ -78,13 +76,13 @@ fun Checkbox(
 }
 
 @Composable
-fun LabelCheckbox(
+fun LabeledCheckbox(
+    label: String,
     value: Boolean,
     onValueChanged: (Boolean) -> Unit,
-    label: String,
 ) {
     Row(
-        horizontalArrangement = Pond.ruler.rowUnit,
+        spacingUnits = 1,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(value, onValueChanged = onValueChanged)

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -37,15 +38,18 @@ import pondui.utils.mixWith
 fun DropMenu(
     selected: String,
     options: ImmutableList<String>,
+    modifier: Modifier = Modifier,
+    color: Color = Pond.colors.primary,
     onSelect: (String) -> Unit
 ) {
     var isOpen by remember { mutableStateOf(false) }
+    val background = Pond.colors.void.mixWith(color)
 
     ProvideSkyColors {
         Row(
-            modifier = Modifier.magic(!isOpen)
+            modifier = modifier.magic(!isOpen)
                 .clip(Pond.ruler.pill)
-                .background(Pond.colors.void)
+                .background(background)
                 .padding(Pond.ruler.unitPadding),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -55,6 +59,7 @@ fun DropMenu(
             )
             Button(
                 imageVector = TablerIcons.ChevronDown,
+                background = color,
                 isEnabled = !isOpen,
                 padding = Pond.ruler.halfPadding,
             ) {
@@ -72,7 +77,7 @@ fun DropMenu(
                 Column(
                     modifier = Modifier.width(IntrinsicSize.Max)
                         .clip(Pond.ruler.defaultCorners)
-                        .background(Pond.colors.void)
+                        .background(background)
                 ) {
                     for (option in options) {
                         TextButton(

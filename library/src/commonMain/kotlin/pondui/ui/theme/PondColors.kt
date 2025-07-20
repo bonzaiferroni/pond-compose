@@ -18,7 +18,6 @@ interface PondColors {
     val void: Color
     val glow: Color
     val swatches: List<Color>
-    val textField: Color
 
     fun getSwatchFromIndex(index: Int) = swatches[index % swatches.size]
     fun getSwatchFromIndex(index: Long) = getSwatchFromIndex(index.toInt())
@@ -65,5 +64,4 @@ object DefaultColors : PondColors{
         Color(0xFF00B8C4),
         Color(0xFF737373),
     )
-    override val textField = Color(0xff3c4242)
 }
