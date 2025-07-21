@@ -1,15 +1,10 @@
 package pondui.ui.controls
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,62 +15,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.DotsVertical
-import compose.icons.tablericons.Menu
-import compose.icons.tablericons.Menu2
 import pondui.ui.nav.ContextMenu
 import pondui.ui.theme.Pond
 
 @Composable
-fun LabeledPart(
-    label: String,
-    contentAlignment: Alignment = Alignment.TopStart,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Column(1, modifier = modifier) {
-        PartLabel(label)
-        Box(
-            contentAlignment = contentAlignment,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            content()
-        }
-    }
-}
-
-@Composable
-fun PartLabel(
+fun HeaderLabel(
     label: String,
     modifier: Modifier = Modifier,
+    background: Color = Pond.colors.void,
+    shape: Shape = Pond.ruler.shroomed,
     contextMenuContent: (@Composable () -> Unit)? = null
 ) {
-    val lineColor = Pond.localColors.content.copy(.1f)
     Row(
-        modifier = modifier.height(34.dp)
-            .matchParentWidth()
-            .drawBehind {
-                val strokeWidth = 3.dp.toPx()
-                drawLine(
-                    color = lineColor,
-                    start = Offset(0f, size.height - strokeWidth),
-                    end = Offset(size.width, size.height - strokeWidth),
-                    strokeWidth = strokeWidth,
-                    cap = StrokeCap.Round,
-                )
-            },
+        modifier = modifier.clip(shape)
+            .background(background.copy(.5f))
+            .padding(vertical = Pond.ruler.unitSpacing, horizontal = Pond.ruler.doubleSpacing),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Label(

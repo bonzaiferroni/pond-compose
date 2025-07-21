@@ -4,17 +4,9 @@ import androidx.compose.runtime.*
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
 import pondui.ui.theme.Pond
 
 @Composable
@@ -86,12 +78,13 @@ fun H1(
 fun H2(
     text: String,
     color: Color = Pond.localColors.content,
+    modStyle: (TextStyle) -> TextStyle = { it },
     maxLines: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier
 ) = BasicText(
     text = text,
     color = { color },
-    style = Pond.typo.h2,
+    style = modStyle(Pond.typo.h2),
     maxLines = maxLines,
     overflow = TextOverflow.Ellipsis,
     modifier = modifier

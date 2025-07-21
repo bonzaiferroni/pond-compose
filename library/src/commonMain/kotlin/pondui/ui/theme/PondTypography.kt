@@ -67,7 +67,9 @@ fun defaultTypography(
     override val bodyLarge = base.copy(
         fontSize = 16.sp
     )
-    override val label = base
+    override val label = base.copy(
+        fontSize = 12.sp
+    )
     override val small = base.copy(
         fontSize = 12.sp
     )

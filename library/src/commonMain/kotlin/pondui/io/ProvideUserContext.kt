@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import pondui.ui.behavior.onEnterPressed
@@ -19,10 +20,9 @@ fun ProvideUserContext(
 
     Cloud(
         isVisible = state.dialogVisible, onDismiss = userContext::toggle,
-        modifier = Modifier.width(250.dp)
     ) {
         Column(
-            verticalArrangement = Pond.ruler.columnUnit
+            spacingUnits = 2,
         ) {
             val user = state.user
             if (user != null) {
@@ -86,37 +86,37 @@ fun LoginControls(
     login: () -> Unit,
     dismiss: () -> Unit,
 ) {
-    ControlSet(maxItemsInEachRow = 1) {
+    Column(1, modifier = Modifier.width(250.dp)) {
         TextField(
             text = usernameOrEmail, onTextChanged = setUsernameOrEmail,
-            placeholder = "Username",
+            label = "username",
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
             text = password, onTextChanged = setPassword, hideCharacters = true,
-            placeholder = "Password",
+            label = "password",
             modifier = Modifier.fillMaxWidth()
                 .onEnterPressed(login)
         )
-    }
-    LabeledCheckbox(
-        value = saveLogin,
-        onValueChanged = setSaveLogin,
-        label = "Save username",
-    )
-    LabeledCheckbox(
-        value = stayLoggedIn,
-        onValueChanged = setStayLoggedIn,
-        label = "Stay logged in",
-    )
-    ControlSet {
-        Button(
-            text = "Log in", onClick = login, modifier = Modifier.weight(1f),
+        LabeledCheckbox(
+            value = saveLogin,
+            onValueChanged = setSaveLogin,
+            label = "Save username",
         )
-        Button(
-            text = "Cancel", onClick = dismiss, modifier = Modifier.weight(1f),
-            background = Pond.colors.tertiary
+        LabeledCheckbox(
+            value = stayLoggedIn,
+            onValueChanged = setStayLoggedIn,
+            label = "Stay logged in",
         )
+        Row(1) {
+            Button(
+                text = "Log in", onClick = login, modifier = Modifier.weight(1f),
+            )
+            Button(
+                text = "Cancel", onClick = dismiss, modifier = Modifier.weight(1f),
+                background = Pond.colors.tertiary
+            )
+        }
     }
 }
 

@@ -2,6 +2,7 @@ package pondui.ui.controls
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -32,6 +33,7 @@ import kabinet.model.LabeledEnum
 import kabinet.utils.nameOrError
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import pondui.ui.behavior.AlignX
 import pondui.ui.behavior.Magic
 import pondui.ui.behavior.drawLabel
 import pondui.ui.behavior.ifNotNull
@@ -53,13 +55,12 @@ fun DropMenu(
     var isOpen by remember { mutableStateOf(false) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
     val background = Pond.colors.void.mixWith(color)
-    val glow = Pond.colors.glow
     val density = LocalDensity.current
 
     ProvideSkyColors {
         Row(
             modifier = modifier.magic(!isOpen)
-                .clip(Pond.ruler.roundEnd)
+                .clip(Pond.ruler.pill)
                 .drawBehind {
                     drawRoundRect(
                         color = background,
@@ -68,10 +69,11 @@ fun DropMenu(
                 .onGloballyPositioned { menuSize = it.size }
                 .padding(Pond.ruler.unitPadding)
                 .animateContentSize(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
         ) {
             label?.let {
-                Label("$label:")
+                Label("$label:", modifier = Modifier.padding(horizontal = Pond.ruler.unitSpacing))
             }
             Text(
                 text = selected,
@@ -97,8 +99,8 @@ fun DropMenu(
             ) {
                 Column(
                     modifier = Modifier.width(IntrinsicSize.Max)
-                        .widthIn(min = with(density) { menuSize.width.toDp() } )
-                        .ifNotNull(label) { drawLabel(it, color, Alignment.Start) }
+                        .widthIn(min = with(density) { menuSize.width.toDp() })
+                        .ifNotNull(label) { drawLabel(it, alignX = AlignX.Center) }
                         .clip(Pond.ruler.defaultCorners)
                         .background(background)
                 ) {

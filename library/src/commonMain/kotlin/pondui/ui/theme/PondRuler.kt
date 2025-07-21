@@ -31,10 +31,10 @@ interface PondRuler {
     val pill: Shape get() = RoundedCornerShape(percent = 100)
 
     val unitCorner: Dp get() = spacingUnit.dp
-    val midCorner: Dp get() = unitCorner * 4
+    val defaultCorner: Dp get() = unitCorner * 4
     val bigCorner: Dp get() = unitCorner * 5
     val unitCorners: Shape get() = RoundedCornerShape(unitCorner)
-    val defaultCorners: Shape get() = RoundedCornerShape(midCorner)
+    val defaultCorners: Shape get() = RoundedCornerShape(defaultCorner)
     val bigCorners: Shape get() = RoundedCornerShape(bigCorner)
 
     val innerCorners: Shape get() = RoundedCornerShape((unitCorner / 2))

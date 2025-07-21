@@ -35,12 +35,13 @@ import pondui.ui.behavior.ifNotNull
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.glowWith
+import pondui.utils.mixWith
 
 @Composable
 fun TextField(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.primary,
+    color: Color = Pond.colors.void,
     label: String? = null,
     placeholder: String? = null,
     hideCharacters: Boolean = false,
@@ -63,8 +64,7 @@ fun TextField(
         value = value.copy(text)
     }
 
-    val background = Pond.colors.void
-    val glow = Pond.colors.glow
+    val background = color.mixWith(Pond.colors.void, .8f)
     val corner = Pond.ruler.unitCorner
 
     var isFocused by remember { mutableStateOf(false) }
@@ -84,7 +84,7 @@ fun TextField(
             maxLines = maxLines,
             modifier = modifier.width(IntrinsicSize.Min)
                 .defaultMinSize(150.dp) // huh?
-                .ifNotNull(label) { drawLabel(it, color) }
+                .ifNotNull(label) { drawLabel(it, color, addPadding = true) }
                 .drawBehind {
                     drawRoundRect(
                         color = background,

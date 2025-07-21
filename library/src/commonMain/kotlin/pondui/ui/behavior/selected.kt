@@ -1,13 +1,8 @@
 package pondui.ui.behavior
 
-import androidx.compose.animation.core.EaseInOutElastic
-import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,12 +13,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import pondui.ui.controls.actionable
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
@@ -33,7 +25,7 @@ fun Modifier.selected(
     isSelected: Boolean,
     stroke: Dp = 2.dp,
     padding: Dp = stroke,
-    radius: Dp = Pond.ruler.midCorner,
+    radius: Dp = Pond.ruler.defaultCorner,
 ): Modifier {
     val factor by animateFloatAsState(if (isSelected) 1f else 0f, spring(
         dampingRatio = Spring.DampingRatioMediumBouncy,
