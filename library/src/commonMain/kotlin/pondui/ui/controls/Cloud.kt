@@ -62,10 +62,10 @@ fun TitleCloud (
     onDismiss: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    val portal = LocalPortal.current
+    val cloudPortal = LocalPortal.current.cloudPortal
     if (isVisible) HotKey(Key.Escape, onDismiss)
 
-    portal.setDialogContent(title, isVisible, onDismiss) {
+    cloudPortal.setDialogContent(title, isVisible, onDismiss) {
         content()
     }
 }
