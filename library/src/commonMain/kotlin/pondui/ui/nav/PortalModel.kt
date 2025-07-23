@@ -1,18 +1,14 @@
 package pondui.ui.nav
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.type
-import pondui.ui.core.StateModel
-import pondui.utils.Broadcaster
+import pondui.ui.core.StateModelNew
+import pondui.ui.core.ViewState
 
-class PortalModel : StateModel<PortalState>(PortalState()) {
+class PortalModel : StateModelNew<PortalState>() {
 
-    val cloudPortal = CloudPortalModel(this)
+    override val state = ViewState(PortalState())
+    
+    val cloudPortalModel = CloudPortalModel(this)
+    val toastPortalModel = ToastPortalModel(this)
 
     fun setHoverText(text: String) {
         setState { it.copy(hoverText = text) }

@@ -10,30 +10,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-abstract class SubModel<State>() {
-
+abstract class StateModelNew<State>() : ViewModel() {
     protected abstract val state: ViewState<State>
-
-    protected abstract val viewModel: ViewModel
-    protected val viewModelScope get() = viewModel.viewModelScope
-
-    protected val stateNow get() = state.value
-
     val stateFlow: StateFlow<State> get() = state
+    protected val stateNow get() = state.value
 
     private val jobs = mutableListOf<Job>()
 
     protected fun setState(block: (State) -> State) = state.setValue(block)
 
-    protected fun cancelViewModelScopeJobs() {
-        viewModelScope.coroutineContext[Job]?.cancelChildren()
+    protected fun cancelJobs() {
+        this@StateModelNew.viewModelScope.coroutineContext[Job]?.cancelChildren()
     }
 
     protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = viewModelScope.launch {
         this@launchCollect.collect(block)
     }.also { jobs.add(it) }
 
-    fun clearJobs() {
+    protected fun clearJobs() {
         jobs.forEach { it.cancel() }
         jobs.clear()
     }

@@ -91,7 +91,7 @@ fun Scaffold(
 
 @Composable
 fun TopBarSpacer() {
-    val state by LocalPortal.current.state.collectAsState()
+    val state by LocalPortal.current.stateFlow.collectAsState()
     val height = if (state.topBarIsVisible) portalTopBarHeight else 0.dp
     Spacer(
         modifier = Modifier.animateContentSize()
@@ -101,7 +101,7 @@ fun TopBarSpacer() {
 
 @Composable
 fun BottomBarSpacer() {
-    val state by LocalPortal.current.state.collectAsState()
+    val state by LocalPortal.current.stateFlow.collectAsState()
     val height = if (state.bottomBarIsVisible) portalBottomBarHeight else 0.dp
     Spacer(
         modifier = Modifier.animateContentSize()

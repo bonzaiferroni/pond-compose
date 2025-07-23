@@ -86,7 +86,7 @@ fun LoginControls(
     login: () -> Unit,
     dismiss: () -> Unit,
 ) {
-    Column(1, modifier = Modifier.width(250.dp)) {
+    Column(2, modifier = Modifier.width(250.dp)) {
         TextField(
             text = usernameOrEmail, onTextChanged = setUsernameOrEmail,
             label = "username",
@@ -98,16 +98,18 @@ fun LoginControls(
             modifier = Modifier.fillMaxWidth()
                 .onEnterPressed(login)
         )
-        LabeledCheckbox(
-            value = saveLogin,
-            onValueChanged = setSaveLogin,
-            label = "Save username",
-        )
-        LabeledCheckbox(
-            value = stayLoggedIn,
-            onValueChanged = setStayLoggedIn,
-            label = "Stay logged in",
-        )
+        Column(1) {
+            LabeledCheckbox(
+                value = saveLogin,
+                onValueChanged = setSaveLogin,
+                label = "Save username",
+            )
+            LabeledCheckbox(
+                value = stayLoggedIn,
+                onValueChanged = setStayLoggedIn,
+                label = "Stay logged in",
+            )
+        }
         Row(1) {
             Button(
                 text = "Log in", onClick = login, modifier = Modifier.weight(1f),

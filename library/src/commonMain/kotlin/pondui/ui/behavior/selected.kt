@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -23,16 +24,16 @@ import pondui.utils.lighten
 @Composable
 fun Modifier.selected(
     isSelected: Boolean,
+    color: Color = Pond.colors.selected,
     stroke: Dp = 2.dp,
     padding: Dp = stroke,
-    radius: Dp = Pond.ruler.defaultCorner,
+    radius: Dp = Pond.ruler.unitCorner,
 ): Modifier {
     val factor by animateFloatAsState(if (isSelected) 1f else 0f, spring(
         dampingRatio = Spring.DampingRatioMediumBouncy,
         stiffness = Spring.StiffnessLow
     ))
 
-    val color = Pond.colors.selected
     return this.drawBehind {
         val strokePx = stroke.toPx()
         val radiusPx = radius.toPx()

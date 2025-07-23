@@ -84,7 +84,7 @@ fun TextField(
             maxLines = maxLines,
             modifier = modifier.width(IntrinsicSize.Min)
                 .defaultMinSize(150.dp) // huh?
-                .ifNotNull(label) { drawLabel(it, color, addPadding = true) }
+                .ifNotNull(label) { drawLabel(it, color) }
                 .drawBehind {
                     drawRoundRect(
                         color = background,

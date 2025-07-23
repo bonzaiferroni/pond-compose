@@ -39,14 +39,14 @@ fun Portal(
     content: @Composable () -> Unit,
 ) {
     val viewModel: PortalModel = viewModel { PortalModel() }
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.stateFlow.collectAsState()
     val nav = LocalNav.current
     val navState by nav.state.collectAsState()
     val currentRoute = navState.route
     val hazeState = remember { HazeState() }
     LaunchedEffect(currentRoute) {
         viewModel.setTitle(null)
-        viewModel.cloudPortal.hideDialog()
+        viewModel.cloudPortalModel.hideDialog()
     }
 
     CompositionLocalProvider(LocalPortal provides viewModel) {
@@ -78,7 +78,10 @@ fun Portal(
             }
 
             // dialog
-            CloudPortalView(viewModel.cloudPortal, hazeState)
+            CloudPortalView(viewModel.cloudPortalModel)
+
+            // toasts
+            ToastPortalView(viewModel.toastPortalModel)
 
             // top bar
             Row(

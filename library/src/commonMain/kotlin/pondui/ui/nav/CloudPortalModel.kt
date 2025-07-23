@@ -3,10 +3,13 @@ package pondui.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import pondui.ui.core.SubModel
+import pondui.ui.core.ViewState
 
 class CloudPortalModel(
     override val viewModel: ViewModel,
-): SubModel<CloudPortalState>(CloudPortalState()) {
+): SubModel<CloudPortalState>() {
+
+    override val state = ViewState(CloudPortalState())
 
     fun setDialogContent(
         title: String,
