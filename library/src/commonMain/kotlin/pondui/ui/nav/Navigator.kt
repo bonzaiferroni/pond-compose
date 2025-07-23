@@ -22,8 +22,8 @@ fun Navigator(
     navController: NavHostController = rememberNavController(),
     nav: NavigatorModel = viewModel { NavigatorModel(config.home, navController) }
 ) {
-    val state by nav.state.collectAsState()
-    val address = LocalAddressContext.current?.state?.collectAsState()?.value?.address
+    val state by nav.stateFlow.collectAsState()
+    val address = LocalAddressContext.current?.stateFlow?.collectAsState()?.value?.address
 
     if (address != null) {
         LaunchedEffect(address) {

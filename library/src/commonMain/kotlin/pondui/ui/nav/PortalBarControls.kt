@@ -37,7 +37,7 @@ fun RowScope.BottomBar(
     val navState by nav.state.collectAsState()
     val currentRoute = navState.route
     val userContext = LocalUserContext.current
-    val userContextState = userContext?.state?.collectAsState()?.value
+    val userContextState = userContext?.stateFlow?.collectAsState()?.value
 
     Row(
         modifier = Modifier.weight(1f)

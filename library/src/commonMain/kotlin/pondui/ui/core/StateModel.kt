@@ -11,15 +11,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-abstract class StateModel<State>(initialState: State) : ViewModel() {
-    protected val _state = MutableStateFlow(initialState)
-    val state = _state.asStateFlow()
-    val stateNow get() = state.value
+abstract class StateModel<State>() : ViewModel() {
+    protected abstract val state: ViewState<State>
+    val stateFlow get() = state
+    val stateNow get() = stateFlow.value
 
     private val jobs = mutableListOf<Job>()
 
     protected fun setState(block: (State) -> State) {
-        _state.value = block(state.value)
+        state.setValue { block(stateFlow.value) }
     }
 
     protected fun cancelJobs() {

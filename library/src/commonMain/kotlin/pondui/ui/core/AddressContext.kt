@@ -4,7 +4,8 @@ import androidx.compose.runtime.*
 
 class AddressContext(
     initialAddress: String?,
-): StateModel<AddressState>(AddressState(address = initialAddress)) {
+): StateModel<AddressState>() {
+    override val state = ViewState(AddressState(address = initialAddress))
 
     fun setAddress(path: String) {
         setState { it.copy(address = path) }
@@ -22,7 +23,7 @@ fun ProvideAddressContext(
     viewModel: AddressContext = remember { AddressContext(initialAddress) },
     content: @Composable () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.stateFlow.collectAsState()
 
     LaunchedEffect(updatedAddress) {
         if (updatedAddress != null) {
