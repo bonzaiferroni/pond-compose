@@ -15,8 +15,9 @@ import pondui.ui.theme.Pond
 @Composable
 fun Icon(
     imageVector: ImageVector,
+    modifier: Modifier = Modifier,
     tint: Color = Pond.localColors.content,
-    modifier: Modifier = Modifier
+    contentScale: ContentScale = ContentScale.Fit
 ) {
     val colorFilter = remember(tint) { if (tint == Color.Unspecified) null else ColorFilter.tint(tint) }
     Box(
@@ -25,7 +26,7 @@ fun Icon(
             .paint(
                 painter = rememberVectorPainter(imageVector),
                 colorFilter = colorFilter,
-                contentScale = ContentScale.Fit
+                contentScale = contentScale
             )
     )
 }
