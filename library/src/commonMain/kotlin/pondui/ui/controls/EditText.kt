@@ -92,7 +92,7 @@ fun EditText(
 
     LaunchedEffect(text) {
         if (text == fieldValue.text) return@LaunchedEffect
-        fieldValue = fieldValue.copy(text)
+        fieldValue = fieldValue.copy(text = text)
         isEditing = false
     }
 

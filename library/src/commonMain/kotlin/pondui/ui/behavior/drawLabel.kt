@@ -28,7 +28,7 @@ fun Modifier.drawLabel(
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
     val labelStyle = Pond.typo.body.copy(fontSize = 12.sp, color = Pond.colors.contentSky.copy(.8f))
-    val labelResult = remember {
+    val labelResult = remember (label) {
         textMeasurer.measure(
             text = label,
             style = labelStyle
