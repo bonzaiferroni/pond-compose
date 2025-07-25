@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -30,13 +31,14 @@ import pondui.ui.behavior.ifNotNull
 @Composable
 fun ProgressBar(
     progress: Float,
+    modifier: Modifier = Modifier,
     animationSpec: AnimationSpec<Float> = tween(
         durationMillis = 300
     ),
     minHeight: Dp = 10.dp,
     minWidth: Dp = 100.dp,
     color: Color = Pond.colors.data,
-    modifier: Modifier = Modifier,
+    padding: PaddingValues = Pond.ruler.unitPadding,
     content: @Composable (() -> Unit)? = null
 ) {
     val progress = if (progress.isNaN()) 0f else progress
@@ -76,7 +78,7 @@ fun ProgressBar(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxSize()
-                        .padding(Pond.ruler.unitPadding)
+                        .padding(padding)
                 ) {
                     it()
                 }
@@ -88,10 +90,13 @@ fun ProgressBar(
 @Composable
 fun ProgressBarButton(
     progress: Float,
+    modifier: Modifier = Modifier,
     labelText: String? = null,
     isEnabled: Boolean = true,
+    padding: PaddingValues = Pond.ruler.unitPadding,
+    minHeight: Dp = 10.dp,
+    minWidth: Dp = 100.dp,
     onClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
     content: @Composable (() -> Unit)? = labelText?.let { { Label(it.uppercase(), color = Pond.localColors.content)} }
 ) {
     val color = when {
@@ -101,6 +106,9 @@ fun ProgressBarButton(
     ProgressBar(
         progress = progress,
         color = color,
+        padding = padding,
+        minHeight = minHeight,
+        minWidth = minWidth,
         modifier = modifier.clip(Pond.ruler.pill)
             .ifNotNull(onClick) { this.actionable(labelText, isEnabled, onClick = it) }
     ) {
