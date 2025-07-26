@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 
 @Composable
 fun Magic(
@@ -30,6 +31,7 @@ fun Magic(
     scale: Float = 1f,
     fade: Boolean = true,
     durationMillis: Int = 500,
+    delay: Int = 0,
     exitOpposite: Boolean = false,
     isVisibleInit: Boolean = false,
     easing: Easing = FastOutSlowInEasing,
@@ -38,6 +40,7 @@ fun Magic(
 ) {
     var currentVisibility by remember { mutableStateOf(isVisibleInit) }
     LaunchedEffect(isVisible) {
+        if (delay > 0) delay(delay.toLong())
         currentVisibility = isVisible
     }
 
@@ -84,6 +87,7 @@ fun Modifier.magic(
     rotationX: Int = 0,
     scale: Float = 1f,
     durationMillis: Int = 500,
+    delay: Int = 0,
     fade: Boolean = true,
     exitOpposite: Boolean = false,
     isVisibleInit: Boolean = false,
@@ -91,6 +95,7 @@ fun Modifier.magic(
 ): Modifier {
     var currentVisibility by remember { mutableStateOf(isVisibleInit) }
     LaunchedEffect(isVisible) {
+        if (delay > 0) delay(delay.toLong())
         currentVisibility = isVisible
     }
 
