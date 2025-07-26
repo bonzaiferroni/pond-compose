@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import pondui.ui.behavior.ifTrue
@@ -15,13 +16,15 @@ fun TextButton(
     text: String,
     style: TextStyle = Pond.typo.body,
     isEnabled: Boolean = true,
-    padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
+    color: Color = Pond.localColors.content,
+    padding: PaddingValues = Pond.ruler.doublePadding,
     onClick: () -> Unit,
 ) {
     Text(
         text = text,
         style = style,
+        color = color,
         modifier = modifier.ifTrue(isEnabled) { clickable(onClick = onClick) }
             .graphicsLayer { alpha = if (isEnabled) 1f else .5f }
             .padding(padding)

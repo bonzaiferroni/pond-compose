@@ -15,9 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
@@ -26,8 +23,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import kotlinx.collections.immutable.ImmutableList
@@ -41,10 +36,12 @@ import pondui.ui.theme.Pond
 import pondui.utils.mixWith
 
 @Composable
-fun <T> TextFieldWithSuggestions(
+fun <T> TextFieldMenu(
     text: String,
-    suggestions: ImmutableList<T>,
+    items: ImmutableList<T>,
     modifier: Modifier = Modifier,
+    label: String? = null,
+    placeholder: String? = null,
     maxSuggestions: Int = 5,
     onTextChanged: (String) -> Unit,
     onChooseSuggestion: (T) -> Unit,
@@ -55,22 +52,22 @@ fun <T> TextFieldWithSuggestions(
     var menuSize by remember { mutableStateOf(DpSize.Zero) }
     var selectionIndex by remember { mutableStateOf<Int?>(null) }
     val density = LocalDensity.current
-    LaunchedEffect(suggestions) {
-        isOpen = suggestions.isNotEmpty()
+    LaunchedEffect(items) {
+        isOpen = items.isNotEmpty()
         selectionIndex = null
     }
 
-    val suggestionCount = minOf(suggestions.size, maxSuggestions)
+    val suggestionCount = minOf(items.size, maxSuggestions)
 
     Box(
         modifier = modifier
             .onGloballyPositioned { menuSize = it.size.toDpSize(density) }
             .onHotKey(Key.DirectionDown) {
-                if (suggestions.isEmpty()) return@onHotKey
+                if (items.isEmpty()) return@onHotKey
                 selectionIndex = ((selectionIndex ?: -1) + 1) % suggestionCount
             }
             .onHotKey(Key.DirectionUp) {
-                if (suggestions.isEmpty()) return@onHotKey
+                if (items.isEmpty()) return@onHotKey
                 selectionIndex = ((selectionIndex ?: 0) + suggestionCount - 1) % suggestionCount
             },
         contentAlignment = Alignment.BottomStart
@@ -81,19 +78,21 @@ fun <T> TextFieldWithSuggestions(
             maxLines = 1,
             modifier = Modifier.onEnterPressed {
                 val index = selectionIndex
-                if (index != null && index < suggestions.size) {
-                    onChooseSuggestion(suggestions[index])
+                if (index != null && index < items.size) {
+                    onChooseSuggestion(items[index])
                 } else {
                     onEnterPressed()
                 }
-            }
+            },
+            placeholder = placeholder,
+            label = label,
         )
         Popup(
             popupPositionProvider = positionProvider,
             onDismissRequest = { if (isOpen) isOpen = false },
         ) {
             MagicItem(
-                item = suggestions,
+                item = items,
                 scale = .8f,
             ) { suggestions ->
                 Column(

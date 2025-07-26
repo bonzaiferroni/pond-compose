@@ -117,7 +117,7 @@ fun ExampleScrollHeader() {
              state = lazyListState
         ) {
             items((0..100).toList()) { idx ->
-                Text("Item #$idx", modifier = Modifier.padding(16.dp))
+                Text("MoreMenuItem #$idx", modifier = Modifier.padding(16.dp))
             }
         }
     }

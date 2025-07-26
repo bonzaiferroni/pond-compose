@@ -1,5 +1,6 @@
 package pondui.ui.behavior
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -12,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import pondui.ui.theme.Pond
 import pondui.utils.mixWith
@@ -24,6 +25,8 @@ fun Modifier.drawLabel(
     addPadding: Boolean = false,
     alignX: AlignX = AlignX.End,
     alignY: AlignY = AlignY.Top,
+    containerBackground: Color? = null,
+    containerCorners: Dp = Pond.ruler.unitCorner
 ): Modifier {
     val density = LocalDensity.current
     val textMeasurer = rememberTextMeasurer()
@@ -46,6 +49,9 @@ fun Modifier.drawLabel(
         }
     }
         .drawWithContent {
+            containerBackground?.let {
+                drawRoundRect(it, cornerRadius = CornerRadius(containerCorners.toPx()))
+            }
             drawContent()
             val labelHeightPx = labelHeight.toPx()
             val labelBgCorner = CornerRadius(labelHeightPx)
@@ -76,6 +82,18 @@ fun Modifier.drawLabel(
             )
         }
 }
+
+@Composable
+fun Modifier.drawSection(
+    label: String,
+    padding: PaddingValues = Pond.ruler.unitPadding,
+    background: Color = Pond.localColors.sectionSurface,
+    corners: Dp = Pond.ruler.unitCorner
+) = Modifier.drawLabel(
+    label = label,
+    containerBackground = background,
+    containerCorners = corners
+).padding(padding)
 
 sealed interface Align
 enum class AlignX: Align {
