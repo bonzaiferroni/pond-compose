@@ -14,6 +14,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
@@ -29,9 +33,12 @@ import androidx.compose.ui.window.PopupPositionProvider
 import kotlinx.collections.immutable.ImmutableList
 import pondui.ui.behavior.MagicItem
 import pondui.ui.behavior.magic
+import pondui.ui.behavior.magicBackground
 import pondui.ui.behavior.onEnterPressed
+import pondui.ui.behavior.onHotKey
 import pondui.ui.behavior.padTop
 import pondui.ui.theme.Pond
+import pondui.utils.mixWith
 
 @Composable
 fun <T> TextFieldWithSuggestions(
@@ -46,21 +53,40 @@ fun <T> TextFieldWithSuggestions(
 ) {
     var isOpen by remember { mutableStateOf(false) }
     var menuSize by remember { mutableStateOf(DpSize.Zero) }
+    var selectionIndex by remember { mutableStateOf<Int?>(null) }
     val density = LocalDensity.current
     LaunchedEffect(suggestions) {
         isOpen = suggestions.isNotEmpty()
+        selectionIndex = null
     }
+
+    val suggestionCount = minOf(suggestions.size, maxSuggestions)
 
     Box(
         modifier = modifier
-            .onGloballyPositioned { menuSize = it.size.toDpSize(density) },
+            .onGloballyPositioned { menuSize = it.size.toDpSize(density) }
+            .onHotKey(Key.DirectionDown) {
+                if (suggestions.isEmpty()) return@onHotKey
+                selectionIndex = ((selectionIndex ?: -1) + 1) % suggestionCount
+            }
+            .onHotKey(Key.DirectionUp) {
+                if (suggestions.isEmpty()) return@onHotKey
+                selectionIndex = ((selectionIndex ?: 0) + suggestionCount - 1) % suggestionCount
+            },
         contentAlignment = Alignment.BottomStart
     ) {
         TextField(
             text = text,
             onTextChanged = onTextChanged,
             maxLines = 1,
-            modifier = Modifier.onEnterPressed(onEnterPressed)
+            modifier = Modifier.onEnterPressed {
+                val index = selectionIndex
+                if (index != null && index < suggestions.size) {
+                    onChooseSuggestion(suggestions[index])
+                } else {
+                    onEnterPressed()
+                }
+            }
         )
         Popup(
             popupPositionProvider = positionProvider,
@@ -78,9 +104,14 @@ fun <T> TextFieldWithSuggestions(
                         .background(Pond.colors.void)
                 ) {
                     suggestions.forEachIndexed { index, suggestion ->
-                        if (index > maxSuggestions) return@Column
+                        if (index >= maxSuggestions) return@Column
+                        val background = when {
+                            index == selectionIndex -> Pond.colors.selected.mixWith(Pond.colors.void)
+                            else -> Pond.colors.void
+                        }
                         Box(
                             modifier = Modifier.fillMaxWidth()
+                                .magicBackground(background)
                                 .actionable { onChooseSuggestion(suggestion) }
                                 .magic(scale = .8f, delay = index * 100)
                                 .padding(vertical = Pond.ruler.unitSpacing, horizontal = Pond.ruler.doubleSpacing)
