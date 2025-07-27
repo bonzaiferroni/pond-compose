@@ -24,7 +24,7 @@ import pondui.utils.lighten
 @Composable
 fun Modifier.selected(
     isSelected: Boolean,
-    color: Color = Pond.colors.selected,
+    color: Color = Pond.colors.selection,
     stroke: Dp = 2.dp,
     padding: Dp = stroke,
     radius: Dp = Pond.ruler.unitCorner,

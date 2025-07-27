@@ -56,7 +56,7 @@ fun Tabs(
                         modifier = Modifier.fillMaxSize()
                             .magic(isSelected, offsetX = offsetX.dp)
                             .clip(headerShape)
-                            .background(Pond.colors.selected)
+                            .background(Pond.colors.selection)
                     )
 
                     val color = if (isSelected) Pond.colors.contentSky else Pond.colors.contentSky.darken()

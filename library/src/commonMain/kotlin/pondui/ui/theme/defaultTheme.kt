@@ -20,9 +20,10 @@ fun defaultTheme(
         content = colors.contentSky,
         surface = colors.surfaceSky,
         highlight = colors.glow.lighten(.4f),
-        sectionSurface = colors.background.mixWith(colors.void),
-        dangerContent = colors.danger.lighten(.4f),
-        selectedContent = colors.selected.lighten(.4f)
+        sectionSurface = colors.void.copy(.3f),
+        // sectionSurface = colors.background.mixWith(colors.void),
+        dangerContent = colors.deletion.lighten(.4f),
+        selectedContent = colors.selection.lighten(.4f)
     )
 
     override val bookColors = PondLocalColors(
@@ -31,8 +32,8 @@ fun defaultTheme(
         surface = colors.surfaceBook,
         highlight = colors.glow.darken(.4f),
         sectionSurface = colors.background.mixWith(colors.surfaceBook, .8f),
-        dangerContent = colors.danger.darken(.4f),
-        selectedContent = colors.selected.darken(.4f)
+        dangerContent = colors.deletion.darken(.4f),
+        selectedContent = colors.selection.darken(.4f)
     )
 
     override val typography = defaultTypography(

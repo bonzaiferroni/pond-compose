@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposableTargetMarker
-import androidx.compose.runtime.NonSkippableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,9 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
@@ -31,25 +26,15 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Settings
-import compose.icons.tablericons.X
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.serialization.json.JsonNull.content
-import pondui.ui.behavior.AlignX
-import pondui.ui.behavior.AlignY
 import pondui.ui.behavior.Magic
-import pondui.ui.behavior.drawLabel
 import pondui.ui.behavior.magic
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 
 @Composable
 fun MoreMenu(
-    label: String? = null,
     content: @Composable MoreMenuScope.() -> Unit
 ) {
-    var menuSize by remember { mutableStateOf(DpSize.Zero) }
-    val density = LocalDensity.current
     var isOpen by remember { mutableStateOf(false) }
     val scope = remember { MoreMenuScope() }
     if (isOpen) {
@@ -59,9 +44,8 @@ fun MoreMenu(
 
     Box(
         contentAlignment = Alignment.TopEnd,
-        modifier = Modifier.onGloballyPositioned { menuSize = it.size.toDpSize(density) }
     ) {
-        val iconColor = if (isOpen) Pond.colors.selected.lighten(.2f) else Pond.localColors.content
+        val iconColor = if (isOpen) Pond.colors.selection.lighten(.2f) else Pond.localColors.content
         IconButton(TablerIcons.Settings, isEnabled = !isOpen, tint = iconColor) { isOpen = !isOpen }
 
         Popup(
@@ -72,7 +56,7 @@ fun MoreMenu(
                 Column(
                     modifier = Modifier.width(IntrinsicSize.Max)
                         .clip(Pond.ruler.unitCorners)
-                        .background(Pond.colors.void)
+                        .background(Pond.colors.selectionVoid)
                 ) {
                     MoreMenuRow(
                         index = 0,
@@ -86,7 +70,7 @@ fun MoreMenu(
                             index = index + 1,
                             icon = item.icon,
                             color = item.color,
-                            onClick = item.onClick,
+                            onClick = { item.onClick(); isOpen = false },
                             content = item.content
                         )
                     }

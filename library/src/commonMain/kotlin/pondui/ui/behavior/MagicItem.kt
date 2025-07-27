@@ -68,6 +68,7 @@ fun <T> MagicItem(
     rotationX: Int = 0,
     scale: Float = 1f,
     durationMillis: Int = 250,
+    contentAlignment: Alignment = Alignment.TopStart,
     isVisibleInit: Boolean = false,
     modifier: Modifier = Modifier,
     content: @Composable (T) -> Unit,
@@ -84,7 +85,7 @@ fun <T> MagicItem(
     }
 
     Box(
-        contentAlignment = Alignment.Center,
+        contentAlignment = contentAlignment,
         modifier = modifier
             .magic(
                 isVisible = !isClearing,

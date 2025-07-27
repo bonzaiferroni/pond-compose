@@ -3,6 +3,7 @@ package pondui.ui.controls
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -35,12 +36,13 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import pondui.ui.behavior.AlignX
 import pondui.ui.behavior.Magic
+import pondui.ui.behavior.MagicItem
 import pondui.ui.behavior.drawLabel
 import pondui.ui.behavior.ifNotNull
 import pondui.ui.behavior.magic
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
-import pondui.utils.glowWith
+import pondui.utils.lighten
 import pondui.utils.mixWith
 
 @Composable
@@ -48,70 +50,73 @@ fun DropMenu(
     selected: String,
     options: ImmutableList<String>,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.primary,
+    color: Color = Pond.colors.secondary,
     label: String? = null,
     onSelect: (String) -> Unit
 ) {
     var isOpen by remember { mutableStateOf(false) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
-    val background = Pond.colors.void.mixWith(color)
+    val background = Pond.colors.void
+    val menuBackground = Pond.colors.void.mixWith(color, .5f)
     val density = LocalDensity.current
 
     ProvideSkyColors {
-        Row(
-            modifier = modifier.magic(!isOpen)
-                .clip(Pond.ruler.pill)
-                .drawBehind {
-                    drawRoundRect(
-                        color = background,
+        Box(
+            contentAlignment = Alignment.TopStart
+        ) {
+            Row(
+                modifier = modifier.clip(Pond.ruler.roundEnd)
+                    .drawBehind { drawRoundRect(background) }
+                    .onGloballyPositioned { menuSize = it.size }
+                    .animateContentSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                label?.let {
+                    Label("$label:", modifier = Modifier.padding(horizontal = Pond.ruler.unitSpacing))
+                }
+                MagicItem(
+                    item = selected,
+                    offsetX = 20.dp,
+                    modifier = Modifier.weight(1f)
+                        .padding(horizontal = Pond.ruler.unitSpacing)
+                ) { selected ->
+                    Text(
+                        text = selected,
                     )
                 }
-                .onGloballyPositioned { menuSize = it.size }
-                .padding(Pond.ruler.unitPadding)
-                .animateContentSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
-        ) {
-            label?.let {
-                Label("$label:", modifier = Modifier.padding(horizontal = Pond.ruler.unitSpacing))
-            }
-            Text(
-                text = selected,
-                modifier = Modifier.padding(horizontal = Pond.ruler.unitSpacing)
-            )
-            Button(
-                imageVector = TablerIcons.ChevronDown,
-                background = color,
-                isEnabled = !isOpen,
-                padding = Pond.ruler.halfPadding,
-            ) {
-                isOpen = !isOpen
-            }
-        }
-        Popup(
-            alignment = Alignment.TopStart,
-            onDismissRequest = { if (isOpen) isOpen = false },
-        ) {
-            Magic(
-                isVisible = isOpen,
-                scale = .8f,
-                offsetY = (-20).dp
-            ) {
-                Column(
-                    modifier = Modifier.width(IntrinsicSize.Max)
-                        .widthIn(min = with(density) { menuSize.width.toDp() })
-                        .ifNotNull(label) { drawLabel(it, alignX = AlignX.Center) }
-                        .clip(Pond.ruler.defaultCorners)
-                        .background(background)
+                Button(
+                    imageVector = TablerIcons.ChevronDown,
+                    background = color,
+                    isEnabled = !isOpen,
+                    padding = Pond.ruler.halfPadding,
                 ) {
-                    for (option in options) {
-                        TextButton(
-                            text = option,
-                            style = Pond.typo.body.copy(textAlign = TextAlign.Center),
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            onSelect(option)
-                            isOpen = false
+                    isOpen = !isOpen
+                }
+            }
+            Popup(
+                alignment = Alignment.TopStart,
+                offset = IntOffset(0, menuSize.height),
+                onDismissRequest = { if (isOpen) isOpen = false },
+            ) {
+                Magic(
+                    isVisible = isOpen,
+                ) {
+                    Column(
+                        modifier = Modifier.padding(top = Pond.ruler.unitSpacing)
+                            .width(IntrinsicSize.Max)
+                            .widthIn(min = with(density) { menuSize.width.toDp() })
+                            .ifNotNull(label) { drawLabel(it, alignX = AlignX.Center) }
+                            .clip(Pond.ruler.unitCorners)
+                    ) {
+                        val selectedIndex = options.indexOfFirst { it == selected }
+                        options.forEachIndexed { index, option ->
+                            if (index == selectedIndex) return@forEachIndexed
+                            val index = if (index > selectedIndex) index - 1 else index
+                            DropMenuOption(option, index, menuBackground) {
+                                onSelect(option)
+                                isOpen = false
+                            }
                         }
                     }
                 }
@@ -120,12 +125,30 @@ fun DropMenu(
     }
 }
 
+@Composable
+fun DropMenuOption(
+    option: String,
+    index: Int,
+    background: Color,
+    onClick: () -> Unit
+) {
+    Text(
+        text = option,
+        style = Pond.typo.body.copy(textAlign = TextAlign.Start),
+        modifier = Modifier.fillMaxWidth()
+            .magic(offsetY = (-30).dp, delay = index * 30)
+            .background(background)
+            .actionable(onClick = onClick)
+            .padding(Pond.ruler.unitPadding),
+    )
+}
+
 @Suppress("UNCHECKED_CAST")
 @Composable
 inline fun <reified T> DropMenu(
     selected: T,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.primary,
+    color: Color = Pond.colors.secondary,
     label: String? = null,
     crossinline onSelect: (T) -> Unit
 ) where T : Enum<T>, T : LabeledEnum<T> {

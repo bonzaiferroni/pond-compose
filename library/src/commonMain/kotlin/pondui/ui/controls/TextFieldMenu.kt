@@ -1,7 +1,7 @@
 package pondui.ui.controls
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,10 +23,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import kotlinx.collections.immutable.ImmutableList
-import pondui.ui.behavior.MagicItem
+import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.magicBackground
 import pondui.ui.behavior.onEnterPressed
@@ -74,7 +75,10 @@ fun <T> TextFieldMenu(
     ) {
         TextField(
             text = text,
-            onTextChanged = onTextChanged,
+            onTextChanged = {
+                isOpen = items.isNotEmpty()
+                onTextChanged(it)
+            },
             maxLines = 1,
             modifier = Modifier.onEnterPressed {
                 val index = selectionIndex
@@ -91,28 +95,23 @@ fun <T> TextFieldMenu(
             popupPositionProvider = positionProvider,
             onDismissRequest = { if (isOpen) isOpen = false },
         ) {
-            MagicItem(
-                item = items,
-                scale = .8f,
-            ) { suggestions ->
+            Magic(isOpen, scale = .8f) {
                 Column(
-                    spacingUnits = 1,
                     modifier = Modifier.padTop(1)
                         .width(menuSize.width)
                         .clip(Pond.ruler.unitCorners)
-                        .background(Pond.colors.void)
                 ) {
-                    suggestions.forEachIndexed { index, suggestion ->
+                    items.forEachIndexed { index, suggestion ->
                         if (index >= maxSuggestions) return@Column
                         val background = when {
-                            index == selectionIndex -> Pond.colors.selected.mixWith(Pond.colors.void)
-                            else -> Pond.colors.void
+                            index == selectionIndex -> Pond.colors.selection.mixWith(Pond.colors.void)
+                            else -> Pond.colors.selectionVoid
                         }
                         Box(
                             modifier = Modifier.fillMaxWidth()
+                                .magic(offsetY = (-20).dp, delay = index * 100)
                                 .magicBackground(background)
                                 .actionable { onChooseSuggestion(suggestion) }
-                                .magic(scale = .8f, delay = index * 100)
                                 .padding(vertical = Pond.ruler.unitSpacing, horizontal = Pond.ruler.doubleSpacing)
                         ) {
                             suggestionContent(suggestion)

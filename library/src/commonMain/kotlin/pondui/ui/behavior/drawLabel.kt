@@ -89,7 +89,7 @@ fun Modifier.drawSection(
     padding: PaddingValues = Pond.ruler.unitPadding,
     background: Color = Pond.localColors.sectionSurface,
     corners: Dp = Pond.ruler.unitCorner
-) = Modifier.drawLabel(
+) = this.drawLabel(
     label = label,
     containerBackground = background,
     containerCorners = corners
