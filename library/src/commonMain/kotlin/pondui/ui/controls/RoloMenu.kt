@@ -1,6 +1,5 @@
 package pondui.ui.controls
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.scrollBy
@@ -8,7 +7,6 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -45,7 +43,7 @@ fun <T> MenuWheel(
     offsetRowCount: Int = 1,
     menuWidth: Dp? = null,
     rowHeight: Dp = 18.dp,
-    indicatorColor: Color = Pond.colors.primary,
+    indicatorColor: Color = Pond.colors.creation,
     itemAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     modifier: Modifier = Modifier,
     onSelect: (T) -> Unit

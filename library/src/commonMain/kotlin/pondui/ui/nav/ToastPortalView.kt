@@ -64,6 +64,6 @@ private val toastDuration = 5.seconds
 
 @Composable
 fun ToastType.toColor() = when (this) {
-    ToastType.Default -> Pond.colors.tertiary
-    ToastType.Error -> Pond.colors.deletion
+    ToastType.Default -> Pond.colors.regression
+    ToastType.Error -> Pond.colors.negation
 }

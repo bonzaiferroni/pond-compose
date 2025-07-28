@@ -1,6 +1,5 @@
 package pondui.ui.controls
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,32 +18,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
-import androidx.compose.ui.zIndex
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
 import compose.icons.tablericons.X
-import kotlinx.datetime.format.Padding
 import pondui.ui.behavior.Magic
-import pondui.ui.behavior.consumeHover
 import pondui.ui.behavior.filterKeyPress
-import pondui.ui.behavior.magic
 import pondui.ui.behavior.ifTrue
 import pondui.ui.behavior.onEnterPressed
 import pondui.ui.behavior.selected
@@ -151,7 +140,7 @@ fun EditText(
                     ControlSetButton(
                         TablerIcons.X,
                         isEnabled = isEditing,
-                        background = Pond.colors.tertiary,
+                        background = Pond.colors.regression,
                     ) { cancelEdit(text) }
                     ControlSetButton(
                         TablerIcons.Check,

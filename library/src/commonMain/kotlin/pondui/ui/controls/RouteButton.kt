@@ -12,7 +12,7 @@ import pondui.ui.theme.Pond
 fun RouteButton(
     text: String,
     isEnabled: Boolean = true,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     modifier: Modifier = Modifier,
     getRoute: () -> NavRoute
 ) {

@@ -22,7 +22,7 @@ fun defaultTheme(
         highlight = colors.glow.lighten(.4f),
         sectionSurface = colors.void.copy(.3f),
         // sectionSurface = colors.background.mixWith(colors.void),
-        dangerContent = colors.deletion.lighten(.4f),
+        dangerContent = colors.negation.lighten(.4f),
         selectedContent = colors.selection.lighten(.4f)
     )
 
@@ -32,7 +32,7 @@ fun defaultTheme(
         surface = colors.surfaceBook,
         highlight = colors.glow.darken(.4f),
         sectionSurface = colors.background.mixWith(colors.surfaceBook, .8f),
-        dangerContent = colors.deletion.darken(.4f),
+        dangerContent = colors.negation.darken(.4f),
         selectedContent = colors.selection.darken(.4f)
     )
 

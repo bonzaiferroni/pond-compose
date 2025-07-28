@@ -2,6 +2,7 @@ package pondui.ui.controls
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -61,7 +62,7 @@ fun <T> TextFieldMenu(
     val suggestionCount = minOf(items.size, maxSuggestions)
 
     Box(
-        modifier = modifier
+        modifier = modifier.width(IntrinsicSize.Max)
             .onGloballyPositioned { menuSize = it.size.toDpSize(density) }
             .onHotKey(Key.DirectionDown) {
                 if (items.isEmpty()) return@onHotKey
@@ -80,14 +81,15 @@ fun <T> TextFieldMenu(
                 onTextChanged(it)
             },
             maxLines = 1,
-            modifier = Modifier.onEnterPressed {
-                val index = selectionIndex
-                if (index != null && index < items.size) {
-                    onChooseSuggestion(items[index])
-                } else {
-                    onEnterPressed()
-                }
-            },
+            modifier = Modifier.fillMaxWidth()
+                .onEnterPressed {
+                    val index = selectionIndex
+                    if (index != null && index < items.size) {
+                        onChooseSuggestion(items[index])
+                    } else {
+                        onEnterPressed()
+                    }
+                },
             placeholder = placeholder,
             label = label,
         )

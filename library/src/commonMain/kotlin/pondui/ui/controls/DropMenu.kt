@@ -20,7 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -40,9 +43,10 @@ import pondui.ui.behavior.MagicItem
 import pondui.ui.behavior.drawLabel
 import pondui.ui.behavior.ifNotNull
 import pondui.ui.behavior.magic
+import pondui.ui.behavior.outline
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
-import pondui.utils.lighten
+import pondui.utils.electrify
 import pondui.utils.mixWith
 
 @Composable
@@ -50,24 +54,26 @@ fun DropMenu(
     selected: String,
     options: ImmutableList<String>,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.secondary,
+    color: Color = Pond.colors.action,
     label: String? = null,
     onSelect: (String) -> Unit
 ) {
     var isOpen by remember { mutableStateOf(false) }
     var menuSize by remember { mutableStateOf(IntSize.Zero) }
     val background = Pond.colors.void
-    val menuBackground = Pond.colors.void.mixWith(color, .5f)
+    val menuBackground = Pond.colors.void.mixWith(color).electrify()
     val density = LocalDensity.current
 
     ProvideSkyColors {
         Box(
-            contentAlignment = Alignment.TopStart
+            contentAlignment = Alignment.TopStart,
+            modifier = modifier.width(IntrinsicSize.Max)
         ) {
             Row(
-                modifier = modifier.clip(Pond.ruler.roundEnd)
+                modifier = Modifier.clip(Pond.ruler.roundEnd)
                     .drawBehind { drawRoundRect(background) }
                     .onGloballyPositioned { menuSize = it.size }
+                    .actionable(isEnabled = !isOpen) { isOpen = !isOpen }
                     .animateContentSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
@@ -113,7 +119,7 @@ fun DropMenu(
                         options.forEachIndexed { index, option ->
                             if (index == selectedIndex) return@forEachIndexed
                             val index = if (index > selectedIndex) index - 1 else index
-                            DropMenuOption(option, index, menuBackground) {
+                            DropMenuOption(option, index, color) {
                                 onSelect(option)
                                 isOpen = false
                             }
@@ -148,7 +154,7 @@ fun DropMenuOption(
 inline fun <reified T> DropMenu(
     selected: T,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.secondary,
+    color: Color = Pond.colors.action,
     label: String? = null,
     crossinline onSelect: (T) -> Unit
 ) where T : Enum<T>, T : LabeledEnum<T> {

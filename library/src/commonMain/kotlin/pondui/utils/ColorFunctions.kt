@@ -15,6 +15,21 @@ fun Color.darken(amount: Float = 0.2f): Color {
 
 fun Color.lighten(amount: Float = 0.2f) = darken(-amount)
 
+fun Color.electrify(
+    saturationFactor: Float = 1.5f,
+    brightnessFactor: Float = 1.5f
+) = run {
+    // compute luma for hue-preserving saturation boost
+    val luma = 0.3f * red + 0.59f * green + 0.11f * blue
+    fun boost(c: Float) = (((c - luma) * saturationFactor) + luma) * brightnessFactor
+    Color(
+        red   = boost(red).coerceIn(0f, 1f),
+        green = boost(green).coerceIn(0f, 1f),
+        blue  = boost(blue).coerceIn(0f, 1f),
+        alpha = alpha
+    )
+}
+
 fun mix(c1: Color, c2: Color, ratio: Float = 0.5f) = Color(
     red   = c1.red   * (1 - ratio) + c2.red   * ratio,
     green = c1.green * (1 - ratio) + c2.green * ratio,

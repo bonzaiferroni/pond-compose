@@ -30,6 +30,7 @@ import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 import pondui.ui.behavior.ifNotNull
+import pondui.utils.mixWith
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -91,6 +92,7 @@ fun Portal(
             ) {
                 val backRoute = navState.backRoute
                 val backAlpha by animateFloatAsState(if (backRoute != null) 1f else .2f)
+                val backBackground = Pond.colors.regression.mixWith(Pond.colors.void)
                 Box(
                     modifier = Modifier.size(barHeight)
                         .shadow(
@@ -99,7 +101,7 @@ fun Portal(
                         )
                         .hazeEffect(
                             state = hazeState,
-                            style = HazeMaterials.ultraThin(Pond.colors.background.lighten(.1f))
+                            style = HazeMaterials.ultraThin(backBackground)
                         )
                         .ifNotNull(backRoute) { actionable(it.title) { nav.goBack() } }
                 ) {
@@ -130,6 +132,7 @@ fun Portal(
                 }
 
                 if (exitAction != null) {
+                    val exitBackground = Pond.colors.negation.mixWith(Pond.colors.void)
                     Box(
                         modifier = Modifier.size(barHeight)
                             .shadow(
@@ -138,7 +141,7 @@ fun Portal(
                             )
                             .hazeEffect(
                                 state = hazeState,
-                                style = HazeMaterials.ultraThin(Pond.colors.background.lighten(.1f))
+                                style = HazeMaterials.ultraThin(exitBackground)
                             )
                             .actionable("Exit ${config.name}") { exitAction() }
                     ) {

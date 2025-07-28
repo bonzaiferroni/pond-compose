@@ -12,8 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
@@ -28,12 +26,11 @@ import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.darken
 import pondui.utils.glowWith
 import pondui.utils.lighten
-import pondui.utils.mixWith
 
 @Composable
 fun Button(
     onClick: () -> Unit,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     padding: PaddingValues = Pond.ruler.doublePadding,
@@ -80,7 +77,7 @@ fun Button(
 @Composable
 fun Button(
     text: String,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     padding: PaddingValues = Pond.ruler.doublePadding,
@@ -105,7 +102,7 @@ fun Button(
 @Composable
 fun Button(
     imageVector: ImageVector,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     padding: PaddingValues = Pond.ruler.unitPadding,
@@ -130,7 +127,7 @@ fun Button(
 @Composable
 fun NavButton(
     text: String,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
@@ -155,7 +152,7 @@ fun NavButton(
 @Composable
 fun FlowRowScope.ControlSetButton(
     text: String,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.doublePadding,
     modifier: Modifier = Modifier,
@@ -174,7 +171,7 @@ fun FlowRowScope.ControlSetButton(
 @Composable
 fun FlowRowScope.ControlSetButton(
     imageVector: ImageVector,
-    background: Color = Pond.colors.primary,
+    background: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.unitPadding,
     modifier: Modifier = Modifier,

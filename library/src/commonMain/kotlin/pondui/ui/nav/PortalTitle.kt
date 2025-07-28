@@ -1,6 +1,5 @@
 package pondui.ui.nav
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -63,7 +62,7 @@ fun PortalTitle(
                         bottomEnd = Pond.ruler.bigCorner
                     )
                 )
-                .background(Pond.colors.secondary)
+                .background(Pond.colors.action)
                 .padding(horizontal = 25.dp, vertical = 5.dp)
                 .graphicsLayer { this.alpha = alpha }
         ) {

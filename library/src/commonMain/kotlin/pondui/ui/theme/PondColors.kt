@@ -4,14 +4,17 @@ import androidx.compose.ui.graphics.Color
 import pondui.utils.mixWith
 
 interface PondColors {
-    val primary: Color
-    val secondary: Color
-    val tertiary: Color
+    val creation: Color
+    val action: Color
+    val regression: Color
     val selection: Color
+    val negation: Color
     val data: Color
     val disabled: Color
-    val creation: Color
-    val deletion: Color
+    val creationContent: Color
+    val actionContent: Color
+    val selectionContent: Color
+    val deletionContent: Color
     val contentSky: Color
     val surfaceSky: Color
     val contentBook: Color
@@ -46,15 +49,18 @@ data class PondLocalColors(
 }
 
 object DefaultColors : PondColors{
-    override val primary = Color(0xff4c8e60) // 0xff559f6c
-    override val secondary = Color(0xff017a8a) // 0xFF009489 // 0xff018a80
-    override val tertiary = Color(0xff5e5045)
-    override val disabled = Color(0xff6e7e6f)
+    override val creation = Color(0xff4c8e60) // 0xff559f6c // 0xff4c8e60
+    override val action = Color(0xff017a8a) // 0xFF009489 // 0xff018a80
+    override val regression = Color(0xff5e5045)
+    override val negation = Color(0xff884444)
     override val selection = Color(0xff775f93)
+    override val disabled = Color(0xff6e7e6f)
     override val data = Color(0xffa3765a)
-    override val creation = Color(0xff69e193) // 0xff01fd02 68e463
-    override val deletion = Color(0xff884444)
     override val contentSky = Color(0xFFf5f6f6)
+    override val creationContent = creation.mixWith(contentSky)
+    override val actionContent = action.mixWith(contentSky)
+    override val selectionContent = selection.mixWith(contentSky)
+    override val deletionContent = negation.mixWith(contentSky)
     override val surfaceSky = Color.Transparent
     override val contentBook = Color(0xFF1d190e)
     override val surfaceBook = Color(0xFFcecfcf)
@@ -62,7 +68,7 @@ object DefaultColors : PondColors{
     override val void = Color(0xff3b4242)
     override val selectionVoid = void.mixWith(selection, .25f)
     override val creationVoid = void.mixWith(creation, .25f)
-    override val deletionVoid = void.mixWith(deletion, .25f)
+    override val deletionVoid = void.mixWith(negation, .25f)
     override val glow = Color(0xffecffb6)
     override val swatches = listOf(
         Color(0xff6fffe2),
