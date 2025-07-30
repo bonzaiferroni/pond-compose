@@ -19,6 +19,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
@@ -45,6 +46,7 @@ fun <T> TextFieldMenu(
     label: String? = null,
     placeholder: String? = null,
     maxSuggestions: Int = 5,
+    minWidth: Dp = 150.dp,
     onTextChanged: (String) -> Unit,
     onChooseSuggestion: (T) -> Unit,
     onEnterPressed: () -> Unit,
@@ -55,7 +57,7 @@ fun <T> TextFieldMenu(
     var selectionIndex by remember { mutableStateOf<Int?>(null) }
     val density = LocalDensity.current
     LaunchedEffect(items) {
-        isOpen = items.isNotEmpty()
+        // isOpen = items.isNotEmpty()
         selectionIndex = null
     }
 
@@ -81,6 +83,12 @@ fun <T> TextFieldMenu(
                 onTextChanged(it)
             },
             maxLines = 1,
+            minWidth = minWidth,
+            placeholder = placeholder,
+            label = label,
+            onFocusChanged = { isFocused ->
+                isOpen = items.isNotEmpty() && isFocused
+            },
             modifier = Modifier.fillMaxWidth()
                 .onEnterPressed {
                     val index = selectionIndex
@@ -89,9 +97,7 @@ fun <T> TextFieldMenu(
                     } else {
                         onEnterPressed()
                     }
-                },
-            placeholder = placeholder,
-            label = label,
+                }
         )
         Popup(
             popupPositionProvider = positionProvider,

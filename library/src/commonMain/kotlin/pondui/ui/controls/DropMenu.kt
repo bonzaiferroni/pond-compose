@@ -63,6 +63,7 @@ fun DropMenu(
     val background = Pond.colors.void
     val menuBackground = Pond.colors.void.mixWith(color).electrify()
     val density = LocalDensity.current
+    val isOpenEnabled = !isOpen && options.size > 1
 
     ProvideSkyColors {
         Box(
@@ -73,7 +74,7 @@ fun DropMenu(
                 modifier = Modifier.clip(Pond.ruler.roundEnd)
                     .drawBehind { drawRoundRect(background) }
                     .onGloballyPositioned { menuSize = it.size }
-                    .actionable(isEnabled = !isOpen) { isOpen = !isOpen }
+                    .actionable(isEnabled = isOpenEnabled) { isOpen = !isOpen }
                     .animateContentSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
@@ -94,7 +95,7 @@ fun DropMenu(
                 Button(
                     imageVector = TablerIcons.ChevronDown,
                     background = color,
-                    isEnabled = !isOpen,
+                    isEnabled = isOpenEnabled,
                     padding = Pond.ruler.halfPadding,
                 ) {
                     isOpen = !isOpen

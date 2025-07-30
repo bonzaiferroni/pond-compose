@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -27,6 +28,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pondui.ui.behavior.changeFocusWithTab
@@ -42,12 +45,15 @@ fun TextField(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = Pond.colors.void,
+    textAlign: TextAlign = TextAlign.Start,
     label: String? = null,
     placeholder: String? = null,
     hideCharacters: Boolean = false,
     initialSelectAll: Boolean = false,
     minLines: Int = 1,
     maxLines: Int = Int.MAX_VALUE,
+    minWidth: Dp = 150.dp,
+    onFocusChanged: ((Boolean) -> Unit)? = null,
     onTextChanged: (String) -> Unit,
 ) {
     var value by remember {
@@ -68,6 +74,10 @@ fun TextField(
     val corner = Pond.ruler.unitCorner
 
     var isFocused by remember { mutableStateOf(false) }
+    LaunchedEffect(isFocused) {
+        onFocusChanged?.invoke(isFocused)
+    }
+
     ProvideSkyColors {
         val textColor = Pond.localColors.content
         BasicTextField(
@@ -78,12 +88,16 @@ fun TextField(
                     onTextChanged(it.text)
                 }
             },
-            textStyle = TextStyle(color = textColor),
+            textStyle = TextStyle(color = textColor, textAlign = textAlign),
             cursorBrush = SolidColor(textColor),
             minLines = minLines,
             maxLines = maxLines,
+            visualTransformation = when (hideCharacters) {
+                true -> PasswordVisualTransformation()
+                else -> VisualTransformation.None
+            },
             modifier = modifier.width(IntrinsicSize.Min)
-                .defaultMinSize(150.dp) // huh?
+                .widthIn(min = minWidth)
                 .ifNotNull(label) { drawLabel(it, color) }
                 .drawBehind {
                     drawRoundRect(
@@ -94,11 +108,7 @@ fun TextField(
                 .padding(Pond.ruler.doubleSpacing)
                 .onFocusChanged { isFocused = it.isFocused }
                 .onKeyEvent { isFocused && it.key != Key.Tab }
-                .changeFocusWithTab(),
-            visualTransformation = when (hideCharacters) {
-                true -> PasswordVisualTransformation()
-                else -> VisualTransformation.None
-            },
+                .changeFocusWithTab()
         ) { innerTextField ->
             innerTextField()
             if (placeholder != null && text.isEmpty() && !isFocused) {

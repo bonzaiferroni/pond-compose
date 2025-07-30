@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun IntegerMenu(
+fun IntegerDropMenu(
     value: Int,
     minValue: Int = 0,
     maxValue: Int = 10,
