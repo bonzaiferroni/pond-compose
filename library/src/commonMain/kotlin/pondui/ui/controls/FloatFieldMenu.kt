@@ -1,6 +1,7 @@
 package pondui.ui.controls
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,11 +20,10 @@ fun FloatFieldMenu(
 ) {
     var text by remember { mutableStateOf(value.toString()) }
 
-    val options = remember {
+    LaunchedEffect(Unit) {
         if (valueHistory.size < MAX_VALUE_HISTORY && !valueHistory.contains(text)) {
             valueHistory.add(text)
         }
-        valueHistory.toImmutableList()
     }
 
     fun onTextValue(str: String, addHistory: Boolean) {
@@ -39,7 +39,7 @@ fun FloatFieldMenu(
 
     TextFieldMenu(
         text = text,
-        items = options,
+        provideOptions = { valueHistory },
         onChooseSuggestion = {
             onTextValue(it, true)
         },
