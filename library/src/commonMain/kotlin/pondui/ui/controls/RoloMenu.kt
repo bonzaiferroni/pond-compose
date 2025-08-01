@@ -84,7 +84,7 @@ fun <T> MenuWheel(
     val wheelColor = if (localColors.mode == ColorMode.Sky) Pond.colors.void else Pond.colors.void.copy(.2f)
 
     Row(
-        spacingUnits = 1,
+        gap = 1,
         modifier = modifier
             .drawBehind {
                 val stops = arrayOf(

@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import pondui.ui.controls.Column
 import pondui.ui.controls.H3
 import pondui.ui.theme.Pond
@@ -19,7 +18,7 @@ fun ChartBox(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
-        spacingUnits = 1,
+        gap = 1,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.clip(Pond.ruler.defaultCorners)
             .background(Pond.colors.void.copy(.5f))

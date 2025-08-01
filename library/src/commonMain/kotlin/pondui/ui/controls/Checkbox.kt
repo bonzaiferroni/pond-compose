@@ -82,7 +82,7 @@ fun LabeledCheckbox(
     onValueChanged: (Boolean) -> Unit,
 ) {
     Row(
-        spacingUnits = 1,
+        gap = 1,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(value, onValueChanged = onValueChanged)

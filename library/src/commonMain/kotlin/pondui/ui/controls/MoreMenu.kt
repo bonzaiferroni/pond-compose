@@ -90,7 +90,7 @@ internal fun MoreMenuRow(
     content: @Composable () -> Unit,
 ) {
     Row(
-        spacingUnits = 1,
+        gap = 1,
         modifier = modifier.fillMaxWidth()
             .actionable(onClick = onClick)
             .padding(Pond.ruler.unitPadding)

@@ -6,17 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import pondui.ui.theme.Pond
-import pondui.ui.theme.Spacing
-import pondui.ui.theme.toRowArrangement
 
 @Composable
 fun Row(
-    spacingUnits: Int,
+    gap: Int,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
 ) = Row(
-    horizontalArrangement = Pond.ruler.rowArrangement(spacingUnits),
+    horizontalArrangement = Pond.ruler.rowArrangement(gap),
     modifier = modifier,
     content = content,
     verticalAlignment = verticalAlignment

@@ -21,7 +21,7 @@ fun ProvideUserContext(
         isVisible = state.dialogVisible, onDismiss = userContext::toggle,
     ) {
         Column(
-            spacingUnits = 2,
+            gap = 2,
         ) {
             val user = state.user
             if (user != null) {
