@@ -138,20 +138,25 @@ class ApiClient(
     }
 
     suspend fun login(request: LoginRequest? = null): Auth? {
-        request?.let { loginRequest = it }
-        val response = client.post("$baseUrl${UserApi.Login.path}") {
-            setBody(loginRequest)
+        try {
+            request?.let { loginRequest = it }
+            val response = client.post("$baseUrl${UserApi.Login.path}") {
+                setBody(loginRequest)
+            }
+            if (response.status != HttpStatusCode.OK) {
+                return null
+            }
+            val auth: Auth = response.body()
+            jwt = auth.jwt
+            loginRequest = loginRequest?.copy(
+                password = null,
+                refreshToken = auth.refreshToken
+            )
+            return auth
+        } catch (e: Exception) {
+            if (e.message == "Connection refused") return null
+            throw e
         }
-        if (response.status != HttpStatusCode.OK) {
-            return null
-        }
-        val auth: Auth = response.body()
-        jwt = auth.jwt
-        loginRequest = loginRequest?.copy(
-            password = null,
-            refreshToken = auth.refreshToken
-        )
-        return auth
     }
 
     fun logout() {
