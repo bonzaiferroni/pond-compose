@@ -8,14 +8,14 @@ import pondui.LocalValueRepository
 import kabinet.model.User
 import kabinet.model.LoginRequest
 import kabinet.utils.obfuscate
-import pondui.ui.core.ViewState
+import pondui.ui.core.ModelState
 
 class UserContext(
     private val settingsValueRepository: LocalValueRepository = LocalValueRepository(),
     private val userStore: UserRepository = UserRepository()
 ): StateModel<UserContextState>() {
 
-    override val state = ViewState(UserContextState())
+    override val state = ModelState(UserContextState())
 
     var _cache = settingsValueRepository.readObjectOrNull() ?: UserContextCache()
     var cache

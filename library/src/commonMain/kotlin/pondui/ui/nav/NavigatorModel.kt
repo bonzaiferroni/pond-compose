@@ -2,13 +2,13 @@ package pondui.ui.nav
 
 import androidx.navigation.NavController
 import pondui.ui.core.StateModel
-import pondui.ui.core.ViewState
+import pondui.ui.core.ModelState
 
 class NavigatorModel(
     initialRoute: NavRoute,
     private val navController: NavController,
 ) : StateModel<NavState>(), Nav {
-    override val state = ViewState(NavState(initialRoute))
+    override val state = ModelState(NavState(initialRoute))
 
     private val backStack: MutableList<NavRoute> = mutableListOf()
 

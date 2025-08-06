@@ -1,10 +1,10 @@
 package pondui.ui.controls
 
 import pondui.ui.core.StateModel
-import pondui.ui.core.ViewState
+import pondui.ui.core.ModelState
 
 class TabsModel(initialTab: String?): StateModel<TabsState>() {
-    override val state = ViewState(TabsState(initialTab))
+    override val state = ModelState(TabsState(initialTab))
     fun setTab(tab: String?) {
         setState { it.copy(tab = tab) }
     }

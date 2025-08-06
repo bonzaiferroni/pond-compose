@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 abstract class StateModelNew<State>() : ViewModel() {
-    protected abstract val state: ViewState<State>
+    protected abstract val state: ModelState<State>
     val stateFlow: StateFlow<State> get() = state
     protected val stateNow get() = state.value
 

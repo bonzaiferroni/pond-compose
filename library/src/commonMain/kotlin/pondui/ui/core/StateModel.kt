@@ -7,12 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 abstract class StateModel<State>() : ViewModel() {
-    protected abstract val state: ViewState<State>
+    protected abstract val state: ModelState<State>
     val stateFlow get() = state
     val stateNow get() = stateFlow.value
 

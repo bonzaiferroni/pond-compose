@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 abstract class SubModel<State>() {
 
-    protected abstract val state: ViewState<State>
+    protected abstract val state: ModelState<State>
 
     protected abstract val viewModel: ViewModel
     protected val viewModelScope get() = viewModel.viewModelScope

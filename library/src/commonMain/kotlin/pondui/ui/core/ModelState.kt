@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalForInheritanceCoroutinesApi::class)
-class ViewState<State>(
+class ModelState<State>(
     initialState: State,
 ): StateFlow<State> {
     protected val _state = MutableStateFlow(initialState)

@@ -1,11 +1,11 @@
 package pondui.ui.nav
 
 import pondui.ui.core.StateModelNew
-import pondui.ui.core.ViewState
+import pondui.ui.core.ModelState
 
 class PortalModel : StateModelNew<PortalState>() {
 
-    override val state = ViewState(PortalState())
+    override val state = ModelState(PortalState())
     
     val cloudPortalModel = CloudPortalModel(this)
     val toastPortalModel = ToastPortalModel(this)

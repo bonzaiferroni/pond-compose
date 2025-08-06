@@ -5,7 +5,7 @@ import androidx.compose.runtime.*
 class AddressContext(
     initialAddress: String?,
 ): StateModel<AddressState>() {
-    override val state = ViewState(AddressState(address = initialAddress))
+    override val state = ModelState(AddressState(address = initialAddress))
 
     fun setAddress(path: String) {
         setState { it.copy(address = path) }
