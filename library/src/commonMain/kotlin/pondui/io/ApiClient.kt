@@ -14,10 +14,12 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kabinet.api.DeleteEndpoint
 import kabinet.api.GetByIdEndpoint
+import kabinet.api.GetByTableIdEndpoint
 import kabinet.api.GetEndpoint
 import kabinet.api.PostEndpoint
 import kabinet.api.UpdateEndpoint
 import kabinet.api.UserApi
+import kabinet.db.TableId
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
 import pondui.APP_API_URL
@@ -42,9 +44,31 @@ class ApiClient(
         params = params
     )
 
+    suspend inline fun <reified IdType: TableId<*>, reified Returned> get(
+        endpoint: GetByTableIdEndpoint<IdType, Returned>,
+        id: IdType,
+        vararg params: Pair<String, String>?
+    ): Returned = request(
+        method = HttpMethod.Get,
+        path = endpoint.replaceClientId(id),
+        body = null,
+        params = params
+    )
+
     suspend inline fun <reified Returned> getOrNull(
         endpoint: GetByIdEndpoint<Returned>,
         id: Any,
+        vararg params: Pair<String, String>?
+    ): Returned? = requestOrNull(
+        method = HttpMethod.Get,
+        path = endpoint.replaceClientId(id),
+        body = null,
+        params = params
+    )
+
+    suspend inline fun <reified IdType: TableId<*>, reified Returned> getOrNull(
+        endpoint: GetByTableIdEndpoint<IdType, Returned>,
+        id: IdType,
         vararg params: Pair<String, String>?
     ): Returned? = requestOrNull(
         method = HttpMethod.Get,
