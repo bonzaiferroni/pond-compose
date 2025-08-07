@@ -131,14 +131,14 @@ internal fun DrawScope.drawChartPoints(
             // colored dot
             drawCircle(
                 color = point.color,
-                radius = radius,
+                radius = radius / 2,
                 center = point.offset,
                 alpha = indexAnimation * .5f
             )
             // white “pupil”
             drawCircle(
                 color = chartScope.config.contentColor,
-                radius = radius / 2,
+                radius = radius / 4,
                 center = point.offset,
                 alpha = indexAnimation * .5f
             )

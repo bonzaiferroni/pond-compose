@@ -88,7 +88,7 @@ internal fun <T> CacheDrawScope.gatherChartScope(
         }
 
     val dimensionsY = dataScopes.map { dataScope ->
-        val dataRangeY = dataScope.rangeY.takeIf { it != 0.0 } ?: 0.0
+        val dataRangeY = dataScope.rangeY.takeIf { it != 0.0 } ?: 1.0
         ChartDimension(
             scalePx = chartHeightPx / dataRangeY.toFloat(),
             max = dataScope.maxY,
