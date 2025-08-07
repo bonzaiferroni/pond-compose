@@ -41,20 +41,20 @@ fun CloudPortalView(
                 .padding(Pond.ruler.doublePadding)
                 .clickableWithoutHoverEffect(onClick = state.dismissDialog)
         ) {
-            Magic(offsetY = 40.dp, rotationY = 90, durationMillis = 1000) {
-                Box(
-                    modifier = Modifier.clip(Pond.ruler.pill)
-                        .background(Pond.colors.surfaceBook.mixWith(Pond.colors.background))
-                        .padding(horizontal = Pond.ruler.unitSpacing * 6, vertical = Pond.ruler.unitSpacing)
-                ) {
-                    Text(state.dialogTitle, Pond.typo.h3.addShadow())
-                }
-            }
-            Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
-
             ProvideBookColors {
+                Magic(offsetY = 40.dp, rotationY = 90, durationMillis = 1000) {
+                    Box(
+                        modifier = Modifier.clip(Pond.ruler.pill)
+                            .background(Pond.localColors.surface)
+                            .padding(horizontal = Pond.ruler.unitSpacing * 6, vertical = Pond.ruler.unitSpacing)
+                    ) {
+                        Text(state.dialogTitle, Pond.typo.h3, color = Pond.localColors.contentDim)
+                    }
+                }
+                Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))
 
-                Magic(offsetX = 60.dp) {
+
+                Magic(scale = .8f) {
                     Box(
                         modifier = Modifier.clickableWithoutHoverEffect { }
                             .shadow(Pond.ruler.shadowElevation, shape = Pond.ruler.bigCorners)
