@@ -61,8 +61,8 @@ fun ButtonToggle(
 fun ButtonToggle(
     value: Boolean,
     text: String,
-    onToggle: (Boolean) -> Unit,
     color : Color = Pond.colors.creation,
+    onToggle: (Boolean) -> Unit,
 ) {
     ButtonToggle(value, onToggle, color) {
         val color = when (value) {
