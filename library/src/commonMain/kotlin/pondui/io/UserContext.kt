@@ -4,14 +4,14 @@ import androidx.lifecycle.viewModelScope
 import pondui.ui.core.StateModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import pondui.LocalValueRepository
+import pondui.LocalValueSource
 import kabinet.model.User
 import kabinet.model.LoginRequest
 import kabinet.utils.obfuscate
 import pondui.ui.core.ModelState
 
 class UserContext(
-    private val settingsValueRepository: LocalValueRepository = LocalValueRepository(),
+    private val settingsValueRepository: LocalValueSource = LocalValueSource(),
     private val userStore: UserRepository = UserRepository()
 ): StateModel<UserContextState>() {
 

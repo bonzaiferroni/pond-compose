@@ -66,14 +66,7 @@ fun Portal(
 
             // navigation content
             Box(
-                modifier = Modifier
-                    .hazeSource(state = hazeState)
-                    .padding(
-                        top = 0.dp,
-                        start = Pond.ruler.unitSpacing,
-                        end = Pond.ruler.unitSpacing,
-                        bottom = 0.dp,
-                    )
+                modifier = Modifier.hazeSource(state = hazeState)
             ) {
                 content()
             }
@@ -92,7 +85,7 @@ fun Portal(
             ) {
                 val backRoute = navState.backRoute
                 val backAlpha by animateFloatAsState(if (backRoute != null) 1f else .2f)
-                val backBackground = Pond.colors.regression.mixWith(Pond.colors.void)
+                val backBackground = Pond.colors.regression
                 Box(
                     modifier = Modifier.size(barHeight)
                         .shadow(
@@ -132,7 +125,7 @@ fun Portal(
                 }
 
                 if (exitAction != null) {
-                    val exitBackground = Pond.colors.negation.mixWith(Pond.colors.void)
+                    val exitBackground = Pond.colors.negation
                     Box(
                         modifier = Modifier.size(barHeight)
                             .shadow(

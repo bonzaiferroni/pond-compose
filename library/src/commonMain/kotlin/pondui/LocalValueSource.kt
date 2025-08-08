@@ -4,9 +4,8 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
-import kotlin.reflect.KClass
 
-class LocalValueRepository(): ValueRepository {
+class LocalValueSource(): ValueRepository {
 
     companion object {
         val settings = Settings()
