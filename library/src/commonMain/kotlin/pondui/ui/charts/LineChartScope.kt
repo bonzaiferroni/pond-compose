@@ -47,6 +47,7 @@ data class LineChartArray<T>(
     val axis: AxisConfig.Side ? = null,
     val floor: Double? = null,
     val ceiling: Double? = null,
+    val key: Any? = null,
     val provideLabelY: (Double) -> String = { it.toMetricString() },
     val provideY: (T) -> Double,
 )

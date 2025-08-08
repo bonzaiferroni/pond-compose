@@ -1,15 +1,18 @@
 package pondui.ui.charts
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
@@ -18,6 +21,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 @Composable
 fun <T> LineChart(
@@ -31,6 +37,26 @@ fun <T> LineChart(
         animationTarget = 1f
     }
     val animation by animateFloatAsState(animationTarget, tween(2000))
+    val keyAnimations = remember { mutableStateMapOf<Any, Float>() }
+    val liveKeys = config.arrays.mapNotNull { it.key }.toSet()
+    LaunchedEffect(liveKeys) {
+        for (key in liveKeys) {
+            if (keyAnimations.contains(key)) continue
+            val anim = Animatable(0f)
+            launch {
+                snapshotFlow { anim.value }.collect {
+                        v -> keyAnimations[key] = v
+                }
+            }
+            launch {
+                if (anim.value == 0f) {
+                    anim.animateTo(1f, tween(2000))
+                }
+            }
+        }
+        // remove stale
+        keyAnimations.keys.retainAll(liveKeys)
+    }
     val textRuler = rememberTextMeasurer()
     var chartLinesCache by remember { mutableStateOf<List<ChartLine>?>(null) }
 
@@ -72,11 +98,12 @@ fun <T> LineChart(
                     rightAxisLabels?.let { drawAxisLabels(it, animation) }
                     bottomAxisLabels?.let { drawAxisLabels(it, animation) }
 
-                    drawChartLines(lines, animation, focusAnimation)
+                    drawChartLines(lines, animation, keyAnimations, focusAnimation)
                     drawChartPoints(
                         lines = lines,
                         chartScope = chartScope,
                         animation = animation,
+                        keyAnimations = keyAnimations,
                         pointerTarget = pointerTargetNow,
                         pointerTargetPrev = pointerTargetPrev,
                         pointerAnimation = pointerAnimatable.value

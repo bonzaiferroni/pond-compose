@@ -1,5 +1,7 @@
 package pondui.ui.charts
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -13,7 +15,8 @@ import pondui.utils.mix
 
 internal data class ChartLine(
     val path: ChartPath,
-    val points: List<ChartPoint>
+    val points: List<ChartPoint>,
+    val key: Any?
 )
 
 internal data class ChartPath(
@@ -79,14 +82,20 @@ internal fun <T> LineChartScope.gatherChartLines(
             startY = chartHeightPx,
             endY = 0f
         )
-        chartLines.add(ChartLine(ChartPath(path, stroke, brush), arrayPoints))
+        chartLines.add(ChartLine(ChartPath(path, stroke, brush), arrayPoints, array.key))
     }
     return chartLines
 }
 
-internal fun DrawScope.drawChartLines(lines: List<ChartLine>, animation: Float, focusAnimation: Float) {
+internal fun DrawScope.drawChartLines(
+    lines: List<ChartLine>,
+    animation: Float,
+    keyAnimations: Map<Any, Float>,
+    focusAnimation: Float
+) {
     val alpha = (1 - focusAnimation) * .5f + .5f
     for (line in lines) {
+        val animation = line.key?.let { keyAnimations[it] } ?: animation
         val (path, stroke, brush) = line.path
         if (animation == 1f) {
             drawPath(
@@ -117,11 +126,13 @@ internal fun DrawScope.drawChartPoints(
     lines: List<ChartLine>,
     chartScope: LineChartScope,
     animation: Float,
+    keyAnimations: Map<Any, Float>,
     pointerTarget: ChartPoint?,
     pointerTargetPrev: ChartPoint?,
     pointerAnimation: Float
 ) {
     for (line in lines) {
+        val animation = line.key?.let { keyAnimations[it] } ?: animation
         line.points.forEachIndexed { i, point ->
             val indexAnimation = (-i + animation * line.points.size).coerceIn(0f, 1f)
             val bump = if (pointerTarget == point) pointerAnimation * chartScope.pointRadiusPx
