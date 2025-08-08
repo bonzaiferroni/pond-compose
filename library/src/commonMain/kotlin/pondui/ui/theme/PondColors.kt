@@ -73,12 +73,12 @@ object DefaultColors : PondColors{
     override val swatches = listOf(
         Color(0xff6fffe2),
         Color(0xfffebcb8),
-        Color(0xFFA11B0A),
-        Color(0xFFE3A100),
-        Color(0xFF6B3E26),
-        Color(0xFFDC6A00),
-        Color(0xFF7D3CCF),
-        Color(0xFF00B8C4),
-        Color(0xFF737373),
+        Color(0xff86e864),
+        Color(0xfff6c954),
+        Color(0xffba936e),
+        Color(0xffe39f60),
+        Color(0xffc1a1e1),
+        Color(0xff96b9df),
+        Color(0xffa5a5a5),
     )
 }

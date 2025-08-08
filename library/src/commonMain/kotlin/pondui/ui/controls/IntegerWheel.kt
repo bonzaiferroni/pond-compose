@@ -10,6 +10,7 @@ fun IntegerWheel(
     value: Int,
     minValue: Int = 0,
     maxValue: Int = 10,
+    label: String? = null,
     onValueChanged: (Int) -> Unit
 ) {
     val options = remember(minValue, maxValue) { (minValue..maxValue).toImmutableList() }
@@ -17,6 +18,7 @@ fun IntegerWheel(
         selectedItem = value,
         options = options,
         itemAlignment = Alignment.End,
-        onSelect = onValueChanged
+        onSelect = onValueChanged,
+        label = label
     )
 }
