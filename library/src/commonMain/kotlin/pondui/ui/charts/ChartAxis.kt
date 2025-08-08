@@ -40,8 +40,9 @@ fun <T> gatherSideAutoAxis(
 ) = arrays.withIndex().firstOrNull { it.value.axis?.side == side }?.let { indexedArray ->
     val (index, array) = indexedArray
     val axisConfig = array.axis!!
+    val color = axisConfig.color ?: array.color
     val dimension = dimensionsY[index]
-    gatherAutoAxis(axisConfig, dimension, textRuler, array.color, labelFontSize, array.provideLabelY)
+    gatherAutoAxis(axisConfig, dimension, textRuler, color, labelFontSize, array.provideLabelY)
 }
 
 fun gatherAutoAxis(

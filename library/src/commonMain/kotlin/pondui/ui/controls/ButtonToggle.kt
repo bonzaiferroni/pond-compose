@@ -69,6 +69,6 @@ fun ButtonToggle(
             true -> Pond.colors.contentSky
             false -> Pond.localColors.content
         }.animate()
-        Text(text = text, color = color)
+        Text(text = text.uppercase(), style = Pond.typo.small, color = color)
     }
 }

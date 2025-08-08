@@ -9,12 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import pondui.ui.theme.Pond
-import pondui.ui.theme.Spacing
-import pondui.ui.theme.toColumnArrangement
 
 @Composable
 fun LazyColumn(
-    spacingUnits: Int,
+    gap: Int,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     state: LazyListState = rememberLazyListState(),
     modifier: Modifier = Modifier,
@@ -22,7 +20,7 @@ fun LazyColumn(
 ) {
     LazyColumn(
         horizontalAlignment = horizontalAlignment,
-        verticalArrangement = Pond.ruler.columnArrangement(spacingUnits),
+        verticalArrangement = Pond.ruler.columnArrangement(gap),
         state = state,
         modifier = modifier,
         content = content

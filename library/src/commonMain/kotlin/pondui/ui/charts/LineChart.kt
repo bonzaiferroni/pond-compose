@@ -24,6 +24,8 @@ fun <T> LineChart(
     config: LineChartConfig<T>,
     modifier: Modifier = Modifier,
 ) {
+    if (config.arrays.isEmpty()) return
+
     var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
     LaunchedEffect(Unit) {
         animationTarget = 1f
