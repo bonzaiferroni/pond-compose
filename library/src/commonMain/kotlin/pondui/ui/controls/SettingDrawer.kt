@@ -12,7 +12,7 @@ import pondui.ui.theme.Pond
 fun SettingDrawer(
     value: String,
     label: String,
-    shape: Shape = Pond.ruler.shroomed,
+    shape: Shape = Pond.ruler.shroomUp,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {

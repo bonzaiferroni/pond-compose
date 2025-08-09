@@ -19,7 +19,7 @@ import pondui.utils.darken
 fun Tabs(
     selectedTab: String = "",
     onChangeTab: ((String) -> Unit)? = null,
-    headerShape: Shape = Pond.ruler.shroomed,
+    headerShape: Shape = Pond.ruler.shroomUp,
     modifier: Modifier = Modifier,
     content: @Composable TabScope.() -> Unit
 ) {

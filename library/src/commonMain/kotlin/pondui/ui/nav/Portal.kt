@@ -28,9 +28,7 @@ import pondui.ui.controls.Icon
 import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
-import pondui.utils.lighten
 import pondui.ui.behavior.ifNotNull
-import pondui.utils.mixWith
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -156,7 +154,7 @@ fun Portal(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                         .height(portalBottomBarHeight)
-                        .shadow(Pond.ruler.shadowElevation, Pond.ruler.shroomed)
+                        .shadow(Pond.ruler.shadowElevation, Pond.ruler.shroomUp)
                         .pointerInput(Unit) { }
                         .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.void))
                 ) {

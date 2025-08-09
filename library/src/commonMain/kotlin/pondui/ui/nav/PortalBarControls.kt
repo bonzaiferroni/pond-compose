@@ -85,7 +85,7 @@ fun BottomBarItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
             .aspectRatio(.9f)
-            .clip(Pond.ruler.shroomed)
+            .clip(Pond.ruler.shroomUp)
             .ifTrue(!isCurrentRoute) { this.actionable(hoverText, onClick = onClick) }
             .ifTrue(isCurrentRoute) { this.background(Pond.colors.selection.lighten(.2f).copy(.3f))}
             .padding(Pond.ruler.unitPadding)
