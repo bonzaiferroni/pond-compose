@@ -38,7 +38,7 @@ fun ProgressBar(
     minHeight: Dp = 10.dp,
     minWidth: Dp = 100.dp,
     color: Color = Pond.colors.data,
-    padding: PaddingValues = Pond.ruler.unitPadding,
+    padding: PaddingValues = PaddingValues(0.dp),
     content: @Composable (() -> Unit)? = null
 ) {
     val progress = if (progress.isNaN()) 0f else progress
