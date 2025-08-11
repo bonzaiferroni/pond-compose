@@ -11,11 +11,12 @@ import java.net.URI
 import javax.sound.sampled.*
 import kotlin.math.log10
 
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 actual class WavePlayer {
     private val clip = AudioSystem.getClip()
     private var job: Job? = null
 
-    actual fun play(url: String) {
+    actual fun playNow(url: String) {
         job?.cancel()
         job = CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -43,12 +44,38 @@ actual class WavePlayer {
             }
         }
     }
+
+    actual suspend fun play(url: String) {
+        try {
+            if (clip.isOpen) clip.close()
+            // val bis = URI.create(url).toURL().openStream().buffered()
+            val ais = if (url.startsWith("http")) {
+                AudioSystem.getAudioInputStream(URI.create(url).toURL())
+            } else {
+                AudioSystem.getAudioInputStream(File(url).absoluteFile)
+            }
+            clip.framePosition = 0;
+            clip.open(ais)
+            val frames     = clip.frameLength                     // total sample-frames
+            val frameRate  = clip.format.frameRate                // frames per second
+            val durationS  = frames / frameRate                   // in seconds
+            val durationMs = (durationS * 1000).toLong()          // in ms
+
+            // println("Clip expects: $durationS s ($durationMs ms), frames: $frames, frameRate: $frameRate")
+            // clip.start()
+            clip.loop(1) // annoying but necessary hack
+            delay(durationMs)
+            clip.stop()
+        } catch (e: Exception) {
+            println(e.message)
+        }
+    }
 }
 //    public actual override fun powerUp() {
 //        startMixer()
 //    }
 //
-//    private fun play(url: String) {
+//    private fun playNow(url: String) {
 //
 //    }
 //

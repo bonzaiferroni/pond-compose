@@ -8,7 +8,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect class WavePlayer() {
-    fun play(url: String)
+    fun playNow(url: String)
+    suspend fun play(url: String)
 }
 
 @Composable
@@ -26,7 +27,7 @@ fun PlayWave(url: String) {
     val player = LocalWavePlayer.current
 
     LaunchedEffect(url) {
-        player.play(url)
+        player.playNow(url)
     }
 }
 

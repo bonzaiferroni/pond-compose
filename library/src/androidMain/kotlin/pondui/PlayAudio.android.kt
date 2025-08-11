@@ -3,7 +3,7 @@ package pondui
 import androidx.compose.runtime.Composable
 
 actual class WavePlayer {
-    actual fun play(url: String) {
+    actual fun playNow(url: String) {
         TODO()
     }
 }
