@@ -8,16 +8,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import pondui.ui.behavior.Magic
+import pondui.ui.behavior.ifTrue
 
 @Composable
 fun Drawer(
     isOpen: Boolean,
-    height: Dp,
+    openHeight: Dp? = null,
+    closedHeight: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
     Box(
         modifier = Modifier.animateContentSize()
-            .height(if (isOpen) height else 0.dp)
+            .ifTrue(!isOpen || openHeight != null) {
+                height(if (isOpen) openHeight!! else closedHeight)
+            }
     ) {
         Magic(isOpen, scale = .8f) {
             content()

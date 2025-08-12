@@ -3,6 +3,7 @@ package pondui.ui.controls
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,5 +26,5 @@ fun ColumnScope.Expando(weight: Float = 1f) {
 
 @Composable
 fun ColumnScope.Expando(units: Int) {
-    Spacer(modifier = Modifier.width(Pond.ruler.unitSpacing * units))
+    Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * units))
 }
