@@ -3,6 +3,7 @@ package pondui.ui.controls
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -20,7 +21,7 @@ fun Drawer(
     Box(
         modifier = Modifier.animateContentSize()
             .ifTrue(!isOpen || openHeight != null) {
-                height(if (isOpen) openHeight!! else closedHeight)
+                heightIn(max = if (isOpen) openHeight!! else closedHeight)
             }
     ) {
         Magic(isOpen, scale = .8f) {
