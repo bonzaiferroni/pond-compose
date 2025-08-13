@@ -32,7 +32,7 @@ interface PondRuler {
 
     val unitCorner: Dp get() = spacingUnit.dp
     val defaultCorner: Dp get() = unitCorner * 4
-    val bigCorner: Dp get() = unitCorner * 5
+    val bigCorner: Dp get() = unitCorner * 4.8f
     val unitCorners: Shape get() = RoundedCornerShape(unitCorner)
     val defaultCorners: Shape get() = RoundedCornerShape(defaultCorner)
     val bigCorners: Shape get() = RoundedCornerShape(bigCorner)

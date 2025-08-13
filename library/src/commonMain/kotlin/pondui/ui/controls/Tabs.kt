@@ -24,10 +24,36 @@ fun Tabs(
     content: @Composable TabScope.() -> Unit
 ) {
     val scope = remember { TabScope() }
+
+    Column(
+        verticalArrangement = Pond.ruler.columnUnit,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        TabHeader(
+            selectedTab = selectedTab,
+            onChangeTab = onChangeTab,
+            headerShape = headerShape,
+            scope = scope,
+        )
+        TabContent(
+            scope = scope,
+            content = content,
+        )
+    }
+}
+
+@Composable
+fun TabHeader(
+    scope: TabScope,
+    modifier: Modifier = Modifier,
+    selectedTab: String = "",
+    onChangeTab: ((String) -> Unit)? = null,
+    headerShape: Shape = Pond.ruler.shroomUp,
+) {
     val state by scope.state.collectAsState()
+    val items = state.items
     val currentLabel = state.currentLabel
     val indexDelta = state.indexDelta
-    val items = state.items
 
     LaunchedEffect(state.currentLabel) {
         if (state.currentLabel.isNotEmpty()) {
@@ -35,50 +61,53 @@ fun Tabs(
         }
     }
 
-    Column(
-        verticalArrangement = Pond.ruler.columnUnit,
-        modifier = modifier.fillMaxWidth()
+    Row(
+        modifier = modifier.clip(headerShape)
+            .background(Pond.colors.void)
     ) {
-        Row(
-            modifier = Modifier.clip(headerShape)
-                .background(Pond.colors.void)
-        ) {
-            items.forEachIndexed { index, tab ->
-                if (!tab.isVisible) return@forEachIndexed
-                val isSelected = currentLabel == tab.label
+        items.forEachIndexed { index, tab ->
+            if (!tab.isVisible) return@forEachIndexed
+            val isSelected = currentLabel == tab.label
+            Box(
+                modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { scope.changeTab(tab.label) } }
+                    .weight(1f)
+                    .height(IntrinsicSize.Max)
+            ) {
+                val offsetX = if (isSelected) -indexDelta * 100 else indexDelta * 100
                 Box(
-                    modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { scope.changeTab(tab.label) } }
-                        .weight(1f)
-                        .height(IntrinsicSize.Max)
-                ) {
-                    val offsetX = if (isSelected) -indexDelta * 100 else indexDelta * 100
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                            .magic(isSelected, offsetX = offsetX.dp)
-                            .clip(headerShape)
-                            .background(Pond.colors.selection)
-                    )
+                    modifier = Modifier.fillMaxSize()
+                        .magic(isSelected, offsetX = offsetX.dp)
+                        .clip(headerShape)
+                        .background(Pond.colors.selection)
+                )
 
-                    val color = if (isSelected) Pond.colors.contentSky else Pond.colors.contentSky.darken()
+                val color = if (isSelected) Pond.colors.contentSky else Pond.colors.contentSky.darken()
 
-                    Text(
-                        text = tab.label,
-                        color = color,
-                        modifier = Modifier.align(Alignment.Center)
-                            .padding(Pond.ruler.doublePadding)
-                            .magic(offsetX = (-index * 10 + 10).dp, durationMillis = index * 300 + 300),
-                        maxLines = 1
-                    )
-                }
+                Text(
+                    text = tab.label,
+                    color = color,
+                    modifier = Modifier.align(Alignment.Center)
+                        .padding(Pond.ruler.doublePadding)
+                        .magic(offsetX = (-index * 10 + 10).dp, durationMillis = index * 300 + 300),
+                    maxLines = 1
+                )
             }
-        }
-        Box {
-            scope.content()
         }
     }
 
     LaunchedEffect(selectedTab) {
         scope.changeTab(selectedTab)
+    }
+}
+
+@Composable
+fun TabContent(
+    scope: TabScope,
+    modifier: Modifier = Modifier,
+    content: @Composable TabScope.() -> Unit
+) {
+    Box(modifier = modifier) {
+        scope.content()
     }
 }
 
@@ -110,10 +139,12 @@ fun TabScope.Tab(
     }
 }
 
+@Stable
 class TabScope: StateScope<TabState>(TabState()) {
 
     fun addItem(item: TabItem) {
-        setState { it.copy(items = it.items + item) }
+        val currentLabel = stateNow.currentLabel.takeIf { it.isNotEmpty() } ?: item.label
+        setState { it.copy(items = it.items + item, currentLabel = currentLabel) }
     }
 
     fun changeVisibility(label: String, isVisible: Boolean) {
@@ -125,7 +156,7 @@ class TabScope: StateScope<TabState>(TabState()) {
     fun changeTab(tabName: String) {
         val currentLabel = stateNow.currentLabel
         val items = stateNow.items
-        val startIndex = items.indexOfFirst { it.label == currentLabel }
+        val startIndex = items.indexOfFirst { it.label == currentLabel }.takeIf { it != -1 } ?: return
         val item = items.firstOrNull() { it.label == tabName } ?: items.first { it.isVisible }
         if (item.label == currentLabel) return
         val endIndex = items.indexOfFirst { it.label == tabName }

@@ -29,6 +29,7 @@ import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.ui.behavior.ifNotNull
+import pondui.utils.darken
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -156,7 +157,7 @@ fun Portal(
                         .height(portalBottomBarHeight)
                         .shadow(Pond.ruler.shadowElevation, Pond.ruler.shroomUp)
                         .pointerInput(Unit) { }
-                        .hazeEffect(state = hazeState, style = HazeMaterials.ultraThin(Pond.colors.void))
+                        .hazeEffect(state = hazeState, style = HazeMaterials.thin(Pond.colors.void.darken(.1f)))
                 ) {
                     BottomBar(portalItems = config.doors)
                 }

@@ -4,11 +4,15 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.*
@@ -57,6 +61,21 @@ fun LazyListScope.topBarSpacerItem() = item("TopBarSpacer") {
 fun LazyListScope.bottomBarSpacerItem() = item("BottomBarSpacer") {
     BottomBarSpacer()
 }
+
+fun LazyListScope.provideTopPadding(padding: PaddingValues) = item("header_padding") {
+    Box(modifier = Modifier.height(padding.calculateTopPadding()))
+}
+
+fun LazyListScope.provideBottomPadding(padding: PaddingValues) = item("footer_padding") {
+    Box(modifier = Modifier.height(padding.calculateBottomPadding()))
+}
+
+@Composable
+fun Modifier.scaffoldPadding(padding: PaddingValues, addUnitPadding: Boolean = true) =
+    Modifier.padding(if (addUnitPadding) PaddingValues(
+        top = padding.calculateTopPadding() + Pond.ruler.unitSpacing,
+        bottom = padding.calculateBottomPadding() + Pond.ruler.unitSpacing
+    ) else padding)
 
 @Composable
 fun Scaffold(
