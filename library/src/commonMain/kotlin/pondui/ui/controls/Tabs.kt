@@ -131,7 +131,7 @@ fun TabScope.Tab(
     val offsetX = if (state.currentLabel == label) state.indexDelta * 100 else -state.indexDelta * 100
     Magic(label == state.currentLabel, offsetX = offsetX.dp) {
         Column(
-            verticalArrangement = Pond.ruler.columnUnit,
+            gap = 1,
             modifier = modifier.fillMaxWidth()
         ) {
             content()
