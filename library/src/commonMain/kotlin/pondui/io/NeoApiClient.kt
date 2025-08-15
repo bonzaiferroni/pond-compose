@@ -11,6 +11,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import kabinet.api.Endpoint
@@ -52,14 +53,17 @@ class NeoApiClient(
                 header(HttpHeaders.Authorization, "Bearer $it")
             }
             body?.let { setBody(it) }
+
+            block(endpoint)
         }
-        request.block(endpoint)
 
         val response = client.request(request)
         if (response.status == HttpStatusCode.Unauthorized && loginRequest != null) {
             val auth = login()
             if (auth != null) {
                 return requestResponse(endpoint, body, block)
+            } else {
+                error("Unable to login")
             }
         }
         return response
