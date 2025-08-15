@@ -7,11 +7,11 @@ import kabinet.model.SpeechGenRequest
 
 class GeminiApiClient(
     private val geminiApi: GeminiApi,
-    private val client: ApiClient = globalApiClient
+    private val client: NeoApiClient = globalNeoApiClient
 ) {
-    suspend fun chat(messages: List<GeminiMessage>) = client.post(geminiApi.chat, messages)
+    suspend fun chat(messages: List<GeminiMessage>) = client.request(geminiApi.chat, messages)
 
-    suspend fun image(request: ImageGenRequest) = client.post(geminiApi.image, request)
+    suspend fun image(request: ImageGenRequest) = client.request(geminiApi.image, request)
 
-    suspend fun generateSpeech(request: SpeechGenRequest) = client.post(geminiApi.speech, request)
+    suspend fun generateSpeech(request: SpeechGenRequest) = client.request(geminiApi.speech, request)
 }

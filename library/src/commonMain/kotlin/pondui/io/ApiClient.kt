@@ -126,12 +126,12 @@ class ApiClient(
         body: Sent,
         vararg params: Pair<String, String>?
     ): Received? {
-        val response = sendRequest<Sent>(method, "$baseUrl$path", body, *params)
+        val response = sendRequest<Sent>(method, "$baseUrl/$path", body, *params)
         if (response.status == HttpStatusCode.OK) return response.body()
         if (response.status == HttpStatusCode.Unauthorized && loginRequest != null) {
             val auth = login()
             if (auth != null) {
-                return sendRequest<Sent>(method, "$baseUrl$path", body, *params).body()
+                return sendRequest<Sent>(method, "$baseUrl/$path", body, *params).body()
             }
         }
         return null
@@ -164,7 +164,7 @@ class ApiClient(
     suspend fun login(request: LoginRequest? = null): Auth? {
         try {
             request?.let { loginRequest = it }
-            val response = client.post("$baseUrl${UserApi.Login.path}") {
+            val response = client.post("$baseUrl/${UserApi.Login.path}") {
                 setBody(loginRequest)
             }
             if (response.status != HttpStatusCode.OK) {

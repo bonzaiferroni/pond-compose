@@ -5,13 +5,13 @@ import kabinet.model.Auth
 import kabinet.model.LoginRequest
 import kabinet.model.User
 
-class UserRepository(private val client: ApiClient = globalApiClient) {
+class UserRepository(private val client: NeoApiClient = globalNeoApiClient) {
 
     suspend fun login(request: LoginRequest): Auth? = client.login(request)
 
     fun logout() = client.logout()
 
-    suspend fun readUser(): User = client.get(UserApi.ReadInfo)
+    suspend fun readUser(): User? = client.request(UserApi.ReadInfo)
 
     // returns null if successful, otherwise returns an error message
     // suspend fun createUser(info: SignUpRequest): SignUpResult = client.post(Api.user, info)
