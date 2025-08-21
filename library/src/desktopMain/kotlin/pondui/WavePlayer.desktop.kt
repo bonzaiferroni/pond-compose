@@ -47,6 +47,7 @@ actual class WavePlayer {
 
     actual suspend fun play(url: String) {
         try {
+            println("Playing url: ${url}")
             if (clip.isOpen) clip.close()
             // val bis = URI.create(url).toURL().openStream().buffered()
             val ais = if (url.startsWith("http")) {

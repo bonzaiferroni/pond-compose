@@ -35,7 +35,7 @@ fun DrawerScaffold(
 ) {
     val state by LocalPortal.current.stateFlow.collectAsState()
     val unitSpacing = Pond.ruler.unitSpacing
-    val bottomPadding = if (state.bottomBarIsVisible) portalBottomBarHeight else 0.dp
+    val bottomPadding = if (state.bottomBarIsVisible) portalBottomBarHeight + unitSpacing else 0.dp
     var topPadding by remember { mutableStateOf(0.dp)}
     val density = LocalDensity.current
     val hazeState = remember { HazeState() }
