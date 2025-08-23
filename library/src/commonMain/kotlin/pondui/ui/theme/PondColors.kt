@@ -82,3 +82,5 @@ object DefaultColors : PondColors{
         Color(0xffa5a5a5),
     )
 }
+
+private val darkPurpleBg = Color(0xff1d003c)
