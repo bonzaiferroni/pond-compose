@@ -8,6 +8,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class StateModel<State>() : ViewModel() {
     protected abstract val state: ModelState<State>
@@ -34,5 +35,8 @@ abstract class StateModel<State>() : ViewModel() {
     }
 
     protected fun ioLaunch(block: suspend CoroutineScope.() -> Unit) =
-        viewModelScope.launch(Dispatchers.Default, block = block)
+        viewModelScope.launch(Dispatchers.IO, block = block)
+
+    suspend fun withMain(block: CoroutineScope.() -> Unit) =
+        withContext(Dispatchers.Main, block = block)
 }
