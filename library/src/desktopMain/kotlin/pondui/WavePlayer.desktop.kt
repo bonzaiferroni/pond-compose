@@ -72,16 +72,21 @@ actual class WavePlayer {
         }
     }
 
-    actual suspend fun play(bytes: ByteArray) {
+    actual fun play(bytes: ByteArray) {
         try {
+            if (clip.isOpen) clip.close()
             val inputStream = ByteArrayInputStream(bytes)
             val audioStream = AudioSystem.getAudioInputStream(inputStream)
-            val clip: Clip = AudioSystem.getClip()
             clip.open(audioStream)
             clip.start()
         } catch (e: Exception) {
             println(e.message)
         }
+    }
+
+    actual fun pause() {
+        if (clip.isRunning) clip.stop()
+        else clip.start()
     }
 }
 //    public actual override fun powerUp() {
