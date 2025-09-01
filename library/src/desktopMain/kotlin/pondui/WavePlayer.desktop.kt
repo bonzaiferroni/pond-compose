@@ -74,7 +74,7 @@ actual class WavePlayer {
 
     actual fun play(bytes: ByteArray) {
         try {
-            if (clip.isOpen) clip.close()
+            val clip = AudioSystem.getClip()
             val inputStream = ByteArrayInputStream(bytes)
             val audioStream = AudioSystem.getAudioInputStream(inputStream)
             clip.open(audioStream)
