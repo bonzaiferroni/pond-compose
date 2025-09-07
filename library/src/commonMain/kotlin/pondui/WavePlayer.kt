@@ -5,13 +5,16 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import kotlinx.coroutines.Job
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect class WavePlayer() {
     fun playNow(url: String)
     suspend fun play(url: String)
-    fun play(bytes: ByteArray)
+    suspend fun play(bytes: ByteArray, onProgress: ((Int) -> Unit)?)
     fun pause()
+
+    fun readInfo(bytes: ByteArray): Int?
 }
 
 @Composable

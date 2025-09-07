@@ -3,7 +3,9 @@ package pondui
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -72,13 +74,21 @@ actual class WavePlayer {
         }
     }
 
-    actual fun play(bytes: ByteArray) {
+    actual suspend fun play(bytes: ByteArray, onProgress: ((Int) -> Unit)?): Unit = coroutineScope {
         try {
             val clip = AudioSystem.getClip()
             val inputStream = ByteArrayInputStream(bytes)
             val audioStream = AudioSystem.getAudioInputStream(inputStream)
             clip.open(audioStream)
-            clip.start()
+            launch {
+                clip.start()
+            }
+            onProgress?.let {
+                while (isActive) {
+                    it(clip.progress)
+                    delay(100)
+                }
+            }
         } catch (e: Exception) {
             println(e.message)
         }
@@ -87,6 +97,19 @@ actual class WavePlayer {
     actual fun pause() {
         if (clip.isRunning) clip.stop()
         else clip.start()
+    }
+
+    actual fun readInfo(bytes: ByteArray): Int? {
+        return try {
+            val clip = AudioSystem.getClip()
+            val inputStream = ByteArrayInputStream(bytes)
+            val audioStream = AudioSystem.getAudioInputStream(inputStream)
+            clip.open(audioStream)
+            clip.secondsLength
+        } catch (e: Exception) {
+            println(e.message)
+            null
+        }
     }
 }
 //    public actual override fun powerUp() {
@@ -127,4 +150,7 @@ fun Clip.setVolume(volume: Float) {
     val control = getControl(FloatControl.Type.MASTER_GAIN) as? FloatControl ?: return
     control.value = gain
 }
+
+val Clip.secondsLength get() = (microsecondLength / 1_000_000).toInt()
+val Clip.progress get() = (microsecondPosition / 1_000_000).toInt()
 
