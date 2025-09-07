@@ -77,6 +77,7 @@ kotlin {
             api("io.github.alexzhirkevich:compottie:2.0.0-rc04")
             api("io.github.alexzhirkevich:compottie-dot:2.0.0-rc04")
             // api("app.lexilabs.basic:basic-sound:0.2.6-beta01")
+            api("io.github.vinceglb:filekit-core:0.10.0")
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
