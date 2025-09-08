@@ -17,7 +17,7 @@ import pondui.utils.darken
 
 @Composable
 fun Tabs(
-    selectedTab: String = "",
+    selectedTab: String? = null,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape = Pond.ruler.shroomUp,
     modifier: Modifier = Modifier,
@@ -46,7 +46,7 @@ fun Tabs(
 fun TabHeader(
     scope: TabScope,
     modifier: Modifier = Modifier,
-    selectedTab: String = "",
+    selectedTab: String? = null,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape = Pond.ruler.shroomUp,
 ) {
@@ -96,7 +96,7 @@ fun TabHeader(
     }
 
     LaunchedEffect(selectedTab) {
-        scope.changeTab(selectedTab)
+        if (selectedTab != null) scope.changeTab(selectedTab)
     }
 }
 
