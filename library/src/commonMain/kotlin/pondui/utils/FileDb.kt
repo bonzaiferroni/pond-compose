@@ -12,8 +12,10 @@ import io.github.vinceglb.filekit.readString
 import io.github.vinceglb.filekit.writeString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -53,6 +55,8 @@ class FileDb<T: Any>(
             null
         }
     }
+
+    fun flowSingle(predicate: (T) -> Boolean): Flow<T> = flow.mapNotNull { items -> items.firstOrNull(predicate) }
 
     suspend fun create(item: T) = write(item).also { flow.value += item }
 

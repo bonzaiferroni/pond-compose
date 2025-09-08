@@ -38,8 +38,14 @@ abstract class StateModel<State>() : ViewModel() {
     protected fun ioLaunch(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(Dispatchers.IO, block = block)
 
-    protected fun <T> ioCollect(flow: StateFlow<T>, block: suspend (T) -> Unit) = ioLaunch { flow.collect { block(it) } }
+    protected fun <T> ioCollect(flow: Flow<T>, block: suspend (T) -> Unit) = ioLaunch { flow.collect { block(it) } }
 
     suspend fun withMain(block: CoroutineScope.() -> Unit) =
         withContext(Dispatchers.Main, block = block)
+
+    protected suspend fun setStateWithMain(block: (State) -> State) {
+        withMain {
+            setState(block)
+        }
+    }
 }
