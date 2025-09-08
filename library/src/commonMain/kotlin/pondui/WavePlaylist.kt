@@ -17,42 +17,72 @@ class WavePlaylist(
     private val clips = mutableListOf<WaveClip>()
     private var job: Job? = null
 
-    fun <T> load(items: List<T>, provideBytes: (T) -> ByteArray) {
-        job?.cancel()
-        clips.forEach { it.close() }
-        clips.clear()
-        items.forEach { clips.add(wavePlayer.getClip(provideBytes(it))) }
+    fun <T> load(items: List<T>, resetClips: Boolean = true, provideBytes: (T) -> ByteArray) {
+        if (resetClips) {
+            job?.cancel()
+            clips.forEach { it.close() }
+            clips.clear()
+        }
+        items.forEachIndexed { index, item ->
+            if (clips.size > index) return@forEachIndexed
+            clips.add(wavePlayer.getClip(provideBytes(item)))
+        }
         setState { state ->
             state.copy(
                 lengthMillis = clips.sumOf { it.length },
-                progress = 0,
+                progress = stateNow.progress ?: 0,
                 count = clips.size,
-                index = 0,
-                isPlaying = false,
             )
         }
     }
 
     fun togglePlay() {
-        var index = state.value.index ?: return
+        if (clips.isEmpty()) return
+        var index = state.value.index ?: 0
         var clip = clips[index]
         if (clip.isPlaying) {
-            clip.pause()
             job?.cancel()
+            clip.pause()
             setState { it.copy(isPlaying = false) }
-            return
+        } else {
+            playAtIndex(index)
         }
+    }
 
+    fun playFrom(index: Int) {
+        cancelCurrentPlayback()
+        playAtIndex(index)
+    }
+
+    private fun cancelCurrentPlayback() {
+        if (!stateNow.isPlaying) return
+        val index = stateNow.index ?: return
+        job?.cancel()
+        val clip = clips[index]
+        clip.pause()
+        clip.reset()
+    }
+
+    private fun playAtIndex(index: Int) {
+        if (index >= clips.size || index < 0) return
+        var index = index
         job?.cancel()
         job = ioLaunch {
             while (index < clips.size) {
-                clip = clips[index]
+                val clip = clips[index]
                 val previousProgress = clips.take(index).sumOf { it.length }
                 clip.play { progress ->
-                    setState { it.copy(index = index, progress = previousProgress + progress, isPlaying = true)}
+                    setStateWithMain { it.copy(
+                        index = index,
+                        progress = previousProgress + progress,
+                        isPlaying = true,
+                        clipProgress = progress
+                    )}
                 }
+                clip.reset()
                 index++
             }
+            setStateWithMain { it.copy(isPlaying = false)}
         }
     }
 }
@@ -60,6 +90,7 @@ class WavePlaylist(
 data class WavePlaylistState(
     val lengthMillis: Int = 0,
     val progress: Int? = null,
+    val clipProgress: Int? = null,
     val count: Int = 0,
     val index: Int? = null,
     val isPlaying: Boolean = false,

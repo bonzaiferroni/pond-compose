@@ -18,8 +18,9 @@ expect class WavePlayer() {
 }
 
 interface WaveClip: Closeable {
-    suspend fun play(onProgress: (Int) -> Unit)
+    suspend fun play(onProgress: suspend (Int) -> Unit)
     fun pause()
+    fun reset()
     val length: Int
     val progress: Int
     val isPlaying: Boolean

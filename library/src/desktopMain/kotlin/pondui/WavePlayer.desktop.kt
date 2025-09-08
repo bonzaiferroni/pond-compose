@@ -62,7 +62,7 @@ class AudioSystemClip(
     override val length get() = clip.lengthMillis
     override val progress get() = clip.progressMillis
     override val isPlaying get() = clip.isRunning
-    override suspend fun play(onProgress: (Int) -> Unit) {
+    override suspend fun play(onProgress: suspend (Int) -> Unit) {
         clip.start()
         delay(100)
         while(clip.isRunning) {
@@ -72,6 +72,7 @@ class AudioSystemClip(
     }
     override fun pause() = clip.stop()
     override fun close() = clip.close()
+    override fun reset() { clip.framePosition = 0 }
 }
 
 fun Clip.setVolume(volume: Float) {

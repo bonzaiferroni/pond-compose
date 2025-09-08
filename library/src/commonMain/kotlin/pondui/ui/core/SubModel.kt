@@ -42,4 +42,10 @@ abstract class SubModel<State>() {
 
     suspend fun withMain(block: CoroutineScope.() -> Unit) =
         withContext(Dispatchers.Main, block = block)
+
+    protected suspend fun setStateWithMain(block: (State) -> State) {
+        withMain {
+            setState(block)
+        }
+    }
 }
