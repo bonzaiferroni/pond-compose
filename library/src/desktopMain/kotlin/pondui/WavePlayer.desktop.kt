@@ -1,12 +1,6 @@
 package pondui
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.net.URI
@@ -15,135 +9,70 @@ import kotlin.math.log10
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 actual class WavePlayer {
-    private val clip = AudioSystem.getClip()
-    private var job: Job? = null
 
-    actual fun playNow(url: String) {
-        job?.cancel()
-        job = CoroutineScope(Dispatchers.IO).launch {
-            try {
-                if (clip.isOpen) clip.close()
-                // val bis = URI.create(url).toURL().openStream().buffered()
+    actual suspend fun play(url: String) {
+        try {
+            AudioSystem.getClip().use { clip ->
                 val ais = if (url.startsWith("http")) {
                     AudioSystem.getAudioInputStream(URI.create(url).toURL())
                 } else {
                     AudioSystem.getAudioInputStream(File(url).absoluteFile)
                 }
-                clip.framePosition = 0;
                 clip.open(ais)
-                val frames     = clip.frameLength                     // total sample-frames
-                val frameRate  = clip.format.frameRate                // frames per second
-                val durationS  = frames / frameRate                   // in seconds
-                val durationMs = (durationS * 1000).toLong()          // in ms
-
-                // println("Clip expects: $durationS s ($durationMs ms), frames: $frames, frameRate: $frameRate")
-                // clip.start()
-                clip.loop(1) // annoying but necessary hack
-                delay(durationMs)
-                clip.stop()
-            } catch (e: Exception) {
-                println(e.message)
-            }
-        }
-    }
-
-    actual suspend fun play(url: String) {
-        try {
-            println("Playing url: ${url}")
-            if (clip.isOpen) clip.close()
-            // val bis = URI.create(url).toURL().openStream().buffered()
-            val ais = if (url.startsWith("http")) {
-                AudioSystem.getAudioInputStream(URI.create(url).toURL())
-            } else {
-                AudioSystem.getAudioInputStream(File(url).absoluteFile)
-            }
-            clip.framePosition = 0;
-            clip.open(ais)
-            val frames     = clip.frameLength                     // total sample-frames
-            val frameRate  = clip.format.frameRate                // frames per second
-            val durationS  = frames / frameRate                   // in seconds
-            val durationMs = (durationS * 1000).toLong()          // in ms
-
-            // println("Clip expects: $durationS s ($durationMs ms), frames: $frames, frameRate: $frameRate")
-            // clip.start()
-            clip.loop(1) // annoying but necessary hack
-            delay(durationMs)
-            clip.stop()
-        } catch (e: Exception) {
-            println(e.message)
-        }
-    }
-
-    actual suspend fun play(bytes: ByteArray, onProgress: ((Int) -> Unit)?): Unit = coroutineScope {
-        try {
-            val clip = AudioSystem.getClip()
-            val inputStream = ByteArrayInputStream(bytes)
-            val audioStream = AudioSystem.getAudioInputStream(inputStream)
-            clip.open(audioStream)
-            launch {
-                clip.start()
-            }
-            onProgress?.let {
-                while (isActive) {
-                    it(clip.progress)
-                    delay(100)
-                }
+                clip.play()
             }
         } catch (e: Exception) {
             println(e.message)
         }
     }
 
-    actual fun pause() {
-        if (clip.isRunning) clip.stop()
-        else clip.start()
+    actual suspend fun play(bytes: ByteArray) {
+        try {
+            AudioSystem.getClip().use { clip ->
+                clip.openBytes(bytes)
+                clip.play()
+            }
+        } catch (e: Exception) {
+            println(e.message)
+        }
     }
 
     actual fun readInfo(bytes: ByteArray): Int? {
         return try {
-            val clip = AudioSystem.getClip()
-            val inputStream = ByteArrayInputStream(bytes)
-            val audioStream = AudioSystem.getAudioInputStream(inputStream)
-            clip.open(audioStream)
-            clip.secondsLength
+            AudioSystem.getClip().use { clip ->
+                clip.openBytes(bytes)
+                clip.lengthMillis
+            }
         } catch (e: Exception) {
             println(e.message)
             null
         }
     }
+
+    actual fun getClip(bytes: ByteArray): WaveClip {
+        val clip = AudioSystem.getClip()
+        clip.openBytes(bytes)
+        return AudioSystemClip(clip)
+    }
 }
-//    public actual override fun powerUp() {
-//        startMixer()
-//    }
-//
-//    private fun playNow(url: String) {
-//
-//    }
-//
-//    private fun startMixer() {
-//        val clip = AudioSystem.getClip()
-//        CoroutineScope(Dispatchers.Default).launch {
-//            while (true) {
-//                val result = mixer.receiveCatching()
-//                when (val name = result.getOrNull()) {
-//                    null -> break
-//                    else -> {
-//                        audioInputStreams[name]?.let {
-//                            clip.open(it)
-//                            clip.start()
-//                        }
-//                    }
-//                }
-//                delay(10)
-//            }
-//        }
-//    }
-//
-//    public actual override fun powerDown() {
-//        audioInputStreams.clear()
-//        soundBytes.clear()
-//    }
-//}
+
+class AudioSystemClip(
+    private val clip: Clip,
+): WaveClip {
+    override val length get() = clip.lengthMillis
+    override val progress get() = clip.progressMillis
+    override val isPlaying get() = clip.isRunning
+    override suspend fun play(onProgress: (Int) -> Unit) {
+        clip.start()
+        delay(100)
+        while(clip.isRunning) {
+            onProgress(clip.progressMillis)
+            delay(100)
+        }
+    }
+    override fun pause() = clip.stop()
+    override fun close() = clip.close()
+}
 
 fun Clip.setVolume(volume: Float) {
     val gain = 20 * log10(volume.coerceIn(0.0001f, 1f))
@@ -151,6 +80,20 @@ fun Clip.setVolume(volume: Float) {
     control.value = gain
 }
 
-val Clip.secondsLength get() = (microsecondLength / 1_000_000).toInt()
-val Clip.progress get() = (microsecondPosition / 1_000_000).toInt()
+fun Clip.openBytes(bytes: ByteArray) {
+    val inputStream = ByteArrayInputStream(bytes)
+    val audioStream = AudioSystem.getAudioInputStream(inputStream)
+    open(audioStream)
+}
+
+suspend fun Clip.play() {
+    start()
+    delay(lengthMillis.toLong())
+    while (isRunning) {
+        delay(100)
+    }
+}
+
+val Clip.lengthMillis get() = (microsecondLength / 1_000).toInt()
+val Clip.progressMillis get() = (microsecondPosition / 1_000).toInt()
 

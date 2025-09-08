@@ -7,6 +7,7 @@ import io.github.vinceglb.filekit.delete
 import io.github.vinceglb.filekit.exists
 import io.github.vinceglb.filekit.filesDir
 import io.github.vinceglb.filekit.list
+import io.github.vinceglb.filekit.name
 import io.github.vinceglb.filekit.readString
 import io.github.vinceglb.filekit.writeString
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +44,15 @@ class FileDb<T: Any>(
         }
     }
 
-    suspend fun readAll() = folder.list().map { json.decodeFromString(serializer, it.readString()) }
+    suspend fun readAll() = folder.list().mapNotNull { file ->
+        try {
+            json.decodeFromString(serializer, file.readString())
+        } catch (e: Exception) {
+            println("couldn't deserialize: ${file.name}")
+            file.delete()
+            null
+        }
+    }
 
     suspend fun create(item: T) = write(item).also { flow.value += item }
 

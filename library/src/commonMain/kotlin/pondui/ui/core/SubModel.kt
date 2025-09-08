@@ -9,6 +9,7 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class SubModel<State>() {
 
@@ -29,15 +30,16 @@ abstract class SubModel<State>() {
         viewModelScope.coroutineContext[Job]?.cancelChildren()
     }
 
-    protected fun <T> Flow<T>.launchCollect(block: (T) -> Unit) = viewModelScope.launch {
-        this@launchCollect.collect(block)
-    }.also { jobs.add(it) }
-
     fun clearJobs() {
         jobs.forEach { it.cancel() }
         jobs.clear()
     }
 
     protected fun ioLaunch(block: suspend CoroutineScope.() -> Unit) =
-        viewModelScope.launch(Dispatchers.Default, block = block)
+        viewModelScope.launch(Dispatchers.IO, block = block)
+
+    protected fun <T> ioCollect(flow: StateFlow<T>, block: suspend (T) -> Unit) = ioLaunch { flow.collect { block(it) } }
+
+    suspend fun withMain(block: CoroutineScope.() -> Unit) =
+        withContext(Dispatchers.Main, block = block)
 }
