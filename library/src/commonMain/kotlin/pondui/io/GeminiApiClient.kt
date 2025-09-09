@@ -3,7 +3,7 @@ package pondui.io
 import kabinet.clients.GeminiMessage
 import kabinet.gemini.GeminiApi
 import kabinet.model.ImageGenRequest
-import kabinet.model.SpeechGenRequest
+import kabinet.model.SpeechRequest
 
 class GeminiApiClient(
     private val geminiApi: GeminiApi,
@@ -13,5 +13,5 @@ class GeminiApiClient(
 
     suspend fun image(request: ImageGenRequest) = client.request(geminiApi.image, request)
 
-    suspend fun generateSpeech(request: SpeechGenRequest) = client.request(geminiApi.speech, request)
+    suspend fun generateSpeech(request: SpeechRequest) = client.request(geminiApi.speech, request)
 }
