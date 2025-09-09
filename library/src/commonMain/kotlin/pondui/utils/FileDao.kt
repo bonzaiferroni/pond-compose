@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
@@ -65,6 +66,15 @@ class FileDao<T: Any>(
 
     suspend fun delete(item: T) = fileOf(item).delete()
         .also { flow.value = flow.value.filterNot { provideKey(it) == provideKey(item) } }
+
+    suspend fun batchUpsert(items: List<T>) {
+        items.forEach { write(it) }
+        val incoming = items.associateBy { provideKey(it) }
+        flow.update { current ->
+            val kept = current.filter { provideKey(it) !in incoming }
+            kept + incoming.values
+        }
+    }
 
     private suspend fun write(item: T) = fileOf(item).writeString(json.encodeToString(serializer, item))
 
