@@ -23,13 +23,13 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
-class FileDb<T: Any>(
+class FileDao<T: Any>(
     val kClass: KClass<T>,
     val folderName: String = kClass.simpleName ?: error("class name not found"),
     private val json: Json = Json { ignoreUnknownKeys = true },
     val provideKey: (T) -> String
 ) {
-    private val path = "${FileKit.filesDir}/file_db/$folderName"
+    private val path = "${FileKit.filesDir}/file_dao/$folderName"
 
     private val folder = PlatformFile(path).also { if (!it.exists()) it.createDirectories() }
 

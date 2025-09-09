@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -43,7 +42,7 @@ abstract class StateModel<State>() : ViewModel() {
     suspend fun withMain(block: CoroutineScope.() -> Unit) =
         withContext(Dispatchers.Main, block = block)
 
-    protected suspend fun setStateWithMain(block: (State) -> State) {
+    protected suspend fun setStateFromMain(block: (State) -> State) {
         withMain {
             setState(block)
         }
