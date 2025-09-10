@@ -5,10 +5,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 
-internal fun DrawScope.drawFocusValue(
+internal fun <T> DrawScope.drawFocusValue(
     lineChartScope: LineChartScope,
-    pointerTarget: ChartPoint?,
-    pointerTargetPrev: ChartPoint?,
+    pointerTarget: ChartPoint<T>?,
+    pointerTargetPrev: ChartPoint<T>?,
     pointerAnimation: Float,
 ) {
     pointerTarget?.let { target ->

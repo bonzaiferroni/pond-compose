@@ -13,9 +13,9 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import pondui.utils.mix
 
-internal data class ChartLine(
+internal data class ChartLine<T>(
     val path: ChartPath,
-    val points: List<ChartPoint>,
+    val points: List<ChartPoint<T>>,
     val key: Any?
 )
 
@@ -25,19 +25,20 @@ internal data class ChartPath(
     val brush: Brush
 )
 
-internal data class ChartPoint(
+internal data class ChartPoint<T>(
     val offset: Offset,
     val color: Color,
     val labelX: String,
     val labelY: String,
-    val side: AxisSide
+    val side: AxisSide,
+    val value: T
 )
 
 internal fun <T> LineChartScope.gatherChartLines(
     arrays: List<LineChartArray<T>>,
     provideX: ((T) -> Double)?,
-): List<ChartLine> {
-    val chartLines = mutableListOf<ChartLine>()
+): List<ChartLine<T>> {
+    val chartLines = mutableListOf<ChartLine<T>>()
     val (scalePxX, _, minX) = this.dimensionX
     arrays.forEachIndexed { i, array ->
         val dimensionY = dimensionsY[i]
@@ -47,7 +48,7 @@ internal fun <T> LineChartScope.gatherChartLines(
         val path = Path()
         var prevX: Float? = null
         var prevY: Float? = null
-        val arrayPoints = mutableListOf<ChartPoint>()
+        val arrayPoints = mutableListOf<ChartPoint<T>>()
         array.values.sortedBy { provideX?.invoke(it) ?: 0.0 }. forEachIndexed { i, value ->
             val valueX = provideX?.invoke(value) ?: i.toDouble()
             val valueY = array.provideY(value)
@@ -59,7 +60,8 @@ internal fun <T> LineChartScope.gatherChartLines(
                 color = mix(color, mixedColor, ((valueY - minY).toFloat() / dimensionY.range)),
                 labelX = config.provideLabelX(valueX),
                 labelY = array.provideLabelY(valueY),
-                side = array.axis?.side ?: AxisSide.Left
+                side = array.axis?.side ?: AxisSide.Left,
+                value = value
             ))
             if (i == 0) path.moveTo(x, y)
             else if (array.isBezier) path.drawBezier(
@@ -87,9 +89,9 @@ internal fun <T> LineChartScope.gatherChartLines(
     return chartLines
 }
 
-internal fun DrawScope.drawChartLines(
-    lines: List<ChartLine>,
-    pointerTarget: ChartPoint?,
+internal fun <T> DrawScope.drawChartLines(
+    lines: List<ChartLine<T>>,
+    pointerTarget: ChartPoint<T>?,
     animation: Float,
     keyAnimations: Map<Any, Float>,
     focusAnimation: Float
@@ -124,13 +126,13 @@ internal fun DrawScope.drawChartLines(
     }
 }
 
-internal fun DrawScope.drawChartPoints(
-    lines: List<ChartLine>,
+internal fun <T> DrawScope.drawChartPoints(
+    lines: List<ChartLine<T>>,
     chartScope: LineChartScope,
     animation: Float,
     keyAnimations: Map<Any, Float>,
-    pointerTarget: ChartPoint?,
-    pointerTargetPrev: ChartPoint?,
+    pointerTarget: ChartPoint<T>?,
+    pointerTargetPrev: ChartPoint<T>?,
     pointerAnimation: Float
 ) {
     for (line in lines) {

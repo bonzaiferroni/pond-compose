@@ -1,14 +1,13 @@
 package pondui.ui.charts
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,9 +21,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 
 @Composable
 fun <T> LineChart(
@@ -33,7 +30,7 @@ fun <T> LineChart(
 ) {
     if (config.arrays.isEmpty()) return
 
-    var animationTarget by remember { mutableStateOf(if (config.isAnimated) 0f else 1f) }
+    var animationTarget by remember { mutableFloatStateOf(if (config.isAnimated) 0f else 1f) }
     LaunchedEffect(Unit) {
         animationTarget = 1f
     }
@@ -59,14 +56,15 @@ fun <T> LineChart(
         keyAnimations.keys.retainAll(liveKeys)
     }
     val textRuler = rememberTextMeasurer()
-    var chartLinesCache by remember { mutableStateOf<List<ChartLine>?>(null) }
+    var chartLinesCache by remember { mutableStateOf<List<ChartLine<T>>?>(null) }
 
-    var pointerTarget by remember { mutableStateOf<ChartPoint?>(null) }
-    var pointerTargetNow by remember { mutableStateOf<ChartPoint?>(null) }
-    var pointerTargetPrev by remember { mutableStateOf<ChartPoint?>(null) }
+    var pointerTarget by remember { mutableStateOf<ChartPoint<T>?>(null) }
+    var pointerTargetNow by remember { mutableStateOf<ChartPoint<T>?>(null) }
+    var pointerTargetPrev by remember { mutableStateOf<ChartPoint<T>?>(null) }
     val pointerAnimatable = remember { Animatable(0f) }
     val focusAnimation by animateFloatAsState(if (pointerTarget != null) 1f else 0f)
     LaunchedEffect(pointerTarget) {
+        config.onHoverPoint?.invoke(pointerTarget?.value)
         pointerAnimatable.snapTo(0f)
         pointerTargetPrev = pointerTargetNow
         pointerTargetNow = pointerTarget
@@ -135,12 +133,12 @@ fun <T> LineChart(
     )
 }
 
-internal fun detectPointerTarget(
+internal fun <T> detectPointerTarget(
     pointerPos: Offset,
-    chartLines: List<ChartLine>,
+    chartLines: List<ChartLine<T>>,
     minDistanceSquared: Float
-): ChartPoint? {
-    var closestPoint: ChartPoint? = null
+): ChartPoint<T>? {
+    var closestPoint: ChartPoint<T>? = null
     var closestDistance = Float.MAX_VALUE
     for (line in chartLines) {
         for (point in line.points) {
