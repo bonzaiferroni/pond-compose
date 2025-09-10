@@ -5,6 +5,7 @@ import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -98,7 +99,7 @@ fun <T> LineChart(
                     rightAxisLabels?.let { drawAxisLabels(it, animation) }
                     bottomAxisLabels?.let { drawAxisLabels(it, animation) }
 
-                    drawChartLines(lines, animation, keyAnimations, focusAnimation)
+                    drawChartLines(lines, pointerTargetNow, animation, keyAnimations, focusAnimation)
                     drawChartPoints(
                         lines = lines,
                         chartScope = chartScope,

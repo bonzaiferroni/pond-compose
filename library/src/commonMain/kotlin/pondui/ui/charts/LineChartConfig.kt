@@ -16,5 +16,5 @@ data class LineChartConfig<T>(
     override val startX: Double? = null,
     override val endX: Double? = null,
     override val provideLabelX: (Double) -> String = { it.toMetricString() },
-    val provideX: (T) -> Double,
+    val provideX: ((T) -> Double)? = null,
 ): ChartConfig

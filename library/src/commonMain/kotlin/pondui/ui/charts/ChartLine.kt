@@ -35,7 +35,7 @@ internal data class ChartPoint(
 
 internal fun <T> LineChartScope.gatherChartLines(
     arrays: List<LineChartArray<T>>,
-    provideX: (T) -> Double,
+    provideX: ((T) -> Double)?,
 ): List<ChartLine> {
     val chartLines = mutableListOf<ChartLine>()
     val (scalePxX, _, minX) = this.dimensionX
@@ -48,8 +48,8 @@ internal fun <T> LineChartScope.gatherChartLines(
         var prevX: Float? = null
         var prevY: Float? = null
         val arrayPoints = mutableListOf<ChartPoint>()
-        array.values.sortedBy { provideX(it) }. forEachIndexed { i, value ->
-            val valueX = provideX(value)
+        array.values.sortedBy { provideX?.invoke(it) ?: 0.0 }. forEachIndexed { i, value ->
+            val valueX = provideX?.invoke(value) ?: i.toDouble()
             val valueY = array.provideY(value)
             val x = chartLeftMarginPx + valueOffsetPx(valueX, minX, scalePxX)
             val y = sizePx.height - chartBottomMarginPx - valueOffsetPx(valueY, minY, scalePxY)
@@ -89,12 +89,14 @@ internal fun <T> LineChartScope.gatherChartLines(
 
 internal fun DrawScope.drawChartLines(
     lines: List<ChartLine>,
+    pointerTarget: ChartPoint?,
     animation: Float,
     keyAnimations: Map<Any, Float>,
     focusAnimation: Float
 ) {
     val alpha = (1 - focusAnimation) * .5f + .5f
     for (line in lines) {
+        val lineAlpha = if (pointerTarget != null && line.points.contains(pointerTarget)) .75f else alpha
         val animation = line.key?.let { keyAnimations[it] } ?: animation
         val (path, stroke, brush) = line.path
         if (animation == 1f) {
@@ -102,7 +104,7 @@ internal fun DrawScope.drawChartLines(
                 path = path,
                 style = stroke,
                 brush = brush,
-                alpha = alpha
+                alpha = lineAlpha
             )
         } else {
             val pathMeasure = PathMeasure().apply {
@@ -116,7 +118,7 @@ internal fun DrawScope.drawChartLines(
                 path = partialPath,
                 brush = brush,
                 style = stroke,
-                alpha = alpha
+                alpha = lineAlpha
             )
         }
     }

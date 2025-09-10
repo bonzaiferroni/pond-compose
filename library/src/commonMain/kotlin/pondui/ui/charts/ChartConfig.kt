@@ -45,15 +45,15 @@ internal fun <T> gatherDataScope(
     ceiling: Double?,
     startX: Double?,
     endX: Double?,
-    provideX: (T) -> Double,
+    provideX: ((T) -> Double)?,
     provideY: (T) -> Double
 ): DataScope {
     var minX = startX ?: Double.MAX_VALUE
     var maxX = endX ?: Double.MIN_VALUE
     var minY = floor ?: Double.MAX_VALUE
     var maxY = ceiling ?: Double.MIN_VALUE
-    for (value in array) {
-        val x = provideX(value)
+    array.forEachIndexed { index, value ->
+        val x = provideX?.invoke(value) ?: index.toDouble()
         val y = provideY(value)
         if (x < minX) minX = x
         if (x > maxX) maxX = x
