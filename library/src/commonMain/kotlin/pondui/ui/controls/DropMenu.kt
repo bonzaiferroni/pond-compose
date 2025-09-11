@@ -63,7 +63,7 @@ fun DropMenu(
     val background = Pond.colors.void
     val menuBackground = Pond.colors.void.mixWith(color).electrify()
     val density = LocalDensity.current
-    val isOpenEnabled = !isOpen && options.size > 1
+    val isOpenEnabled = !isOpen && options.isNotEmpty()
 
     ProvideSkyColors {
         Box(

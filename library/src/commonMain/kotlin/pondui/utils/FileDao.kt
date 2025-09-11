@@ -24,10 +24,15 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
-class FileDao<T: Any>(
+class FileDao<T : Any>(
     val kClass: KClass<T>,
     val folderName: String = kClass.simpleName ?: error("class name not found"),
-    private val json: Json = Json { ignoreUnknownKeys = true },
+    private val json: Json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        explicitNulls = false
+        coerceInputValues = true
+    },
     val provideKey: (T) -> String
 ) {
     private val path = "${FileKit.filesDir}/file_dao/$folderName"
