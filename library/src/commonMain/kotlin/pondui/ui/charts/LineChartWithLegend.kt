@@ -23,9 +23,9 @@ import pondui.ui.theme.Pond
 fun <T> LineChartWithLegend(
     config: LineChartConfig<T>,
     modifier: Modifier = Modifier,
-    onHoverPoint: (@Composable (T?) -> Unit)? = null
+    onHoverPoint: (@Composable (HoverInfo<T>?) -> Unit)? = null
 ) {
-    var hoveredItem by remember { mutableStateOf<T?>(null)}
+    var hoveredItem by remember { mutableStateOf<HoverInfo<T>?>(null)}
     Column(1, modifier = modifier) {
         Section {
             LineChart(

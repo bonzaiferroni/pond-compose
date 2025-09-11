@@ -31,6 +31,7 @@ internal data class ChartPoint<T>(
     val labelX: String,
     val labelY: String,
     val side: AxisSide,
+    val arrayIndex: Int,
     val value: T
 )
 
@@ -40,8 +41,8 @@ internal fun <T> LineChartScope.gatherChartLines(
 ): List<ChartLine<T>> {
     val chartLines = mutableListOf<ChartLine<T>>()
     val (scalePxX, _, minX) = this.dimensionX
-    arrays.forEachIndexed { i, array ->
-        val dimensionY = dimensionsY[i]
+    arrays.forEachIndexed { arrayIndex, array ->
+        val dimensionY = dimensionsY[arrayIndex]
         val (scalePxY, _, minY) = dimensionY
         val color = array.color
         val mixedColor = config.glowColor?.let { mix(it, color) } ?: color
@@ -61,6 +62,7 @@ internal fun <T> LineChartScope.gatherChartLines(
                 labelX = config.provideLabelX(valueX),
                 labelY = array.provideLabelY(valueY),
                 side = array.axis?.side ?: AxisSide.Left,
+                arrayIndex = arrayIndex,
                 value = value
             ))
             if (i == 0) path.moveTo(x, y)

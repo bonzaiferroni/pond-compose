@@ -64,7 +64,12 @@ fun <T> LineChart(
     val pointerAnimatable = remember { Animatable(0f) }
     val focusAnimation by animateFloatAsState(if (pointerTarget != null) 1f else 0f)
     LaunchedEffect(pointerTarget) {
-        config.onHoverPoint?.invoke(pointerTarget?.value)
+        config.onHoverPoint?.invoke(pointerTarget?.let { point ->
+            HoverInfo(
+                item = point.value,
+                array = config.arrays[point.arrayIndex]
+            )
+        })
         pointerAnimatable.snapTo(0f)
         pointerTargetPrev = pointerTargetNow
         pointerTargetNow = pointerTarget
@@ -157,3 +162,8 @@ fun distanceSquared(a: Offset, b: Offset): Float {
     val dy = a.y - b.y
     return dx * dx + dy * dy
 }
+
+data class HoverInfo<T>(
+    val item: T,
+    val array: LineChartArray<T>
+)
