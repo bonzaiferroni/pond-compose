@@ -56,9 +56,9 @@ class FileDao<T : Any>(
         try {
             json.decodeFromString(serializer, file.readString())
         } catch (e: Exception) {
-            println("couldn't deserialize: ${file.name}")
-            file.delete()
-            null
+            println("couldn't deserialize: ${file.name}\n${e.message}")
+            // file.delete()
+            throw e
         }
     }
 
