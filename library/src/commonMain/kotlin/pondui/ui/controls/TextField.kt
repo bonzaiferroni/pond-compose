@@ -1,8 +1,6 @@
 package pondui.ui.controls
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -10,34 +8,26 @@ import androidx.compose.foundation.text.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import pondui.ui.behavior.changeFocusWithTab
 import pondui.ui.behavior.drawLabel
 import pondui.ui.behavior.ifNotNull
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
-import pondui.utils.glowWith
 import pondui.utils.mixWith
 
 @Composable
@@ -54,7 +44,7 @@ fun TextField(
     maxLines: Int = Int.MAX_VALUE,
     minWidth: Dp = 150.dp,
     onFocusChanged: ((Boolean) -> Unit)? = null,
-    onTextChanged: (String) -> Unit,
+    onValueChange: (String) -> Unit,
 ) {
     var value by remember {
         mutableStateOf(
@@ -85,7 +75,7 @@ fun TextField(
             onValueChange = {
                 if (!it.text.contains('\t')) {
                     value = it
-                    onTextChanged(it.text)
+                    onValueChange(it.text)
                 }
             },
             textStyle = TextStyle(color = textColor, textAlign = textAlign),

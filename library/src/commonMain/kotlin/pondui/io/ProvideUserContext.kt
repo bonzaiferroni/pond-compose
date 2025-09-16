@@ -87,12 +87,12 @@ fun LoginControls(
 ) {
     Column(2, modifier = Modifier.width(250.dp)) {
         TextField(
-            text = usernameOrEmail, onTextChanged = setUsernameOrEmail,
+            text = usernameOrEmail, onValueChange = setUsernameOrEmail,
             label = "username",
             modifier = Modifier.fillMaxWidth()
         )
         TextField(
-            text = password, onTextChanged = setPassword, hideCharacters = true,
+            text = password, onValueChange = setPassword, hideCharacters = true,
             label = "password",
             modifier = Modifier.fillMaxWidth()
                 .onEnterPressed(login)

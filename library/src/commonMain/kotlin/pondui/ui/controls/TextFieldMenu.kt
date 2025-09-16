@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
-import kotlinx.coroutines.delay
 import pondui.ui.behavior.Magic
 import pondui.ui.behavior.magic
 import pondui.ui.behavior.magicBackground
@@ -90,7 +89,7 @@ fun <T> TextFieldMenu(
     ) {
         TextField(
             text = text,
-            onTextChanged = {
+            onValueChange = {
                 isOpen = items.isNotEmpty()
                 onTextChanged(it)
             },
