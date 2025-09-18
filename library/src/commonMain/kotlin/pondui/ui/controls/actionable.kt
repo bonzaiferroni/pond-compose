@@ -14,9 +14,21 @@ import pondui.ui.nav.LocalPortal
 import pondui.ui.nav.NavRoute
 
 @Composable
-fun Modifier.actionable(route: NavRoute, isEnabled: Boolean = true): Modifier {
+fun Modifier.actionable(
+    route: NavRoute,
+    isEnabled: Boolean = true,
+    onHover: ((Boolean) -> Unit)? = null,
+    isIndicated: Boolean = true,
+    icon: PointerIcon? = null,
+): Modifier {
     val nav = LocalNav.current
-    return this.actionable(route.title, isEnabled) { nav.go(route) }
+    return this.actionable(
+        hoverText = route.title,
+        isEnabled = isEnabled,
+        icon = icon,
+        isIndicated = isIndicated,
+        onHover = onHover,
+    ) { nav.go(route) }
 }
 
 @Composable
