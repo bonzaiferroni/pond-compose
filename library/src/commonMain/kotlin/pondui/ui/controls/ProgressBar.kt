@@ -115,3 +115,16 @@ fun ProgressBarButton(
         content?.invoke()
     }
 }
+
+@Composable
+fun ProgressBar(
+    progress: Int,
+    work: Int?,
+) {
+    work?.takeIf { it > 0 }?.let {
+        val ratio = progress / work.toFloat()
+        ProgressBar(ratio) {
+            Text("$progress of $work")
+        }
+    }
+}
