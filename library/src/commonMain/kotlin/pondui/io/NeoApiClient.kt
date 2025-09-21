@@ -61,6 +61,9 @@ class NeoApiClient(
         }
 
         val response = client.request(request)
+        if (response.status != HttpStatusCode.OK) {
+            console.logError("Request failed (${response.status}): ${request.url}")
+        }
         if (response.status == HttpStatusCode.Unauthorized && loginRequest != null) {
             val auth = login()
             if (auth != null) {
@@ -68,9 +71,6 @@ class NeoApiClient(
             } else {
                 error("Unable to login")
             }
-        }
-        if (response.status != HttpStatusCode.OK) {
-            console.logError("Request failed (${response.status}): ${request.url}")
         }
         return response
     }
@@ -111,6 +111,7 @@ class NeoApiClient(
                 setBody(loginRequest)
             }
             if (response.status != HttpStatusCode.OK) {
+                console.logError("Login error: ${response.status}")
                 return null
             }
             val auth: Auth = response.body()
