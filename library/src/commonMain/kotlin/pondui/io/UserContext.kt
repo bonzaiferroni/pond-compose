@@ -1,6 +1,7 @@
 package pondui.io
 
 import androidx.lifecycle.viewModelScope
+import kabinet.console.globalConsole
 import pondui.ui.core.StateModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -9,6 +10,8 @@ import kabinet.model.User
 import kabinet.model.LoginRequest
 import kabinet.utils.obfuscate
 import pondui.ui.core.ModelState
+
+private val console = globalConsole.getHandle(UserContext::class)
 
 class UserContext(
     private val settingsValueRepository: LocalValueSource = LocalValueSource(),
@@ -53,7 +56,7 @@ class UserContext(
 
     private fun login(request: LoginRequest) {
         setState { it.copy(isLoggingIn = true) }
-        this@UserContext.viewModelScope.launch {
+        viewModelScope.launch {
             val auth = userStore.login(LoginRequest(
                 usernameOrEmail = request.usernameOrEmail,
                 stayLoggedIn = request.stayLoggedIn,
@@ -66,6 +69,7 @@ class UserContext(
                 val user = userStore.readUser()
                 setState { it.copy(user = user, dialogVisible = false, isLoggingIn = false)}
             } else {
+                console.logError("Unable to log in")
                 setState { it.copy(dialogVisible = true, isLoggingIn = false)}
             }
         }

@@ -17,12 +17,15 @@ import io.ktor.http.contentType
 import kabinet.api.Endpoint
 import kabinet.api.GetByTableIdEndpoint
 import kabinet.api.UserApi
+import kabinet.console.globalConsole
 import kabinet.db.TableId
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
 import pondui.APP_API_HOST
 import pondui.APP_API_PORT
 import pondui.APP_API_PROTOCOL
+
+private val console = globalConsole.getHandle(NeoApiClient::class)
 
 class NeoApiClient(
     val apiProtocol: URLProtocol = APP_API_PROTOCOL,
@@ -65,6 +68,9 @@ class NeoApiClient(
             } else {
                 error("Unable to login")
             }
+        }
+        if (response.status != HttpStatusCode.OK) {
+            console.logError("Request failed (${response.status}): ${request.url}")
         }
         return response
     }
