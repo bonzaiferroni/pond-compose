@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
@@ -42,6 +44,8 @@ fun MoreMenu(
         content(scope)
     }
 
+    val parentDensity = LocalDensity.current
+
     Box(
         contentAlignment = Alignment.TopEnd,
     ) {
@@ -52,27 +56,29 @@ fun MoreMenu(
             onDismissRequest = { isOpen = false },
             alignment = Alignment.TopEnd,
         ) {
-            Magic(isOpen) {
-                Column(
-                    modifier = Modifier.width(IntrinsicSize.Max)
-                        .clip(Pond.ruler.unitCorners)
-                        .background(Pond.colors.selectionVoid)
-                ) {
-                    MoreMenuRow(
-                        index = 0,
-                        icon = TablerIcons.Settings,
-                        color = Pond.localColors.selectedContent,
-                        onClick = { isOpen = false },
-                    ) { Text("Close", color = Pond.localColors.contentDim)}
-
-                    scope.items.forEachIndexed { index, item ->
+            CompositionLocalProvider(LocalDensity provides parentDensity) {
+                Magic(isOpen) {
+                    Column(
+                        modifier = Modifier.width(IntrinsicSize.Max)
+                            .clip(Pond.ruler.unitCorners)
+                            .background(Pond.colors.selectionVoid)
+                    ) {
                         MoreMenuRow(
-                            index = index + 1,
-                            icon = item.icon,
-                            color = item.color,
-                            onClick = { item.onClick(); isOpen = false },
-                            content = item.content
-                        )
+                            index = 0,
+                            icon = TablerIcons.Settings,
+                            color = Pond.localColors.selectedContent,
+                            onClick = { isOpen = false },
+                        ) { Text("Close", color = Pond.localColors.contentDim)}
+
+                        scope.items.forEachIndexed { index, item ->
+                            MoreMenuRow(
+                                index = index + 1,
+                                icon = item.icon,
+                                color = item.color,
+                                onClick = { item.onClick(); isOpen = false },
+                                content = item.content
+                            )
+                        }
                     }
                 }
             }
