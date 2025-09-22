@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 interface PondRuler {
-    val spacingUnit: Int
+    val spacingUnit: Float
     val shadowElevation: Dp
 
     val doubleSpacing: Dp get() = (spacingUnit * 2).dp
@@ -99,7 +99,7 @@ interface PondRuler {
     val shroomDown: Shape get() = RoundedCornerShape(unitCorner, unitCorner, bigCorner, bigCorner)
 }
 
-object DefaultRuler : PondRuler{
-    override val spacingUnit: Int = 6
-    override val shadowElevation = 12.dp
+class DefaultRuler(density: Float): PondRuler{
+    override val spacingUnit: Float = 6f * density
+    override val shadowElevation = 12.dp * density
 }

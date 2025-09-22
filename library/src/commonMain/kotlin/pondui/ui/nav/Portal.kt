@@ -46,7 +46,6 @@ fun Portal(
     val hazeState = remember { HazeState() }
     LaunchedEffect(currentRoute) {
         viewModel.setTitle(null)
-        viewModel.cloudPortalModel.hideDialog()
     }
 
     CompositionLocalProvider(LocalPortal provides viewModel) {
@@ -69,9 +68,6 @@ fun Portal(
             ) {
                 content()
             }
-
-            // dialog
-            CloudPortalView(viewModel.cloudPortalModel)
 
             // toasts
             ToastPortalView(viewModel.toastPortalModel)

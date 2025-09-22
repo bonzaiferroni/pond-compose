@@ -7,7 +7,6 @@ class PortalModel : StateModelNew<PortalState>() {
 
     override val state = ModelState(PortalState())
     
-    val cloudPortalModel = CloudPortalModel(this)
     val toastPortalModel = ToastPortalModel(this)
 
     fun setHoverText(text: String) {

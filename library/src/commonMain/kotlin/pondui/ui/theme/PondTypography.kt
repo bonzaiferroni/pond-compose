@@ -7,7 +7,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.FontResource
-import pondui.utils.addShadow
 
 interface PondTypography {
     val title: TextStyle
@@ -22,56 +21,58 @@ interface PondTypography {
     val small: TextStyle
 }
 
-fun defaultTypography(
+class DefaultTypography(
+    scale: Float,
     baseFont: FontFamily,
     h1Font: FontFamily,
     h2Font: FontFamily,
     h4Font: FontFamily,
-) = object : PondTypography {
+): PondTypography {
 
     val base = TextStyle.Default.copy(
+        fontSize = 14.sp * scale,
         fontFamily = baseFont
     )
 
     override val title = base.copy(
-        fontSize = 20.sp,
+        fontSize = 20.sp * scale,
         fontFamily = h2Font
     )
     override val h1 = base.copy(
-        fontSize = 28.sp,
+        fontSize = 28.sp * scale,
         fontWeight = FontWeight.Light,
         fontFamily = h1Font,
     )
     override val h2 = base.copy(
-        fontSize = 24.sp,
+        fontSize = 24.sp * scale,
         fontWeight = FontWeight.Light,
         fontFamily = h2Font,
     )
     override val h3 = base.copy(
-        fontSize = 20.sp,
+        fontSize = 20.sp * scale,
         fontWeight = FontWeight.Light,
         fontFamily = h2Font,
     )
     override val h4 = base.copy(
-        fontSize = 16.sp,
+        fontSize = 16.sp * scale,
         fontWeight = FontWeight.Normal,
         fontFamily = h4Font,
     )
     override val h5 = base.copy(
-        fontSize = 14.sp,
+        fontSize = 14.sp * scale,
         fontWeight = FontWeight.Bold,
         fontFamily = h4Font,
     )
 
     override val body = base
     override val bodyLarge = base.copy(
-        fontSize = 16.sp
+        fontSize = 16.sp * scale
     )
     override val label = base.copy(
-        fontSize = 12.sp
+        fontSize = 12.sp * scale
     )
     override val small = base.copy(
-        fontSize = 12.sp
+        fontSize = 12.sp * scale
     )
 }
 

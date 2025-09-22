@@ -3,6 +3,7 @@ package pondui.ui.controls
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import kotlin.compareTo
 
 val LocalAppWindow = compositionLocalOf<AppWindow> {
     error("No window provided")
@@ -11,15 +12,15 @@ val LocalAppWindow = compositionLocalOf<AppWindow> {
 data class AppWindow(
     val width: Int,
     val height: Int,
-    val density: Density,
+    val scale: Float,
 ) {
-    val widthSizeClass = with(density) { width.toDp().let {
+    val widthSizeClass = (width * scale).let {
         when {
-            it < 480.dp -> WindowSizeClass.Compact
-            it < 840.dp -> WindowSizeClass.Medium
+            it < 480f -> WindowSizeClass.Compact
+            it < 840f -> WindowSizeClass.Medium
             else -> WindowSizeClass.Expanded
         }
-    } }
+    }
 }
 
 enum class WindowSizeClass {

@@ -6,12 +6,13 @@ import pondui.utils.lighten
 import pondui.utils.mixWith
 
 fun defaultTheme(
+    scale: Float = 1f,
     baseFont: FontFamily = FontFamily.Default,
     h1Font: FontFamily = FontFamily.Default,
     h2Font: FontFamily = FontFamily.Default,
     h4Font: FontFamily = FontFamily.Default
 ) = object : PondTheme {
-    override val layout: PondRuler = DefaultRuler
+    override val layout: PondRuler = DefaultRuler(scale)
 
     override val colors: PondColors = DefaultColors
 
@@ -36,7 +37,8 @@ fun defaultTheme(
         selectedContent = colors.selection.darken(.4f)
     )
 
-    override val typography = defaultTypography(
+    override val typography = DefaultTypography(
+        scale = scale,
         baseFont = baseFont,
         h1Font = h1Font,
         h2Font = h2Font,
