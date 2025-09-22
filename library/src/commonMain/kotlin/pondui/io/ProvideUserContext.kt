@@ -18,7 +18,7 @@ fun ProvideUserContext(
     val state by userContext.stateFlow.collectAsState()
 
     Cloud(
-        isVisible = state.dialogVisible, onDismiss = userContext::toggle,
+        isVisible = state.dialogVisible, toggle = userContext::toggle,
     ) {
         Column(
             gap = 2,
