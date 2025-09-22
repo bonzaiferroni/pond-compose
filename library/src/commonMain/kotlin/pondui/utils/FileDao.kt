@@ -25,15 +25,16 @@ import kotlinx.serialization.serializer
 import kotlin.reflect.KClass
 
 class FileDao<T : Any>(
-    val kClass: KClass<T>,
-    val folderName: String = kClass.simpleName ?: error("class name not found"),
+    private val kClass: KClass<T>,
+    coroutineScope: CoroutineScope,
+    folderName: String = kClass.simpleName ?: error("class name not found"),
     private val json: Json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
         explicitNulls = false
         coerceInputValues = true
     },
-    val provideKey: (T) -> String
+    private val provideKey: (T) -> String,
 ) {
     private val path = "${FileKit.filesDir}/file_dao/$folderName"
 
@@ -47,12 +48,12 @@ class FileDao<T : Any>(
     val items: StateFlow<List<T>> = flow
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        coroutineScope.launch {
             flow.value = readAll()
         }
     }
 
-    suspend fun readAll() = folder.list().mapNotNull { file ->
+    private suspend fun readAll() = folder.list().map { file ->
         try {
             json.decodeFromString(serializer, file.readString())
         } catch (e: Exception) {
