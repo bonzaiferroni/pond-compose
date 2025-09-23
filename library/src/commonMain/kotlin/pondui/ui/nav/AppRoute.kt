@@ -14,13 +14,9 @@ open class AppRoute(
     fun matchRoute(path: String) = if (path == titlePath) this else null
 }
 
-@Serializable
-open class IdRoute<T>(
-    override val title: String,
+interface IdRoute<T>: NavRoute {
     val id: T?
-) : NavRoute {
     private val titlePath get() = title.lowercase().replace(' ', '-')
-
     override fun toPath() = id?.let { "$titlePath/$it" } ?: titlePath
 }
 
