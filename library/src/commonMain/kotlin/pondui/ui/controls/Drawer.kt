@@ -2,14 +2,13 @@ package pondui.ui.controls
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.ifTrue
 
 @Composable
 fun Drawer(

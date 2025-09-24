@@ -8,7 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import pondui.ui.behavior.ifNotNull
+import pondui.ui.modifiers.ifNotNull
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.LocalPortal
 import pondui.ui.nav.NavRoute

@@ -11,10 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.ifTrue
 import pondui.ui.controls.Column
 import pondui.ui.controls.FlowRow
-import pondui.ui.controls.Row
 import pondui.ui.controls.Section
 import pondui.ui.controls.Text
 import pondui.ui.theme.Pond

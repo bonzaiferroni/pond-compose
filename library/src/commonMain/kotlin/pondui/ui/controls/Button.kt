@@ -20,7 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.NavRoute
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.ifTrue
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.darken

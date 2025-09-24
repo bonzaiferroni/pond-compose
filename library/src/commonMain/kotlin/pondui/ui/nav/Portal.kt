@@ -25,19 +25,17 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
-import pondui.ui.behavior.MagicItem
-import pondui.ui.behavior.SlideIn
+import pondui.ui.modifiers.MagicItem
+import pondui.ui.modifiers.SlideIn
 import pondui.ui.controls.Icon
 import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
-import pondui.ui.behavior.ifNotNull
-import pondui.ui.controls.Label
-import pondui.ui.controls.Row
+import pondui.ui.modifiers.ifNotNull
 import pondui.ui.controls.Text
+import pondui.ui.modifiers.artBackground
 import pondui.utils.darken
 import pondui.utils.electrify
-import pondui.utils.lighten
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -116,6 +114,7 @@ fun Portal(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.height(barHeight)
+                        .artBackground(.7f)
                         .animateContentSize(
                             animationSpec = tween(150)
                         )
@@ -123,7 +122,7 @@ fun Portal(
                     Row {
                         Text("${config.name} | ", color = Pond.localColors.contentDim)
                         MagicItem(
-                            state.hoverText.takeIf { it.isNotEmpty() } ?: currentRoute.title,
+                            state.hoverText.takeIf { it.isNotEmpty() } ?: state.currentTitle ?: currentRoute.title,
                             scale = .8f,
                             offsetY = 5.dp,
                             durationMillis = 150,

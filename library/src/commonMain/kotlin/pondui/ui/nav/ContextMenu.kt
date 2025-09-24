@@ -3,7 +3,7 @@ package pondui.ui.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import pondui.ui.behavior.Magic
+import pondui.ui.modifiers.Magic
 
 @Composable
 fun ContextMenu(

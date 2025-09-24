@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.magic
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.magic
+import pondui.ui.modifiers.ifTrue
 import pondui.ui.core.StateScope
 import pondui.ui.theme.Pond
 import pondui.utils.darken
@@ -114,8 +114,8 @@ fun TabContent(
 @Composable
 fun TabScope.Tab(
     label: String,
-    isVisible: Boolean = true,
     modifier: Modifier = Modifier,
+    isVisible: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     val state by this@Tab.state.collectAsState()

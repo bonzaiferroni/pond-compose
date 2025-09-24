@@ -1,4 +1,4 @@
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

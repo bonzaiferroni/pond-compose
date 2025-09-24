@@ -17,13 +17,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.clickableWithoutHoverEffect
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.clickableWithoutHoverEffect
 import pondui.ui.controls.Text
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideBookColors
-import pondui.utils.addShadow
-import pondui.utils.mixWith
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable

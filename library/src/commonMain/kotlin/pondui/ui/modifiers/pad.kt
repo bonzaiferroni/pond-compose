@@ -1,4 +1,4 @@
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable

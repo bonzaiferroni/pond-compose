@@ -20,6 +20,7 @@ interface PondColors {
     val contentBook: Color
     val surfaceBook: Color
     val background: Color
+    val artBackground: Color
     val void: Color
     val selectionVoid: Color
     val creationVoid: Color
@@ -64,7 +65,8 @@ object DefaultColors : PondColors{
     override val surfaceSky = Color.Transparent
     override val contentBook = Color(0xFF1d190e)
     override val surfaceBook = Color(0xFFcecfcf)
-    override val background = Color(0xff18635a) // 0xFF1b7161 // 0xff171616 // 0xFF1b7161 // 0xff1e554f
+    override val background = Color(0xff090d0d) // 0xff18635a // 0xFF1b7161 // 0xff171616 // 0xFF1b7161 // 0xff1e554f
+    override val artBackground = Color(0xff18635a)
     override val void = Color(0xff3b4242)
     override val selectionVoid = void.mixWith(selection, .25f)
     override val creationVoid = void.mixWith(creation, .25f)

@@ -27,7 +27,7 @@ import pondui.ui.controls.Label
 import pondui.ui.controls.actionable
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.ifTrue
 
 @Composable
 fun RowScope.BottomBar(

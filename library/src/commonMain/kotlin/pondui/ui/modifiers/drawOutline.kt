@@ -1,4 +1,4 @@
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind

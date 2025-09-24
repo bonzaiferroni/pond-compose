@@ -9,9 +9,9 @@ import androidx.compose.ui.*
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.animate
-import pondui.ui.behavior.animateInitialOffsetX
-import pondui.ui.behavior.springSpec
+import pondui.ui.modifiers.animate
+import pondui.ui.modifiers.animateInitialOffsetX
+import pondui.ui.modifiers.springSpec
 import pondui.ui.theme.Pond
 
 

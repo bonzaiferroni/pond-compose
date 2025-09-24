@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.ifTrue
 import pondui.ui.theme.Pond
 
 @Composable

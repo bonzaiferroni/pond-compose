@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
-import pondui.ui.behavior.ifTrue
+import pondui.ui.modifiers.ifTrue
 import pondui.ui.theme.Pond
 
 @Composable

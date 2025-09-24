@@ -34,12 +34,9 @@ import kabinet.model.LabeledEnum
 import kabinet.utils.nameOrError
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import pondui.ui.behavior.AlignX
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.MagicItem
-import pondui.ui.behavior.drawLabel
-import pondui.ui.behavior.ifNotNull
-import pondui.ui.behavior.magic
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.MagicItem
+import pondui.ui.modifiers.magic
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.electrify

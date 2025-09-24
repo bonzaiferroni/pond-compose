@@ -1,4 +1,4 @@
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween

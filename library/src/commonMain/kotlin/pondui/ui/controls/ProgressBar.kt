@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
-import pondui.ui.behavior.ifNotNull
+import pondui.ui.modifiers.ifNotNull
 
 @Composable
 fun ProgressBar(

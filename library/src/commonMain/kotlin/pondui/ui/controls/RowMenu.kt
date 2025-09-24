@@ -13,7 +13,7 @@ import compose.icons.TablerIcons
 import compose.icons.tablericons.ChevronLeft
 import compose.icons.tablericons.Dots
 import kotlinx.collections.immutable.ImmutableList
-import pondui.ui.behavior.Magic
+import pondui.ui.modifiers.Magic
 import pondui.ui.theme.Pond
 
 @Composable

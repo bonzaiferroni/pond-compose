@@ -6,7 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import pondui.ui.behavior.onEnterPressed
+import pondui.ui.modifiers.onEnterPressed
 import pondui.ui.theme.Pond
 import pondui.ui.controls.*
 

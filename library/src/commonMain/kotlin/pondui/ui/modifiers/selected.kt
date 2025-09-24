@@ -1,4 +1,4 @@
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState

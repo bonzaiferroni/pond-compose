@@ -21,6 +21,7 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import pondui.ui.modifiers.artBackground
 import pondui.ui.nav.portalTopBarHeight
 import pondui.ui.theme.Pond
 import pondui.utils.darken
@@ -34,17 +35,17 @@ fun TabScaffold(
     // val state by LocalPortal.current.stateFlow.collectAsState()
     val unitSpacing = Pond.ruler.unitSpacing
     // val bottomPadding = if (state.bottomBarIsVisible) portalBottomBarHeight + unitSpacing else 0.dp
-    var topPadding by remember { mutableStateOf(0.dp)}
+    var topPadding by remember { mutableStateOf(0.dp) }
     val density = LocalDensity.current
     val hazeState = remember { HazeState() }
     val tabScope = remember { TabScope() }
-    val tabScaffoldScope = remember(topPadding) { TabScaffoldScope(topPadding, tabScope) }
+    val ruler = Pond.ruler
+    val tabScaffoldScope = remember(topPadding) { TabScaffoldScope(topPadding + ruler.unitSpacing, tabScope) }
 
     Box {
         Box(
             modifier = Modifier.hazeSource(state = hazeState)
                 .fillMaxSize()
-                .padding(horizontal = unitSpacing)
         ) {
             TabContent(tabScaffoldScope.tabScope) {
                 tabScaffoldScope.content()
@@ -52,10 +53,13 @@ fun TabScaffold(
         }
 
         Column(
-            modifier = Modifier.onGloballyPositioned { topPadding = with (density) { it.size.height.toDp() } }
+            modifier = Modifier.onGloballyPositioned { topPadding = with(density) { it.size.height.toDp() } }
         ) {
             Column(
-                modifier = Modifier.hazeEffect(state = hazeState, style = HazeMaterials.thin(Pond.colors.void.darken(.1f)))
+                modifier = Modifier.hazeEffect(
+                    state = hazeState,
+                    style = HazeMaterials.thin(Pond.colors.void.darken(.1f))
+                )
                     .fillMaxWidth()
                     .padding(
                         top = portalTopBarHeight + unitSpacing,
@@ -85,14 +89,20 @@ class TabScaffoldScope(
 @Composable
 fun TabScaffoldScope.Tab(
     label: String,
-    isVisible: Boolean = true,
     modifier: Modifier = Modifier,
+    isVisible: Boolean = true,
     content: @Composable () -> Unit,
 ) {
+    val ruler = Pond.ruler
     tabScope.Tab(
         label = label,
         isVisible = isVisible,
-        modifier = Modifier.padding(top = topPadding).then(modifier),
+        modifier = Modifier.fillMaxSize().artBackground()
+            .padding(
+                top = topPadding,
+                start = ruler.unitSpacing,
+                end = ruler.unitSpacing,
+            ).then(modifier),
         content = content
     )
 }

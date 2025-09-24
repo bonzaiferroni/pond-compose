@@ -17,7 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.SlideIn
+import pondui.ui.modifiers.SlideIn
 import pondui.ui.nav.LocalPortal
 import pondui.ui.nav.portalBottomBarHeight
 import pondui.ui.nav.portalTopBarHeight

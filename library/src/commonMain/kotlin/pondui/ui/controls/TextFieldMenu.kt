@@ -28,12 +28,12 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.magic
-import pondui.ui.behavior.magicBackground
-import pondui.ui.behavior.onEnterPressed
-import pondui.ui.behavior.onHotKey
-import pondui.ui.behavior.padTop
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.magic
+import pondui.ui.modifiers.magicBackground
+import pondui.ui.modifiers.onEnterPressed
+import pondui.ui.modifiers.onHotKey
+import pondui.ui.modifiers.padTop
 import pondui.ui.theme.Pond
 import pondui.utils.mixWith
 

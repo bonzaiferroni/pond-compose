@@ -23,9 +23,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.changeFocusWithTab
-import pondui.ui.behavior.drawLabel
-import pondui.ui.behavior.ifNotNull
+import pondui.ui.modifiers.changeFocusWithTab
+import pondui.ui.modifiers.drawLabel
+import pondui.ui.modifiers.ifNotNull
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.mixWith

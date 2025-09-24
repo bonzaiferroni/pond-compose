@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
-import pondui.ui.behavior.magic
+import pondui.ui.modifiers.magic
 import pondui.ui.controls.BottomBarSpacer
 import pondui.ui.controls.Text
 import pondui.ui.theme.Pond

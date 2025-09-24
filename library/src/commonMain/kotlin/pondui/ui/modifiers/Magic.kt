@@ -1,6 +1,6 @@
 @file:Suppress("DuplicatedCode")
 
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FastOutSlowInEasing

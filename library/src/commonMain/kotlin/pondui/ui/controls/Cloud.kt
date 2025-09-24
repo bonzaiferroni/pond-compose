@@ -18,14 +18,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.HotKey
-import pondui.ui.behavior.clickableWithoutHoverEffect
-import pondui.ui.nav.LocalPortal
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.clickableWithoutHoverEffect
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideBookColors
 

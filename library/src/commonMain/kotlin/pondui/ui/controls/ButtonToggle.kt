@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.animate
-import pondui.ui.behavior.animateFloat
+import pondui.ui.modifiers.animate
+import pondui.ui.modifiers.animateFloat
 import pondui.ui.theme.Pond
 
 @Composable

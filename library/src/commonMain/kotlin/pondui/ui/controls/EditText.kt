@@ -32,11 +32,11 @@ import androidx.compose.ui.window.Popup
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Check
 import compose.icons.tablericons.X
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.filterKeyPress
-import pondui.ui.behavior.ifTrue
-import pondui.ui.behavior.onEnterPressed
-import pondui.ui.behavior.selected
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.filterKeyPress
+import pondui.ui.modifiers.ifTrue
+import pondui.ui.modifiers.onEnterPressed
+import pondui.ui.modifiers.selected
 import pondui.ui.theme.Pond
 
 @Composable

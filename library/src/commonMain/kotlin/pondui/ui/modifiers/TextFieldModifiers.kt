@@ -1,4 +1,4 @@
-package pondui.ui.behavior
+package pondui.ui.modifiers
 
 import androidx.compose.foundation.focusable
 import androidx.compose.runtime.Composable

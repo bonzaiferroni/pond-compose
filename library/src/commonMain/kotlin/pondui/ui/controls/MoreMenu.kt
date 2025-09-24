@@ -28,8 +28,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import compose.icons.TablerIcons
 import compose.icons.tablericons.Settings
-import pondui.ui.behavior.Magic
-import pondui.ui.behavior.magic
+import pondui.ui.modifiers.Magic
+import pondui.ui.modifiers.magic
 import pondui.ui.theme.Pond
 import pondui.utils.lighten
 

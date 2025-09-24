@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import pondui.ui.behavior.SlideIn
+import pondui.ui.modifiers.SlideIn
 import pondui.ui.controls.Text
 import pondui.ui.theme.Pond
 
