@@ -97,7 +97,8 @@ fun TabScaffoldScope.Tab(
     tabScope.Tab(
         label = label,
         isVisible = isVisible,
-        modifier = Modifier.fillMaxSize().artBackground()
+        modifier = Modifier.fillMaxSize()
+            .artBackground()
             .padding(
                 top = topPadding,
                 start = ruler.unitSpacing,

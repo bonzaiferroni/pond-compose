@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pondui.ui.modifiers.SlideIn
+import pondui.ui.modifiers.artBackground
 import pondui.ui.nav.LocalPortal
 import pondui.ui.nav.portalBottomBarHeight
 import pondui.ui.nav.portalTopBarHeight
@@ -44,7 +45,8 @@ fun Scaffold(
 
     SlideIn(enter = transition) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .artBackground(),
             verticalArrangement = Pond.ruler.columnUnit
         ) {
             TopBarSpacer()

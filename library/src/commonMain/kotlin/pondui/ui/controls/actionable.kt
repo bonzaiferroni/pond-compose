@@ -19,7 +19,7 @@ fun Modifier.actionable(
     isEnabled: Boolean = true,
     onHover: ((Boolean) -> Unit)? = null,
     isIndicated: Boolean = true,
-    icon: PointerIcon? = null,
+    icon: PointerIcon? = PointerIcon.Hand,
 ): Modifier {
     val nav = LocalNav.current
     return this.actionable(
@@ -37,7 +37,7 @@ fun Modifier.actionable(
     isEnabled: Boolean = true,
     onHover: ((Boolean) -> Unit)? = null,
     isIndicated: Boolean = true,
-    icon: PointerIcon? = null,
+    icon: PointerIcon? = PointerIcon.Hand,
     onClick: () -> Unit,
 ) = if (isEnabled) {
     val interactionSource = remember { MutableInteractionSource() }

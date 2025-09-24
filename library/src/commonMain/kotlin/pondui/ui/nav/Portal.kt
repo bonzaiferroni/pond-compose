@@ -36,6 +36,7 @@ import pondui.ui.controls.Text
 import pondui.ui.modifiers.artBackground
 import pondui.utils.darken
 import pondui.utils.electrify
+import pondui.utils.lighten
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -51,7 +52,7 @@ fun Portal(
     val currentRoute = navState.route
     val hazeState = remember { HazeState() }
     LaunchedEffect(currentRoute) {
-        viewModel.setTitle(null)
+        viewModel.setTitle(currentRoute.title)
     }
 
     CompositionLocalProvider(LocalPortal provides viewModel) {
@@ -130,7 +131,7 @@ fun Portal(
                         ) { title ->
                             val color = when {
                                 title == currentRoute.title -> Pond.localColors.content
-                                else -> Pond.colors.action.electrify()
+                                else -> Pond.colors.action.lighten(.1f).electrify()
                             }
                             Text(title, color = color)
                         }

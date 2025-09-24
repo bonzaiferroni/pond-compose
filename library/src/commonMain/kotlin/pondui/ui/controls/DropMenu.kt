@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -67,7 +68,7 @@ fun DropMenu(
                 modifier = Modifier.clip(Pond.ruler.roundEnd)
                     .drawBehind { drawRoundRect(background) }
                     .onGloballyPositioned { menuSize = it.size }
-                    .actionable(isEnabled = isOpenEnabled) { isOpen = !isOpen }
+                    .actionable(isEnabled = isOpenEnabled, icon = PointerIcon.Hand) { isOpen = !isOpen }
                     .animateContentSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End

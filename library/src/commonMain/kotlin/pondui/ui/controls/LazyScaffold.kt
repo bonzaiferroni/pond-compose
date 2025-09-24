@@ -4,6 +4,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pondui.ui.modifiers.SlideIn
+import pondui.ui.modifiers.artBackground
 import pondui.ui.nav.LocalPortal
 import pondui.ui.theme.Pond
 import pondui.ui.theme.Spacing
@@ -39,7 +41,9 @@ fun LazyScaffold(
     SlideIn(enter = transition) {
         LazyColumn(
             verticalArrangement = spacing.toColumnArrangement(),
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier.fillMaxSize()
+                .artBackground()
+                .padding(contentPadding)
         ) {
             topBarSpacerItem()
 

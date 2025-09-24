@@ -7,6 +7,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.unit.dp
 import pondui.ui.modifiers.Magic
 import pondui.ui.modifiers.magic
@@ -69,7 +70,10 @@ fun TabHeader(
             if (!tab.isVisible) return@forEachIndexed
             val isSelected = currentLabel == tab.label
             Box(
-                modifier = Modifier.ifTrue(!isSelected) { Modifier.clickable { scope.changeTab(tab.label) } }
+                modifier = Modifier.ifTrue(!isSelected) {
+                    clip(headerShape)
+                        .actionable(icon = PointerIcon.Hand) { scope.changeTab(tab.label) }
+                }
                     .weight(1f)
                     .height(IntrinsicSize.Max)
             ) {
@@ -140,7 +144,7 @@ fun TabScope.Tab(
 }
 
 @Stable
-class TabScope: StateScope<TabState>(TabState()) {
+class TabScope : StateScope<TabState>(TabState()) {
 
     fun addItem(item: TabItem) {
         val currentLabel = stateNow.currentLabel.takeIf { it.isNotEmpty() } ?: item.label

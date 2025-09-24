@@ -1,5 +1,6 @@
 package pondui.ui.theme
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -29,7 +30,9 @@ fun ProvideTheme(
 ) {
     CompositionLocalProvider(LocalTheme provides theme) {
         ProvideSkyColors {
-            content()
+            CompositionLocalProvider(LocalIndication provides LighterHoverIndication) {
+                content()
+            }
         }
     }
 }

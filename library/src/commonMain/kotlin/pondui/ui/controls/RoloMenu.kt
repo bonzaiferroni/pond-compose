@@ -22,6 +22,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -88,6 +90,7 @@ fun <T> MenuWheel(
     Row(
         gap = 1,
         modifier = modifier
+            .pointerHoverIcon(PointerIcon.Hand)
             .drawBehind {
                 val stops = arrayOf(
                     0.00f to Color.Transparent,
