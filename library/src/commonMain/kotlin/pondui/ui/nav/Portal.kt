@@ -1,6 +1,8 @@
 package pondui.ui.nav
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +25,7 @@ import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
+import pondui.ui.behavior.MagicItem
 import pondui.ui.behavior.SlideIn
 import pondui.ui.controls.Icon
 import pondui.ui.controls.actionable
@@ -33,6 +36,8 @@ import pondui.ui.controls.Label
 import pondui.ui.controls.Row
 import pondui.ui.controls.Text
 import pondui.utils.darken
+import pondui.utils.electrify
+import pondui.utils.lighten
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -111,10 +116,24 @@ fun Portal(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.height(barHeight)
+                        .animateContentSize(
+                            animationSpec = tween(150)
+                        )
                 ) {
                     Row {
                         Text("${config.name} | ", color = Pond.localColors.contentDim)
-                        Text(currentRoute.title)
+                        MagicItem(
+                            state.hoverText.takeIf { it.isNotEmpty() } ?: currentRoute.title,
+                            scale = .8f,
+                            offsetY = 5.dp,
+                            durationMillis = 150,
+                        ) { title ->
+                            val color = when {
+                                title == currentRoute.title -> Pond.localColors.content
+                                else -> Pond.colors.action.electrify()
+                            }
+                            Text(title, color = color)
+                        }
                     }
                 }
                 // top section
