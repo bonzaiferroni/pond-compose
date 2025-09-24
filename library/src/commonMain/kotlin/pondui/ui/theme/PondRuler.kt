@@ -105,9 +105,9 @@ interface PondRuler {
         bottomEndPercent = 50,
     )
 
-    val pillBottomVariant: Shape get() = RoundedCornerShape(
-        topStartPercent = 10,
-        topEndPercent = 10,
+    val pillBottomRoundedTop: Shape get() = RoundedCornerShape(
+        topStartPercent = 20,
+        topEndPercent = 20,
         bottomStartPercent = 50,
         bottomEndPercent = 50,
     )

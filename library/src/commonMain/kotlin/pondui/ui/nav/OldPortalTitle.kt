@@ -25,7 +25,7 @@ import pondui.ui.theme.Pond
 
 
 @Composable
-fun PortalTitle(
+fun OldPortalTitle(
     hoverText: String,
     title: String,
 ) {

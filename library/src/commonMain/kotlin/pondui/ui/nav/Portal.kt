@@ -82,10 +82,15 @@ fun Portal(
                 val backAlpha by animateFloatAsState(if (backRoute != null) 1f else .2f)
                 val backBackground = Pond.colors.regression
                 Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier.size(barHeight)
                         .shadow(
                             Pond.ruler.shadowElevation,
-                            shape = RoundedCornerShape(bottomEnd = Pond.ruler.bigCorner)
+                            shape = RoundedCornerShape(
+                                topEndPercent = 10,
+                                bottomStartPercent = 10,
+                                bottomEndPercent = 70
+                            )
                         )
                         .hazeEffect(
                             state = hazeState,
@@ -95,7 +100,7 @@ fun Portal(
                 ) {
                     Icon(
                         imageVector = TablerIcons.ArrowBack,
-                        modifier = Modifier.padding(5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp, end = 5.dp)
                             .graphicsLayer { this.alpha = backAlpha }
                     )
                 }
@@ -116,16 +121,21 @@ fun Portal(
                             style = HazeMaterials.ultraThin(Pond.colors.void)
                         )
                 ) {
-                    PortalTitle(state.hoverText, state.currentTitle ?: currentRoute.title)
+                    OldPortalTitle(state.hoverText, state.currentTitle ?: currentRoute.title)
                 }
 
                 if (exitAction != null) {
                     val exitBackground = Pond.colors.negation
                     Box(
+                        contentAlignment = Alignment.Center,
                         modifier = Modifier.size(barHeight)
                             .shadow(
                                 Pond.ruler.shadowElevation,
-                                shape = RoundedCornerShape(bottomStart = Pond.ruler.bigCorner)
+                                shape = RoundedCornerShape(
+                                    topStartPercent = 10,
+                                    bottomEndPercent = 10,
+                                    bottomStartPercent = 70
+                                )
                             )
                             .hazeEffect(
                                 state = hazeState,
@@ -135,7 +145,7 @@ fun Portal(
                     ) {
                         Icon(
                             imageVector = TablerIcons.X,
-                            modifier = Modifier.padding(top = 5.dp, start = 10.dp)
+                            modifier = Modifier.padding(bottom = 5.dp, start = 5.dp)
                         )
                     }
                 }

@@ -71,7 +71,7 @@ fun TabScaffold(
                     .hazeEffect(state = hazeState, style = HazeMaterials.thin(Pond.colors.void.darken(.1f)))
                     .padding(Pond.ruler.unitSpacing)
             ) {
-                TabHeader(tabScaffoldScope.tabScope, headerShape = Pond.ruler.pillBottomVariant)
+                TabHeader(tabScaffoldScope.tabScope, headerShape = Pond.ruler.pillBottomRoundedTop)
             }
         }
     }
