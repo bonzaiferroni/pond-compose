@@ -29,6 +29,9 @@ import pondui.ui.controls.actionable
 import pondui.ui.core.PondConfig
 import pondui.ui.theme.Pond
 import pondui.ui.behavior.ifNotNull
+import pondui.ui.controls.Label
+import pondui.ui.controls.Row
+import pondui.ui.controls.Text
 import pondui.utils.darken
 
 @OptIn(ExperimentalHazeMaterialsApi::class)
@@ -105,24 +108,33 @@ fun Portal(
                     )
                 }
 
-                // top section
                 Box(
-                    modifier = Modifier.width(IntrinsicSize.Max)
-                        .height(barHeight)
-                        .shadow(
-                            Pond.ruler.shadowElevation,
-                            shape = RoundedCornerShape(
-                                bottomStart = Pond.ruler.bigCorner,
-                                bottomEnd = Pond.ruler.bigCorner
-                            )
-                        )
-                        .hazeEffect(
-                            state = hazeState,
-                            style = HazeMaterials.ultraThin(Pond.colors.void)
-                        )
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.height(barHeight)
                 ) {
-                    OldPortalTitle(state.hoverText, state.currentTitle ?: currentRoute.title)
+                    Row {
+                        Text("${config.name} | ", color = Pond.localColors.contentDim)
+                        Text(currentRoute.title)
+                    }
                 }
+                // top section
+//                Box(
+//                    modifier = Modifier.width(IntrinsicSize.Max)
+//                        .height(barHeight)
+//                        .shadow(
+//                            Pond.ruler.shadowElevation,
+//                            shape = RoundedCornerShape(
+//                                bottomStart = Pond.ruler.bigCorner,
+//                                bottomEnd = Pond.ruler.bigCorner
+//                            )
+//                        )
+//                        .hazeEffect(
+//                            state = hazeState,
+//                            style = HazeMaterials.ultraThin(Pond.colors.void)
+//                        )
+//                ) {
+//                    OldPortalTitle(state.hoverText, state.currentTitle ?: currentRoute.title)
+//                }
 
                 if (exitAction != null) {
                     val exitBackground = Pond.colors.negation
