@@ -20,10 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawStyle
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -43,7 +40,6 @@ import pondui.ui.behavior.MagicItem
 import pondui.ui.behavior.drawLabel
 import pondui.ui.behavior.ifNotNull
 import pondui.ui.behavior.magic
-import pondui.ui.behavior.outline
 import pondui.ui.theme.Pond
 import pondui.ui.theme.ProvideSkyColors
 import pondui.utils.electrify
@@ -113,7 +109,6 @@ fun DropMenu(
                         modifier = Modifier.padding(top = Pond.ruler.unitSpacing)
                             .width(IntrinsicSize.Max)
                             .widthIn(min = with(density) { menuSize.width.toDp() })
-                            .ifNotNull(label) { drawLabel(it, alignX = AlignX.Center) }
                             .clip(Pond.ruler.unitCorners)
                     ) {
                         val selectedIndex = options.indexOfFirst { it == selected }
@@ -157,7 +152,7 @@ inline fun <reified T> DropMenu(
     modifier: Modifier = Modifier,
     color: Color = Pond.colors.action,
     label: String? = null,
-    crossinline onSelect: (T) -> Unit
+    crossinline onChange: (T) -> Unit
 ) where T : Enum<T>, T : LabeledEnum<T> {
     val enums = remember {
         val typeName = T::class.nameOrError
@@ -176,7 +171,7 @@ inline fun <reified T> DropMenu(
         label = label
     ) { stringValue ->
         val value = enums.firstOrNull { e -> e.label == stringValue } ?: error("enum value not found")
-        onSelect(value)
+        onChange(value)
     }
 }
 

@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalDensity
 import pondui.ui.theme.Pond
 
 @Composable
-fun Modifier.circleIndicator(isVisible: Boolean, block: DrawScope.() -> Unit): Modifier {
+fun Modifier.circleSelectIndicator(isVisible: Boolean, block: DrawScope.() -> Unit): Modifier {
     if (!isVisible) return this.drawBehind { block() }
     val color = Pond.localColors.content
     val density = LocalDensity.current

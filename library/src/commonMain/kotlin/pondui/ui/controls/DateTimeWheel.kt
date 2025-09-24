@@ -67,7 +67,7 @@ fun TimeWheel(
         MenuWheel(
             selectedItem = if (isPm) "PM" else "AM",
             options = amPm,
-            menuWidth = 22.dp
+            menuWidth = menuPartWidth
         ) {
             isPm = it == "PM"
             onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour.to24Hour(isPm), time.minute).toInstantFromLocal())
@@ -110,7 +110,7 @@ fun DateWheel(
     }
 }
 
-private val menuPartWidth = 20.dp
+private val menuPartWidth = 26.dp
 private val hours = (listOf(12) + (1..11)).toImmutableList()
 private val minutes = (0..11).map { (it * 5).toString().padStart(2, '0') }.toImmutableList()
 private fun days(year: Int, month: Int) = daysInMonth(year, month).let { (1..it).toImmutableList() }

@@ -89,7 +89,7 @@ fun <T> TextFieldMenu(
     ) {
         TextField(
             text = text,
-            onValueChange = {
+            onChange = {
                 isOpen = items.isNotEmpty()
                 onTextChanged(it)
             },

@@ -44,7 +44,7 @@ fun TextField(
     maxLines: Int = Int.MAX_VALUE,
     minWidth: Dp = 150.dp,
     onFocusChanged: ((Boolean) -> Unit)? = null,
-    onValueChange: (String) -> Unit,
+    onChange: (String) -> Unit,
 ) {
     var value by remember {
         mutableStateOf(
@@ -75,7 +75,7 @@ fun TextField(
             onValueChange = {
                 if (!it.text.contains('\t')) {
                     value = it
-                    onValueChange(it.text)
+                    onChange(it.text)
                 }
             },
             textStyle = TextStyle(color = textColor, textAlign = textAlign),

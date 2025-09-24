@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
@@ -38,14 +39,14 @@ import kotlin.math.sin
 fun <T> MenuWheel(
     selectedItem: T,
     options: ImmutableList<T>,
+    modifier: Modifier = Modifier,
     label: String? = null,
     toLabel: (T) -> String = { it.toString() },
     offsetRowCount: Int = 1,
     menuWidth: Dp? = null,
-    rowHeight: Dp = 18.dp,
+    rowHeight: Dp = 20.dp,
     indicatorColor: Color = Pond.colors.creation,
     itemAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    modifier: Modifier = Modifier,
     onSelect: (T) -> Unit
 ) {
     if (options.isEmpty()) return
@@ -70,18 +71,19 @@ fun <T> MenuWheel(
 
     val rowCount = offsetRowCount * 2 + 1
     val wheelHeight = rowHeight * rowCount
-    val listWidth = remember(menuWidth) { menuWidth ?: (options.maxOf { toLabel(it).length } * 10.dp) }
-    val layoutInfo = listState.layoutInfo
+    val listWidth = remember(menuWidth) { menuWidth ?: (options.maxOf { toLabel(it).length } * 12.dp) }
+    val layoutInfo by remember { derivedStateOf { listState.layoutInfo } }
     val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
     val rowHeightPx = viewPortHeight / rowCount
-    val centerIndex = listState.firstVisibleItemIndex
-    val scrollOffset = listState.firstVisibleItemScrollOffset
+    val centerIndex by remember { derivedStateOf { listState.firstVisibleItemIndex } }
+    val scrollOffset by remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
     val isScrollingAnimation by animateFloatAsState(if (isScrolling) 1f else 0f)
     val unitSpacing = Pond.ruler.unitSpacing
 
     val localColors = Pond.localColors
     val color = localColors.content
     val wheelColor = if (localColors.mode == ColorMode.Sky) Pond.colors.void else Pond.colors.void.copy(.2f)
+    val style = Pond.typo.body.copy(fontSize = 16.sp)
 
     Row(
         gap = 1,
@@ -169,6 +171,7 @@ fun <T> MenuWheel(
                 BasicText(
                     text = label,
                     color = { color },
+                    style = style,
                     modifier = Modifier
                         .height(rowHeight)
                         .graphicsLayer {

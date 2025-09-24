@@ -121,7 +121,7 @@ fun BalloonChart(
                 modifier = Modifier.size((radius * 2).dp)
                     .offset((center.x - radius).dp, (center.y - radius).dp)
                     .graphicsLayer { translationY = offsetY }
-                    .circleIndicator(isSelected) {
+                    .circleSelectIndicator(isSelected) {
                         drawBalloon(bgColor)
                     }
                     .clip(CircleShape)
