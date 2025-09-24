@@ -60,19 +60,12 @@ fun Navigator(
 }
 
 inline fun <reified T : NavRoute> NavGraphBuilder.defaultScreen(
-    horizontalPadding: Dp? = null,
     crossinline content: @Composable (T) -> Unit
 ) {
     composable<T> { backStackEntry ->
         val route: T = backStackEntry.toRoute()
         Column(
-            gap = 1,
-            modifier = Modifier.padding(
-                top = 0.dp,
-                start = horizontalPadding ?: Pond.ruler.unitSpacing,
-                end = horizontalPadding ?: Pond.ruler.unitSpacing,
-                bottom = 0.dp,
-            )
+            gap = 1
         ) {
             content(route)
         }
