@@ -114,7 +114,8 @@ fun Portal(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.height(barHeight)
-                        .artBackground(.7f)
+                        .artBackground(.3f)
+                        .padding(horizontal = 30.dp)
                         .animateContentSize(
                             animationSpec = tween(150)
                         )
