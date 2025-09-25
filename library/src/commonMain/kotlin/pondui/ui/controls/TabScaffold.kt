@@ -62,7 +62,7 @@ fun TabScaffold(
                 )
                     .fillMaxWidth()
                     .padding(
-                        top = portalTopBarHeight + unitSpacing,
+                        top = portalTopBarHeight,
                         start = unitSpacing,
                         end = unitSpacing,
                         bottom = 0.dp,

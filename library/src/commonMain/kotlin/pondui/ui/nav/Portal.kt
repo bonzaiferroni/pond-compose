@@ -121,8 +121,9 @@ fun Portal(
                             animationSpec = tween(150)
                         )
                 ) {
-                    Row {
-                        Text("${config.name} | ", color = Pond.localColors.contentDim)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(config.name, color = Pond.localColors.contentDim)
+                        Icon(config.logo, tint = Pond.colors.swatches[1])
                         MagicItem(
                             state.hoverText.takeIf { it.isNotEmpty() } ?: state.currentTitle ?: currentRoute.title,
                             scale = .8f,
@@ -137,24 +138,6 @@ fun Portal(
                         }
                     }
                 }
-                // top section
-//                Box(
-//                    modifier = Modifier.width(IntrinsicSize.Max)
-//                        .height(barHeight)
-//                        .shadow(
-//                            Pond.ruler.shadowElevation,
-//                            shape = RoundedCornerShape(
-//                                bottomStart = Pond.ruler.bigCorner,
-//                                bottomEnd = Pond.ruler.bigCorner
-//                            )
-//                        )
-//                        .hazeEffect(
-//                            state = hazeState,
-//                            style = HazeMaterials.ultraThin(Pond.colors.void)
-//                        )
-//                ) {
-//                    OldPortalTitle(state.hoverText, state.currentTitle ?: currentRoute.title)
-//                }
 
                 if (exitAction != null) {
                     val exitBackground = Pond.colors.negation
