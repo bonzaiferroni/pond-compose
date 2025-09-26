@@ -12,15 +12,16 @@ import pondui.ui.theme.Pond
 @Composable
 fun Text(
     text: String,
+    modifier: Modifier = Modifier,
     style: TextStyle = Pond.typo.body,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Ellipsis,
-    modifier: Modifier = Modifier
+    overflow: TextOverflow = TextOverflow.Ellipsis
 ) = BasicText(
     text = text,
     color = { color },
-    style = style,
+    style = modifyStyle?.let { it(style) } ?: style,
     modifier = modifier,
     maxLines = maxLines,
     overflow = overflow
@@ -29,15 +30,16 @@ fun Text(
 @Composable
 fun Text(
     text: AnnotatedString,
+    modifier: Modifier = Modifier,
     style: TextStyle = Pond.typo.body,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
     maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Ellipsis,
-    modifier: Modifier = Modifier
+    overflow: TextOverflow = TextOverflow.Ellipsis
 ) = BasicText(
     text = text,
     color = { color },
-    style = style,
+    style = modifyStyle?.let { it(style) } ?: style,
     modifier = modifier,
     maxLines = maxLines,
     overflow = overflow
@@ -46,91 +48,96 @@ fun Text(
 @Composable
 fun Label(
     text: String,
+    modifier: Modifier = Modifier,
     style: TextStyle = Pond.typo.label,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.contentDim,
-    maxLines: Int = 1,
-    modifier: Modifier = Modifier
-) = BasicText(
+    maxLines: Int = 1
+) = Text(
     text = text,
-    color = { color },
     modifier = modifier,
     style = style,
-    maxLines = maxLines,
-    overflow = TextOverflow.Ellipsis
+    modifyStyle = modifyStyle,
+    color = color,
+    maxLines = maxLines
 )
 
 @Composable
 fun H1(
     text: String,
+    modifier: Modifier = Modifier,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
-    maxLines: Int = Int.MAX_VALUE,
-    modifier: Modifier = Modifier
-) = BasicText(
+    maxLines: Int = Int.MAX_VALUE
+) = Text(
     text = text,
-    color = { color },
-    style = Pond.typo.h1,
-    maxLines = maxLines,
-    overflow = TextOverflow.Ellipsis,
     modifier = modifier,
+    style = Pond.typo.h1,
+    modifyStyle = modifyStyle,
+    color = color,
+    maxLines = maxLines
 )
 
 @Composable
 fun H2(
     text: String,
+    modifier: Modifier = Modifier,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
-    modStyle: (TextStyle) -> TextStyle = { it },
-    maxLines: Int = Int.MAX_VALUE,
-    modifier: Modifier = Modifier
-) = BasicText(
+    maxLines: Int = Int.MAX_VALUE
+) = Text(
     text = text,
-    color = { color },
-    style = modStyle(Pond.typo.h2),
-    maxLines = maxLines,
-    overflow = TextOverflow.Ellipsis,
-    modifier = modifier
+    modifier = modifier,
+    style = Pond.typo.h2,
+    modifyStyle = modifyStyle,
+    color = color,
+    maxLines = maxLines
 )
 
 @Composable
 fun H3(
     text: String,
+    modifier: Modifier = Modifier,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
-    maxLines: Int = Int.MAX_VALUE,
-    modifier: Modifier = Modifier
-) = BasicText(
+    maxLines: Int = Int.MAX_VALUE
+) = Text(
     text = text,
-    color = { color },
+    modifier = modifier,
     style = Pond.typo.h3,
-    maxLines = maxLines,
-    overflow = TextOverflow.Ellipsis,
-    modifier = modifier
+    modifyStyle = modifyStyle,
+    color = color,
+    maxLines = maxLines
 )
 
 @Composable
 fun H4(
     text: String,
+    modifier: Modifier = Modifier,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
-    maxLines: Int = Int.MAX_VALUE,
-    modifier: Modifier = Modifier
-) = BasicText(
+    maxLines: Int = Int.MAX_VALUE
+) = Text(
     text = text,
-    color = { color },
+    modifier = modifier,
     style = Pond.typo.h4,
-    maxLines = maxLines,
-    overflow = TextOverflow.Ellipsis,
-    modifier = modifier
+    modifyStyle = modifyStyle,
+    color = color,
+    maxLines = maxLines
 )
 
 @Composable
 fun H5(
     text: String,
+    modifier: Modifier = Modifier,
+    modifyStyle: ((TextStyle) -> TextStyle)? = null,
     color: Color = Pond.localColors.content,
-    maxLines: Int = Int.MAX_VALUE,
-    modifier: Modifier = Modifier
-) = BasicText(
+    maxLines: Int = Int.MAX_VALUE
+) = Text(
     text = text,
-    color = { color },
+    modifier = modifier,
     style = Pond.typo.h5,
-    maxLines = maxLines,
-    overflow = TextOverflow.Ellipsis,
-    modifier = modifier
+    modifyStyle = modifyStyle,
+    color = color,
+    maxLines = maxLines
 )

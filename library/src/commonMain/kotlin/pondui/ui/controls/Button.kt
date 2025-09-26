@@ -77,7 +77,7 @@ fun Button(
 @Composable
 fun Button(
     text: String,
-    background: Color = Pond.colors.creation,
+    color: Color = Pond.colors.creation,
     isEnabled: Boolean = true,
     shape: Shape = Pond.ruler.pill,
     padding: PaddingValues = Pond.ruler.doublePadding,
@@ -87,7 +87,7 @@ fun Button(
     Button(
         onClick = onClick,
         isEnabled = isEnabled,
-        background = background,
+        background = color,
         shape = shape,
         padding = padding,
         modifier = modifier
@@ -160,7 +160,7 @@ fun FlowRowScope.ControlSetButton(
 ) = Button(
     text = text,
     isEnabled = isEnabled,
-    background = background,
+    color = background,
     shape = Pond.ruler.unitCorners,
     padding = padding,
     modifier = modifier,

@@ -66,7 +66,7 @@ fun LogoutControl(
         Text("Logged in as $username.")
         ControlSet {
             Button("Logout", onClick = logout, modifier = Modifier.weight(1f))
-            Button("Cancel", onClick = dismiss, background = Pond.colors.regression, modifier = Modifier.weight(1f))
+            Button("Cancel", onClick = dismiss, color = Pond.colors.regression, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -115,7 +115,7 @@ fun LoginControls(
             )
             Button(
                 text = "Cancel", onClick = dismiss, modifier = Modifier.weight(1f),
-                background = Pond.colors.regression
+                color = Pond.colors.regression
             )
         }
     }

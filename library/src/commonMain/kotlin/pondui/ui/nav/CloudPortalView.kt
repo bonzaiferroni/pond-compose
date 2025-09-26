@@ -46,7 +46,7 @@ fun CloudPortalView(
                             .background(Pond.localColors.surface)
                             .padding(horizontal = Pond.ruler.unitSpacing * 6, vertical = Pond.ruler.unitSpacing)
                     ) {
-                        Text(state.dialogTitle, Pond.typo.h3, color = Pond.localColors.contentDim)
+                        Text(state.dialogTitle, style = Pond.typo.h3, color = Pond.localColors.contentDim)
                     }
                 }
                 Spacer(modifier = Modifier.height(Pond.ruler.unitSpacing * 2))

@@ -79,6 +79,7 @@ fun DropMenu(
                 MagicItem(
                     item = selected,
                     offsetX = 20.dp,
+                    isVisibleInit = true,
                     modifier = Modifier.weight(1f)
                         .padding(horizontal = Pond.ruler.unitSpacing)
                 ) { selected ->

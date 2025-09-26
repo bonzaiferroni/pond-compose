@@ -61,6 +61,7 @@ fun <T> MagicItem(
 @Composable
 fun <T> MagicItem(
     item: T,
+    modifier: Modifier = Modifier,
     key: (T) -> Any? = { item },
     offsetX: Dp = 0.dp,
     offsetY: Dp = 0.dp,
@@ -69,8 +70,7 @@ fun <T> MagicItem(
     scale: Float = 1f,
     durationMillis: Int = 250,
     contentAlignment: Alignment = Alignment.TopStart,
-    isVisibleInit: Boolean = false,
-    modifier: Modifier = Modifier,
+    isVisibleInit: Boolean = true,
     content: @Composable (T) -> Unit,
 ) {
     var cachedItem by remember { mutableStateOf(item) }
