@@ -64,7 +64,7 @@ fun Checkbox(
     ) {
         Icon(
             imageVector = TablerIcons.ThumbUp,
-            tint = Pond.colors.contentSky,
+            color = Pond.colors.contentSky,
             modifier = Modifier.graphicsLayer {
                 scaleX = animate
                 scaleY = animate

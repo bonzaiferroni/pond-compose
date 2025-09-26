@@ -19,11 +19,13 @@ fun Modifier.artBackground(
     colors: List<Color> = listOf(Pond.colors.swatches[0], Pond.colors.swatches[1], Pond.colors.swatches[2]),
     circles: Int = 10
 ): Modifier {
-    val rng = remember { Random(Random.nextInt()) }
+    val seed = remember { Random.nextInt() }
     return drawBehind {
         val w = size.width
         val h = size.height
         if (w <= 0f || h <= 0f) return@drawBehind
+
+        val rng = Random(seed)
 
         val minDim = min(w, h)
         val minR = 0.1f * minDim

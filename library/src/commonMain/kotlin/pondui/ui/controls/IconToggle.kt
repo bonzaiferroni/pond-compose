@@ -34,7 +34,7 @@ fun IconToggle(
             .background(Pond.localColors.content.copy(alpha = .2f))
             .ifTrue(enabled) { clickable { onToggle(!value) } }
             .padding(Pond.ruler.doublePadding),
-        tint = when {
+        color = when {
             !enabled -> tint.copy(.5f)
             value -> Pond.colors.glow
             else -> tint

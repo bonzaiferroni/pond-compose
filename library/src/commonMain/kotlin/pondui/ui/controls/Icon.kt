@@ -16,10 +16,10 @@ import pondui.ui.theme.Pond
 fun Icon(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
-    tint: Color = Pond.localColors.content,
+    color: Color = Pond.localColors.content,
     contentScale: ContentScale = ContentScale.Fit
 ) {
-    val colorFilter = remember(tint) { if (tint == Color.Unspecified) null else ColorFilter.tint(tint) }
+    val colorFilter = remember(color) { if (color == Color.Unspecified) null else ColorFilter.tint(color) }
     Box(
         modifier
             .toolingGraphicsLayer()

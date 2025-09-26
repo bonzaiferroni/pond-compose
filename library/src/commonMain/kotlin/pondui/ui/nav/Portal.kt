@@ -123,7 +123,7 @@ fun Portal(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(config.name, color = Pond.localColors.contentDim)
-                        Icon(config.logo, tint = Pond.colors.swatches[1])
+                        Icon(config.logo, color = Pond.colors.swatches[1])
                         MagicItem(
                             state.hoverText.takeIf { it.isNotEmpty() } ?: state.currentTitle ?: currentRoute.title,
                             scale = .8f,

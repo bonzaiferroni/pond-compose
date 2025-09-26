@@ -96,7 +96,7 @@ fun BottomBarItem(
         }
         Icon(
             imageVector = icon,
-            tint = color,
+            color = color,
             modifier = Modifier.weight(1f).aspectRatio(1f)
                 .padding(Pond.ruler.unitPadding)
         )

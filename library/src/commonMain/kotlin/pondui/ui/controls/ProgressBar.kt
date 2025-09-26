@@ -37,11 +37,11 @@ fun ProgressBar(
     ),
     minHeight: Dp = 10.dp,
     minWidth: Dp = 100.dp,
-    color: Color = Pond.colors.data,
+    color: Color = Pond.colors.timer,
     padding: PaddingValues = PaddingValues(0.dp),
     content: @Composable (() -> Unit)? = null
 ) {
-    val progress = if (progress.isNaN()) 0f else progress
+    val progress = if (progress.isNaN()) 0f else progress.coerceIn(0f, 1f)
     val animatedProgress by animateFloatAsState(progress, animationSpec)
     val animatedColor by animateColorAsState(color)
     val voidColor = Pond.colors.void
@@ -65,7 +65,7 @@ fun ProgressBar(
                     )
                 } else {
                     drawRoundRect(
-                        color = animatedColor, // or the color of yer flag
+                        color = animatedColor,
                         size = Size(filledWidth + radius, size.height),
                         topLeft = Offset.Zero, // anchors to port side (left)
                         cornerRadius = CornerRadius(size.height)

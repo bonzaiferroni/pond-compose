@@ -43,7 +43,7 @@ fun Button(
     val bg = if (isPressed) background.lighten(.3f) else if (isHovered) background.lighten(.1f) else background
     val animatedBackground by animateColorAsState(bg, animationSpec = tween(300))
     val animatedScale by animateFloatAsState(if (isPressed) .9f else 1f)
-    val glow = Pond.colors.glow.darken(.2f)
+    val glow = Pond.colors.glow.darken(.1f)
 
     ProvideSkyColors {
         Box(

@@ -39,8 +39,8 @@ fun mix(c1: Color, c2: Color, ratio: Float = 0.5f) = Color(
 
 fun Color.mixWith(color: Color, ratio: Float = 0.5f) = mix(this, color, ratio)
 
-fun Color.glowWith(glow: Color, size: Size, ratio: Float = 0.3f) = Brush.linearGradient(
+fun Color.glowWith(glow: Color, size: Size, ratio: Float = 0.4f) = Brush.linearGradient(
     colors = listOf(this.mixWith(glow, ratio), this),
-    start = Offset(size.width / 3, 0f),
-    end = Offset(size.width, size.height)
+    start = Offset(size.width * .5f, 0f),
+    end = Offset(size.width * .6f, size.height)
 )

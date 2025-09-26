@@ -9,7 +9,9 @@ interface PondColors {
     val regression: Color
     val selection: Color
     val negation: Color
+    val hot: Color
     val data: Color
+    val timer: Color
     val disabled: Color
     val creationContent: Color
     val actionContent: Color
@@ -50,13 +52,15 @@ data class PondLocalColors(
 }
 
 object DefaultColors : PondColors{
-    override val creation = Color(0xff4c8e60) // 0xff559f6c // 0xff4c8e60
+    override val creation = Color(0xff457c56) // 0xff559f6c // 0xff4c8e60
     override val action = Color(0xff017a8a) // 0xFF009489 // 0xff018a80
     override val regression = Color(0xff5e5045)
     override val negation = Color(0xff884444)
     override val selection = Color(0xff775f93)
+    override val hot = Color(0xffe12aa6)
     override val disabled = Color(0xff6e7e6f)
     override val data = Color(0xffa3765a)
+    override val timer = Color(0xff78675b)
     override val contentSky = Color(0xFFf5f6f6)
     override val creationContent = creation.mixWith(contentSky)
     override val actionContent = action.mixWith(contentSky)

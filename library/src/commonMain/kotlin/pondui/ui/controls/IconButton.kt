@@ -13,11 +13,11 @@ import pondui.ui.theme.Pond
 @Composable
 fun IconButton(
     imageVector: ImageVector,
+    modifier: Modifier = Modifier,
     tint: Color = Pond.localColors.content,
     hoverText: String? = null,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.unitPadding,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Icon(
@@ -26,6 +26,6 @@ fun IconButton(
             .clip(Pond.ruler.defaultCorners)
             .ifTrue(isEnabled) { this.actionable(hoverText, onClick = onClick) }
             .padding(padding),
-        tint = tint
+        color = tint
     )
 }
