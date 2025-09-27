@@ -30,7 +30,7 @@ fun ProvideTheme(
 ) {
     CompositionLocalProvider(LocalTheme provides theme) {
         ProvideSkyColors {
-            CompositionLocalProvider(LocalIndication provides LighterHoverIndication) {
+            CompositionLocalProvider(LocalIndication provides PondIndication) {
                 content()
             }
         }

@@ -43,7 +43,7 @@ fun Cloud(
     Dialog(
         onDismissRequest = toggle,
         properties = DialogProperties(
-            scrimColor = Color.Transparent,
+            // scrimColor = Color.Transparent,
             usePlatformDefaultWidth = false
         )
     ) {
