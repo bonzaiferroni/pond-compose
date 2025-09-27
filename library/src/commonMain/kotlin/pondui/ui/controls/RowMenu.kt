@@ -29,15 +29,14 @@ fun RowMenu(
         Magic(isExpanded, offsetX = 20.dp) {
             ControlSet {
                 for (item in items) {
-                    Button(item.icon, onClick = item.action, background = item.background ?: Pond.colors.action)
+                    Button(item.icon, onClick = item.action, background = item.background ?: Pond.colors.primary)
                 }
             }
         }
         Button(
-            background = if (isExpanded) Pond.colors.creation else Pond.colors.action,
+            color = if (isExpanded) Pond.colors.accent else Pond.colors.primary,
             padding = Pond.ruler.unitPadding,
             onClick = { isExpanded = !isExpanded },
-            shape = Pond.ruler.pill
         ) {
             Magic(!isExpanded, offsetX = (-5).dp) {
                 Icon(closedIcon)

@@ -12,14 +12,14 @@ import pondui.ui.theme.Pond
 fun RouteButton(
     text: String,
     isEnabled: Boolean = true,
-    background: Color = Pond.colors.creation,
+    background: Color = Pond.colors.accent,
     modifier: Modifier = Modifier,
     getRoute: () -> NavRoute
 ) {
     val nav = LocalNav.current
     Button(onClick = {
         nav.go(getRoute())
-    }, isEnabled = isEnabled, background = background, modifier = modifier) {
+    }, isEnabled = isEnabled, color = background, modifier = modifier) {
         Text(
             text = text.uppercase(),
             style = TextStyle(fontSize = Pond.typo.label.fontSize),

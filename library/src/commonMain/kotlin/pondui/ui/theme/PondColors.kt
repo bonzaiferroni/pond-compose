@@ -4,12 +4,11 @@ import androidx.compose.ui.graphics.Color
 import pondui.utils.mixWith
 
 interface PondColors {
-    val creation: Color
-    val action: Color
-    val regression: Color
+    val accent: Color
+    val primary: Color
+    val secondary: Color
     val selection: Color
     val negation: Color
-    val hot: Color
     val data: Color
     val timer: Color
     val disabled: Color
@@ -52,18 +51,17 @@ data class PondLocalColors(
 }
 
 object DefaultColors : PondColors{
-    override val creation = Color(0xff457c56) // 0xff559f6c // 0xff4c8e60
-    override val action = Color(0xff017a8a) // 0xFF009489 // 0xff018a80
-    override val regression = Color(0xff5e5045)
+    override val accent = Color(0xffd12bb5) // 0xff458f58 // 0xff559f6c // 0xff4c8e60
+    override val primary = Color(0xff017a8a) // 0xFF009489 // 0xff018a80
+    override val secondary = Color(0xff5e5045)
     override val negation = Color(0xff884444)
     override val selection = Color(0xff775f93)
-    override val hot = Color(0xffe12aa6)
     override val disabled = Color(0xff6e7e6f)
     override val data = Color(0xffa3765a)
     override val timer = Color(0xff78675b)
     override val contentSky = Color(0xFFf5f6f6)
-    override val creationContent = creation.mixWith(contentSky)
-    override val actionContent = action.mixWith(contentSky)
+    override val creationContent = accent.mixWith(contentSky)
+    override val actionContent = primary.mixWith(contentSky)
     override val selectionContent = selection.mixWith(contentSky)
     override val deletionContent = negation.mixWith(contentSky)
     override val surfaceSky = Color.Transparent
@@ -73,7 +71,7 @@ object DefaultColors : PondColors{
     override val artBackground = Color(0xff18635a)
     override val void = Color(0xff3b4242)
     override val selectionVoid = void.mixWith(selection, .25f)
-    override val creationVoid = void.mixWith(creation, .25f)
+    override val creationVoid = void.mixWith(accent, .25f)
     override val deletionVoid = void.mixWith(negation, .25f)
     override val glow = Color(0xffecffb6)
     override val swatches = listOf(

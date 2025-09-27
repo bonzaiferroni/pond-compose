@@ -62,7 +62,7 @@ fun OldPortalTitle(
                         bottomEnd = Pond.ruler.bigCorner
                     )
                 )
-                .background(Pond.colors.action)
+                .background(Pond.colors.primary)
                 .padding(horizontal = 25.dp, vertical = 5.dp)
                 .graphicsLayer { this.alpha = alpha }
         ) {

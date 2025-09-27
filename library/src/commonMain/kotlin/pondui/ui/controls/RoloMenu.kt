@@ -47,7 +47,7 @@ fun <T> MenuWheel(
     offsetRowCount: Int = 1,
     menuWidth: Dp? = null,
     rowHeight: Dp = 20.dp,
-    indicatorColor: Color = Pond.colors.creation,
+    indicatorColor: Color = Pond.colors.accent,
     itemAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     onSelect: (T) -> Unit
 ) {

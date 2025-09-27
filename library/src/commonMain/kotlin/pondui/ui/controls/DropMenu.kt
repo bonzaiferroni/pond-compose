@@ -48,7 +48,7 @@ fun DropMenu(
     selected: String,
     options: ImmutableList<String>,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.action,
+    color: Color = Pond.colors.primary,
     label: String? = null,
     onSelect: (String) -> Unit
 ) {
@@ -149,7 +149,7 @@ fun DropMenuOption(
 inline fun <reified T> DropMenu(
     selected: T,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.action,
+    color: Color = Pond.colors.primary,
     label: String? = null,
     crossinline onChange: (T) -> Unit
 ) where T : Enum<T>, T : LabeledEnum<T> {

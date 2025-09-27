@@ -24,7 +24,7 @@ import pondui.ui.theme.Pond
 fun ButtonToggle(
     value: Boolean,
     onToggle: (Boolean) -> Unit,
-    color : Color = Pond.colors.creation,
+    color : Color = Pond.colors.accent,
     content: @Composable () -> Unit,
 ) {
     val outlineColor = Pond.localColors.content.copy(alpha = .5f)
@@ -61,7 +61,7 @@ fun ButtonToggle(
 fun ButtonToggle(
     value: Boolean,
     text: String,
-    color : Color = Pond.colors.creation,
+    color : Color = Pond.colors.accent,
     onToggle: (Boolean) -> Unit,
 ) {
     ButtonToggle(value, onToggle, color) {

@@ -140,7 +140,7 @@ fun EditText(
                     ControlSetButton(
                         TablerIcons.X,
                         isEnabled = isEditing,
-                        background = Pond.colors.regression,
+                        background = Pond.colors.secondary,
                     ) { cancelEdit(text) }
                     ControlSetButton(
                         TablerIcons.Check,

@@ -37,7 +37,7 @@ fun <T> RadioGroup(
                     .animateInitialOffsetX(index),
             ) {
                 val circleColor = Pond.localColors.content.copy(.8f)
-                val indicatorColor = Pond.colors.action
+                val indicatorColor = Pond.colors.primary
                 val size = 16
                 val padding = 4
                 val indicatorSize = when {

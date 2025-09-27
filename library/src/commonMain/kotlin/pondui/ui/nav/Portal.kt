@@ -87,7 +87,7 @@ fun Portal(
             ) {
                 val backRoute = navState.backRoute
                 val backAlpha by animateFloatAsState(if (backRoute != null) 1f else .2f)
-                val backBackground = Pond.colors.regression
+                val backBackground = Pond.colors.secondary
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.size(barHeight)
@@ -123,7 +123,7 @@ fun Portal(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(config.name, color = Pond.localColors.contentDim)
-                        Icon(config.logo, color = Pond.colors.swatches[1])
+                        Icon(config.logo, color = Pond.colors.accent)
                         MagicItem(
                             state.hoverText.takeIf { it.isNotEmpty() } ?: state.currentTitle ?: currentRoute.title,
                             scale = .8f,
@@ -132,7 +132,7 @@ fun Portal(
                         ) { title ->
                             val color = when {
                                 title == currentRoute.title -> Pond.localColors.content
-                                else -> Pond.colors.action.lighten(.1f).electrify()
+                                else -> Pond.colors.primary.lighten(.1f).electrify()
                             }
                             Text(title, color = color)
                         }
