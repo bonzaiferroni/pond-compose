@@ -137,12 +137,12 @@ fun EditText(
                 alignment = Alignment.BottomEnd,
             ) {
                 ControlSet {
-                    ControlSetButton(
+                    Button(
                         TablerIcons.X,
                         isEnabled = isEditing,
-                        background = Pond.colors.secondary,
+                        color = Pond.colors.secondary,
                     ) { cancelEdit(text) }
-                    ControlSetButton(
+                    Button(
                         TablerIcons.Check,
                         isEnabled = isEditing,
                     ) { acceptEdit(fieldValue.text) }

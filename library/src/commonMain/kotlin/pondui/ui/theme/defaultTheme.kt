@@ -7,10 +7,14 @@ import pondui.utils.mixWith
 
 fun defaultTheme(
     scale: Float = 1f,
+    baseFontSize: Float = 14f,
     baseFont: FontFamily = FontFamily.Default,
-    h1Font: FontFamily = FontFamily.Default,
-    h2Font: FontFamily = FontFamily.Default,
-    h4Font: FontFamily = FontFamily.Default
+    boldFont: FontFamily = baseFont,
+    italicFont: FontFamily = baseFont,
+    lightFont: FontFamily = baseFont,
+    h1Font: FontFamily = lightFont,
+    h2Font: FontFamily = lightFont,
+    h4Font: FontFamily = boldFont,
 ) = object : PondTheme {
     override val layout: PondRuler = DefaultRuler(scale)
 
@@ -39,7 +43,11 @@ fun defaultTheme(
 
     override val typography = DefaultTypography(
         scale = scale,
+        baseFontSize = baseFontSize,
         baseFont = baseFont,
+        boldFont = boldFont,
+        italicFont = italicFont,
+        lightFont = lightFont,
         h1Font = h1Font,
         h2Font = h2Font,
         h4Font = h4Font

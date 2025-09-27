@@ -89,7 +89,7 @@ fun DropMenu(
                 }
                 Button(
                     imageVector = TablerIcons.ChevronDown,
-                    background = color,
+                    color = color,
                     isEnabled = isOpenEnabled,
                     padding = Pond.ruler.halfPadding,
                 ) {

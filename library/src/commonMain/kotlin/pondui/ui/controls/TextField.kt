@@ -78,7 +78,7 @@ fun TextField(
                     onChange(it.text)
                 }
             },
-            textStyle = TextStyle(color = textColor, textAlign = textAlign),
+            textStyle = Pond.typo.body.copy(color = textColor, textAlign = textAlign),
             cursorBrush = SolidColor(textColor),
             minLines = minLines,
             maxLines = maxLines,

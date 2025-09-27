@@ -56,13 +56,11 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.kotlinx.collections.immutable)
             implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
 
             api(libs.kotlinx.datetime)
             api(libs.coil.compose)
@@ -116,14 +114,14 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
-compose.desktop {
-    application {
-        mainClass = "pondui.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "pondui"
-            packageVersion = "1.0.0"
-        }
-    }
-}
+//compose.desktop {
+//    application {
+//        mainClass = "pondui.MainKt"
+//
+//        nativeDistributions {
+//            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+//            packageName = "pondui"
+//            packageVersion = "1.0.0"
+//        }
+//    }
+//}

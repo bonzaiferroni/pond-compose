@@ -29,7 +29,7 @@ fun RowMenu(
         Magic(isExpanded, offsetX = 20.dp) {
             ControlSet {
                 for (item in items) {
-                    Button(item.icon, onClick = item.action, background = item.background ?: Pond.colors.primary)
+                    Button(item.icon, onClick = item.action, color = item.background ?: Pond.colors.primary)
                 }
             }
         }

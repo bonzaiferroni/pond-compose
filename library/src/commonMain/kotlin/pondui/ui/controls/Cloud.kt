@@ -42,10 +42,7 @@ fun Cloud(
 
     Dialog(
         onDismissRequest = toggle,
-        properties = DialogProperties(
-            // scrimColor = Color.Transparent,
-            usePlatformDefaultWidth = false
-        )
+        properties = provideCloudDialogProperties()
     ) {
         Magic(isVisible, durationMillis = animationMillis) {
             Column(
@@ -98,3 +95,5 @@ fun rememberCloud(
 
     return toggle
 }
+
+expect fun provideCloudDialogProperties(): DialogProperties

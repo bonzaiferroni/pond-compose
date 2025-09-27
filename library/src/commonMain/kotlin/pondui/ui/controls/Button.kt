@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import pondui.ui.nav.LocalNav
 import pondui.ui.nav.NavRoute
@@ -34,7 +36,7 @@ fun Button(
     modifier: Modifier = Modifier,
     color: Color = Pond.colors.accent,
     isEnabled: Boolean = true,
-    padding: PaddingValues = Pond.ruler.doublePadding,
+    padding: PaddingValues = Pond.ruler.buttonPadding,
     content: @Composable BoxScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -64,7 +66,11 @@ fun Button(
                 .drawBehind {
                     val gradient = animatedBackground.glowWith(glow, size)
                     drawRoundRect(gradient, alpha = .75f, cornerRadius = CornerRadius(size.height))
-                    drawRoundRect(Color.White.copy(.2f), style = Stroke(2f), cornerRadius = CornerRadius(size.height))
+                    drawRoundRect(
+                        Color.White.copy(.2f),
+                        style = Stroke(3f.dp.toPx()),
+                        cornerRadius = CornerRadius(size.height)
+                    )
                 }
                 .padding(padding)
         ) {
@@ -79,9 +85,11 @@ fun Button(
     modifier: Modifier = Modifier,
     color: Color = Pond.colors.accent,
     isEnabled: Boolean = true,
-    padding: PaddingValues = Pond.ruler.doublePadding,
+    padding: PaddingValues = Pond.ruler.buttonPadding,
+    minWidth: Dp? = 100.dp,
     onClick: () -> Unit,
 ) {
+    val modifier = minWidth?.let { modifier.widthIn(min = it) } ?: modifier
     Button(
         onClick = onClick,
         isEnabled = isEnabled,
@@ -90,8 +98,9 @@ fun Button(
         modifier = modifier
     ) {
         Text(
-            text = text.uppercase(),
-            style = Pond.typo.small,
+            text = text,
+            style = Pond.typo.bold.copy(fontSize = Pond.typo.smallFontSize),
+            maxLines = 1
         )
     }
 }
@@ -100,7 +109,7 @@ fun Button(
 fun Button(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
-    background: Color = Pond.colors.accent,
+    color: Color = Pond.colors.accent,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.unitPadding,
     onClick: () -> Unit,
@@ -108,7 +117,7 @@ fun Button(
     Button(
         onClick = onClick,
         isEnabled = isEnabled,
-        color = background,
+        color = color,
         padding = padding,
         modifier = modifier,
     ) {
@@ -123,58 +132,18 @@ fun Button(
 fun NavButton(
     text: String,
     modifier: Modifier = Modifier,
-    background: Color = Pond.colors.accent,
+    color: Color = Pond.colors.accent,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.doublePadding,
     onClick: () -> NavRoute
 ) {
     val nav = LocalNav.current
     Button(
+        text = text,
         onClick = { nav.go(onClick()) },
         isEnabled = isEnabled,
         padding = padding,
-        color = background,
+        color = color,
         modifier = modifier
-    ) {
-        Text(
-            text = text.uppercase(),
-            style = TextStyle(fontSize = Pond.typo.label.fontSize),
-        )
-    }
+    )
 }
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun FlowRowScope.ControlSetButton(
-    text: String,
-    modifier: Modifier = Modifier,
-    background: Color = Pond.colors.accent,
-    isEnabled: Boolean = true,
-    padding: PaddingValues = Pond.ruler.doublePadding,
-    onClick: () -> Unit,
-) = Button(
-    text = text,
-    isEnabled = isEnabled,
-    color = background,
-    padding = padding,
-    modifier = modifier,
-    onClick = onClick,
-)
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun FlowRowScope.ControlSetButton(
-    imageVector: ImageVector,
-    modifier: Modifier = Modifier,
-    background: Color = Pond.colors.accent,
-    isEnabled: Boolean = true,
-    padding: PaddingValues = Pond.ruler.unitPadding,
-    onClick: () -> Unit,
-) = Button(
-    imageVector = imageVector,
-    isEnabled = isEnabled,
-    background = background,
-    padding = padding,
-    modifier = modifier.fillMaxRowHeight(),
-    onClick = onClick,
-)
