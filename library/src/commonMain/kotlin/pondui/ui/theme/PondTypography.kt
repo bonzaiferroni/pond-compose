@@ -47,7 +47,7 @@ class DefaultTypography(
     )
 
     override val baseFontSize = baseFontSize.sp
-    override val smallFontSize = (baseFontSize - 2).sp
+    override val smallFontSize = (baseFontSize - 1).sp
 
     override val bold = base.copy(
         fontFamily = boldFont,
@@ -100,7 +100,7 @@ class DefaultTypography(
         fontSize = (baseFontSize - 2).sp * scale // 12sp
     )
     override val small = base.copy(
-        fontSize = (baseFontSize - 2).sp * scale // 12sp
+        fontSize = (baseFontSize - 1).sp * scale // 12sp
     )
 }
 
