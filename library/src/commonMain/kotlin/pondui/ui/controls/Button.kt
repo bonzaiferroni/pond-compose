@@ -98,8 +98,8 @@ fun Button(
         modifier = modifier
     ) {
         Text(
-            text = text,
-            style = Pond.typo.bold.copy(fontSize = Pond.typo.smallFontSize),
+            text = text.uppercase(),
+            style = Pond.typo.small,
             maxLines = 1
         )
     }

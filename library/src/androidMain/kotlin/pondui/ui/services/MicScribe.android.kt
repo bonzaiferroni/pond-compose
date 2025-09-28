@@ -79,6 +79,9 @@ actual class SpeechToText private constructor(
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, config.partials)
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
             putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, config.preferOffline)
+            // putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 60_000) // keep mic hot ≥60s
+            // putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 4_000) // end after 4s silence
+            // putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 2_000)
             config.languageTag?.let {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE, it)
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, it)

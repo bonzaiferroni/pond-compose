@@ -16,11 +16,11 @@ import pondui.ui.theme.Pond
 
 @Composable
 fun Section(
+    modifier: Modifier = Modifier,
     label: String? = null,
     background: Color = Pond.localColors.sectionSurface,
     shape: Shape = Pond.ruler.unitCorners,
     padding: PaddingValues = Pond.ruler.unitPadding,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Column(

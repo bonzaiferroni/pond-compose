@@ -96,8 +96,19 @@ interface PondRuler {
         bottomEndPercent = 0
     )
 
-    val shroomUp: Shape get() = RoundedCornerShape(bigCorner, bigCorner, unitCorner, unitCorner)
-    val shroomDown: Shape get() = RoundedCornerShape(unitCorner, unitCorner, bigCorner, bigCorner)
+    val pillTop: Shape get() = RoundedCornerShape(
+        topStartPercent = 50,
+        topEndPercent = 50,
+        bottomStartPercent = 0,
+        bottomEndPercent = 0,
+    )
+
+    val pillTopRoundedBottom: Shape get() = RoundedCornerShape(
+        topStartPercent = 50,
+        topEndPercent = 50,
+        bottomStartPercent = 20,
+        bottomEndPercent = 20,
+    )
 
     val pillBottom: Shape get() = RoundedCornerShape(
         topStartPercent = 0,
@@ -111,6 +122,13 @@ interface PondRuler {
         topEndPercent = 20,
         bottomStartPercent = 50,
         bottomEndPercent = 50,
+    )
+
+    val squareTopRoundedBottom: Shape get() = RoundedCornerShape(
+        topStart = 0.dp,
+        topEnd = 0.dp,
+        bottomStart = unitCorner,
+        bottomEnd = unitCorner,
     )
 }
 

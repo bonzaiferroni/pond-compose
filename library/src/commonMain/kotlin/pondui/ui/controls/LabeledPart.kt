@@ -31,7 +31,7 @@ fun HeaderLabel(
     label: String,
     modifier: Modifier = Modifier,
     background: Color = Pond.colors.void,
-    shape: Shape = Pond.ruler.shroomUp,
+    shape: Shape = Pond.ruler.pillTopRoundedBottom,
     contextMenuContent: (@Composable () -> Unit)? = null
 ) {
     Row(

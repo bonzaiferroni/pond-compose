@@ -19,9 +19,9 @@ import pondui.utils.darken
 @Composable
 fun Tabs(
     selectedTab: String? = null,
-    onChangeTab: ((String) -> Unit)? = null,
-    headerShape: Shape = Pond.ruler.shroomUp,
     modifier: Modifier = Modifier,
+    onChangeTab: ((String) -> Unit)? = null,
+    headerShape: Shape = Pond.ruler.pillTopRoundedBottom,
     content: @Composable TabScope.() -> Unit
 ) {
     val scope = remember { TabScope() }
@@ -49,7 +49,7 @@ fun TabHeader(
     modifier: Modifier = Modifier,
     selectedTab: String? = null,
     onChangeTab: ((String) -> Unit)? = null,
-    headerShape: Shape = Pond.ruler.shroomUp,
+    headerShape: Shape = Pond.ruler.pillTopRoundedBottom,
 ) {
     val state by scope.state.collectAsState()
     val items = state.items

@@ -176,7 +176,7 @@ fun Portal(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                         .height(portalBottomBarHeight)
-                        .shadow(Pond.ruler.shadowElevation, Pond.ruler.shroomUp)
+                        .shadow(Pond.ruler.shadowElevation, Pond.ruler.pillTopRoundedBottom)
                         .pointerInput(Unit) { }
                         .hazeEffect(state = hazeState, style = HazeMaterials.thin(Pond.colors.void.darken(.1f)))
                 ) {
