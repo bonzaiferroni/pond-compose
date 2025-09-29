@@ -26,7 +26,7 @@ import kotlin.reflect.KClass
 
 class FileDao<T : Any>(
     private val kClass: KClass<T>,
-    coroutineScope: CoroutineScope,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     folderName: String = kClass.simpleName ?: error("class name not found"),
     private val json: Json = Json {
         ignoreUnknownKeys = true
