@@ -106,6 +106,7 @@ fun TextField(
                     text = placeholder.uppercase(),
                     color = Pond.localColors.contentDim,
                     style = TextStyle(fontSize = Pond.typo.label.fontSize),
+                    maxLines = 1,
                 )
             }
         }

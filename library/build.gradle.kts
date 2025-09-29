@@ -52,6 +52,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
             implementation("com.github.tony19:logback-android:3.0.0")
+            implementation("net.volcanomobile.fluidsynth-android:fluidsynth-android:2.4.6")
         }
         commonMain.dependencies {
             implementation(compose.runtime)

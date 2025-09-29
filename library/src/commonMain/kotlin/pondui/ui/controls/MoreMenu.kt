@@ -33,6 +33,8 @@ import pondui.utils.lighten
 
 @Composable
 fun MoreMenu(
+    icon: ImageVector = TablerIcons.Settings,
+    closeIcon: ImageVector = icon,
     content: @Composable MoreMenuScope.() -> Unit
 ) {
     var isOpen by remember { mutableStateOf(false) }
@@ -46,7 +48,7 @@ fun MoreMenu(
         contentAlignment = Alignment.TopEnd,
     ) {
         val iconColor = if (isOpen) Pond.colors.selection.lighten(.2f) else Pond.localColors.content
-        IconButton(TablerIcons.Settings, isEnabled = !isOpen, tint = iconColor) { isOpen = !isOpen }
+        IconButton(icon, isEnabled = !isOpen, tint = iconColor) { isOpen = !isOpen }
 
         Popup(
             onDismissRequest = { isOpen = false },
@@ -60,7 +62,7 @@ fun MoreMenu(
                 ) {
                     MoreMenuRow(
                         index = 0,
-                        icon = TablerIcons.Settings,
+                        icon = closeIcon,
                         color = Pond.localColors.selectedContent,
                         onClick = { isOpen = false },
                     ) { Text("Close", color = Pond.localColors.contentDim)}
