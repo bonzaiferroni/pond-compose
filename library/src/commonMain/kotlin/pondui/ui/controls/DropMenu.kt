@@ -148,28 +148,29 @@ fun DropMenuOption(
 @Composable
 inline fun <reified T> DropMenu(
     selected: T,
+    crossinline labelOf: (T) -> String,
     modifier: Modifier = Modifier,
     color: Color = Pond.colors.primary,
     label: String? = null,
     crossinline onChange: (T) -> Unit
-) where T : Enum<T>, T : LabeledEnum<T> {
+) where T : Enum<T> {
     val enums = remember {
         val typeName = T::class.nameOrError
         (enumArrays[typeName] ?: enumValues<T>().also { enumArrays[typeName] = it }) as Array<T>
     }
     val values = remember {
         val typeName = T::class.nameOrError
-        enumLabels[typeName] ?: enums.map { it.label }.toImmutableList().also { enumLabels[typeName] = it }
+        enumLabels[typeName] ?: enums.map { labelOf(it) }.toImmutableList().also { enumLabels[typeName] = it }
     }
 
     DropMenu(
-        selected = selected.label,
+        selected = labelOf(selected),
         options = values,
         modifier = modifier,
         color = color,
         label = label
     ) { stringValue ->
-        val value = enums.firstOrNull { e -> e.label == stringValue } ?: error("enum value not found")
+        val value = enums.firstOrNull { e -> labelOf(e) == stringValue } ?: error("enum value not found")
         onChange(value)
     }
 }

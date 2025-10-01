@@ -4,8 +4,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +25,8 @@ import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import pondui.ui.modifiers.artBackground
+import pondui.ui.nav.LocalPortal
+import pondui.ui.nav.portalBottomBarHeight
 import pondui.ui.nav.portalTopBarHeight
 import pondui.ui.theme.Pond
 import pondui.utils.darken
@@ -39,8 +44,7 @@ fun TabScaffold(
     val density = LocalDensity.current
     val hazeState = remember { HazeState() }
     val tabScope = remember { TabScope() }
-    val ruler = Pond.ruler
-    val tabScaffoldScope = remember(topPadding) { TabScaffoldScope(topPadding + ruler.unitSpacing, tabScope) }
+    val tabScaffoldScope = remember(topPadding) { TabScaffoldScope(topPadding, tabScope) }
 
     Box {
         Box(
@@ -94,16 +98,50 @@ fun TabScaffoldScope.Tab(
     content: @Composable () -> Unit,
 ) {
     val ruler = Pond.ruler
+    val portalState by LocalPortal.current.stateFlow.collectAsState()
+    val bottomBarHeight = if (portalState.bottomBarIsVisible) portalBottomBarHeight else 0.dp
     tabScope.Tab(
         label = label,
         isVisible = isVisible,
         modifier = Modifier.fillMaxSize()
             .artBackground()
             .padding(
-                top = topPadding,
+                top = topPadding + ruler.unitSpacing,
                 start = ruler.unitSpacing,
                 end = ruler.unitSpacing,
+                bottom = bottomBarHeight
             ).then(modifier),
         content = content
     )
+}
+
+@Composable
+fun TabScaffoldScope.LazyTab(
+    label: String,
+    gap: Int,
+    modifier: Modifier = Modifier,
+    isVisible: Boolean = true,
+    content: LazyListScope.() -> Unit,
+) {
+    val ruler = Pond.ruler
+    tabScope.Tab(
+        label = label,
+        isVisible = isVisible,
+        modifier = Modifier.fillMaxSize()
+            .artBackground()
+            .padding(
+                start = ruler.unitSpacing,
+                end = ruler.unitSpacing,
+            ).then(modifier),
+    ) {
+        LazyColumn(gap) {
+            item("top spacer") {
+                Spacer(modifier = Modifier.padding(top = topPadding))
+            }
+
+            content()
+
+            bottomBarSpacerItem()
+        }
+    }
 }

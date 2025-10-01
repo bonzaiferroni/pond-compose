@@ -21,3 +21,16 @@ fun Modifier.onHotKey(
         false
     }
 }
+
+@Composable
+fun Modifier.onHotKeyConsume(
+    key: Key,
+    eventType: KeyEventType = KeyEventType.KeyDown,
+    action: () -> Boolean,
+) = onPreviewKeyEvent { event ->
+    if (event.key == key && event.type == eventType) {
+        action()
+    } else {
+        false
+    }
+}

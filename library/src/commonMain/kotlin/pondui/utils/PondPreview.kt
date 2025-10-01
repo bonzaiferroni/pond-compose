@@ -3,6 +3,7 @@ package pondui.utils
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
@@ -67,6 +68,19 @@ fun PreviewFrame(
             ) {
                 content()
             }
+        }
+    }
+}
+
+@Composable
+fun LazyPreviewFrame(
+    title: String? = null,
+    subtitle: String? = null,
+    content: LazyListScope.() -> Unit
+) {
+    PreviewFrame(title, subtitle) {
+        LazyColumn(1) {
+            content()
         }
     }
 }

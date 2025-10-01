@@ -34,7 +34,7 @@ import pondui.utils.lighten
 fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.accent,
+    color: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.buttonPadding,
     content: @Composable BoxScope.() -> Unit
@@ -83,7 +83,7 @@ fun Button(
 fun Button(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.accent,
+    color: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.buttonPadding,
     minWidth: Dp? = 100.dp,
@@ -109,7 +109,7 @@ fun Button(
 fun Button(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.accent,
+    color: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.unitPadding,
     onClick: () -> Unit,
@@ -132,7 +132,7 @@ fun Button(
 fun NavButton(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Pond.colors.accent,
+    color: Color = Pond.colors.primary,
     isEnabled: Boolean = true,
     padding: PaddingValues = Pond.ruler.doublePadding,
     onClick: () -> NavRoute
