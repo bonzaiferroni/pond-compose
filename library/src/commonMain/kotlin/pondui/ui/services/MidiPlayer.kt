@@ -32,3 +32,9 @@ fun rememberMidiPlayer(): MidiPlayer {
     }
     return midi
 }
+
+fun MidiPlayer.playChord(notes: List<Int>, duration: Duration = 1.seconds, velocity: Int = 100, channel: Int = 0) {
+    notes.forEach { note ->
+        play(note, duration, velocity, channel)
+    }
+}
