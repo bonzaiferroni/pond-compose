@@ -43,6 +43,7 @@ fun TextField(
     minLines: Int = 1,
     maxLines: Int = Int.MAX_VALUE,
     minWidth: Dp = 150.dp,
+    style: TextStyle = Pond.typo.body,
     onFocusChanged: ((Boolean) -> Unit)? = null,
     onChange: (String) -> Unit,
 ) {
@@ -78,7 +79,7 @@ fun TextField(
                     onChange(it.text)
                 }
             },
-            textStyle = Pond.typo.body.copy(color = textColor, textAlign = textAlign),
+            textStyle = style.copy(color = textColor, textAlign = textAlign),
             cursorBrush = SolidColor(textColor),
             minLines = minLines,
             maxLines = maxLines,

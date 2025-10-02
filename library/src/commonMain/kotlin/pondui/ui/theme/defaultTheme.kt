@@ -15,6 +15,7 @@ fun defaultTheme(
     h1Font: FontFamily = lightFont,
     h2Font: FontFamily = lightFont,
     h4Font: FontFamily = boldFont,
+    monoFont: FontFamily = baseFont,
 ) = object : PondTheme {
     override val layout: PondRuler = DefaultRuler(scale)
 
@@ -50,6 +51,7 @@ fun defaultTheme(
         lightFont = lightFont,
         h1Font = h1Font,
         h2Font = h2Font,
-        h4Font = h4Font
+        h4Font = h4Font,
+        monoFont = monoFont
     )
 }

@@ -17,8 +17,11 @@ import pondui.ui.nav.PortalModel
 import pondui.ui.theme.*
 
 @Composable
-fun PondPreview(content: @Composable () -> Unit) {
-    ProvideTheme {
+fun PondPreview(
+    theme: PondTheme = defaultTheme(),
+    content: @Composable () -> Unit
+) {
+    ProvideTheme(theme = theme) {
         ProvidePondLocals {
             content()
         }
@@ -46,7 +49,8 @@ fun PreviewFrame(
                     Label(
                         title,
                         modifier = Modifier.align(if (subtitle != null) Alignment.CenterStart else Alignment.Center)
-                    ) }
+                    )
+                }
                 subtitle?.let {
                     Label(
                         subtitle,
@@ -105,9 +109,13 @@ fun SinglePreview(
 }
 
 @Composable
-fun MultiPreview(content: @Composable () -> Unit) {
-    PondPreview {
-        Column(2,
+fun MultiPreview(
+    theme: PondTheme = defaultTheme(),
+    content: @Composable () -> Unit
+) {
+    PondPreview(theme = theme) {
+        Column(
+            2,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
                 .background(Color.DarkGray)

@@ -24,6 +24,7 @@ interface PondTypography {
     val italic: TextStyle
     val bold: TextStyle
     val light: TextStyle
+    val mono: TextStyle
 
     val baseFontSize: TextUnit
     val smallFontSize: TextUnit
@@ -39,6 +40,7 @@ class DefaultTypography(
     h1Font: FontFamily,
     h2Font: FontFamily,
     h4Font: FontFamily,
+    monoFont: FontFamily,
 ): PondTypography {
 
     val base = TextStyle.Default.copy(
@@ -101,6 +103,10 @@ class DefaultTypography(
     )
     override val small = base.copy(
         fontSize = (baseFontSize - 1).sp * scale // 12sp
+    )
+
+    override val mono = base.copy(
+        fontFamily = monoFont
     )
 }
 
