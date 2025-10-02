@@ -9,31 +9,15 @@ fun LabeledValue(
     label: String,
     value: Any?,
     modifier: Modifier = Modifier,
-    labelPosition: LabelPosition = LabelPosition.Top
+    labelPosition: LabelPosition = LabelPosition.Top,
+    gap: Int = if (labelPosition == LabelPosition.Top) 0 else 1
 ) {
-    when (labelPosition) {
-        LabelPosition.Top -> Column(0, modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-            Label(label)
-            Text(value.toString())
-        }
-        LabelPosition.Right -> Row(1, modifier = modifier) {
-            Text(value.toString())
-            Label(label)
-        }
-        LabelPosition.Bottom -> Column(0, modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(value.toString())
-            Label(label)
-        }
-        LabelPosition.Left -> Row(1, modifier = modifier) {
-            Label(label)
-            Text(value.toString())
-        }
+    LabeledContent(
+        label,
+        modifier,
+        labelPosition,
+        gap
+    ) {
+        Text(value.toString())
     }
-}
-
-enum class LabelPosition {
-    Top,
-    Right,
-    Bottom,
-    Left
 }

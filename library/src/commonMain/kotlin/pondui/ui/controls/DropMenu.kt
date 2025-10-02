@@ -85,6 +85,7 @@ fun DropMenu(
                 ) { selected ->
                     Text(
                         text = selected,
+                        maxLines = 1
                     )
                 }
                 Button(

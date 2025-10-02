@@ -124,9 +124,7 @@ fun TabScope.Tab(
 ) {
     val state by this@Tab.state.collectAsState()
 
-    LaunchedEffect(Unit) {
-        this@Tab.addItem(TabItem(label, isVisible))
-    }
+    addItem(label, isVisible)
 
     LaunchedEffect(isVisible) {
         this@Tab.changeVisibility(label, isVisible)
@@ -146,7 +144,9 @@ fun TabScope.Tab(
 @Stable
 class TabScope : StateScope<TabState>(TabState()) {
 
-    fun addItem(item: TabItem) {
+    fun addItem(label: String, isVisible: Boolean) {
+        if (stateNow.items.any { it.label == label }) return
+        val item = TabItem(label, isVisible)
         val currentLabel = stateNow.currentLabel.takeIf { it.isNotEmpty() } ?: item.label
         setState { it.copy(items = it.items + item, currentLabel = currentLabel) }
     }
