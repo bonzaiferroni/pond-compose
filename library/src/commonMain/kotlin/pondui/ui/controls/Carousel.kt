@@ -39,7 +39,6 @@ fun Carousel(
 
     val state by scope.state.collectAsState()
     val pagerState = rememberPagerState(pageCount = { state.items.size })
-    val density = LocalDensity.current
 
     LaunchedEffect(state.pageIndex) {
         pagerState.animateScrollToPage(state.pageIndex, animationSpec = tween(500))
@@ -59,7 +58,6 @@ fun Carousel(
                 stop = 1f,
                 fraction = 1f - offsetAbs.coerceIn(0f, 1f)
             )
-            println("$page: ${pagerState.currentPageOffsetFraction}")
             alpha = animation
             scaleY = animation
             scaleX = animation
@@ -92,8 +90,8 @@ fun Carousel(
 
 class CarouselScope : StateScope<CarouselState>(CarouselState()) {
     fun addItem(
+        key: String,
         icon: ImageVector? = null,
-        key: String = stateNow.items.size.toString(),
         isVisible: Boolean = true,
         content: @Composable () -> Unit
     ) {
@@ -101,12 +99,6 @@ class CarouselScope : StateScope<CarouselState>(CarouselState()) {
         val item = CarouselItem(key, isVisible, icon, content)
         val currentLabel = stateNow.currentKey.takeIf { it.isNotEmpty() } ?: item.key
         setState { it.copy(items = it.items + item, currentKey = currentLabel) }
-    }
-
-    fun changeVisibility(label: String, isVisible: Boolean) {
-        if (stateNow.items.all { it.key != label || it.isVisible == isVisible }) return
-        val items = stateNow.items.map { if (it.key == label) it.copy(isVisible = isVisible) else it }
-        setState { it.copy(items = items) }
     }
 
     fun changePage(pageIndex: Int) {
