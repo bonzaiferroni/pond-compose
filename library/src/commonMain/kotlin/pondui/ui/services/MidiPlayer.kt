@@ -2,18 +2,29 @@ package pondui.ui.services
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import compose.icons.TablerIcons
+import compose.icons.tablericons.PlayerPlay
+import compose.icons.tablericons.PlayerStop
 import kotlinx.coroutines.CoroutineScope
-import java.lang.Math.pow
+import kotlinx.coroutines.flow.StateFlow
+import pondui.ui.controls.IconButton
 import kotlin.math.pow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 interface MidiPlayer : AutoCloseable {
+    val stateFlow: StateFlow<MidiState>
+
     suspend fun playSuspended(note: Int, duration: Duration = 1.seconds, velocity: Int = 100, channel: Int = 0)
     fun play(note: Int, duration: Duration = 1.seconds, velocity: Int = 100, channel: Int = 0)
-    fun program(program: Int, channel: Int = 0) {} // no-op if unsupported
+    fun changeProgram(program: Int, channel: Int = 0) {} // no-op if unsupported
+    fun programAt(channel: Int): Int
+    fun play(sequence: MidiSequence, channel: Int = 0)
+    fun stop()
     override fun close() {}
 }
 
@@ -40,8 +51,39 @@ fun MidiPlayer.playChord(
     channel: Int = 0,
     program: Int? = null,
 ) {
-    program?.let { program(it, channel) }
+    if (program != null) changeProgram(program, channel)
     notes.forEach { note ->
         play(note, duration, velocity, channel)
+    }
+}
+
+data class MidiSequence(
+    val tempo: Int? = null,
+    val chords: List<MidiChord>,
+)
+
+data class MidiChord(
+    val beats: Int,
+    val notes: List<Int>
+)
+
+data class MidiState(
+    val isPlaying: Boolean = false
+)
+
+@Composable
+fun MidiPlayer.MiniPlayer(
+    provideSequence: () -> MidiSequence?
+) {
+    val state by stateFlow.collectAsState()
+    if (state.isPlaying) {
+        IconButton(TablerIcons.PlayerStop) {
+            stop()
+        }
+    } else {
+        IconButton(TablerIcons.PlayerPlay) {
+            val sequence = provideSequence() ?: return@IconButton
+            play(sequence)
+        }
     }
 }
