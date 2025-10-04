@@ -5,7 +5,10 @@ import android.media.AudioManager
 import android.media.AudioTrack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import pondui.ui.core.ModelState
 import kotlin.concurrent.thread
 import kotlin.math.PI
 import kotlin.math.sin
@@ -14,6 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 
 class AndroidMidiPlayer(private val coroutineScope: CoroutineScope) : MidiPlayer {
+    private val state = ModelState(MidiState())
+    override val stateFlow = state
+
     private val sampleRate = 48000
     private val track = AudioTrack(
         AudioManager.STREAM_MUSIC,
@@ -43,6 +49,18 @@ class AndroidMidiPlayer(private val coroutineScope: CoroutineScope) : MidiPlayer
         coroutineScope.launch {
             playSuspended(note, duration, velocity, channel)
         }
+    }
+
+    override fun programAt(channel: Int): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun play(sequence: MidiSequence, channel: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun stop() {
+        TODO("Not yet implemented")
     }
 
     private fun noteOn(note: Int, velocity: Int, channel: Int) {

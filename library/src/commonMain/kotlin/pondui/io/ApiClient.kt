@@ -189,4 +189,4 @@ class ApiClient(
     }
 }
 
-val globalApiClient = ApiClient(APP_API_URL)
+// val globalApiClient = ApiClient(APP_API_URL)

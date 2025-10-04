@@ -21,18 +21,26 @@ import kabinet.console.globalConsole
 import kabinet.db.TableId
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
-import pondui.APP_API_HOST
-import pondui.APP_API_PORT
-import pondui.APP_API_PROTOCOL
+import pondui.APP_API_URL
+import java.net.URI
 
 private val console = globalConsole.getHandle(NeoApiClient::class)
 
 class NeoApiClient(
-    val apiProtocol: URLProtocol = APP_API_PROTOCOL,
-    val apiHost: String = APP_API_HOST,
-    val apiPort: Int = APP_API_PORT,
+    apiUrl: String,
     val client: HttpClient = globalKtorClient
 ) {
+    private val apiProtocol: URLProtocol
+    private val apiHost: String
+    private val apiPort: Int?
+
+    init {
+        val url = URI(apiUrl)
+        apiProtocol = if (url.scheme == "http") URLProtocol.HTTP else URLProtocol.HTTPS
+        apiHost = url.host
+        apiPort = url.port.takeIf { it > 0 }
+    }
+
     companion object {
         var jwt: String? = null
         var loginRequest: LoginRequest? = null
@@ -45,12 +53,7 @@ class NeoApiClient(
     ): HttpResponse {
         val request = HttpRequestBuilder().apply {
             method = endpoint.method ?: error("Endpoint method not found: ${endpoint.path}")
-            url {
-                protocol = apiProtocol
-                host = apiHost
-                port = apiPort
-                pathSegments = endpoint.pathSegments
-            }
+            apiUrlOf(endpoint.pathSegments)
             contentType(ContentType.Application.Json)
             jwt?.let {
                 header(HttpHeaders.Authorization, "Bearer $it")
@@ -101,12 +104,7 @@ class NeoApiClient(
         try {
             request?.let { loginRequest = it }
             val response = client.post {
-                url {
-                    protocol = apiProtocol
-                    host = apiHost
-                    port = apiPort
-                    pathSegments = UserApi.Login.pathSegments
-                }
+                apiUrlOf(UserApi.Login.pathSegments)
                 setBody(loginRequest)
             }
             if (response.status != HttpStatusCode.OK) {
@@ -130,6 +128,16 @@ class NeoApiClient(
         jwt = null
         loginRequest = null
     }
+
+    private fun HttpRequestBuilder.apiUrlOf(segments: List<String>) {
+        url {
+            protocol = apiProtocol
+            host = apiHost
+            apiPort?.let { port = it }
+            pathSegments = segments
+        }
+    }
 }
 
-val globalNeoApiClient = NeoApiClient()
+val globalNeoApiClient = NeoApiClient(APP_API_URL)
+
