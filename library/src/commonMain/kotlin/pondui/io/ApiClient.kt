@@ -22,7 +22,6 @@ import kabinet.api.UserApi
 import kabinet.db.TableId
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
-import pondui.APP_API_URL
 
 class ApiClient(
     val baseUrl: String,

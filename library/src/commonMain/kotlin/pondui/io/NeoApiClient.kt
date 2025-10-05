@@ -21,7 +21,6 @@ import kabinet.console.globalConsole
 import kabinet.db.TableId
 import kabinet.model.Auth
 import kabinet.model.LoginRequest
-import pondui.APP_API_URL
 import java.net.URI
 
 private val console = globalConsole.getHandle(NeoApiClient::class)
@@ -138,6 +137,4 @@ class NeoApiClient(
         }
     }
 }
-
-val globalNeoApiClient = NeoApiClient(APP_API_URL)
 
