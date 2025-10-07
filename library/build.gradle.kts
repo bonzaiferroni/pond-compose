@@ -53,6 +53,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation("com.github.tony19:logback-android:3.0.0")
             implementation("net.volcanomobile.fluidsynth-android:fluidsynth-android:2.4.6")
+            implementation("androidx.media3:media3-exoplayer:1.8.0")
+            implementation("androidx.media3:media3-session:1.8.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
