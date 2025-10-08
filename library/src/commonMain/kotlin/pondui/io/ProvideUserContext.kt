@@ -12,7 +12,8 @@ import pondui.ui.controls.*
 
 @Composable
 fun ProvideUserContext(
-    userContext: UserContext = viewModel { UserContext() },
+    apiClient: NeoApiClient,
+    userContext: UserContext = viewModel { UserContext(apiClient) },
     block: @Composable () -> Unit
 ) {
     val state by userContext.stateFlow.collectAsState()

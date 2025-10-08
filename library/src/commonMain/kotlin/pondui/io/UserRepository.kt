@@ -5,7 +5,7 @@ import kabinet.model.Auth
 import kabinet.model.LoginRequest
 import kabinet.model.User
 
-class UserRepository(private val client: NeoApiClient = NeoApiClient("http://192.168.1.100:8080")) {
+class UserRepository(private val client: NeoApiClient) {
 
     suspend fun login(request: LoginRequest): Auth? = client.login(request)
 

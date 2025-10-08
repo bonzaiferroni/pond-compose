@@ -1,5 +1,6 @@
 package pondui.io
 
+import androidx.compose.runtime.Stable
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
@@ -25,6 +26,7 @@ import java.net.URI
 
 private val console = globalConsole.getHandle(NeoApiClient::class)
 
+@Stable
 class NeoApiClient(
     apiUrl: String,
     val client: HttpClient = globalKtorClient

@@ -14,8 +14,9 @@ import pondui.ui.core.ModelState
 private val console = globalConsole.getHandle(UserContext::class)
 
 class UserContext(
+    private val apiClient: NeoApiClient,
     private val settingsValueRepository: LocalValueSource = LocalValueSource(),
-    private val userStore: UserRepository = UserRepository()
+    private val userStore: UserRepository = UserRepository(apiClient)
 ): StateModel<UserContextState>() {
 
     override val state = ModelState(UserContextState())
@@ -46,6 +47,7 @@ class UserContext(
     }
 
     fun login() {
+        println("logging in: ${stateNow.loginReady}")
         if (!stateNow.loginReady) return
         login(LoginRequest(
             usernameOrEmail = stateNow.usernameOrEmail,
@@ -64,6 +66,7 @@ class UserContext(
                 password = request.password
             ))
             if (auth != null) {
+                console.log("logged in")
                 cache = cache.copy(refreshToken = auth.refreshToken)
                 settingsValueRepository.writeObject(cache)
                 val user = userStore.readUser()
