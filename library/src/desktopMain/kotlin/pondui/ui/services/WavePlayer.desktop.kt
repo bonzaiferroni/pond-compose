@@ -1,4 +1,4 @@
-package pondui
+package pondui.ui.services
 
 import kotlinx.coroutines.delay
 import java.io.ByteArrayInputStream

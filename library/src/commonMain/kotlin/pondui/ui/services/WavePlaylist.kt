@@ -1,10 +1,7 @@
-package pondui
+package pondui.ui.services
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import pondui.ui.core.ModelState
 import pondui.ui.core.SubModel
 

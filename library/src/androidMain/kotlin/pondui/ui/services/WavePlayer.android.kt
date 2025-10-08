@@ -1,6 +1,4 @@
-package pondui
-
-import androidx.compose.runtime.Composable
+package pondui.ui.services
 
 actual class WavePlayer {
     actual suspend fun play(url: String) {
