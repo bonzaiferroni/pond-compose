@@ -67,8 +67,18 @@ class PlaybackService : MediaSessionService() {
             it.setAudioAttributes(audioAttrs, /* handleAudioFocus= */ true)
         }
 
+        player.addListener(object : Player.Listener {
+            override fun onEvents(p: Player, events: Player.Events) {
+                if (events.contains(Player.EVENT_PLAY_WHEN_READY_CHANGED)) {
+                    MediaEventReceiver.sendEvent(MediaEvent.PlayPause)
+                }
+            }
+        })
+
         session = MediaSession.Builder(this, player)
             .setCallback(object : MediaSession.Callback {
+
+
                 override fun onMediaButtonEvent(
                     session: MediaSession,
                     controller: MediaSession.ControllerInfo,

@@ -16,7 +16,7 @@ import kotlin.math.roundToInt
 actual class WavePlayer {
 
     actual suspend fun play(url: String) {
-        val bytes = withContext(Dispatchers.IO) { fetch(url) }
+        val bytes = fetch(url)
         getClip(bytes).use { it.play() }
     }
 
@@ -54,7 +54,9 @@ actual class WavePlayer {
         val written = track.write(info.pcm, 0, info.pcm.size, AudioTrack.WRITE_BLOCKING)
         require(written == info.pcm.size) { "Failed to load audio" }
 
-        return AudioTrackClip(track, info.sampleRate, info.channels, info.lengthSec)
+        val bytesPerFrame = info.channels * 2 // 16-bit
+        val totalFrames = info.pcm.size / bytesPerFrame
+        return AudioTrackClip(track, info.sampleRate, info.channels, info.lengthSec, totalFrames)
     }
 
     // reads wav length in seconds
@@ -73,7 +75,8 @@ private class AudioTrackClip(
     private val track: AudioTrack,
     private val sampleRate: Int,
     private val channels: Int,
-    override val length: Int
+    override val length: Int,
+    private val totalFrames: Int
 ) : WaveClip {
 
     @Volatile
@@ -83,16 +86,22 @@ private class AudioTrackClip(
         get() = track.playState == AudioTrack.PLAYSTATE_PLAYING
 
     override val progress: Int
-        get() = (track.playbackHeadPosition.toDouble() / sampleRate).toInt()
+        get() = (minOf(track.playbackHeadPosition, totalFrames).toDouble() / sampleRate).toInt()
 
     override suspend fun play(onProgress: suspend (Int) -> Unit) {
         ensureOpen()
         track.play()
-        // Poll simple progress; STATIC mode exposes playbackHeadPosition
-        while (!closed && (isPlaying || track.playbackHeadPosition < totalFrames())) {
-            onProgress(progress)
+
+        while (!closed) {
+            val head = track.playbackHeadPosition
+            onProgress((minOf(head, totalFrames).toDouble() / sampleRate).toInt())
+            if (head >= totalFrames || track.playState != AudioTrack.PLAYSTATE_PLAYING) break
             delay(200)
         }
+
+        // Ensure we rewind for the next voyage
+        runCatching { track.stop() }
+
         onProgress(length)
     }
 
@@ -102,20 +111,16 @@ private class AudioTrackClip(
 
     override fun reset() {
         if (closed) return
-        // In STATIC mode, stop() resets head to 0
-        runCatching { track.pause() }
-        runCatching { track.stop() }
+        runCatching { track.stop() } // STATIC: stop() rewinds head to 0
     }
 
     override fun close() {
         if (closed) return
         closed = true
-        runCatching { track.pause() }
         runCatching { track.stop() }
         track.release()
     }
 
-    private fun totalFrames(): Int = length * sampleRate
     private fun ensureOpen() { check(!closed) { "Clip closed" } }
 }
 
