@@ -28,7 +28,7 @@ import pondui.utils.lighten
 fun Checkbox(
     value: Boolean,
     modifier: Modifier = Modifier,
-    onValueChanged: (Boolean) -> Unit
+    onChange: (Boolean) -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
@@ -46,7 +46,7 @@ fun Checkbox(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                onClick = { onValueChanged(!value) }
+                onClick = { onChange(!value) }
             )
             .drawBehind {
                 val corners = CornerRadius(x = animatedCorner.toPx(), y = animatedCorner.toPx())
@@ -85,7 +85,7 @@ fun LabeledCheckbox(
         gap = 1,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(value, onValueChanged = onValueChanged)
+        Checkbox(value, onChange = onValueChanged)
         Text(label)
     }
 }
