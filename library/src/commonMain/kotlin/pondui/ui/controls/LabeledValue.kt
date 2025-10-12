@@ -9,7 +9,7 @@ fun LabeledValue(
     label: String,
     value: Any?,
     modifier: Modifier = Modifier,
-    labelPosition: LabelPosition = LabelPosition.Top,
+    labelPosition: LabelPosition = LabelPosition.Left,
     gap: Int = if (labelPosition == LabelPosition.Top) 0 else 1
 ) {
     LabeledContent(

@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 fun LabeledContent(
     label: String,
     modifier: Modifier = Modifier,
-    labelPosition: LabelPosition = LabelPosition.Top,
-    gap: Int = 1,
+    labelPosition: LabelPosition = LabelPosition.Left,
+    gap: Int = if (labelPosition == LabelPosition.Top) 0 else 1,
     content: @Composable () -> Unit
 ) {
     when (labelPosition) {
