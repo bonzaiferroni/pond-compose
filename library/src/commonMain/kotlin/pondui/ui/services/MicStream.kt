@@ -15,16 +15,12 @@ data class AudioSpec(
 
 typealias Pcm16 = ShortArray
 
-fun interface AudioChunkConsumer {
-    fun onChunk(pcm: Pcm16, frames: Int)
-}
-
 interface MicStream {
     fun start()
     fun stop()
 }
 
-expect fun createMicStream(spec: AudioSpec, consumer: AudioChunkConsumer): MicStream
+expect fun createMicStream(spec: AudioSpec, onChunk: (Pcm16, Int) -> Unit): MicStream
 
 @Composable
 expect fun MicPermissionRequester(

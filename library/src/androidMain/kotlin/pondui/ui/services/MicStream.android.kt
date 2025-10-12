@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import pondui.ui.controls.Text
 
 @RequiresPermission(Manifest.permission.RECORD_AUDIO)
-actual fun createMicStream(spec: AudioSpec, consumer: AudioChunkConsumer): MicStream {
+actual fun createMicStream(spec: AudioSpec, onChunk: (Pcm16, Int) -> Unit): MicStream {
     require(spec.format == PcmFormat.S16LE) { "Only S16LE supported" }
     val chMask = if (spec.channels == 1) AudioFormat.CHANNEL_IN_MONO else AudioFormat.CHANNEL_IN_STEREO
     val minBuf = AudioRecord.getMinBufferSize(
@@ -61,7 +61,7 @@ actual fun createMicStream(spec: AudioSpec, consumer: AudioChunkConsumer): MicSt
                     }
                     if (filled > 0) {
                         val frames = filled / spec.channels
-                        consumer.onChunk(chunk, frames)
+                        onChunk(chunk, frames)
                     }
                 }
             }
