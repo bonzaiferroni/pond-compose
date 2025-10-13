@@ -99,12 +99,12 @@ fun LoginControls(
                 .onEnterPressed(login)
         )
         Column(1) {
-            LabeledCheckbox(
+            Checkbox(
                 value = saveLogin,
                 onValueChanged = setSaveLogin,
                 label = "Save username",
             )
-            LabeledCheckbox(
+            Checkbox(
                 value = stayLoggedIn,
                 onValueChanged = setStayLoggedIn,
                 label = "Stay logged in",

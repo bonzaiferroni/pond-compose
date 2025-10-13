@@ -76,17 +76,15 @@ fun Checkbox(
 }
 
 @Composable
-fun LabeledCheckbox(
-    label: String,
+fun Checkbox(
     value: Boolean,
+    label: String,
+    modifier: Modifier = Modifier,
+    labelPosition: LabelPosition = LabelPosition.Right,
     onValueChanged: (Boolean) -> Unit,
 ) {
-    Row(
-        gap = 1,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    LabeledContent(label, labelPosition = labelPosition, modifier = modifier) {
         Checkbox(value, onChange = onValueChanged)
-        Text(label)
     }
 }
 
