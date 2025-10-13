@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kabinet.utils.toInstantFromLocal
-import kabinet.utils.toInstantFromUtc
 import kabinet.utils.toLocalDateTime
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.Clock
@@ -28,7 +27,7 @@ fun DateTimeWheel(
     onChangeInstant: (Instant) -> Unit,
 ) {
     Row(1, modifier = modifier) {
-        TimeWheel(instant, onChangeInstant = onChangeInstant)
+        TimeWheel(instant, onChange = onChangeInstant)
         Label("on")
         DateWheel(instant, onChangeInstant = onChangeInstant)
     }
@@ -38,7 +37,7 @@ fun DateTimeWheel(
 fun TimeWheel(
     instant: Instant,
     modifier: Modifier = Modifier,
-    onChangeInstant: (Instant) -> Unit,
+    onChange: (Instant) -> Unit,
 ) {
     Row(1, modifier = modifier) {
         val time = instant.toLocalDateTime()
@@ -50,7 +49,7 @@ fun TimeWheel(
                 options = hours,
                 modifier = Modifier.width(menuPartWidth)
             ) {
-                onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, it.to24Hour(isPm), time.minute).toInstantFromLocal())
+                onChange(LocalDateTime(time.year, time.month, time.dayOfMonth, it.to24Hour(isPm), time.minute).toInstantFromLocal())
             }
             Label(":")
             // minutes
@@ -60,7 +59,7 @@ fun TimeWheel(
                 itemAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.width(menuPartWidth)
             ) {
-                onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour, it.toInt()).toInstantFromLocal())
+                onChange(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour, it.toInt()).toInstantFromLocal())
             }
         }
         // am/pm
@@ -70,7 +69,7 @@ fun TimeWheel(
             menuWidth = menuPartWidth
         ) {
             isPm = it == "PM"
-            onChangeInstant(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour.to24Hour(isPm), time.minute).toInstantFromLocal())
+            onChange(LocalDateTime(time.year, time.month, time.dayOfMonth, time.hour.to24Hour(isPm), time.minute).toInstantFromLocal())
         }
     }
 }

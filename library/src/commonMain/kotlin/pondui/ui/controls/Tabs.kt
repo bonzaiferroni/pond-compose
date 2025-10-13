@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun Tabs(
 fun TabHeader(
     scope: TabScope,
     modifier: Modifier = Modifier,
+    tabColor: Color = Pond.colors.selection,
     selectedTab: String? = null,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape = Pond.ruler.pillTopRoundedBottom,
@@ -58,7 +60,7 @@ fun TabHeader(
 
     LaunchedEffect(state.currentLabel) {
         if (state.currentLabel.isNotEmpty()) {
-            onChangeTab?.invoke(state.currentLabel)
+             onChangeTab?.invoke(state.currentLabel)
         }
     }
 
@@ -82,7 +84,7 @@ fun TabHeader(
                     modifier = Modifier.fillMaxSize()
                         .magic(isSelected, offsetX = offsetX.dp)
                         .clip(headerShape)
-                        .background(Pond.colors.selection)
+                        .background(tabColor)
                 )
 
                 val color = if (isSelected) Pond.colors.contentSky else Pond.colors.contentSky.darken()
@@ -100,7 +102,7 @@ fun TabHeader(
     }
 
     LaunchedEffect(selectedTab) {
-        if (selectedTab != null) scope.changeTab(selectedTab)
+         if (selectedTab != null) scope.changeTab(selectedTab)
     }
 }
 

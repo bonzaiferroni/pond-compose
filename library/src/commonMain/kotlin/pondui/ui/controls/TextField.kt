@@ -32,7 +32,7 @@ import pondui.utils.mixWith
 
 @Composable
 fun TextField(
-    text: String,
+    text: String?,
     modifier: Modifier = Modifier,
     color: Color = Pond.colors.void,
     textAlign: TextAlign = TextAlign.Start,
@@ -48,6 +48,7 @@ fun TextField(
     onChange: (String) -> Unit,
 ) {
     var value by remember {
+        val text = text ?: ""
         mutableStateOf(
             TextFieldValue(
                 text = text,
@@ -57,7 +58,7 @@ fun TextField(
     }
 
     LaunchedEffect(text) {
-        if (text == value.text) return@LaunchedEffect
+        if (text == null || text == value.text) return@LaunchedEffect
         value = value.copy(text)
     }
 
@@ -102,7 +103,7 @@ fun TextField(
                 .changeFocusWithTab()
         ) { innerTextField ->
             innerTextField()
-            if (placeholder != null && text.isEmpty() && !isFocused) {
+            if (placeholder != null && text.isNullOrEmpty() && !isFocused) {
                 Text(
                     text = placeholder.uppercase(),
                     color = Pond.localColors.contentDim,
@@ -113,3 +114,11 @@ fun TextField(
         }
     }
 }
+
+@Composable
+fun TextField(
+    text: Float?,
+    onChange: (Float) -> Unit
+) = TextField(
+    text = text?.toString()
+) { str -> str.toFloatOrNull()?.let { onChange(it) } }

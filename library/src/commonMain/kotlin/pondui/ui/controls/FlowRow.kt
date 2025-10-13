@@ -13,11 +13,12 @@ import pondui.ui.theme.Pond
 @Composable
 fun FlowRow(
     gap: Int,
+    modifier: Modifier = Modifier,
+    verticalGap: Int = gap,
     maxItemsInEachRow: Int = Int.MAX_VALUE,
     itemVerticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     horizontalArrangement: Arrangement.Horizontal = Pond.ruler.rowArrangement(gap),
-    verticalArrangement: Arrangement.Vertical = Pond.ruler.columnArrangement(gap),
-    modifier: Modifier = Modifier,
+    verticalArrangement: Arrangement.Vertical = Pond.ruler.columnArrangement(verticalGap),
     content: @Composable FlowRowScope.() -> Unit
 ) {
     FlowRow(

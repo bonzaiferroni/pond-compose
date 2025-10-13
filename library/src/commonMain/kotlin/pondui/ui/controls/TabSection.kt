@@ -19,6 +19,7 @@ fun TabSection(
     modifier: Modifier = Modifier,
     selectedTab: String? = null,
     background: Color = Pond.localColors.sectionSurface,
+    tabColor: Color = Pond.colors.selection,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape? = null,
     content: @Composable TabScope.() -> Unit
@@ -37,6 +38,7 @@ fun TabSection(
             TabHeader(
                 selectedTab = selectedTab,
                 onChangeTab = onChangeTab,
+                tabColor = tabColor,
                 headerShape = headerShape ?: Pond.ruler.pillTopRoundedBottom,
                 scope = scope,
             )
