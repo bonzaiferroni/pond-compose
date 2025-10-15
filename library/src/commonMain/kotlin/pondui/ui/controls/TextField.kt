@@ -37,7 +37,7 @@ fun TextField(
     color: Color = Pond.colors.void,
     textAlign: TextAlign = TextAlign.Start,
     label: String? = null,
-    placeholder: String? = null,
+    placeholder: String? = label,
     hideCharacters: Boolean = false,
     initialSelectAll: Boolean = false,
     minLines: Int = 1,

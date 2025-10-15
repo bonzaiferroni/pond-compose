@@ -10,8 +10,8 @@ import pondui.ui.theme.Pond
 @Composable
 fun Row(
     gap: Int,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     modifier: Modifier = Modifier,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable RowScope.() -> Unit
 ) = Row(
     horizontalArrangement = Pond.ruler.rowArrangement(gap),

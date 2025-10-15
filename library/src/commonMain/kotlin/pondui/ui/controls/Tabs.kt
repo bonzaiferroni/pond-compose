@@ -1,5 +1,6 @@
 package pondui.ui.controls
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -19,24 +20,34 @@ import pondui.utils.darken
 
 @Composable
 fun Tabs(
-    selectedTab: String? = null,
     modifier: Modifier = Modifier,
+    selectedTab: String? = null,
+    tabColor: Color = Pond.colors.selection,
+    tabVoidColor: Color = Pond.colors.void.copy(.6f),
     onChangeTab: ((String) -> Unit)? = null,
+    headerContent: (@Composable () -> Unit)? = null,
     headerShape: Shape = Pond.ruler.pillTopRoundedBottom,
     content: @Composable TabScope.() -> Unit
 ) {
     val scope = remember { TabScope() }
 
     Column(
-        verticalArrangement = Pond.ruler.columnUnit,
+        gap = 1,
         modifier = modifier.fillMaxWidth()
+            .animateContentSize()
     ) {
-        TabHeader(
-            selectedTab = selectedTab,
-            onChangeTab = onChangeTab,
-            headerShape = headerShape,
-            scope = scope,
-        )
+        Row(1, verticalAlignment = Alignment.CenterVertically) {
+            TabHeader(
+                selectedTab = selectedTab,
+                tabColor = tabColor,
+                tabVoidColor = tabVoidColor,
+                onChangeTab = onChangeTab,
+                headerShape = headerShape,
+                scope = scope,
+                modifier = Modifier.weight(1f)
+            )
+            headerContent?.invoke()
+        }
         TabContent(
             scope = scope,
             content = content,
@@ -49,6 +60,7 @@ fun TabHeader(
     scope: TabScope,
     modifier: Modifier = Modifier,
     tabColor: Color = Pond.colors.selection,
+    tabVoidColor: Color = Pond.colors.void.copy(.6f),
     selectedTab: String? = null,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape = Pond.ruler.pillTopRoundedBottom,
@@ -66,7 +78,7 @@ fun TabHeader(
 
     Row(
         modifier = modifier.clip(headerShape)
-            .background(Pond.colors.void)
+            .background(tabVoidColor)
     ) {
         items.forEachIndexed { index, tab ->
             if (!tab.isVisible) return@forEachIndexed
