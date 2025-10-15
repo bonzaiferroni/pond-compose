@@ -13,9 +13,9 @@ import pondui.ui.theme.Pond
 @Composable
 fun LazyColumn(
     gap: Int,
+    modifier: Modifier = Modifier,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     state: LazyListState = rememberLazyListState(),
-    modifier: Modifier = Modifier,
     content: LazyListScope.() -> Unit
 ) {
     LazyColumn(
@@ -29,15 +29,15 @@ fun LazyColumn(
 
 @Composable
 fun LazyRow(
-    spacingUnits: Int,
+    gap: Int,
+    modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     state: LazyListState = rememberLazyListState(),
-    modifier: Modifier = Modifier,
     content: LazyListScope.() -> Unit
 ) {
     LazyRow(
         verticalAlignment = verticalAlignment,
-        horizontalArrangement = Pond.ruler.rowArrangement(spacingUnits),
+        horizontalArrangement = Pond.ruler.rowArrangement(gap),
         state = state,
         modifier = modifier,
         content = content

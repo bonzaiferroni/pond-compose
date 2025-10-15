@@ -22,9 +22,12 @@ fun TabSection(
     tabColor: Color = Pond.colors.selection,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape? = null,
-    content: @Composable TabScope.() -> Unit
+    content: @Composable TabContentScope.() -> Unit
 ) {
     val scope = remember { TabScope() }
+    val contentScope = remember { TabContentScope(scope) }
+    contentScope.content()
+    val tabs = contentScope.toTabs()
 
     val unitDp = Pond.ruler.unitSpacing
     Column(
@@ -40,6 +43,7 @@ fun TabSection(
                 onChangeTab = onChangeTab,
                 tabColor = tabColor,
                 headerShape = headerShape ?: Pond.ruler.pillTopRoundedBottom,
+                tabs = tabs,
                 scope = scope,
             )
         }
@@ -50,7 +54,6 @@ fun TabSection(
         ) {
             TabContent(
                 scope = scope,
-                content = content,
             )
         }
     }
