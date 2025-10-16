@@ -3,31 +3,22 @@ package pondui.ui.controls
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ChevronLeft
 import compose.icons.tablericons.ChevronRight
 import pondui.ui.core.StateScope
-import pondui.ui.modifiers.ifNotNull
 import kotlin.math.absoluteValue
 
 @Composable
@@ -35,10 +26,12 @@ fun Carousel(
     content: CarouselScope.() -> Unit
 ) {
     val scope = remember { CarouselScope() }
+    scope.reset()
     scope.content()
+    val items = scope.items
 
     val state by scope.state.collectAsState()
-    val pagerState = rememberPagerState(pageCount = { state.items.size })
+    val pagerState = rememberPagerState(pageCount = { items.size })
 
     LaunchedEffect(state.pageIndex) {
         pagerState.animateScrollToPage(state.pageIndex, animationSpec = tween(500))
@@ -67,7 +60,7 @@ fun Carousel(
         }) {
             Row(1) {
                 if (page > 0) {
-                    val icon = state.items[page - 1].icon ?: TablerIcons.ChevronLeft
+                    val icon = items[page - 1].icon ?: TablerIcons.ChevronLeft
                     IconButton(icon) {
                         scope.changePage(page - 1)
                     }
@@ -75,10 +68,10 @@ fun Carousel(
                 Box(
                     modifier = Modifier.weight(1f)
                 ) {
-                    state.items[page].content()
+                    items[page].content()
                 }
                 if (page < pagerState.pageCount - 1) {
-                    val icon = state.items[page + 1].icon ?: TablerIcons.ChevronRight
+                    val icon = items[page + 1].icon ?: TablerIcons.ChevronRight
                     IconButton(icon) {
                         scope.changePage(page + 1)
                     }
@@ -89,16 +82,22 @@ fun Carousel(
 }
 
 class CarouselScope : StateScope<CarouselState>(CarouselState()) {
+    private val _items: MutableList<CarouselItem> = mutableListOf()
+    val items: List<CarouselItem> = _items
+
+    fun reset() = _items.clear()
+
     fun addItem(
         key: String,
         icon: ImageVector? = null,
         isVisible: Boolean = true,
         content: @Composable () -> Unit
     ) {
-        if (stateNow.items.any { it.key == key }) return
         val item = CarouselItem(key, isVisible, icon, content)
-        val currentLabel = stateNow.currentKey.takeIf { it.isNotEmpty() } ?: item.key
-        setState { it.copy(items = it.items + item, currentKey = currentLabel) }
+        _items.add(item)
+        if (stateNow.currentKey.isEmpty()) {
+            setState { it.copy(currentKey = key) }
+        }
     }
 
     fun changePage(pageIndex: Int) {
@@ -123,7 +122,6 @@ class CarouselScope : StateScope<CarouselState>(CarouselState()) {
 data class CarouselState(
     val currentKey: String = "",
     val pageIndex: Int = 0,
-    val items: List<CarouselItem> = emptyList(),
 )
 
 data class CarouselItem(

@@ -193,10 +193,24 @@ fun TabContent(
 @Stable
 class TabScope() : StateScope<TabState>(TabState()) {
     fun initialize(tabs: List<TabItem>) {
-        if (stateNow.visibleTab != null) return
-        val index = tabs.indexOfFirst { it.isVisible }.takeIf { it >= 0 } ?: return
-        val tab = tabs[index]
-        changeTab(tab, index)
+        val visibleTab = stateNow.visibleTab
+        if (tabs.isEmpty()) {
+            if (visibleTab != null)
+                setState { it.copy(visibleTab = null, tabIndex = 0) }
+            return
+        }
+
+        if (visibleTab != null) {
+            val indexTab = tabs.getOrNull(stateNow.tabIndex)
+            if (indexTab?.key == visibleTab.key) return
+            val nextIndex = minOf(stateNow.tabIndex, tabs.size - 1)
+            val nextTab = tabs[nextIndex]
+            changeTab(nextTab, nextIndex)
+        } else {
+            val index = tabs.indexOfFirst { it.isVisible }.takeIf { it >= 0 } ?: return
+            val tab = tabs[index]
+            changeTab(tab, index)
+        }
     }
 
     fun changeTab(tab: TabItem, tabIndex: Int) {
@@ -217,10 +231,11 @@ class TabContentScope(
     fun Tab(
         label: String,
         isVisible: Boolean = true,
+        key: String = label,
         content: @Composable () -> Unit
     ) {
         if (_items.any { it.label == label}) return
-        val item = TabItem(label, isVisible, content)
+        val item = TabItem(label, isVisible, key, content)
         _items.add(item)
     }
 
@@ -237,5 +252,6 @@ data class TabState(
 data class TabItem(
     val label: String,
     val isVisible: Boolean = true,
+    val key: String = label,
     val content: @Composable () -> Unit
 )
