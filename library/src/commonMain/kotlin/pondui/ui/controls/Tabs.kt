@@ -1,6 +1,9 @@
 package pondui.ui.controls
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -36,7 +39,6 @@ fun Tabs(
     Column(
         gap = 1,
         modifier = modifier.fillMaxWidth()
-            .animateContentSize()
     ) {
         Row(1, verticalAlignment = Alignment.CenterVertically) {
             TabHeader(
