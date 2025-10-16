@@ -6,6 +6,9 @@ import androidx.compose.ui.Modifier
 import pondui.ui.theme.Pond
 
 @Composable
+fun Modifier.pad(units: Int) = this.padding(Pond.ruler.unitSpacing * units)
+
+@Composable
 fun Modifier.padTop(units: Int) = this.padding(top = Pond.ruler.unitSpacing * units)
 
 @Composable
