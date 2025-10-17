@@ -18,7 +18,7 @@ import pondui.ui.theme.Pond
 fun Section(
     modifier: Modifier = Modifier,
     label: String? = null,
-    background: Color = Pond.localColors.sectionSurface,
+    background: Color = Pond.localColors.section,
     shape: Shape = Pond.ruler.unitCorners,
     padding: PaddingValues = Pond.ruler.unitPadding,
     content: @Composable () -> Unit

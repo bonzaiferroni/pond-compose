@@ -49,7 +49,7 @@ fun EditText(
     initialSelectAll: Boolean = true,
     color: Color = Pond.localColors.content,
     padding: PaddingValues = Pond.ruler.unitPadding,
-    background: Color = Pond.localColors.sectionSurface,
+    background: Color = Pond.localColors.section,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     modifier: Modifier = Modifier,

@@ -43,7 +43,7 @@ data class PondLocalColors(
     val content: Color,
     val surface: Color,
     val highlight: Color,
-    val sectionSurface: Color,
+    val section: Color,
     val dangerContent: Color,
     val selectedContent: Color,
 ) {

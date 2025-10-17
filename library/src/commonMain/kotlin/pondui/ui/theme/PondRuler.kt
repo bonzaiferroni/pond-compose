@@ -130,6 +130,13 @@ interface PondRuler {
         bottomStart = unitCorner,
         bottomEnd = unitCorner,
     )
+
+    val roundedStartRounderEnd: Shape get() = RoundedCornerShape(
+        topStart = unitCorner,
+        topEnd = unitCorner * 4,
+        bottomStart = unitCorner,
+        bottomEnd = unitCorner * 4,
+    )
 }
 
 class DefaultRuler(density: Float): PondRuler{

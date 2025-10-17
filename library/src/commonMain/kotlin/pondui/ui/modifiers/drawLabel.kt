@@ -87,7 +87,7 @@ fun Modifier.drawLabel(
 fun Modifier.drawSection(
     label: String,
     padding: PaddingValues = Pond.ruler.unitPadding,
-    background: Color = Pond.localColors.sectionSurface,
+    background: Color = Pond.localColors.section,
     corners: Dp = Pond.ruler.unitCorner
 ) = this.drawLabel(
     label = label,

@@ -26,7 +26,7 @@ fun defaultTheme(
         content = colors.contentSky,
         surface = colors.surfaceSky,
         highlight = colors.glow.lighten(.4f),
-        sectionSurface = colors.void.copy(.3f),
+        section = colors.void.copy(.3f),
         // sectionSurface = colors.background.mixWith(colors.void),
         dangerContent = colors.negation.lighten(.4f),
         selectedContent = colors.selection.lighten(.4f)
@@ -37,7 +37,7 @@ fun defaultTheme(
         content = colors.contentBook,
         surface = colors.surfaceBook,
         highlight = colors.glow.darken(.4f),
-        sectionSurface = colors.background.mixWith(colors.surfaceBook, .8f),
+        section = colors.background.mixWith(colors.surfaceBook, .8f),
         dangerContent = colors.negation.darken(.4f),
         selectedContent = colors.selection.darken(.4f)
     )

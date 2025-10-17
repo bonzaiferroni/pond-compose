@@ -18,7 +18,7 @@ import pondui.ui.theme.Pond
 fun TabSection(
     modifier: Modifier = Modifier,
     selectedTab: String? = null,
-    background: Color = Pond.localColors.sectionSurface,
+    background: Color = Pond.localColors.section,
     tabColor: Color = Pond.colors.selection,
     onChangeTab: ((String) -> Unit)? = null,
     headerShape: Shape? = null,
