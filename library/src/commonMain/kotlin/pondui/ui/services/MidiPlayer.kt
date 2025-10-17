@@ -57,6 +57,17 @@ fun MidiPlayer.playChord(
     }
 }
 
+fun MidiPlayer.playNote(
+    note: Int,
+    duration: Duration = 1.seconds,
+    velocity: Int = 100,
+    channel: Int = 0,
+    program: Int? = null,
+) {
+    if (program != null) changeProgram(program, channel)
+    play(note, duration, velocity, channel)
+}
+
 data class MidiSequence(
     val tempo: Int? = null,
     val chords: List<MidiChord>,
