@@ -17,7 +17,7 @@ fun Color.lighten(amount: Float = 0.2f) = darken(-amount)
 
 fun Color.electrify(
     saturationFactor: Float = 1.5f,
-    brightnessFactor: Float = 1.5f
+    brightnessFactor: Float = saturationFactor
 ) = run {
     // compute luma for hue-preserving saturation boost
     val luma = 0.3f * red + 0.59f * green + 0.11f * blue

@@ -13,3 +13,9 @@ fun Modifier.padTop(units: Int) = this.padding(top = Pond.ruler.unitSpacing * un
 
 @Composable
 fun Modifier.padBottom(units: Int) = this.padding(bottom = Pond.ruler.unitSpacing * units)
+
+@Composable
+fun Modifier.padStart(units: Int) = this.padding(start = Pond.ruler.unitSpacing * units)
+
+@Composable
+fun Modifier.padEnd(units: Int) = this.padding(end = Pond.ruler.unitSpacing * units)

@@ -131,7 +131,7 @@ interface PondRuler {
         bottomEnd = unitCorner,
     )
 
-    val roundedStartRounderEnd: Shape get() = RoundedCornerShape(
+    val torpedo: Shape get() = RoundedCornerShape(
         topStart = unitCorner,
         topEnd = unitCorner * 4,
         bottomStart = unitCorner,

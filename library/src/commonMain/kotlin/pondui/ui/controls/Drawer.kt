@@ -1,15 +1,12 @@
 package pondui.ui.controls
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,12 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import pondui.ui.modifiers.Magic
 import pondui.ui.modifiers.ifTrue
 import pondui.ui.modifiers.magicBackground
 import pondui.ui.modifiers.pad
@@ -75,7 +68,7 @@ fun Drawer(
     )
 
     Layout(
-        modifier = modifier.clip(Pond.ruler.roundedStartRounderEnd)
+        modifier = modifier.clip(Pond.ruler.torpedo)
             .background(Pond.localColors.section),
         contents = listOf(
             {
