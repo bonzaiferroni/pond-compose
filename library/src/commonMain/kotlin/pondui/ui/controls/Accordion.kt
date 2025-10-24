@@ -29,6 +29,7 @@ fun <T> ReorderableAccordion(
     items: List<T>,
     modifier: Modifier = Modifier,
     isReorderable: Boolean = true,
+    isInitiallyOpen: Boolean = true,
     gap: Int = 1,
     onChange: (List<T>) -> Unit,
     provideHeader: @Composable (T) -> Unit,
@@ -43,6 +44,7 @@ fun <T> ReorderableAccordion(
             modifier = modifier
         ) { index, item ->
             Drawer(
+                isOpen = isInitiallyOpen,
                 isEnabled = !isReorderable,
                 headerContent = {
                     Row(1) {
