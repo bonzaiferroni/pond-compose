@@ -25,6 +25,7 @@ fun <T> ReorderableColumn(
     onChange: (List<T>) -> Unit,
     provideContent: @Composable (Int, T) -> Unit
 ) {
+    if (items.isEmpty()) return
     val latestItems by rememberUpdatedState(items)
     var draggingIndex by remember { mutableStateOf<Int?>(null) }
     var dragOffsetY by remember { mutableStateOf(0f) }

@@ -74,7 +74,7 @@ data class MidiSequence(
 )
 
 data class MidiChord(
-    val beats: Int,
+    val duration: Float,
     val notes: List<Int>?
 )
 

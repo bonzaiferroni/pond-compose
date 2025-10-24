@@ -57,7 +57,7 @@ class DesktopMidiPlayer(private val coroutineScope: CoroutineScope) : MidiPlayer
             val tickScale = 120 / (sequence.tempo ?: 120).toFloat()
 
             sequence.chords.forEach { chord ->
-                val duration = (chord.beats * qnr * tickScale).toInt()
+                val duration = (chord.duration * qnr * 4 * tickScale).toInt()
                 chord.notes?.forEach { note ->
                     track.add(createNoteEvent(ShortMessage.NOTE_ON, channel, note, velocity, tick))
                     track.add(createNoteEvent(ShortMessage.NOTE_OFF, channel, note, 0, tick + duration))
