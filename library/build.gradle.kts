@@ -55,6 +55,9 @@ kotlin {
             implementation("net.volcanomobile.fluidsynth-android:fluidsynth-android:2.4.6")
             implementation("androidx.media3:media3-exoplayer:1.8.0")
             implementation("androidx.media3:media3-session:1.8.0")
+            implementation("com.google.android.gms:play-services-location:21.3.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
