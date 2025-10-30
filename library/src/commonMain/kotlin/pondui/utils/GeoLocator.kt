@@ -37,6 +37,8 @@ expect fun rememberGeoLocator(): GeoLocator?
 fun GeoLocator.current(timeout: Duration? = null, callback: (GeoLocation?) -> Unit) {
     CoroutineScope(Dispatchers.IO).launch {
         val location = current(timeout)
-        callback(location)
+        launch(Dispatchers.Main) {
+            callback(location)
+        }
     }
 }

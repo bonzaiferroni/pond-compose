@@ -29,18 +29,18 @@ actual class GeoLocator(private val context: Context) {
 
         return withTimeoutOrNull(t) {
             // 1) Fast path: last known, accept if recent
-            client.lastLocation.await()?.let { loc ->
-                val ageMs = System.currentTimeMillis() - (loc.time ?: 0L)
-                if (ageMs <= 5_000) {
-                    return@withTimeoutOrNull GeoLocation(
-                        latitude = loc.latitude,
-                        longitude = loc.longitude,
-                        accuracyMeters = loc.accuracy.toDouble(),
-                        provider = loc.provider,
-                        timestampMillis = loc.time
-                    )
-                }
-            }
+//            client.lastLocation.await()?.let { loc ->
+//                val ageMs = System.currentTimeMillis() - (loc.time ?: 0L)
+//                if (ageMs <= 5_000) {
+//                    return@withTimeoutOrNull GeoLocation(
+//                        latitude = loc.latitude,
+//                        longitude = loc.longitude,
+//                        accuracyMeters = loc.accuracy.toDouble(),
+//                        provider = loc.provider,
+//                        timestampMillis = loc.time
+//                    )
+//                }
+//            }
 
             // 2) One-shot active update (no CancellationToken)
             suspendCancellableCoroutine<GeoLocation?> { cont ->
