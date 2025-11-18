@@ -7,7 +7,7 @@ import javax.sound.sampled.DataLine
 import javax.sound.sampled.TargetDataLine
 import kotlin.concurrent.thread
 
-actual fun createMicStream(spec: AudioSpec, onChunk: (Pcm16, Int) -> Unit): MicStream {
+actual fun createMicStream(spec: AudioSpec, onChunk: (ShortArray, Int) -> Unit): MicStream {
     require(spec.format == PcmFormat.S16LE) { "Only S16LE supported" }
 
     val jFormat = AudioFormat(

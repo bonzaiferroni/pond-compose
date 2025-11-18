@@ -13,14 +13,12 @@ data class AudioSpec(
     val framesPerChunk: Int = 1024
 )
 
-typealias Pcm16 = ShortArray
-
 interface MicStream {
     fun start()
     fun stop()
 }
 
-expect fun createMicStream(spec: AudioSpec, onChunk: (Pcm16, Int) -> Unit): MicStream
+expect fun createMicStream(spec: AudioSpec, onChunk: (ShortArray, Int) -> Unit): MicStream
 
 @Composable
 expect fun MicPermissionRequester(

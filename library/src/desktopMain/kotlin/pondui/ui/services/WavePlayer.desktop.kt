@@ -1,5 +1,6 @@
 package pondui.ui.services
 
+import kabinet.utils.toWav
 import kotlinx.coroutines.delay
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -37,6 +38,10 @@ actual class WavePlayer {
         } catch (e: Exception) {
             println(e.message)
         }
+    }
+
+    actual suspend fun play(pcm: ShortArray, sampleRate: Int) {
+        play(pcm.toWav(sampleRate))
     }
 
     actual fun readInfo(bytes: ByteArray): Int? {

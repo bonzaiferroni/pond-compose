@@ -70,7 +70,8 @@ fun MidiPlayer.playNote(
 
 data class MidiSequence(
     val tempo: Int? = null,
-    val chords: List<MidiChord>,
+    val isDrum: Boolean,
+    val chords: List<MidiChord>
 )
 
 data class MidiChord(
@@ -94,7 +95,7 @@ fun MidiPlayer.MiniPlayer(
     } else {
         IconButton(TablerIcons.PlayerPlay) {
             val sequence = provideSequence() ?: return@IconButton
-            play(sequence)
+            play(sequence, if (sequence.isDrum) 9 else 0 )
         }
     }
 }

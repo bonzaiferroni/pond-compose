@@ -11,6 +11,7 @@ import java.io.Closeable
 expect class WavePlayer() {
     suspend fun play(url: String)
     suspend fun play(bytes: ByteArray)
+    suspend fun play(pcm: ShortArray, sampleRate: Int = 44_100)
     fun getClip(bytes: ByteArray): WaveClip
     fun readInfo(bytes: ByteArray): Int?
 }
