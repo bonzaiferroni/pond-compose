@@ -2,6 +2,7 @@ package pondui.ui.services
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import kabinet.utils.ShortBuffer
 import kotlinx.coroutines.flow.StateFlow
 import pondui.ui.core.ModelState
@@ -19,8 +20,9 @@ fun rememberMicRecorder(
     onFinished: (ShortArray) -> Unit
 ): MicRecorder {
     val buffer = remember { ShortBuffer() }
-    val stream = remember { createMicStream(spec) { pcm, frames ->
-        buffer.append(pcm)
+    val scope = rememberCoroutineScope()
+    val stream = remember { createMicStream(scope, spec) { bytes, frames ->
+        buffer.append(bytes.toPcmShortArray())
     } }
 
     val recorder = remember { object: MicRecorder {

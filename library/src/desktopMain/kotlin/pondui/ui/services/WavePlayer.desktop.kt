@@ -3,12 +3,11 @@ package pondui.ui.services
 import kabinet.utils.toWav
 import kotlinx.coroutines.delay
 import java.io.ByteArrayInputStream
+import java.io.Closeable
 import java.io.File
 import java.net.URI
 import javax.sound.sampled.*
 import kotlin.math.log10
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.Channel
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 actual class WavePlayer {
@@ -61,6 +60,20 @@ actual class WavePlayer {
         clip.openBytes(bytes)
         return AudioSystemClip(clip)
     }
+
+    actual fun getStream(sampleRate: Int): WaveStream {
+        return AudioSystemStream(
+            format = AudioFormat(
+                /* encoding = */ AudioFormat.Encoding.PCM_SIGNED,
+                /* sampleRate = */ sampleRate.toFloat(),
+                /* sampleSizeInBits = */ 16,
+                /* channels = */ 1,
+                /* frameSize = */ 2,
+                /* frameRate = */ sampleRate.toFloat(),
+                /* bigEndian = */ false
+            )
+        )
+    }
 }
 
 class AudioSystemClip(
@@ -105,4 +118,29 @@ suspend fun Clip.play() {
 val Clip.lengthMillis get() = (microsecondLength / 1_000).toInt()
 val Clip.progressMillis get() = (microsecondPosition / 1_000).toInt()
 
+class AudioSystemStream(
+    format: AudioFormat
+): WaveStream {
 
+    private val line: SourceDataLine =
+        AudioSystem.getSourceDataLine(format).apply {
+            open(format)
+            start()
+        }
+
+    @Volatile
+    private var closed = false
+
+    override fun write(chunk: ByteArray, length: Int) {
+        if (closed) return
+        line.write(chunk, 0, length)
+    }
+
+    override fun close() {
+        if (closed) return
+        closed = true
+        line.drain()
+        line.stop()
+        line.close()
+    }
+}

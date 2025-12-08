@@ -1,13 +1,23 @@
 package pondui.ui.services
 
 import androidx.compose.runtime.Composable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.sound.sampled.AudioFormat
 import javax.sound.sampled.AudioSystem
 import javax.sound.sampled.DataLine
 import javax.sound.sampled.TargetDataLine
 import kotlin.concurrent.thread
 
-actual fun createMicStream(spec: AudioSpec, onChunk: (ShortArray, Int) -> Unit): MicStream {
+actual fun createMicStream(
+    scope: CoroutineScope,
+    spec: AudioSpec,
+    onChunk: (ByteArray, Int) -> Unit
+): MicStream {
     require(spec.format == PcmFormat.S16LE) { "Only S16LE supported" }
 
     val jFormat = AudioFormat(
@@ -17,52 +27,46 @@ actual fun createMicStream(spec: AudioSpec, onChunk: (ShortArray, Int) -> Unit):
         spec.channels,
         2 * spec.channels,
         spec.sampleRate.toFloat(),
-        false // little-endian
+        false
     )
     val info = DataLine.Info(TargetDataLine::class.java, jFormat)
     val line = AudioSystem.getLine(info) as TargetDataLine
     line.open(jFormat)
 
     return object : MicStream {
-        @Volatile private var running = false
-        private var t: Thread? = null
+        private var job: Job? = null
 
         override fun start() {
-            if (running) return
-            running = true
+            if (job != null) return
             line.start()
-            t = thread(isDaemon = true, name = "MicStream-Desktop") {
-                val bytesPerFrame = 2 * spec.channels
-                val byteBuf = ByteArray(spec.framesPerChunk * bytesPerFrame)
-                val shortBuf = ShortArray(spec.framesPerChunk * spec.channels)
-                while (running) {
+            val bytesPerFrame = 2 * spec.channels
+            val byteBuf = ByteArray(spec.framesPerChunk * bytesPerFrame)
+
+            job = scope.launch(Dispatchers.IO) {
+                while (isActive) {
                     var got = 0
-                    while (running && got < byteBuf.size) {
+                    while (isActive && got < byteBuf.size) {
                         val n = line.read(byteBuf, got, byteBuf.size - got)
                         if (n > 0) got += n else break
                     }
                     if (got > 0) {
                         val frames = got / bytesPerFrame
-                        // bytes -> shorts (LE)
-                        var si = 0
-                        var bi = 0
-                        val samples = frames * spec.channels
-                        while (si < samples) {
-                            val lo = byteBuf[bi].toInt() and 0xFF
-                            val hi = byteBuf[bi + 1].toInt()
-                            shortBuf[si] = ((hi shl 8) or lo).toShort()
-                            si++
-                            bi += 2
+                        if (frames > 0) {
+                            val usedBytes = frames * bytesPerFrame
+                            val chunk = byteBuf.copyOf(usedBytes)
+                            onChunk(chunk, frames)
                         }
-                        onChunk(shortBuf, frames)
                     }
                 }
             }
         }
 
         override fun stop() {
-            running = false
-            t?.join()
+            job?.cancel()
+            runBlocking {
+                job?.join()
+            }
+            job = null
             line.stop()
             line.close()
         }

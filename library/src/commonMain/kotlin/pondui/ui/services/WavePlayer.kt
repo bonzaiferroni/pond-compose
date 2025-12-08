@@ -14,6 +14,7 @@ expect class WavePlayer() {
     suspend fun play(pcm: ShortArray, sampleRate: Int = 44_100)
     fun getClip(bytes: ByteArray): WaveClip
     fun readInfo(bytes: ByteArray): Int?
+    fun getStream(sampleRate: Int = 44_100): WaveStream
 }
 
 interface WaveClip: Closeable {
@@ -23,6 +24,10 @@ interface WaveClip: Closeable {
     val length: Int
     val progress: Int
     val isPlaying: Boolean
+}
+
+interface WaveStream: Closeable {
+    fun write(chunk: ByteArray, length: Int = chunk.size)
 }
 
 @Composable
