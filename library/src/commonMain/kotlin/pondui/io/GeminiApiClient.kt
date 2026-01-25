@@ -2,9 +2,9 @@ package pondui.io
 
 import kabinet.clients.GeminiMessage
 import kabinet.gemini.GeminiApi
-import kabinet.model.ImageGenRequest
-import kabinet.model.ImageUrls
-import kabinet.model.SpeechRequest
+import kampfire.model.ImageGenRequest
+import kampfire.model.ImageUrls
+import kampfire.model.SpeechRequest
 
 interface GeminiAppClient {
     suspend fun chat(messages: List<GeminiMessage>): String?

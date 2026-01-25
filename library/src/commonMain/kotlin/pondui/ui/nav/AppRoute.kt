@@ -1,6 +1,5 @@
 package pondui.ui.nav
 
-import kabinet.db.TableId
 import kotlinx.serialization.Serializable
 
 @Serializable

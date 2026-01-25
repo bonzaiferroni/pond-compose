@@ -1,7 +1,7 @@
 package pondui.io
 
 import kabinet.api.SpeechApi
-import kabinet.model.SpeechRequest
+import kampfire.model.SpeechRequest
 
 interface SpeechAppClient {
     suspend fun createWav(request: SpeechRequest): ByteArray?

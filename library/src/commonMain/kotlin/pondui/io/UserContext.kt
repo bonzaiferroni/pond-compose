@@ -6,9 +6,9 @@ import pondui.ui.core.StateModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import pondui.LocalValueSource
-import kabinet.model.User
-import kabinet.model.LoginRequest
-import kabinet.utils.obfuscate
+import kampfire.model.User
+import kampfire.model.LoginRequest
+import kampfire.utils.obfuscate
 import pondui.ui.core.ModelState
 
 private val console = globalConsole.getHandle(UserContext::class)

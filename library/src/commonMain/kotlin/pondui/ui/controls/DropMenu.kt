@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import compose.icons.TablerIcons
 import compose.icons.tablericons.ChevronDown
-import kabinet.model.LabeledEnum
 import kabinet.utils.nameOrError
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

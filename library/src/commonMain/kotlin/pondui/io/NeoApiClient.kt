@@ -12,16 +12,15 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import kabinet.api.Endpoint
 import kabinet.api.GetByTableIdEndpoint
-import kabinet.api.UserApi
+import kampfire.api.UserApi
 import kabinet.console.globalConsole
-import kabinet.db.TableId
-import kabinet.model.Auth
-import kabinet.model.LoginRequest
+import kampfire.api.TableId
+import model.Auth
+import kampfire.model.LoginRequest
 import java.net.URI
 
 private val console = globalConsole.getHandle(NeoApiClient::class)

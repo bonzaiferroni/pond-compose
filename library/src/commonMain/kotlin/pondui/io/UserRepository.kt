@@ -1,9 +1,9 @@
 package pondui.io
 
-import kabinet.api.UserApi
-import kabinet.model.Auth
-import kabinet.model.LoginRequest
-import kabinet.model.User
+import kampfire.api.UserApi
+import model.Auth
+import kampfire.model.LoginRequest
+import kampfire.model.User
 
 class UserRepository(private val client: NeoApiClient) {
 
