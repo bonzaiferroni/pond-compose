@@ -11,15 +11,15 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kabinet.api.DeleteEndpoint
-import kabinet.api.GetByIdEndpoint
-import kabinet.api.GetByTableIdEndpoint
-import kabinet.api.GetEndpoint
-import kabinet.api.PostEndpoint
-import kabinet.api.UpdateEndpoint
+import kampfire.api.DeleteEndpoint
+import kampfire.api.GetByIdEndpoint
+import kampfire.api.GetByTableIdEndpoint
+import kampfire.api.GetEndpoint
+import kampfire.api.PostEndpoint
 import kampfire.api.UserApi
 import kampfire.api.TableId
-import model.Auth
+import kampfire.api.UpdateEndpoint
+import kampfire.model.Auth
 import kampfire.model.LoginRequest
 
 class ApiClient(
