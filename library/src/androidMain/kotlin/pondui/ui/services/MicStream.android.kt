@@ -20,10 +20,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.CoroutineScope
 import pondui.ui.controls.Text
 
 @RequiresPermission(Manifest.permission.RECORD_AUDIO)
-actual fun createMicStream(spec: AudioSpec, onChunk: (Pcm16, Int) -> Unit): MicStream {
+actual fun createMicStream(
+    scope: CoroutineScope,
+    spec: AudioSpec,
+    onChunk: (ByteArray, Int) -> Unit
+): MicStream {
     require(spec.format == PcmFormat.S16LE) { "Only S16LE supported" }
     val chMask = if (spec.channels == 1) AudioFormat.CHANNEL_IN_MONO else AudioFormat.CHANNEL_IN_STEREO
     val minBuf = AudioRecord.getMinBufferSize(
@@ -61,7 +66,7 @@ actual fun createMicStream(spec: AudioSpec, onChunk: (Pcm16, Int) -> Unit): MicS
                     }
                     if (filled > 0) {
                         val frames = filled / spec.channels
-                        onChunk(chunk, frames)
+                        // onChunk(chunk, frames)
                     }
                 }
             }

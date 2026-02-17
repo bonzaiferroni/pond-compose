@@ -15,6 +15,14 @@ import kotlin.math.roundToInt
 
 actual class WavePlayer {
 
+    actual fun getStream(sampleRate: Int): WaveStream {
+        error("not implemented")
+    }
+
+    actual suspend fun play(pcm: ShortArray, sampleRate: Int) {
+        error("not implemented")
+    }
+
     actual suspend fun play(url: String) {
         val bytes = fetch(url)
         getClip(bytes).use { it.play() }
