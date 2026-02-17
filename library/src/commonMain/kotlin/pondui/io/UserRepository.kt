@@ -1,7 +1,7 @@
 package pondui.io
 
 import kampfire.api.UserApi
-import model.Auth
+import kampfire.model.Auth
 import kampfire.model.LoginRequest
 import kampfire.model.User
 

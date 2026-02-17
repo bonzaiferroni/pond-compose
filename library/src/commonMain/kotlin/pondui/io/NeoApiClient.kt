@@ -14,12 +14,12 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
-import kabinet.api.Endpoint
-import kabinet.api.GetByTableIdEndpoint
 import kampfire.api.UserApi
 import kabinet.console.globalConsole
+import kampfire.api.Endpoint
+import kampfire.api.GetByTableIdEndpoint
 import kampfire.api.TableId
-import model.Auth
+import kampfire.model.Auth
 import kampfire.model.LoginRequest
 import java.net.URI
 

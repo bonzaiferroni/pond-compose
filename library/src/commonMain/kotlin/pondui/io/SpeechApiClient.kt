@@ -1,6 +1,6 @@
 package pondui.io
 
-import kabinet.api.SpeechApi
+import kampfire.api.SpeechApi
 import kampfire.model.SpeechRequest
 
 interface SpeechAppClient {
