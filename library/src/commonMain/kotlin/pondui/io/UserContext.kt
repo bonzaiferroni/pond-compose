@@ -1,7 +1,7 @@
 package pondui.io
 
 import androidx.lifecycle.viewModelScope
-import kabinet.console.globalConsole
+import kabinet.console.console
 import pondui.ui.core.StateModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
@@ -11,7 +11,7 @@ import kampfire.model.LoginRequest
 import kampfire.utils.obfuscate
 import pondui.ui.core.ModelState
 
-private val console = globalConsole.getHandle(UserContext::class)
+private val console = console.getHandle(UserContext::class)
 
 class UserContext(
     private val apiClient: NeoApiClient,

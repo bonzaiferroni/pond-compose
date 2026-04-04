@@ -1,7 +1,6 @@
 package pondui.utils
 
 import kabinet.console.LogHandle
-import kabinet.console.globalConsole
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -20,7 +19,7 @@ class ApiDao<Item : Any, ItemId, NewItem>(
     private val apiCreate: suspend (NewItem) -> Item?,
     private val apiUpdate: suspend (Item) -> Boolean?,
     private val apiDelete: suspend (ItemId) -> Boolean?,
-    private val console: LogHandle = globalConsole.getHandle("${kClass.simpleName}ApiDao")
+    private val console: LogHandle = console.getHandle("${kClass.simpleName}ApiDao")
 ) {
     private val flow = MutableStateFlow<List<Item>>(emptyList())
     private val map = mutableMapOf<ItemId, Item>()
