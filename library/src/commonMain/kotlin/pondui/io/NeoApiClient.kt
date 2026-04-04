@@ -15,7 +15,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import kampfire.api.UserApi
-import kabinet.console.console
+import kabinet.console.globalConsole
 import kampfire.api.Endpoint
 import kampfire.api.GetByTableIdEndpoint
 import kampfire.api.TableId
@@ -23,7 +23,7 @@ import kampfire.model.Auth
 import kampfire.model.LoginRequest
 import java.net.URI
 
-private val console = console.getHandle(NeoApiClient::class)
+private val console = globalConsole.getHandle(NeoApiClient::class)
 
 @Stable
 class NeoApiClient(
