@@ -1,6 +1,6 @@
 package pondui
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 interface ValueRepository {
     fun readStringOrNull(key: String): String?

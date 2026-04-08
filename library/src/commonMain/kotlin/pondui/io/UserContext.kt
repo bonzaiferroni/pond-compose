@@ -6,7 +6,7 @@ import pondui.ui.core.StateModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import pondui.LocalValueSource
-import kampfire.model.User
+import kampfire.model.UserOld
 import kampfire.model.LoginRequest
 import kampfire.utils.obfuscate
 import pondui.ui.core.ModelState
@@ -98,7 +98,7 @@ class UserContext(
 }
 
 data class UserContextState(
-    val user: User? = null,
+    val user: UserOld? = null,
     val isAnon: Boolean = true,
     val dialogVisible: Boolean = false,
     val usernameOrEmail: String = "",

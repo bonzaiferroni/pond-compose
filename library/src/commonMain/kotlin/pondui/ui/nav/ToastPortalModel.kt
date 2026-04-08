@@ -1,8 +1,8 @@
 package pondui.ui.nav
 
 import androidx.lifecycle.ViewModel
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import pondui.ui.core.SubModel
 import pondui.ui.core.ModelState
 

@@ -3,7 +3,7 @@ package pondui.io
 import kampfire.api.UserApi
 import kampfire.model.Auth
 import kampfire.model.LoginRequest
-import kampfire.model.User
+import kampfire.model.UserOld
 
 class UserRepository(private val client: NeoApiClient) {
 
@@ -11,7 +11,7 @@ class UserRepository(private val client: NeoApiClient) {
 
     fun logout() = client.logout()
 
-    suspend fun readUser(): User? = client.request(UserApi.ReadInfo)
+    suspend fun readUser(): UserOld? = client.request(UserApi.ReadInfo)
 
     // returns null if successful, otherwise returns an error message
     // suspend fun createUser(info: SignUpRequest): SignUpResult = client.post(Api.user, info)

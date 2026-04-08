@@ -2,7 +2,7 @@ package pondui
 
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.json.Json
 
 class LocalValueSource(): ValueRepository {

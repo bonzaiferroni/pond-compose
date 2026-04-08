@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import kabinet.utils.fromDoubleMillis
 import kabinet.utils.toDoubleMillis
 import kabinet.utils.toTimeFormat
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
